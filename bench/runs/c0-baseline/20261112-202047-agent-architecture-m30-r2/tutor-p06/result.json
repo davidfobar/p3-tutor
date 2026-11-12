@@ -1,0 +1,120 @@
+{
+  "duration_api_ms": 24711,
+  "stop_reason": "end_turn",
+  "session_id": "ff132599-a91f-429a-afd0-fde6ff715027",
+  "total_cost_usd": 0.146068,
+  "usage": {
+    "input_tokens": 10,
+    "cache_creation_input_tokens": 25916,
+    "cache_read_input_tokens": 133840,
+    "output_tokens": 2900,
+    "output_tokens_details": {
+      "thinking_tokens": 1518
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 25916,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 523,
+        "cache_read_input_tokens": 35077,
+        "cache_creation_input_tokens": 1475,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1475
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 10,
+      "outputTokens": 2900,
+      "cacheReadInputTokens": 133840,
+      "cacheCreationInputTokens": 25916,
+      "webSearchRequests": 0,
+      "costUSD": 0.146068,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 1518,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 25916,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 0,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+    },
+    "started_in_background": 0,
+    "max_depth": 0,
+    "spawned_by_subagents": 0,
+    "completed": 0,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {}
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 11,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "Happy to, with one catch. Quiz 0001 is still ungraded, and items q2, q5 and q6 test exactly this idea. I can't hand you those answers before grading, so I'll give you the analogy's cast and you assign the roles. That should work better than being told anyway.\n\n**The setting: a diner at a restaurant.**\n\n- **The diner** is the language model. It's good at deciding what it wants.\n- **The kitchen** is your tools: the calendar, the manuals, the training records.\n- **The menu** is what's on offer.\n- **The order slip** is a piece of paper that travels between the diner and the kitchen.\n- **The restaurant's staff** is your Python program.\n\nAnswer these in your own words, one sentence each:\n\n1. Who actually goes into the kitchen and does the cooking? What does the diner write on the slip?\n2. When the dish comes out, what happens to it, and why does the diner need it?\n3. The diner has never seen the kitchen's recipes. How does it know what to order?\n\nThen check yourself against the real system. For the makerspace assistant, \"Is the laser cutter free tomorrow?\" is the order. What goes on the slip, and who calls `check_calendar`?\n\nWhere the analogy breaks down: a real diner remembers the meal. The model forgets everything between calls, so the program has to bring the whole story back each time. That's the context topic we're heading toward.\n\nSend me your answers. If you'd rather, say \"grade quiz 0001\" and I'll grade both your attempts, `s1` and `s2`. Then I'll walk through this analogy against what you wrote, with no holding back.",
+  "ttft_ms": 962,
+  "type": "result",
+  "duration_ms": 24837,
+  "uuid": "93becb91-be39-428e-b63d-9778843619d3",
+  "ttft_stream_ms": 656,
+  "time_to_request_ms": 70,
+  "first_content_frame_ms": 656,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 10,
+      "outputTokens": 2900,
+      "cacheReadInputTokens": 133840,
+      "cacheCreationInputTokens": 25916,
+      "webSearchRequests": 0,
+      "costUSD": 0.146068,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 1518,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 25916,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-11-21T00:33:23.707Z"
+}

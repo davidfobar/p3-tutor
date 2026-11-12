@@ -1,0 +1,120 @@
+{
+  "duration_api_ms": 21232,
+  "stop_reason": "end_turn",
+  "session_id": "8a8a627c-f790-4984-8c87-8736119bbf16",
+  "total_cost_usd": 0.15355760000000002,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 28570,
+    "cache_read_input_tokens": 69356,
+    "output_tokens": 3233,
+    "output_tokens_details": {
+      "thinking_tokens": 174
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 28570,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 635,
+        "cache_read_input_tokens": 37047,
+        "cache_creation_input_tokens": 2159,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 2159
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 6,
+      "outputTokens": 3233,
+      "cacheReadInputTokens": 69356,
+      "cacheCreationInputTokens": 28570,
+      "webSearchRequests": 0,
+      "costUSD": 0.15355760000000002,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 174,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 28570,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 0,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+    },
+    "started_in_background": 0,
+    "max_depth": 0,
+    "spawned_by_subagents": 0,
+    "completed": 0,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {}
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 14,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "I graded Riley's submission `submissions/s1.json` for quiz 0001 and wrote the grades to `grades/0001-s1.json`. You got 2 correct, 2 partial and 2 wrong.\n\n| Item | Verdict | Feedback |\n|---|---|---|\n| q1 | correct | The loop is what makes a system an agent. |\n| q2 | wrong (M4) | The model only writes a request naming `check_calendar` with its arguments. The program runs the tool; the model never opens the booking system. |\n| q3 | correct | A step limit is the right safeguard, and it also caps cost. |\n| q4 | wrong (M4) | The answer is 4. The program runs each tool between model calls, so there are 3 tool requests plus the final answer. |\n| q5 | partial | You said the result goes back to the model, which is right. You left out why: the model uses it to pick its next step or write the answer. |\n| q6 | partial (M3) | Tools are chosen from their names and descriptions, which is right. The model does not remember earlier sessions on its own, so that part is wrong. |\n\n**What you have down:** the shape of the agent loop, the need for a stopping condition, and that tools are chosen from their descriptions.\n\n**Two ideas to fix:**\n- **M4:** the model only writes text, and the program runs the tools.\n- **M3:** the model has no automatic memory across sessions, so anything it \"remembers\" has to be put into its input by the program.\n\n**Next step:** redraw the loop for \"Is the laser cutter free tomorrow?\", mark which boxes are the model and which are the program, and count the model calls. This leads straight into context and memory, which your assistant needs for each student's training status.\n\nI also added learning record `0003` and updated `NOTES.md` with the two open misconceptions. I did not grade `submissions/s2.json`, the retake. Do you want me to grade it next, to see whether M4 and M3 have been fixed?",
+  "ttft_ms": 1008,
+  "type": "result",
+  "duration_ms": 21319,
+  "uuid": "8ea0d8a7-4a41-4ccd-bb14-07b882b2e12e",
+  "ttft_stream_ms": 697,
+  "time_to_request_ms": 55,
+  "first_content_frame_ms": 697,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 6,
+      "outputTokens": 3233,
+      "cacheReadInputTokens": 69356,
+      "cacheCreationInputTokens": 28570,
+      "webSearchRequests": 0,
+      "costUSD": 0.15355760000000002,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 174,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 28570,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-11-21T00:33:23.707Z"
+}

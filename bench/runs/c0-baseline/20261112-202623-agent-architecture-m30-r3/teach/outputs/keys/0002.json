@@ -1,0 +1,51 @@
+{
+  "id": "0002",
+  "items": [
+    {
+      "id": "q1",
+      "answer": "b",
+      "rationale": "The context window disappears when a chat ends and the model's weights do not change, so anything that must survive is saved outside the window by the program and loaded into the next context. Option a, memory inside the model, shows the belief that memory is automatic (M3); c is wrong because a new chat starts with an empty window; d is wrong because chats do not retrain the model.",
+      "distractors": {"a": "M3", "c": "M3"}
+    },
+    {
+      "id": "q2",
+      "answer": 7450,
+      "tolerance": 0,
+      "rationale": "Call 1 sends 3,000 + 200 = 3,200. Call 2 sends call 1's input plus the 50-token request and the 1,000-token result: 3,200 + 50 + 1,000 = 4,250. Total 3,200 + 4,250 = 7,450. An answer of 4,250 counts only the last call; 4,250 counted once (the conversation's size) misses that the history is re-sent each call."
+    },
+    {
+      "id": "q3",
+      "answer": "c",
+      "rationale": "Retrieval puts only the few relevant chunks in the context, which keeps each call cheap and keeps recall high. Putting the whole manual in (a) is re-sent and billed on every call and invites context rot; relying on training (b) cannot cover this specific manual; loading it only in the first call (d) still pays for it on every later call of the run, because the history is re-sent.",
+      "distractors": {"b": "M3"}
+    },
+    {
+      "id": "q4",
+      "answer": "Because the result stays in the context and is re-sent to the model, and billed as input, on every later call.",
+      "accepted": [
+        "The whole history is re-sent each call, so the result is paid for again in steps 3 to 6.",
+        "It remains in the context, so each later call includes it as input tokens.",
+        "Each model call receives the full history, including that result."
+      ],
+      "rationale": "The model has no memory between calls, so the program re-sends the whole history, including the large result, on every call, and input tokens are billed each time. Answers that say only that it is a big result, or that the model has to think harder, are wrong or incomplete."
+    },
+    {
+      "id": "q5",
+      "answer": "Compaction: summarize the history and start a new context with the summary.",
+      "accepted": [
+        "compaction",
+        "summarize the history",
+        "summarise the history",
+        "clear old tool results",
+        "clearing old tool results",
+        "trim tool results",
+        "use sub-agents with their own context windows",
+        "sub-agents",
+        "retrieve only relevant chunks instead of whole documents",
+        "write notes outside the context window",
+        "structured note-taking"
+      ],
+      "rationale": "Any of: clearing finished tool results, compaction (summarizing and restarting with the summary), sub-agents that return short summaries, saving notes outside the window, or having tools return only small relevant chunks. Making the window larger is not a technique for limiting growth."
+    }
+  ]
+}

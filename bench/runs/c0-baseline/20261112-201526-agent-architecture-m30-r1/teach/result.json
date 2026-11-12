@@ -1,0 +1,154 @@
+{
+  "duration_api_ms": 162020,
+  "stop_reason": "end_turn",
+  "session_id": "8bdba29c-2b55-4051-a8d6-edcf33d87bda",
+  "total_cost_usd": 0.543850365,
+  "usage": {
+    "input_tokens": 20,
+    "cache_creation_input_tokens": 63303,
+    "cache_read_input_tokens": 408257,
+    "output_tokens": 21126,
+    "output_tokens_details": {
+      "thinking_tokens": 734
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 63303,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 610,
+        "cache_read_input_tokens": 71902,
+        "cache_creation_input_tokens": 2037,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 2037
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 21126,
+      "cacheReadInputTokens": 408257,
+      "cacheCreationInputTokens": 63303,
+      "webSearchRequests": 0,
+      "costUSD": 0.5053376999999999,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 734,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 63303,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 44090,
+      "outputTokens": 5224,
+      "cacheReadInputTokens": 3079,
+      "cacheCreationInputTokens": 11687,
+      "webSearchRequests": 3,
+      "costUSD": 0.038512665,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 1989,
+      "cacheCreationEphemeral5mInputTokens": 11687,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 1,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 1
+    },
+    "started_in_background": 0,
+    "max_depth": 1,
+    "spawned_by_subagents": 0,
+    "completed": 1,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {
+      "web-fetch": 1
+    }
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 25,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "The O3 lesson is written, along with a short quiz and its key. I haven't opened the lesson in a browser or run the length check. I estimate roughly 3,700 words, inside the 2,700 to 6,750 range that fits 30 minutes.\n\n**Lesson:** `lessons/0001-context-and-memory-in-an-agent.html`\n\nIt covers four things, each tied to the makerspace assistant:\n- **Context window:** what the model sees in one call, why you pay for it in tokens on every call, and why a bigger window isn't better.\n- **Between steps:** the context is rebuilt and resent each call, so a loop costs more than N times one call.\n- **Between sessions:** nothing survives unless the program saves a note and loads it back. It says what to save (short facts) and what not to (transcripts, calendar data a tool can give fresh).\n- **Retrieval:** chunking, keyword versus meaning search, and up-front versus on-demand retrieval. It also stresses checking the search first when an answer is wrong.\n\nIt includes three figures, a worked example and a sorting task, and a stretch question about halving the model bill. Each section has a practice check with instant feedback. The win is that you can sort the assistant's information into three places: always in context, saved notes, or retrieved on demand.\n\n**Quiz:** `quizzes/0002.json`, five items, ready when you are. Ask me for it and I'll grade it.\n\n**Source gap:** I only found secondary summaries of Anthropic's contextual retrieval numbers, so the lesson flags that and says to check the original. That gap is recorded in `RESOURCES.md`.\n\n**Misconception ids:** I assigned M7 and M8 for two new misconceptions, and recorded them in `NOTES.md`.\n\nQuizzes 0001 (s1 and s2) are still ungraded. Do you want me to grade them next?",
+  "ttft_ms": 1530,
+  "type": "result",
+  "duration_ms": 151700,
+  "uuid": "f09eb0e9-8c73-4e4b-a58b-20a724c694a7",
+  "ttft_stream_ms": 1212,
+  "time_to_request_ms": 90,
+  "first_content_frame_ms": 1212,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 21126,
+      "cacheReadInputTokens": 408257,
+      "cacheCreationInputTokens": 63303,
+      "webSearchRequests": 0,
+      "costUSD": 0.5053376999999999,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 734,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 63303,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 44090,
+      "outputTokens": 5224,
+      "cacheReadInputTokens": 3079,
+      "cacheCreationInputTokens": 11687,
+      "webSearchRequests": 3,
+      "costUSD": 0.038512665,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 1989,
+      "cacheCreationEphemeral5mInputTokens": 11687,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-11-21T00:33:23.707Z"
+}

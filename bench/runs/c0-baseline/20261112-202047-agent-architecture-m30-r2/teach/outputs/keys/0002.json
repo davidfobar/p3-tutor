@@ -1,0 +1,38 @@
+{
+  "id": "0002",
+  "items": [
+    {
+      "id": "q1",
+      "answer": "b",
+      "rationale": "The model keeps nothing between calls; it sees only what the program sends. A result left out of the messages is invisible to it. Choosing a shows the belief that the model remembers earlier calls by itself."
+    },
+    {
+      "id": "q2",
+      "answer": 2310,
+      "tolerance": 0.5,
+      "rationale": "Call 3 sends everything so far: 1,000 + 50 + 30 + 400 + 30 + 800 = 2,310 tokens. An answer of 800 or 830 counts only the latest result."
+    },
+    {
+      "id": "q3",
+      "answer": "c",
+      "rationale": "Between sessions the model keeps nothing, so a short note saved outside it and loaded into the next context is the reliable route. Options a, b and d all assume the model itself remembers."
+    },
+    {
+      "id": "q4",
+      "answer": "The whole context is sent and paid for on every call, and a crowded context makes the needed fact harder for the model to find; retrieval returns only the few relevant pages.",
+      "accepted": [
+        "It costs tokens on every call",
+        "It would be expensive because every call re-reads all the manuals",
+        "Too many tokens each call, and the key page gets lost among irrelevant text",
+        "Cost and accuracy: more tokens per call and the relevant part gets buried",
+        "Most of the manuals are irrelevant to any one question, so it wastes tokens and hurts accuracy"
+      ],
+      "rationale": "Full marks need cost (every call reads every token) or accuracy (irrelevant text buries the key facts); both is best. A reason that only says it does not fit is weak, since the stem says it does."
+    },
+    {
+      "id": "q5",
+      "answer": "b",
+      "rationale": "Retrieved pages are tool results placed in the context. The model uses them for that call and later calls only if the program keeps sending them; the model itself learns and stores nothing. Option a shows the belief that retrieval teaches the model."
+    }
+  ]
+}

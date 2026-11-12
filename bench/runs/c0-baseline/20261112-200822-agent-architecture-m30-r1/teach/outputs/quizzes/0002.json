@@ -1,0 +1,56 @@
+{
+  "id": "0002",
+  "objective": "O3",
+  "title": "Context and memory in an agent",
+  "items": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "In an agent run, the model's call at step 3 gives an answer that uses a calendar result fetched during step 2. How does the model have that result at step 3?",
+      "options": [
+        {"id": "a", "text": "It kept the result in its own memory after the step 2 call"},
+        {"id": "b", "text": "The program included the result in the context it sent for step 3"},
+        {"id": "c", "text": "It looked the result up again in the booking system by itself"},
+        {"id": "d", "text": "The booking system pushed the result to it between the two calls"}
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "objective": "O3",
+      "stem": "An assistant run makes three model calls. The system prompt and tool descriptions are 2,000 tokens and the question is 100 tokens. After call 1, a manual search adds 5,000 tokens to the context. After call 2, a calendar check adds 400 tokens. Call 3 writes the final answer. Ignore the model's own short outputs. How many tokens does the model read in total across the three calls?",
+      "unit": "tokens"
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "A teammate wants to paste all twelve machine manuals (about 400,000 tokens) into the system prompt, because the chosen model has a 1,000,000-token window. What is the best objection?",
+      "options": [
+        {"id": "a", "text": "It will not fit, because a system prompt is capped well below the window"},
+        {"id": "b", "text": "It is fine, since anything that fits in the window costs the same to use"},
+        {"id": "c", "text": "Every call re-reads and pays for all of it, and accuracy can suffer"},
+        {"id": "d", "text": "The model would only read the first manual and ignore the other eleven"}
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "short",
+      "objective": "O3",
+      "stem": "A student's session ends. A week later the same student opens a new session. In one or two sentences, what must the program do at the start of the new session for the assistant to know the student's training status, and why?"
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "Which one of these facts is best saved as a note to be read at the start of a later session, rather than kept in the system prompt or fetched by manual search?",
+      "options": [
+        {"id": "a", "text": "Dana asked to get booking reminders by email, not by text message"},
+        {"id": "b", "text": "The laser cutter's focus procedure is described on page 14 of its manual"},
+        {"id": "c", "text": "Every answer about a machine must name the manual section it used"},
+        {"id": "d", "text": "The 3D printer is booked from 2 pm to 4 pm on this coming Friday"}
+      ]
+    }
+  ]
+}

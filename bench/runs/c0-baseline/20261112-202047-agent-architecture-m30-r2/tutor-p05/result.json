@@ -1,0 +1,120 @@
+{
+  "duration_api_ms": 14412,
+  "stop_reason": "end_turn",
+  "session_id": "f9dd6c53-70fa-470b-90c7-2c320fb830b1",
+  "total_cost_usd": 0.1163934,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 23033,
+    "cache_read_input_tokens": 65294,
+    "output_tokens": 1772,
+    "output_tokens_details": {
+      "thinking_tokens": 405
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 23033,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 683,
+        "cache_read_input_tokens": 32955,
+        "cache_creation_input_tokens": 714,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 714
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 6,
+      "outputTokens": 1772,
+      "cacheReadInputTokens": 65294,
+      "cacheCreationInputTokens": 23033,
+      "webSearchRequests": 0,
+      "costUSD": 0.1163934,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 405,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 23033,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 0,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+    },
+    "started_in_background": 0,
+    "max_depth": 0,
+    "spawned_by_subagents": 0,
+    "completed": 0,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {}
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 8,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "Reinforcement learning (RL) really is part of how the best agent models are made, but model providers do that training, and it's the wrong tool for your makerspace assistant. Your mission also lists training models as out of scope, so I'll give you the idea and then the route I'd take instead.\n\n**PPO in one worked example.** Say the model must pick a tool for \"Is the laser cutter free Friday?\", and it picks `check_calendar`. You score the outcome: +1 if the booking was right, 0 if not. The basic idea is to nudge the model toward actions that scored above average. The \"above average\" part is called the *advantage*, A.\n\nThe derivation then has three steps:\n1. The policy gradient says to increase the log-probability of each action in proportion to A.\n2. You reuse old samples by weighting with the ratio r = π_new(action) / π_old(action).\n3. If r drifts too far from 1, one update can wreck the model. So PPO clips it:\n\nL = E[ min( r·A, clip(r, 1−ε, 1+ε)·A ) ]\n\nThe `min` and `clip` stop any single update from moving the model too far (Schulman et al., 2017, arXiv:1707.06347). Steps 1 and 2 hide real calculus, and I've skipped it. It needs probability and gradients, which your one statistics course doesn't cover.\n\n**Why not for you.** RL needs thousands of scored runs, GPUs and an open-weights model. Your budget is small, and you've never called a model from code yet. Your tool-calling problems will almost certainly come from vague tool descriptions, missing examples or a long manual stuffed into context. You fix those in minutes, for free.\n\n**What I'd do instead.** Write 20 real student requests with the tool call you expect for each. Run them, see which ones fail, and rewrite the tool descriptions. That is the cheap, small-scale version of \"reward and improve.\"\n\nQuick check: in the Friday example, what would a vague description of `check_calendar` cause the model to do wrong?\n\nWant a lesson on writing tool descriptions and testing them? It fits your design review directly.",
+  "ttft_ms": 689,
+  "type": "result",
+  "duration_ms": 14505,
+  "uuid": "0d74c500-3fe3-4adc-94ab-5a567238cd39",
+  "ttft_stream_ms": 596,
+  "time_to_request_ms": 60,
+  "first_content_frame_ms": 596,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 6,
+      "outputTokens": 1772,
+      "cacheReadInputTokens": 65294,
+      "cacheCreationInputTokens": 23033,
+      "webSearchRequests": 0,
+      "costUSD": 0.1163934,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 405,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 23033,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-11-21T00:33:23.707Z"
+}

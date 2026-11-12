@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cheat sheet: context and memory in an agent</title>
+  <style>
+    body { max-width: 40rem; margin: 0 auto; padding: 2rem 1.25rem; font-family: Charter, Georgia, serif; line-height: 1.5; color: #1f1d1a; background: #fffdf8; }
+    h1 { font-size: 1.6rem; } h2 { font-size: 1.1rem; margin-top: 1.5rem; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+    th, td { text-align: left; vertical-align: top; padding: 0.4rem 0.5rem; border-bottom: 1px solid #e4dfd4; }
+    @media (prefers-color-scheme: dark) { body { background: #171614; color: #e9e5dc; } th, td { border-color: #36332e; } a { color: #eaa77a; } }
+  </style>
+</head>
+<body>
+  <h1>Context and memory in an agent</h1>
+  <p>From <a href="../lessons/0001-context-and-memory-in-an-agent.html">lesson 1</a>.</p>
+  <h2>Where information lives</h2>
+  <table>
+    <tr><th>Kind</th><th>Lives in</th><th>Lasts</th><th>Makerspace example</th></tr>
+    <tr><td>Context window</td><td>The messages your program sends</td><td>One request</td><td>The question, tool results so far</td></tr>
+    <tr><td>Notes</td><td>A file or database you write</td><td>Between sessions</td><td>Student passed laser training</td></tr>
+    <tr><td>Retrieval</td><td>A searchable store of chunks</td><td>Permanent, shared</td><td>Machine manuals</td></tr>
+  </table>
+  <h2>Rules</h2>
+  <ul>
+    <li>The model sees only its context and keeps nothing between calls.</li>
+    <li>Each call re-sends the whole list: tokens read = the sum of every call's input.</li>
+    <li>Call n input = call n-1 input + the model's request + the tool's result.</li>
+    <li>A bigger window raises the limit, not the quality or the cost.</li>
+    <li>Return a few relevant chunks, not whole documents.</li>
+    <li>Notes: short, specific, dated, correctable.</li>
+  </ul>
+</body>
+</html>

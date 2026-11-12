@@ -1,0 +1,42 @@
+{
+  "id": "0002",
+  "items": [
+    {
+      "id": "q1",
+      "answer": "b",
+      "rationale": "A new session starts with an empty context holding only the system prompt and tools; nothing persists unless the program saved it and loads it back. Options a, c and d assume the model remembers or learns from users automatically (M3).",
+      "distractors": {"a": "M3", "c": "M3", "d": "M3"}
+    },
+    {
+      "id": "q2",
+      "answer": 17500,
+      "tolerance": 0,
+      "rationale": "Fixed part: 5 x 2,000 = 10,000. Growing part: 500 + 1,000 + 1,500 + 2,000 + 2,500 = 7,500. Total 17,500. An answer of 10,000 forgets the growing part; 12,500 counts the conversation only once at its final size."
+    },
+    {
+      "id": "q3",
+      "answer": "a",
+      "rationale": "The model only sees what the search returns, so a missed chunk means it never saw the right page. The fix starts with the search or index. A larger window (b) or a longer prompt (d) does not retrieve the page, and the model is not meant to recall manual details from training (c).",
+      "distractors": {"b": "M7", "d": "M1"}
+    },
+    {
+      "id": "q4",
+      "answer": "A short note is much cheaper to load into the context each session, and it holds just the durable fact instead of lots of irrelevant text.",
+      "accepted": [
+        "It uses fewer tokens, so it costs less.",
+        "Full conversations would fill the context with noise and cost more tokens.",
+        "A note is small and holds only the fact that matters."
+      ],
+      "rationale": "Any answer that says the note is smaller or cheaper in tokens, or that transcripts add irrelevant noise or crowd the context, is correct. Saying only that notes are easier to store is partial."
+    },
+    {
+      "id": "q5",
+      "answer": "Cost: the 40 pages are paid for as input tokens on every model call. Accuracy: a crowded context makes the model recall details less reliably (context rot), so retrieving the relevant pages is better.",
+      "accepted": [
+        "It is billed on every call, and a long context lowers recall.",
+        "Too many tokens cost more each step and the model can miss the relevant detail."
+      ],
+      "rationale": "Full credit needs both a cost reason (tokens billed on every call) and an accuracy reason (recall declines in a long context). One without the other is partial. Saying it fits so there is no problem shows M7."
+    }
+  ]
+}

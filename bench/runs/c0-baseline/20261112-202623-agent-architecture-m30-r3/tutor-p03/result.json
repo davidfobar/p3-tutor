@@ -1,0 +1,120 @@
+{
+  "duration_api_ms": 12119,
+  "stop_reason": "end_turn",
+  "session_id": "2b6fdec5-c608-45ab-abb2-944787993847",
+  "total_cost_usd": 0.1137027,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 23060,
+    "cache_read_input_tokens": 65207,
+    "output_tokens": 1493,
+    "output_tokens_details": {
+      "thinking_tokens": 143
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 23060,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 462,
+        "cache_read_input_tokens": 32895,
+        "cache_creation_input_tokens": 801,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 801
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 6,
+      "outputTokens": 1493,
+      "cacheReadInputTokens": 65207,
+      "cacheCreationInputTokens": 23060,
+      "webSearchRequests": 0,
+      "costUSD": 0.1137027,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 143,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 23060,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 0,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+    },
+    "started_in_background": 0,
+    "max_depth": 0,
+    "spawned_by_subagents": 0,
+    "completed": 0,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {}
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 9,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "No, that isn't right, and it matters for your design. A language model doesn't remember earlier conversations on its own. It only sees the text sent to it in the current request. Last week's chat is gone unless your code saves it and sends it back.\n\nIt's tempting to think otherwise because chatbots seem to remember. Within one conversation, the app resends the whole conversation each turn, so the model appears to remember. Some products also add a memory feature that saves notes and inserts them into later chats. Both are the app doing the remembering, not the model.\n\nAn example for your assistant: Sam says on Monday, \"I finished the laser cutter training.\" On Friday Sam starts a new session and asks to book the laser cutter. If nothing was saved, the model has never heard of Sam's training. It might ask Sam to prove it, or just guess.\n\nSo the remembering is your design work:\n- Decide what to save, such as each student's training status. A small record of facts is cheaper and more reliable than saving whole transcripts.\n- Save it in a plain place, such as a database or a JSON file.\n- At the start of each session, load that student's record and put it in the context.\n\nThat also ties to your budget, because everything you put in the context costs tokens on every request.\n\nQuick check: in your own words, where does Sam's training status live between Monday and Friday, and what has to happen before the model can use it on Friday?\n\nContext and memory is the next topic in your mission. I can write a lesson on it if you'd like one.",
+  "ttft_ms": 1017,
+  "type": "result",
+  "duration_ms": 12227,
+  "uuid": "db78b690-85af-4ea6-b996-4668a3ef6f63",
+  "ttft_stream_ms": 706,
+  "time_to_request_ms": 69,
+  "first_content_frame_ms": 706,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 6,
+      "outputTokens": 1493,
+      "cacheReadInputTokens": 65207,
+      "cacheCreationInputTokens": 23060,
+      "webSearchRequests": 0,
+      "costUSD": 0.1137027,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 143,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 23060,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-11-21T00:33:23.707Z"
+}

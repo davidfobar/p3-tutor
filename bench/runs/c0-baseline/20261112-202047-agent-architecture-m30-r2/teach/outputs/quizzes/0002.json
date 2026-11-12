@@ -1,0 +1,56 @@
+{
+  "id": "0002",
+  "objective": "O3",
+  "title": "Context and memory in an agent",
+  "items": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "Your assistant is on its sixth model call of one request. The program, by mistake, leaves the result of the second tool call out of the messages it sends. What is true of the model on this sixth call?",
+      "options": [
+        {"id": "a", "text": "It still knows that result, because it saw it on an earlier call"},
+        {"id": "b", "text": "It cannot use that result, because it is not in what it was sent"},
+        {"id": "c", "text": "It rebuilds that result from its training and uses it as before"},
+        {"id": "d", "text": "It receives that result from the tool provider on its own"}
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "objective": "O3",
+      "stem": "In one request, the system prompt and tool descriptions together take 1,000 tokens, and the student's question takes 50. The model writes a 30-token tool request on call 1, and that tool returns 400 tokens. The model writes another 30-token tool request on call 2, and that tool returns 800 tokens. How many tokens does the program send to the model on call 3?",
+      "unit": "tokens"
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "A student passes the laser cutter training today. Next week they open a new chat, and the assistant should already know it. What is the most reliable design?",
+      "options": [
+        {"id": "a", "text": "Keep today's chat open all week so the model still remembers it"},
+        {"id": "b", "text": "Pick a model with a larger window so the model keeps more"},
+        {"id": "c", "text": "Save a short note outside the model and load it next session"},
+        {"id": "d", "text": "Trust the model to recall the student from its earlier chats"}
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "short",
+      "objective": "O3",
+      "stem": "A teammate suggests pasting all twelve machine manuals into the system prompt, since the model's context window is big enough to hold them. In one or two sentences, give a reason not to."
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "The assistant uses a search_manuals tool. A student asks about the band saw blade, and the tool returns the right three pages. What does the model do with those pages?",
+      "options": [
+        {"id": "a", "text": "It reads them in its context for now, and learns them for good"},
+        {"id": "b", "text": "It reads them in its context for now, and keeps them only while the program resends them"},
+        {"id": "c", "text": "It stores them in its own memory, and uses them in every new session"},
+        {"id": "d", "text": "It skips them, because it answers from its training, not tool results"}
+      ]
+    }
+  ]
+}

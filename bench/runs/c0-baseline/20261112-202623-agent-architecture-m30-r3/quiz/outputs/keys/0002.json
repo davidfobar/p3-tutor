@@ -1,0 +1,41 @@
+{
+  "id": "0002",
+  "items": [
+    {
+      "id": "q1",
+      "answer": "b",
+      "rationale": "The difference is who owns the control flow: in a workflow, predefined code decides the steps and their order; in an agent, the model decides its next step and which tools to use. A workflow can call the model many times (a), can use tools (c), and does not depend on model size (d).",
+      "distractors": {}
+    },
+    {
+      "id": "q2",
+      "answer": "a",
+      "rationale": "The program always searches, then calls the model once, then shows the answer, so the code owns the control flow and this is a workflow. Using a model or a search step (b) or writing natural language (c) does not make something an agent; a workflow may call the model once or many times (d).",
+      "distractors": {}
+    },
+    {
+      "id": "q3",
+      "answer": "d",
+      "rationale": "Booking has known steps in a known order, so code can fix them: predictable, cheaper and easier to test. The other three have an unpredictable path, where the model has to choose what to do next, which is what an agent is for.",
+      "distractors": {}
+    },
+    {
+      "id": "q4",
+      "answer": "agent",
+      "accepted": ["the agent", "agents", "an agent"],
+      "rationale": "Each agent step is a model call that decides what to do next, so for identical steps the agent pays for extra deciding calls that the workflow's code does for free. Answering workflow suggests the learner thinks fixed code costs model calls."
+    },
+    {
+      "id": "q5",
+      "answer": 3000,
+      "tolerance": 0,
+      "rationale": "The difference per request is 5 - 2 = 3 calls, and 3 x 1,000 requests = 3,000 more calls. An answer of 5000 or 2000 uses one design's count instead of the difference."
+    },
+    {
+      "id": "q6",
+      "answer": "c",
+      "rationale": "Where the steps are known in advance, as in booking, a fixed workflow is cheaper, more predictable and easier to test; an agent is worth its extra cost only where the next step cannot be known beforehand. An agent can cost more (a), a workflow can call tools (b), and neither design is always more accurate (d).",
+      "distractors": {}
+    }
+  ]
+}

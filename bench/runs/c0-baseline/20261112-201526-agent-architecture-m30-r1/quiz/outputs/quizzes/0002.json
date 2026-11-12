@@ -1,0 +1,68 @@
+{
+  "id": "0002",
+  "objective": "O4",
+  "title": "Workflows or agents: who owns the control flow?",
+  "items": [
+    {
+      "id": "q1",
+      "type": "short",
+      "objective": "O4",
+      "stem": "In a workflow, what decides which step runs next: the program's code or the language model? Answer with one of the two."
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "A makerspace booking feature always runs the same three steps in the same order: (1) the model pulls the machine and time out of the student's message, (2) the program checks the calendar, (3) the model writes a confirmation. Which description fits best?",
+      "options": [
+        {"id": "a", "text": "An agent, because the model writes text in steps 1 and 3"},
+        {"id": "b", "text": "An agent, because it calls a calendar tool in step 2"},
+        {"id": "c", "text": "A workflow, because the program fixes the order of the steps"},
+        {"id": "d", "text": "A workflow, because the model decides when it is finished"}
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "For a task where the steps are known in advance and are the same every time, why is a fixed workflow usually the better choice than an agent?",
+      "options": [
+        {"id": "a", "text": "It is more predictable and uses fewer model calls, so it costs less"},
+        {"id": "b", "text": "It can handle requests that nobody planned for in advance"},
+        {"id": "c", "text": "It lets the model pick whichever tools it thinks are best"},
+        {"id": "d", "text": "It removes the need to write any tool descriptions at all"}
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "numeric",
+      "objective": "O4",
+      "stem": "A fixed workflow answers one booking request with exactly 3 model calls. An agent handling the same request makes 5 tool requests before it gives its final answer, and each model call produces either one tool request or the final answer. How many more model calls does the agent make than the workflow for this request? Give a whole number.",
+      "unit": "calls"
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "A teammate says: \"Our assistant calls tools, so it is an agent.\" What is the best reply?",
+      "options": [
+        {"id": "a", "text": "Right: any system that calls tools counts as an agent"},
+        {"id": "b", "text": "Right, as long as it also calls the model more than once"},
+        {"id": "c", "text": "Wrong: tools only appear in workflows, never in agents"},
+        {"id": "d", "text": "Wrong: workflows call tools too; what matters is who picks the next step"}
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "The makerspace assistant must (X) answer open-ended troubleshooting questions from the machine manuals, where the number of lookups needed varies from question to question, and (Y) book a machine slot with the same fixed checks every time. Which split is the most defensible?",
+      "options": [
+        {"id": "a", "text": "X as a fixed workflow and Y as an agent, to save on cost"},
+        {"id": "b", "text": "X as an agent and Y as a fixed workflow, for predictability"},
+        {"id": "c", "text": "Both as agents, because agents can do everything workflows can"},
+        {"id": "d", "text": "Both as fixed workflows, because workflows are always cheaper"}
+      ]
+    }
+  ]
+}

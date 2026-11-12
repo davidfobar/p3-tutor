@@ -1,0 +1,37 @@
+{
+  "id": "0002",
+  "items": [
+    {
+      "id": "q1",
+      "answer": "the program's code",
+      "accepted": ["code", "the code", "the program", "program", "the program code", "program's code", "the programmer", "the developer"],
+      "rationale": "In a workflow the developer writes the order of steps into the program, so the code owns the control flow. In an agent the model decides the next step. Answering the model describes an agent."
+    },
+    {
+      "id": "q2",
+      "answer": "c",
+      "rationale": "The order of steps is fixed in the program, so the program owns the control flow: a workflow. Using the model for some steps (a) or calling a tool (b) does not make a system an agent, and the model does not decide when a workflow finishes (d), because the code does."
+    },
+    {
+      "id": "q3",
+      "answer": "a",
+      "rationale": "When the steps are known, writing them in code gives predictable behaviour and no wasted model calls to decide what to do next, which lowers cost and latency. Handling unplanned requests (b) and choosing tools freely (c) are what agents offer, and a workflow still needs tool descriptions where the model uses tools (d)."
+    },
+    {
+      "id": "q4",
+      "answer": 3,
+      "tolerance": 0,
+      "rationale": "The agent makes one call per tool request plus one for the final answer: 5 + 1 = 6 calls. The workflow makes 3, so the agent makes 6 - 3 = 3 more. Answering 5 forgets the final-answer call."
+    },
+    {
+      "id": "q5",
+      "answer": "d",
+      "rationale": "Both workflows and agents can call tools. The difference is who owns the control flow: in a workflow the code fixes the steps, in an agent the model chooses the next step. Calling the model several times (b) does not make an agent either, since a workflow can chain several calls."
+    },
+    {
+      "id": "q6",
+      "answer": "b",
+      "rationale": "Open-ended manual questions need a variable number of lookups that cannot be scripted in advance, which suits an agent. A booking with the same checks every time can be a fixed workflow, which is predictable and cheaper per request. Reversing the split (a) puts flexibility where it is not needed. Agents (c) are not free: they cost more calls per request, and a workflow (d) cannot adapt to unpredictable questions."
+    }
+  ]
+}

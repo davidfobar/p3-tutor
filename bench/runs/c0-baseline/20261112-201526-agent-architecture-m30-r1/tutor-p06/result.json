@@ -1,0 +1,120 @@
+{
+  "duration_api_ms": 22304,
+  "stop_reason": "end_turn",
+  "session_id": "b4596c31-bc6f-4fe0-9d8f-711c251eeb00",
+  "total_cost_usd": 0.13951989999999997,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 25819,
+    "cache_read_input_tokens": 100579,
+    "output_tokens": 2617,
+    "output_tokens_details": {
+      "thinking_tokens": 1077
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 25819,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 609,
+        "cache_read_input_tokens": 35320,
+        "cache_creation_input_tokens": 1135,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1135
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 8,
+      "outputTokens": 2617,
+      "cacheReadInputTokens": 100579,
+      "cacheCreationInputTokens": 25819,
+      "webSearchRequests": 0,
+      "costUSD": 0.13951989999999997,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 1077,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 25819,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 0,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+    },
+    "started_in_background": 0,
+    "max_depth": 0,
+    "spawned_by_subagents": 0,
+    "completed": 0,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {}
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 11,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "Here's a new angle on tool calling, with no code.\n\n**Picture a manager in a windowless office.** The manager is smart but can't leave the room, can't use a phone and can't touch anything. They have one assistant, who can leave the room and do errands.\n\nOn the manager's desk is a **service card**. It lists what the assistant can do, each with a plain-language description. For example: \"Check the booking calendar: give me a machine and a date.\" Or: \"Look something up in the machine manuals: give me a question.\"\n\nA student slides a note under the door: \"Is the laser cutter free Friday?\" The manager can't know that, so they write a note back to the assistant: *\"Check the booking calendar. Machine: laser cutter. Date: Friday.\"* Writing that note is **all the manager does**.\n\nThe assistant reads the note, goes and looks, and slips a result under the door: *\"Booked 2–4 pm.\"* The manager reads it and either writes another errand note or writes the final reply to the student.\n\nThe mapping:\n- **Manager** = the language model. It only reads and writes text.\n- **Assistant** = your program. It does the real work.\n- **Service card** = the tool descriptions. It is the only thing the manager knows about the errands.\n- **Errand note** = the tool call, a request that names a service and fills in the details.\n- **Result slip** = the tool result, which goes back to the manager.\n\n**Where the analogy breaks:** a human assistant would use judgment. Your program should check each note before acting, because the manager can write a bad one, such as a machine that doesn't exist.\n\nQuick check, in your own words: if the manager's card says only \"Calendar stuff\", what could go wrong?\n\nQuiz 0001 covers this topic and hasn't been graded yet. I can't discuss its items until it is, but I can grade it whenever you're ready. If you'd like a full lesson on writing tool descriptions, ask for one.",
+  "ttft_ms": 945,
+  "type": "result",
+  "duration_ms": 22450,
+  "uuid": "e8bc7f0c-1844-4238-8fcb-a1b0d82d1f62",
+  "ttft_stream_ms": 585,
+  "time_to_request_ms": 99,
+  "first_content_frame_ms": 585,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 8,
+      "outputTokens": 2617,
+      "cacheReadInputTokens": 100579,
+      "cacheCreationInputTokens": 25819,
+      "webSearchRequests": 0,
+      "costUSD": 0.13951989999999997,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 1077,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 25819,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-11-21T00:33:23.707Z"
+}

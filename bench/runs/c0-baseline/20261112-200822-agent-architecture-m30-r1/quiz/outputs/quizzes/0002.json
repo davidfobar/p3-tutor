@@ -1,0 +1,68 @@
+{
+  "id": "0002",
+  "objective": "O4",
+  "title": "Workflows and agents: who owns the control flow",
+  "items": [
+    {
+      "id": "q1",
+      "type": "short",
+      "objective": "O4",
+      "stem": "A program always does the same three things in the same order: it runs search_manuals, passes the result to the model to write an answer, and stops. Answer in one word: what owns the control flow here, the code or the model?"
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "Which statement best tells a workflow apart from an agent?",
+      "options": [
+        {"id": "a", "text": "A workflow uses no language model, while an agent always calls one"},
+        {"id": "b", "text": "An agent calls tools, while a workflow never calls any tool at all"},
+        {"id": "c", "text": "A workflow runs fewer steps, while an agent always runs more steps"},
+        {"id": "d", "text": "In a workflow, code fixes the steps; in an agent, the model chooses them"}
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "Your sponsor's budget is small. Which part of the makerspace assistant is the best candidate for a fixed workflow instead of an agent?",
+      "options": [
+        {"id": "a", "text": "Answering a question that may need several manuals, in an order unknown beforehand"},
+        {"id": "b", "text": "Booking a slot: check the calendar, write the booking, send the confirmation email"},
+        {"id": "c", "text": "Working out why a machine's output looks wrong from a student's description of it"},
+        {"id": "d", "text": "Suggesting which machine suits a student's unusual project idea, with trade-offs"}
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "numeric",
+      "objective": "O4",
+      "stem": "Your sponsor's budget allows 1,200 model calls per month. A fixed workflow for booking requests always makes exactly 3 model calls per request. At most how many booking requests can it serve in a month?",
+      "unit": "requests"
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "A program makes one model call that reads a student's message and returns a single label: \"manual question\", \"booking\" or \"other\". The code then runs the fixed path written for that label. Who owns the control flow?",
+      "options": [
+        {"id": "a", "text": "The model, because its decision changes which steps happen next"},
+        {"id": "b", "text": "The model, because it is the only part that reads the message"},
+        {"id": "c", "text": "The code, because it defines every path and the model only picks one"},
+        {"id": "d", "text": "Neither, because the routing is shared equally by code and model"}
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "Agents cost more model calls than fixed workflows. Which feature of a task best justifies paying that cost?",
+      "options": [
+        {"id": "a", "text": "The steps needed depend on what earlier results turn up, so they cannot be listed in advance"},
+        {"id": "b", "text": "The task is very common, so many students will ask for it every single day"},
+        {"id": "c", "text": "The task has several steps, so the model has to be called once for each of them"},
+        {"id": "d", "text": "The task must be answered correctly, so extra model calls are needed to check it"}
+      ]
+    }
+  ]
+}

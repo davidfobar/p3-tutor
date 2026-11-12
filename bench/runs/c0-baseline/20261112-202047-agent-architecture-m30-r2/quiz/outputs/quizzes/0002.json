@@ -1,0 +1,67 @@
+{
+  "id": "0002",
+  "objective": "O4",
+  "title": "Workflows and agents: who owns the control flow",
+  "items": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "Both a workflow and an agent can call a language model and use tools. Which statement correctly tells them apart?",
+      "options": [
+        {"id": "a", "text": "A workflow calls the model once, while an agent calls the model many times"},
+        {"id": "b", "text": "In a workflow the model picks each next step, while in an agent code does"},
+        {"id": "c", "text": "In an agent the model picks each next step, while in a workflow code does"},
+        {"id": "d", "text": "A workflow never uses any tools, while an agent always uses tools to act"}
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "Your makerspace assistant's code first asks the model to label each question as \"manual\" or \"booking\". The code then sends manual questions to one fixed prompt and booking questions to another, and each prompt runs once. What is this system?",
+      "options": [
+        {"id": "a", "text": "A workflow, because your code decides the path and the model only supplies the label"},
+        {"id": "b", "text": "An agent, because the model chooses which of the two paths the request takes"},
+        {"id": "c", "text": "An agent, because a language model is used to make a decision about the request"},
+        {"id": "d", "text": "A workflow, because it calls the model exactly twice for every request it gets"}
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "A student has already chosen a machine and a time slot. Booking it always means the same three steps in the same order: check the slot is free, check the student's training record, then write the booking. Which design fits this part of the assistant best?",
+      "options": [
+        {"id": "a", "text": "An agent, because it is more flexible and flexibility is always an advantage"},
+        {"id": "b", "text": "An agent, because any task that uses tools should be given to an agent"},
+        {"id": "c", "text": "An agent, because only an agent can handle a student who changes their mind"},
+        {"id": "d", "text": "A fixed workflow, because the steps are known in advance and code can run them"}
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "short",
+      "objective": "O4",
+      "stem": "Your sponsor's model budget is small. In one or two sentences, why does a fixed workflow usually cost less per request than an agent doing the same job?"
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "Which makerspace task is the strongest candidate for an agent rather than a fixed workflow?",
+      "options": [
+        {"id": "a", "text": "Emailing each student a reminder the evening before their booked machine slot"},
+        {"id": "b", "text": "Working out why a student's laser cuts keep scorching, where the manuals and records to check depend on what each check finds"},
+        {"id": "c", "text": "Looking up the maximum material thickness for the laser cutter on one known manual page"},
+        {"id": "d", "text": "Turning a confirmed booking into a calendar entry with the same fields every time"}
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "short",
+      "objective": "O4",
+      "stem": "In booking, the calendar must always be checked before a booking is written. In one sentence, what does a fixed workflow guarantee about this that an agent does not?"
+    }
+  ]
+}

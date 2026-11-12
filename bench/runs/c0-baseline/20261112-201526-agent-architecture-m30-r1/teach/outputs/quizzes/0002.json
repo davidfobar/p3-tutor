@@ -1,0 +1,50 @@
+{
+  "id": "0002",
+  "objective": "O3",
+  "title": "Context and memory in an agent",
+  "items": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "A student chats with your assistant on Monday and tells it their name and that they finished laser-cutter training. On Friday they open a new session and ask to book the laser. The program saved nothing after Monday. What does the model know on Friday?",
+      "options": [
+        {"id": "a", "text": "Both facts, because the model keeps what it learns about each user"},
+        {"id": "b", "text": "Neither fact, because the new session's context starts without them"},
+        {"id": "c", "text": "Only the name, because names are kept but other details are dropped"},
+        {"id": "d", "text": "Both facts, because the model's weights were updated during Monday's chat"}
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "objective": "O3",
+      "stem": "Each model call receives the system prompt and tool descriptions, 2,000 tokens in total, plus the conversation and tool results so far. A request takes 5 model calls, and the conversation and tool results add 500 tokens per call, cumulatively (call 1 has 500, call 2 has 1,000, and so on up to 2,500 on call 5). How many input tokens does the whole request use across all 5 calls?",
+      "unit": "tokens"
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "Your assistant answers wrongly about a band saw blade speed. You check and find that the correct page of the manual was never returned by the search, though it is in the index. Which is the most likely cause to fix first?",
+      "options": [
+        {"id": "a", "text": "The search query or index failed to match the right chunk"},
+        {"id": "b", "text": "The context window was too small to read the whole manual"},
+        {"id": "c", "text": "The model has forgotten the manual it saw in training"},
+        {"id": "d", "text": "The system prompt was not long enough to give rules"}
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "short",
+      "objective": "O3",
+      "stem": "Give one reason why saving a short note per student (for example, 'passed laser training') is better for your assistant than saving and reloading each student's full past conversations."
+    },
+    {
+      "id": "q5",
+      "type": "short",
+      "objective": "O3",
+      "stem": "Your team proposes putting all 40 pages of the laser cutter manual into the system prompt, because the model's context window is big enough to hold it. Give one cost reason and one accuracy reason this is a poor design, in one or two sentences."
+    }
+  ]
+}

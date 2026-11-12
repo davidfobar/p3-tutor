@@ -1,0 +1,49 @@
+{
+  "id": "0002",
+  "items": [
+    {
+      "id": "q1",
+      "answer": "c",
+      "rationale": "The difference is who owns the control flow: in a workflow, code written in advance decides the path; in an agent, the model decides the next step at run time. Counting model calls (a) or tool use (d) does not separate them, since both can do either, and (b) reverses the definitions.",
+      "distractors": {"a": "M7", "b": "M8", "d": "M7"}
+    },
+    {
+      "id": "q2",
+      "answer": "a",
+      "rationale": "The model's label is only an input to code that routes the request along paths fixed in advance, so the code owns the control flow: this is a workflow (the routing pattern). Using a model to make a decision (b, c) does not make a system an agent; an agent's model chooses its own next steps and tools, in a loop. The number of model calls (d) is not what defines a workflow, so its reason is wrong.",
+      "distractors": {"b": "M9", "c": "M9", "d": "M7"}
+    },
+    {
+      "id": "q3",
+      "answer": "d",
+      "rationale": "When the steps and their order are known in advance, a fixed workflow is the better choice: it is predictable, cheaper and easier to test. Flexibility has a cost (a), using tools does not require an agent (b), and a change of mind can be handled by running the workflow again or routing to another one (c).",
+      "distractors": {"a": "M10", "b": "M9", "c": "M10"}
+    },
+    {
+      "id": "q4",
+      "answer": "The steps are fixed, so it makes only the model calls it needs, with no extra calls spent deciding what to do next or looping, and the number of calls is predictable.",
+      "accepted": [
+        "An agent spends extra model calls deciding each next step and may loop, while a workflow runs a fixed number of calls.",
+        "A workflow has a fixed, predictable number of model calls, whereas an agent's number of calls and context grow with each step it decides to take.",
+        "Code decides the steps, so no model calls are spent on deciding what to do next."
+      ],
+      "rationale": "Full credit names the mechanism: in an agent the model is called at every step to decide what happens next, and the number of steps (and the growing context) is not known in advance, while a workflow has a fixed number of calls. Saying only that workflows are simpler or faster, without any link to the number or size of model calls, is partial."
+    },
+    {
+      "id": "q5",
+      "answer": "b",
+      "rationale": "An agent pays off when the path cannot be written down in advance: here which manual or record to check next depends on what the last check found. The other three tasks have a known sequence of steps (or a single step), so a fixed workflow or one call does the job more cheaply and predictably.",
+      "distractors": {"a": "M10", "c": "M10", "d": "M10"}
+    },
+    {
+      "id": "q6",
+      "answer": "The calendar check always happens first, in that order, because code enforces it, whereas an agent's model chooses its steps and could skip or reorder them.",
+      "accepted": [
+        "That the steps always run in the fixed order, since code controls it and not the model.",
+        "It guarantees the order and that the check cannot be skipped, because the control flow is in code.",
+        "Predictability: the calendar check will always run before the booking is written."
+      ],
+      "rationale": "The point is that code owns the control flow, so a required step and its order are guaranteed every time; an agent's model decides the path and may skip or reorder it. An answer that only says a workflow is faster or cheaper does not address the question and is wrong for this item."
+    }
+  ]
+}

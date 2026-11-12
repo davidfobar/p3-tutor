@@ -1,0 +1,50 @@
+{
+  "id": "0002",
+  "objective": "O3",
+  "title": "Context and memory in an agent",
+  "items": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "A student finishes a chat with your makerspace assistant. The next day they open a brand-new chat, and the assistant correctly says they completed vinyl cutter training. Which explanation fits how an agent works?",
+      "options": [
+        {"id": "a", "text": "The model kept the training status in its own memory after the chat ended"},
+        {"id": "b", "text": "The program saved the status outside the window and loaded it into the new context"},
+        {"id": "c", "text": "The old chat stays inside the context window until the window is eventually full"},
+        {"id": "d", "text": "The model was retrained overnight on the previous day's conversations with students"}
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "objective": "O3",
+      "stem": "Your assistant's instructions and tool definitions total 3,000 tokens and the student's question is 200 tokens. The model requests one tool (a request of 50 tokens), the tool returns a 1,000-token result, and the model then writes its answer in a second call. Counting only input tokens, with no caching, how many input tokens are sent across the two model calls in total?",
+      "unit": "tokens"
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "Your 200-page laser cutter manual is about 150,000 tokens, and your model's window could hold it. Most student questions need one or two paragraphs of it. Which design is best for cost and answer quality?",
+      "options": [
+        {"id": "a", "text": "Put the whole manual in the context on every call, since it fits"},
+        {"id": "b", "text": "Skip the manual and rely on what the model learned in training"},
+        {"id": "c", "text": "Split the manual into chunks and give the model a search tool"},
+        {"id": "d", "text": "Put the whole manual in only the first call of each session"}
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "short",
+      "objective": "O3",
+      "stem": "A tool returns a 5,000-token result in step 2 of a 6-step run, and nothing is cleared. In one sentence, why does that result add to the cost of steps 3 to 6 as well as step 2?"
+    },
+    {
+      "id": "q5",
+      "type": "short",
+      "objective": "O3",
+      "stem": "Name one technique for keeping the context of a long-running agent from growing without limit."
+    }
+  ]
+}

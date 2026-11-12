@@ -1,0 +1,40 @@
+{
+  "id": "0002",
+  "items": [
+    {
+      "id": "q1",
+      "answer": "code",
+      "accepted": ["the code", "code.", "the program", "program"],
+      "rationale": "The program fixes the steps and their order; the model only writes the answer inside one step. When the code owns the control flow, it is a workflow. Answering 'the model' because a model is called shows M7."
+    },
+    {
+      "id": "q2",
+      "answer": "d",
+      "rationale": "The difference is who owns the control flow: in a workflow, code fixes the path; in an agent, the model decides the next step and which tool to use. Workflows can use models (a) and tools (b), and step count (c) does not separate them.",
+      "distractors": {"a": "M7", "b": "M7"}
+    },
+    {
+      "id": "q3",
+      "answer": "b",
+      "rationale": "Booking is the same sequence every time, so code can fix it: cheaper, faster and easier to test. The other three depend on what is found along the way, which is where an agent's flexibility pays off."
+    },
+    {
+      "id": "q4",
+      "answer": 400,
+      "tolerance": 0,
+      "rationale": "Because the workflow's path is fixed, its cost is predictable: 1,200 / 3 = 400 requests. An agent's number of calls varies with each request, so it cannot be budgeted this exactly."
+    },
+    {
+      "id": "q5",
+      "answer": "c",
+      "rationale": "Routing is still a workflow: the code defines every path in advance and the model only chooses among them. A model making a decision does not make the system an agent; an agent decides its own steps, not just a branch.",
+      "distractors": {"a": "M7", "b": "M7"}
+    },
+    {
+      "id": "q6",
+      "answer": "a",
+      "rationale": "An agent earns its extra cost when the path cannot be known ahead, because each step depends on earlier results. Frequency (b) and a need for accuracy (d) say nothing about whether the path is fixed, and several steps (c) can still be a fixed sequence that code runs.",
+      "distractors": {"c": "M8"}
+    }
+  ]
+}

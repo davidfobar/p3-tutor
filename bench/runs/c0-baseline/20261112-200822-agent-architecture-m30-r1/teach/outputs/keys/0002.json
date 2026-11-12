@@ -1,0 +1,38 @@
+{
+  "id": "0002",
+  "items": [
+    {
+      "id": "q1",
+      "answer": "b",
+      "rationale": "The model keeps nothing between calls. In the agent loop the program appends the tool result to the context and sends the whole context again at each step. Believing the model kept the result itself (a) is the misconception that memory is automatic.",
+      "distractors": {"a": "M3", "c": "M4", "d": "M4"}
+    },
+    {
+      "id": "q2",
+      "answer": 16700,
+      "tolerance": 0,
+      "rationale": "Each call reads the whole context so far: call 1 reads 2,100; call 2 reads 2,100 + 5,000 = 7,100; call 3 reads 7,100 + 400 = 7,500. The total is 2,100 + 7,100 + 7,500 = 16,700. An answer of 7,500 counts only the final context and misses that earlier text is re-read at every call."
+    },
+    {
+      "id": "q3",
+      "answer": "c",
+      "rationale": "A window is a limit, not a target. Everything in the context is re-read and paid for at every call, and accuracy and recall can degrade as the token count grows (context rot). Retrieval should bring in only the relevant pieces. Saying that anything that fits costs the same (b) is the misconception that a bigger window removes the need to choose what goes in.",
+      "distractors": {"b": "M7", "a": "M7"}
+    },
+    {
+      "id": "q4",
+      "answer": "It reads the saved record or notes for that student and puts them into the new context, because the model keeps nothing between sessions and starts with an empty context.",
+      "accepted": [
+        "It loads the student's saved training status from storage into the context at the start, since the model does not remember earlier sessions.",
+        "The program reads the stored notes or training record and includes them in the first call, because the model has no memory of last week."
+      ],
+      "rationale": "Full credit needs both parts: the program reads saved information (notes or a record) back into the context at the start, and the reason is that the model carries nothing over and starts empty. Giving only the action is partial. Saying that the model remembers the student, or that the status is already known, shows M3."
+    },
+    {
+      "id": "q5",
+      "answer": "a",
+      "rationale": "A preference of one student that matters in later sessions is what notes are for. The manual page (b) is shared source material for retrieval, the citing rule (c) is short and needed on every request so it belongs in the system prompt, and the Friday booking (d) is a tool result that goes stale and should be fetched fresh from the calendar.",
+      "distractors": {"b": "M8", "d": "M8"}
+    }
+  ]
+}
