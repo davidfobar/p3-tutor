@@ -54,7 +54,7 @@
     h1 { font-size: 2.1rem; margin: 0.25rem 0 1rem; }
     h2 { font-size: 1.45rem; margin: 3rem 0 0.75rem; }
     h3 { font-size: 1.1rem; margin: 2rem 0 0.5rem; }
-    .kicker, .label, .meta, .section-time, figcaption, summary, th, nav.toc, footer.closing {
+    .kicker, .label, .meta, .section-time, .section-objective, figcaption, summary, th, nav.toc, footer.closing {
       font-family: var(--sans);
     }
     .kicker { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
@@ -63,6 +63,7 @@
             border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 0.5rem 0; margin: 1.5rem 0; }
     nav.toc { font-size: 0.9rem; margin: 1.5rem 0 2rem; }
     nav.toc ol { padding-left: 1.2rem; margin: 0.4rem 0 0; }
+    .section-objective { font-size: 0.75rem; font-weight: 600; color: var(--accent); border: 1px solid currentColor; border-radius: 0.25rem; padding: 0 0.3rem; margin-left: 0.4rem; white-space: nowrap; }
     .section-time { font-size: 0.8rem; font-weight: 400; color: var(--muted); margin-left: 0.4rem; white-space: nowrap; }
     dfn { font-style: normal; font-weight: 600; }
     aside.note { font-size: 0.9rem; color: var(--muted); border-left: 2px solid var(--rule); padding-left: 1rem; margin: 1.25rem 0; }
@@ -130,7 +131,7 @@
     <p class="lead">By the end of this lesson you can {{THE ONE TANGIBLE WIN}}.</p>
     <div class="meta">
       <span>Objective {{OBJECTIVE_ID}}: {{OBJECTIVE IN PLAIN WORDS}}</span>
-      <span>About {{MINUTES}} minutes</span>
+      <span>About {{MINUTES}} min reading + {{DEMO}} min demo + {{QUIZ}} min quiz = {{TOTAL}} min</span>
       <span>Builds on <a href="{{EARLIER LESSON FILE}}">{{EARLIER LESSON TITLE}}</a></span>
     </div>
     <div class="box mission">
@@ -152,7 +153,7 @@
 
   <!-- Warm-up: recall from earlier lessons or learning records (spacing). Answers on demand. -->
   <section id="warm-up">
-    <h2>Warm-up <span class="section-time">2 min</span></h2>
+    <h2>Warm-up <span class="section-objective">{{EARLIER OBJECTIVE ID}}</span> <span class="section-time">2 min</span></h2>
     <div class="check">
       <span class="label">Recall</span>
       <p>{{A QUESTION ON SOMETHING THE LEARNER ALREADY LEARNED}}</p>
@@ -165,7 +166,7 @@
 
   <!-- One section per idea: explain, show an example, check with immediate feedback. Repeat as needed. -->
   <section id="s1">
-    <h2>{{SECTION TITLE}} <span class="section-time">{{N}} min</span></h2>
+    <h2>{{SECTION TITLE}} <span class="section-objective">{{OBJECTIVE ID}}</span> <span class="section-time">{{N}} min</span></h2>
     <p>{{EXPLANATION, WITH A NEW TERM DEFINED AT FIRST USE:}} <dfn>{{TERM}}</dfn> {{IS ...}} (<a href="{{SOURCE URL FROM THIS SESSION}}">{{SOURCE NAME}}</a>).</p>
 
     <aside class="note">{{A SIDE REMARK THAT WOULD INTERRUPT THE MAIN LINE}}</aside>
@@ -222,7 +223,7 @@
 
   <!-- Worked example step by step, then a similar task with the steps faded, solution on demand. -->
   <section id="practice">
-    <h2>Worked example and practice <span class="section-time">{{N}} min</span></h2>
+    <h2>Worked example and practice <span class="section-objective">{{OBJECTIVE ID}}</span> <span class="section-time">{{N}} min</span></h2>
     <div class="box worked">
       <span class="label">Worked example</span>
       <p>{{THE PROBLEM}}</p>
@@ -243,7 +244,7 @@
   </section>
 
   <section id="summary">
-    <h2>Summary <span class="section-time">2 min</span></h2>
+    <h2>Summary <span class="section-objective">{{OBJECTIVE IDS}}</span> <span class="section-time">2 min</span></h2>
     <div class="box summary">
       <ul>
         <li>{{KEY IDEA}}</li>
@@ -255,7 +256,7 @@
   </section>
 
   <section id="further" class="go-further">
-    <h2>Go further</h2>
+    <h2>Go further <span class="section-objective">{{OBJECTIVE IDS}}</span></h2>
     <p><strong>Read or watch next:</strong> <a href="{{PRIMARY SOURCE URL}}">{{PRIMARY SOURCE TITLE}}</a>, {{WHY IT IS THE BEST NEXT STEP}}.</p>
     <ul>
       <li><a href="{{SOURCE URL}}">{{SOURCE TITLE}}</a>: {{WHAT IT COVERS}}</li>
