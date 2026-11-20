@@ -1,0 +1,116 @@
+<!--
+  Kind: interactive graphic.
+  Core idea: each model call is sent the whole context again, so the context grows with every step; a new session starts empty unless notes are saved and loaded.
+  The learner should notice: the input to call 3 contains everything from calls 1 and 2, a big tool result makes every later call dearer, and a new session knows nothing unless a saved note is loaded.
+  Belongs in the lesson section "Between steps: the context grows".
+  About 6 minutes.
+-->
+<section class="demo" id="demo-context">
+  <style>
+    .demo { border: 1px solid var(--rule); border-radius: 6px; padding: 1rem 1.25rem; margin: 1.5rem 0; font-family: var(--sans); font-size: 0.9rem; }
+    .demo svg { display: block; width: 100%; height: auto; }
+    .demo .demo-controls { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; margin: 0.75rem 0; }
+    .demo button { font: inherit; color: inherit; background: transparent; border: 1px solid var(--accent); border-radius: 6px; padding: 0.35rem 0.8rem; cursor: pointer; }
+    .demo button:hover { background: var(--accent-soft); }
+    .demo button:focus-visible, .demo input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .demo button:disabled { opacity: 0.45; cursor: default; }
+    .demo .demo-readout { background: var(--code-bg); border-radius: 6px; padding: 0.6rem 0.8rem; margin: 0.5rem 0; min-height: 5.5rem; }
+    .demo .demo-readout p { margin: 0.2rem 0; }
+    .demo ol.demo-prompts { padding-left: 1.2rem; margin: 0.5rem 0 0; }
+  </style>
+  <p><strong>Try it: one request, step by step.</strong> The numbers are made up to be round, but the pattern is real.</p>
+  <div class="demo-controls">
+    <button type="button" class="demo-next">Next step</button>
+    <button type="button" class="demo-session" disabled>Student comes back next week</button>
+    <button type="button" class="demo-reset">Start over</button>
+    <label><input type="checkbox" class="demo-chunks"> Search returns 2 chunks, not a whole chapter</label>
+    <label><input type="checkbox" class="demo-notes"> Assistant saves a note</label>
+  </div>
+  <svg viewBox="0 0 640 150" role="img" aria-labelledby="demo-ctx-title">
+    <title id="demo-ctx-title">A bar showing what is in the context window on the latest model call, split into labeled pieces by token count</title>
+    <rect x="20" y="40" width="600" height="40" rx="4" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <g class="demo-segs"></g>
+    <text x="20" y="28" font-size="18" fill="currentColor" class="demo-bartitle">Context window (full bar = 6,000 tokens)</text>
+    <text x="20" y="115" font-size="18" fill="currentColor" class="demo-bartotal"></text>
+    <text x="20" y="140" font-size="18" fill="currentColor" class="demo-billed"></text>
+  </svg>
+  <div class="demo-readout" aria-live="polite"></div>
+  <p><strong>Predict, then press:</strong></p>
+  <ol class="demo-prompts">
+    <li>Before pressing Next step again: how many tokens will the third model call be sent, compared with the first?</li>
+    <li>Tick "2 chunks" and start over. Which running total changes, and by how much?</li>
+    <li>Finish a request, press "Student comes back", and ask what the assistant knows. Then repeat with "saves a note" ticked.</li>
+  </ol>
+  <script>
+  (function () {
+    var root = document.getElementById("demo-context");
+    var $ = function (s) { return root.querySelector(s); };
+    var segsG = $(".demo-segs"), readout = $(".demo-readout");
+    var next = $(".demo-next"), sess = $(".demo-session"), reset = $(".demo-reset");
+    var chunks = $(".demo-chunks"), notes = $(".demo-notes");
+    var NS = "http://www.w3.org/2000/svg";
+    var items, step, billed, calls, savedNote;
+    function build() {
+      var big = chunks.checked ? 600 : 3000;
+      items = [
+        { label: "System prompt + tool definitions", tok: 900, color: "var(--muted)", sent: false },
+        { label: "Student's question", tok: 30, color: "var(--accent)" },
+        { label: "Model asks: check_calendar", tok: 50, color: "var(--ok)" },
+        { label: "Calendar result", tok: 300, color: "var(--warn)" },
+        { label: "Model asks: search_manual", tok: 50, color: "var(--ok)" },
+        { label: chunks.checked ? "Manual: 2 chunks" : "Manual: whole chapter", tok: big, color: "var(--warn)" },
+        { label: "Final answer", tok: 120, color: "var(--ok)" }
+      ];
+    }
+    function total(n) { var t = 0; for (var i = 0; i < n; i++) t += items[i].tok; return t; }
+    function draw(n, hint) {
+      while (segsG.firstChild) segsG.removeChild(segsG.firstChild);
+      var x = 20;
+      for (var i = 0; i < n; i++) {
+        var w = Math.max(3, items[i].tok / 6000 * 600);
+        var r = document.createElementNS(NS, "rect");
+        r.setAttribute("x", x); r.setAttribute("y", 41); r.setAttribute("width", w); r.setAttribute("height", 38);
+        r.setAttribute("fill", items[i].color); r.setAttribute("opacity", "0.75");
+        var t = document.createElementNS(NS, "title"); t.textContent = items[i].label + ": " + items[i].tok + " tokens";
+        r.appendChild(t); segsG.appendChild(r); x += w;
+      }
+      $(".demo-bartotal").textContent = "In context now: " + total(n).toLocaleString() + " tokens";
+      $(".demo-billed").textContent = "Input tokens sent over all calls so far: " + billed.toLocaleString();
+    }
+    function say(html) { readout.innerHTML = html; }
+    function init() {
+      build(); step = 0; billed = 0; calls = 0; savedNote = false;
+      next.disabled = false; sess.disabled = true;
+      draw(0);
+      say("<p>Press <em>Next step</em>. The bar will show what the model is sent on each call.</p>");
+    }
+    function call(n, what) {
+      calls++; var sent = total(n); billed += sent;
+      draw(n);
+      say("<p><strong>Model call " + calls + "</strong> is sent " + sent.toLocaleString() + " tokens: everything so far, from the start.</p><p>" + what + "</p>");
+    }
+    next.addEventListener("click", function () {
+      step++;
+      if (step === 1) call(2, "It replies with a request to run check_calendar (50 tokens). The program runs the tool.");
+      else if (step === 2) { draw(4); say("<p>The program adds the calendar result (300 tokens) to the history. No model call yet.</p>"); }
+      else if (step === 3) call(4, "Sent again: the question, the first request and the calendar result. It replies with a request for search_manual.");
+      else if (step === 4) { draw(6); say("<p>The program adds the manual text (" + items[5].tok.toLocaleString() + " tokens). Every later call must carry it.</p>"); }
+      else if (step === 5) { call(6, "It writes the final answer (120 tokens). The loop ends."); draw(7); next.disabled = true; sess.disabled = false;
+        $(".demo-billed").textContent = "Input tokens sent over all calls so far: " + billed.toLocaleString() + " (the answer itself is output)"; }
+    });
+    sess.addEventListener("click", function () {
+      savedNote = notes.checked;
+      items = [items[0], { label: "Student's new question", tok: 30, color: "var(--accent)" }];
+      var n = 2;
+      if (savedNote) { items.push({ label: "Saved note", tok: 60, color: "var(--ok)" }); n = 3; }
+      draw(n); sess.disabled = true;
+      say(savedNote
+        ? "<p><strong>New session.</strong> The context holds only the system prompt, the new question and the note the program loaded: \"Student 4471 finished laser training.\" The assistant can book the laser cutter.</p>"
+        : "<p><strong>New session.</strong> The context holds only the system prompt and the new question. Nothing from last week survives, so the assistant does not know the student finished laser training.</p>");
+    });
+    reset.addEventListener("click", init);
+    chunks.addEventListener("change", init);
+    init();
+  })();
+  </script>
+</section>

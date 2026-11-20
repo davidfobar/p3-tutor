@@ -1,0 +1,35 @@
+{
+  "id": "0002",
+  "items": [
+    {
+      "id": "q1",
+      "answer": "c",
+      "rationale": "The context window is all the text the model can reference when generating, including the instructions, history, tool results and its own reply. Data it can query (a) is outside the window until a tool result puts it in; training data (b) is a different thing; tool definitions (d) are only one part of what is in the window.",
+      "distractors": {"a": "M9"}
+    },
+    {
+      "id": "q2",
+      "answer": "d",
+      "rationale": "Each model call is sent the whole history again; the model keeps nothing between calls, so the program resends instructions, question, earlier requests and results. Options a and b assume the model remembers earlier steps itself (M8).",
+      "distractors": {"a": "M8", "b": "M8"}
+    },
+    {
+      "id": "q3",
+      "answer": "a",
+      "rationale": "A new session starts with an empty window; only what the program saved and loads back in can be known. Options b and d assume automatic memory (M3), and c assumes a bigger window carries over between sessions (M7).",
+      "distractors": {"b": "M3", "c": "M7", "d": "M3"}
+    },
+    {
+      "id": "q4",
+      "answer": 5300,
+      "tolerance": 0,
+      "rationale": "Call 1: 1,200. Call 2: 1,200 + 100 + 400 = 1,700. Call 3: 1,700 + 100 + 600 = 2,400. Total 1,200 + 1,700 + 2,400 = 5,300. Answering 2,400 counts only the last call, and answering 2,300 adds each piece once; both miss that every call is resent the whole history (M8)."
+    },
+    {
+      "id": "q5",
+      "answer": "b",
+      "rationale": "450,000 tokens is well over the 200,000-token size where loading everything is reasonable, so retrieve chunks; error codes need exact-match search alongside meaning search; preferences need saved notes because nothing carries over between sessions. Option a relies on a big window (M7), c uses meaning search alone and expects automatic memory (M9, M3), d expects the model to remember (M3).",
+      "distractors": {"a": "M7", "c": "M9", "d": "M3"}
+    }
+  ]
+}

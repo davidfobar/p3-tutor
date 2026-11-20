@@ -1,0 +1,43 @@
+{
+  "quiz": "0001",
+  "submission": "s1",
+  "items": [
+    {
+      "id": "q1",
+      "verdict": "wrong",
+      "misconception": "M1",
+      "feedback": "You picked c, which assumes the server ties your two calls together because they share an API key. It doesn't: the Messages API keeps no memory between requests, and the API key only says who is paying, not which conversation you're in. Each request has to carry the whole conversation so far, meaning your first message, the model's reply, and then the new message. It's an easy belief to pick up because chat apps feel continuous, but that continuity comes from the app resending the history for you. In \"How tool use works\" of Tool use with Claude (https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview), look at how the code example adds the model's reply to the messages list before it makes the second call."
+    },
+    {
+      "id": "q2",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Yes, that's the right approach. The model only asks for the tool, your program runs it, and the result goes back in a new request. That round trip is one pass of the agent loop, so it's what you'll repeat when you write the loop. Go deeper in \"How tool use works\" of Tool use with Claude (https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview), which shows the stop_reason \"tool_use\" signal and the tool_result you send back."
+    },
+    {
+      "id": "q3",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Right: the agent needs a way to find pages (search) and a way to read them (fetch). A citation is only as good as the reading behind it, so without fetch the agent would be citing snippets or citing from memory. Go deeper in \"Building block: The augmented LLM\" of Building effective AI agents (https://www.anthropic.com/engineering/building-effective-agents), which treats retrieval and tools as the base an agent is built on."
+    },
+    {
+      "id": "q4",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Right. When the steps are fixed, your code should drive them, and an agent would just spend model calls deciding things that are already decided. A good rule to trust: reach for an agent only when the path can't be known ahead of time. Go deeper in \"When (and when not) to use agents\" of Building effective AI agents (https://www.anthropic.com/engineering/building-effective-agents)."
+    },
+    {
+      "id": "q5",
+      "verdict": "wrong",
+      "misconception": null,
+      "feedback": "5 is the number of tool runs (1 search + 3 fetches + 1 search), but the question asked how many times the program calls the model. The first mistake is treating each tool run as a model call. The three fetches arrived in one reply, and every reply, including the final answer, comes from exactly one model call. So count the replies, not the tools. Reread the \"Agents\" section of Building effective AI agents (https://www.anthropic.com/engineering/building-effective-agents), and as you read, picture the loop as call model → run what it asked for → call model again."
+    },
+    {
+      "id": "q6",
+      "verdict": "wrong",
+      "misconception": "M5",
+      "feedback": "You picked a. A link that loads, from a site you trust, only tells you the page exists; it doesn't tell you the page says what the report claims. Agents often cite a real, reputable page that is about the right topic but doesn't actually support the specific claim, and that's exactly the failure this check has to catch. The check that works is to open page [3] and find a passage that states the claim. Neither of your sources yet covers checking citations; see the note in the summary."
+    }
+  ],
+  "summary": "3 of 6. You have the tool round trip down (your program runs the tool and sends the result back), you know a research agent needs both search and fetch, and you picked a workflow over an agent for fixed steps. Those are good instincts to trust. The thing to work on first is what a single model call is: the API keeps no memory between calls (q1), and one call produces one reply no matter how many tools that reply asks for (q5). Both of those sit underneath the loop you'll write, so a lesson on O1 (one model call from code) comes first. Before trying again, reread \"How tool use works\" in Tool use with Claude (https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview) and watch how the messages list grows between the two calls. Then read the \"Agents\" section of Building effective AI agents and count the model calls in its loop. Checking citations (q6) is an O5 topic, and neither source in RESOURCES.md covers it yet; the O5 lesson will need a source found for it."
+}

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cheat sheet: context and memory in an agent</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+<main>
+  <div class="kicker">Cheat sheet &middot; from <a href="../lessons/0001-context-and-memory.html">Lesson 1</a></div>
+  <h1>Context and memory in an agent</h1>
+  <table>
+    <thead><tr><th>Layer</th><th>What it is</th><th>Lives</th><th>Cost</th></tr></thead>
+    <tbody>
+      <tr><td>Context window</td><td>All text the model gets on one call, plus its reply</td><td>One call</td><td>Tokens sent on every call</td></tr>
+      <tr><td>History</td><td>Messages and tool results the program resends</td><td>One session</td><td>Grows each step</td></tr>
+      <tr><td>Notes</td><td>Facts saved to files and loaded next session</td><td>Across sessions</td><td>Only the tokens loaded</td></tr>
+      <tr><td>Retrieval</td><td>Search over chunks; best few pasted in</td><td>Outside the window</td><td>Only the chunks pasted in</td></tr>
+    </tbody>
+  </table>
+  <h2>Decision steps</h2>
+  <ul>
+    <li>Total input tokens = the sum of every call's input; each call is sent the whole history.</li>
+    <li>Drop or clear tool results the task no longer needs.</li>
+    <li>Save soft facts (preferences, progress) as notes; look up hard facts (bookings, training status) with a tool.</li>
+    <li>Corpus under about 200,000 tokens: consider putting it all in the prompt, with caching. Larger: retrieve.</li>
+    <li>Manuals with codes and part numbers: exact-match (BM25) plus embeddings.</li>
+  </ul>
+  <p>Sources: <a href="https://anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering</a>, <a href="https://platform.claude.com/docs/en/build-with-claude/context-windows">Context windows</a>, <a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/memory-tool">Memory tool</a>, <a href="https://anthropic.com/research/contextual-retrieval">Contextual Retrieval</a>.</p>
+</main>
+</body>
+</html>

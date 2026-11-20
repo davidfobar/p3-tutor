@@ -1,0 +1,62 @@
+{
+  "id": "0002",
+  "objective": "O1",
+  "title": "One model call from Python",
+  "items": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "objective": "O1",
+      "stem": "You want to push your call.py to a public GitHub repo so a classmate can run it. Following the quickstart, where should your Anthropic API key be so the SDK finds it and the shared code does not contain it?",
+      "options": [
+        {"id": "a", "text": "As a string assigned at the top of call.py"},
+        {"id": "b", "text": "In the ANTHROPIC_API_KEY environment variable"},
+        {"id": "c", "text": "Inside the first user message in messages"},
+        {"id": "d", "text": "In the model argument, after the model id"}
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "objective": "O1",
+      "stem": "Your program calls the model with max_tokens=2000 and the single user message \"What does ABS stand for on a car?\". What reply do you most likely get back?",
+      "options": [
+        {"id": "a", "text": "A reply near 2,000 tokens, filling the budget it was given"},
+        {"id": "b", "text": "A reply cut off at 2,000 tokens, with stop_reason \"max_tokens\""},
+        {"id": "c", "text": "A short reply that ends on its own, with stop_reason \"end_turn\""},
+        {"id": "d", "text": "An error, because 2,000 is far more than the question needs"}
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "objective": "O1",
+      "stem": "Your program asked \"Why do brake rotors warp?\" and stored the model's answer text in the variable text. You are about to ask a follow-up question. Which line should run first, so the next call carries the earlier answer?",
+      "options": [
+        {"id": "a", "text": "messages.append({\"role\": \"user\", \"content\": text})"},
+        {"id": "b", "text": "No line: the API already holds the earlier answer"},
+        {"id": "c", "text": "messages.append({\"role\": \"system\", \"content\": text})"},
+        {"id": "d", "text": "messages.append({\"role\": \"assistant\", \"content\": text})"}
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "objective": "O1",
+      "stem": "A plain question with no tools comes back as reply. Your next two lines are answer = reply.content and print(answer.upper()). What happens when they run?",
+      "options": [
+        {"id": "a", "text": "It fails, because content is a list of blocks, not a string"},
+        {"id": "b", "text": "It prints the model's answer text in capital letters"},
+        {"id": "c", "text": "It prints your own question in capital letters"},
+        {"id": "d", "text": "It prints the stop_reason in capital letters"}
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "numeric",
+      "objective": "O1",
+      "stem": "A chat program uses the lesson's ask() helper: each call appends the new question as a user turn, sends the whole messages list, then appends the reply as an assistant turn. Every question is 10 tokens long and every reply is 50 tokens long. Counting the input tokens of a call as the sum of the tokens of all the messages it sends, and ignoring any other overhead, how many input tokens does the third call send?",
+      "unit": "tokens"
+    }
+  ]
+}

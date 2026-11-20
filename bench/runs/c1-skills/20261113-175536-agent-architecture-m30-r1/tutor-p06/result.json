@@ -1,0 +1,120 @@
+{
+  "duration_api_ms": 13060,
+  "stop_reason": "end_turn",
+  "session_id": "10f99394-29cc-48bf-8658-dc3c78496053",
+  "total_cost_usd": 0.08515619999999999,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 15543,
+    "cache_read_input_tokens": 81782,
+    "output_tokens": 1479,
+    "output_tokens_details": {
+      "thinking_tokens": 353
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 15543,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 527,
+        "cache_read_input_tokens": 25548,
+        "cache_creation_input_tokens": 621,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 621
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 8,
+      "outputTokens": 1479,
+      "cacheReadInputTokens": 81782,
+      "cacheCreationInputTokens": 15543,
+      "webSearchRequests": 0,
+      "costUSD": 0.08515619999999999,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 353,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 15543,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 0,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+    },
+    "started_in_background": 0,
+    "max_depth": 0,
+    "spawned_by_subagents": 0,
+    "completed": 0,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {}
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 8,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "Think of a race car driver on the radio with the pit crew.\n\nThe driver is stuck in the car. They can't change tires, check fuel, or look at the timing screen. They can only talk. So before the race, the crew gives them a menu of what they can ask for: \"tire change,\" \"fuel,\" \"gap to the car ahead.\" Each item has a short description of what it does and what the crew needs to know (\"which compound?\").\n\nDuring the race, the driver says, \"Box for softs.\" The driver doesn't change anything. The crew hears the request, does the work, and radios back, \"Done, 2.4 seconds.\" The driver then decides what to do next, such as pit or keep going. That whole exchange is tool calling:\n\n- The menu is the tool descriptions. The model picks from it based only on what they say.\n- The radio call is the model writing out a request: which tool, with what details. It is just text.\n- The crew is your program. It actually runs the tool, whether that's a calendar lookup or a booking.\n- The radio reply is the result, which goes back to the model as new input.\n- The driver can't see the pits, so they only know what the crew tells them.\n\nFor your makerspace assistant, \"Is the laser cutter free Friday?\" works like this. The model says \"check_calendar, laser cutter, Friday.\" Your code does the lookup. The answer comes back, and the model words it for the student.\n\nThe analogy breaks in one place. A real crew can use judgment, but your program does exactly what the request says. If you want it to refuse a bad request, you have to build that in.\n\nQuick check: if the driver radios \"change tires\" but the crew never hears it, what happens? Who, in your assistant, is the crew?",
+  "ttft_ms": 870,
+  "type": "result",
+  "duration_ms": 13194,
+  "uuid": "83d61bea-8570-4ddc-a966-bebd003e2596",
+  "ttft_stream_ms": 576,
+  "time_to_request_ms": 95,
+  "first_content_frame_ms": 576,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 8,
+      "outputTokens": 1479,
+      "cacheReadInputTokens": 81782,
+      "cacheCreationInputTokens": 15543,
+      "webSearchRequests": 0,
+      "costUSD": 0.08515619999999999,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 353,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 15543,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-11-21T00:33:23.707Z"
+}

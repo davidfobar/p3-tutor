@@ -1,0 +1,43 @@
+{
+  "quiz": "0001",
+  "submission": "s2",
+  "items": [
+    {
+      "id": "q1",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Right: the loop of choose an action, run it, feed the result back is the structure that makes it an agent, whereas a longer prompt or bigger model only changes what one call can do. This is the same idea you will later weigh against fixed workflows. For more depth, read Anthropic's \"Building effective agents\" (https://www.anthropic.com/research/building-effective-agents), which contrasts workflows with agents."
+    },
+    {
+      "id": "q2",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Right: the model only outputs a structured request naming check_calendar and its arguments; the program around it runs the tool. Keep this split in mind, since your q4 reasoning slipped on it. For more depth, read \"Building effective agents\" (https://www.anthropic.com/research/building-effective-agents), which covers how agents use tools."
+    },
+    {
+      "id": "q3",
+      "verdict": "wrong",
+      "misconception": "M6",
+      "feedback": "Picking 'it will eventually fix the bug' assumes more steps always bring progress. Here the same edit keeps meeting the same failing test, so step 41 will look just like step 40 and the loop will never end by itself. The fix lives in the program: a stopping condition such as a step limit that ends the loop and reports back to a person. Look in \"Building effective agents\" (https://www.anthropic.com/research/building-effective-agents) for how it says agents are kept in check with stopping conditions."
+    },
+    {
+      "id": "q4",
+      "verdict": "partial",
+      "misconception": "M4",
+      "feedback": "4 is right: three tool requests plus the final answer is four calls. But your reason is off: the model does not run check_calendar, search_manuals or check_training_record. It only requests each one, and the program runs it and then calls the model again. A cleaner way to count: one model call per input it receives, which is the question plus three tool results. Reread \"Building effective agents\" (https://www.anthropic.com/research/building-effective-agents) for the loop in which the model directs tool use and the surrounding program carries it out."
+    },
+    {
+      "id": "q5",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Right on both parts: the result goes back in as the model's next input, and the model uses it to decide its next step. The group-chat picture works, as long as you remember the program is the one posting the reply and calling the model again. For more depth, read \"Building effective agents\" (https://www.anthropic.com/research/building-effective-agents)."
+    },
+    {
+      "id": "q6",
+      "verdict": "partial",
+      "misconception": null,
+      "feedback": "The name is part of it, but the model sees the whole tool description the program supplies: the name, what the tool does, and the parameters it takes. A name alone can mislead, for example two tools whose names look alike but do different things, and the model chooses by matching the description to what it needs. This matters for your makerspace tools, where you will write those descriptions yourself. See \"Building effective agents\" (https://www.anthropic.com/research/building-effective-agents) for why tool design deserves as much care as prompts."
+    }
+  ],
+  "summary": "You have the loop down: you identified what makes an agent (q1), that the model only outputs a request (q2), and what happens to a tool result (q5). Two things to work on. First, the program, not the model, runs tools and ends the loop: your q4 reasoning said the model runs them, and in q3 you trusted the agent to finish on its own when a step limit was needed. Second, the model picks tools from full descriptions, not just names. Before you retry, reread the agent-loop and tool-use parts of \"Building effective agents\" (https://www.anthropic.com/research/building-effective-agents), and for each step of the laser cutter example write who acts: model or program."
+}

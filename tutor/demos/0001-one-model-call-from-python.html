@@ -1,0 +1,113 @@
+<!--
+  Kind: hands-on exercise.
+  Core idea: one model call is one function call that takes the whole conversation as a list and returns one reply; the API keeps nothing between calls (plan core 3-5; misconceptions M1, M7, M8, M9).
+  The learner should be able to: make a call, pull the text out of the reply's content blocks, and continue a conversation by appending the assistant reply and the next user turn and resending the whole list.
+  Belongs in: the lesson's section on making the call, right after the call is introduced; steps 3-4 are the statelessness section's evidence, step 5 the max_tokens section's.
+  Time: about 10 minutes (6 to 9 without an API key; step 7 is optional).
+  Runs with no key: fake_claude.py is a stand-in with the same call shape as client.messages.create. The code was run with Python 3 to confirm every expected output below.
+-->
+<section class="demo" aria-labelledby="demo-title">
+  <style>
+    .demo { border: 1px solid var(--rule); border-radius: 6px; padding: 1rem 1.25rem; margin: 1.75rem 0; }
+    .demo h3 { margin: 0 0 0.5rem; }
+    .demo ol.demo-steps { padding-left: 1.3rem; margin: 0; }
+    .demo ol.demo-steps > li { margin: 1.25rem 0; }
+    .demo .demo-see { font-family: var(--sans); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ok); margin: 0.6rem 0 0.2rem; }
+    .demo pre.demo-out { background: var(--ok-soft); border-left: 3px solid var(--ok); white-space: pre-wrap; }
+    .demo .demo-predict { background: var(--accent-soft); border-radius: 6px; padding: 0.6rem 0.8rem; }
+    .demo details summary { font-family: var(--sans); }
+  </style>
+  <h3 id="demo-title">Build it: one call, then a conversation</h3>
+  <p>Make a folder, say <code>first-call/</code>, and work in it. You need only Python 3, with no key and no network: <code>fake_claude.py</code> stands in for the real API with the exact same call shape, so everything you write here works unchanged against the real thing in step 7.</p>
+  <ol class="demo-steps">
+    <li>
+      <p><strong>Save the stand-in.</strong> Copy this into <code>fake_claude.py</code>. You don't have to study it, but notice the one comment that matters: it only knows what is in the <code>messages</code> list you hand it, which is exactly how the real API behaves.</p>
+      <details><summary>Show fake_claude.py (25 lines)</summary><pre><code># fake_claude.py - a stand-in for client.messages.create; no key, no network.
+from types import SimpleNamespace as NS
+
+LONG = (&quot;A torque converter is a fluid coupling between the engine and the &quot;
+        &quot;automatic transmission. The engine spins an impeller, which flings &quot;
+        &quot;transmission fluid at a turbine connected to the gearbox, so the car &quot;
+        &quot;can sit still in gear while the engine idles.&quot;)
+SHORT = &quot;It links engine to gearbox through spinning fluid, so the car can idle in gear.&quot;
+
+def create(model, max_tokens, messages):
+    last = messages[-1][&quot;content&quot;].lower()   # it sees ONLY this list
+    if &quot;torque converter&quot; in last:
+        text = LONG
+    elif &quot;shorter&quot; in last:
+        seen = any(m[&quot;role&quot;] == &quot;assistant&quot; for m in messages)
+        text = SHORT if seen else &quot;Shorter than what? I see no earlier message.&quot;
+    else:
+        text = &quot;This stand-in only knows about torque converters.&quot;
+    words, stop = text.split(), &quot;end_turn&quot;
+    if len(words) &gt; max_tokens:               # pretend 1 word = 1 token
+        words, stop = words[:max_tokens], &quot;max_tokens&quot;
+    used = sum(len(m[&quot;content&quot;].split()) for m in messages)
+    return NS(role=&quot;assistant&quot;, stop_reason=stop,
+              content=[NS(type=&quot;text&quot;, text=&quot; &quot;.join(words))],
+              usage=NS(input_tokens=used, output_tokens=len(words)))</code></pre></details>
+    </li>
+    <li>
+      <p><strong>Make one call.</strong> Save this as <code>call.py</code> and run <code>python3 call.py</code>. You pass the three things every call needs: a model, a ceiling on reply length, and the conversation as a list of role/content dicts.</p>
+      <pre><code>import fake_claude as claude   # step 7 swaps in the real client
+
+messages = [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Explain how a torque converter works&quot;}]
+reply = claude.create(model=&quot;claude-haiku-5-5&quot;, max_tokens=1000, messages=messages)
+
+for block in reply.content:
+    if block.type == &quot;text&quot;:
+        print(block.text)</code></pre>
+      <p class="demo-see">You should see</p>
+    <pre class="demo-out"><code>A torque converter is a fluid coupling between the engine and the automatic transmission. The engine spins an impeller, which flings transmission fluid at a turbine connected to the gearbox, so the car can sit still in gear while the engine idles.</code></pre>
+    </li>
+    <li>
+      <p><strong>Look inside the reply.</strong> Add these two lines to the end and run again. The reply's <code>content</code> is a <em>list of blocks</em>, not a string, which is why step 2 loops and keeps the <code>"text"</code> blocks.</p>
+      <pre><code>print(reply.content)
+print(reply.stop_reason, reply.usage.output_tokens)</code></pre>
+      <p class="demo-see">You should see</p>
+    <pre class="demo-out"><code>[namespace(type=&#x27;text&#x27;, text=&#x27;A torque converter is a fluid coupling ... while the engine idles.&#x27;)]
+end_turn 42</code></pre>
+      <p>The real SDK prints the block as <code>TextBlock(..., type='text')</code> instead of <code>namespace(...)</code>, and counts real tokens rather than words, but the shape is the same.</p>
+    </li>
+    <li>
+      <p><strong>Follow up the wrong way.</strong> Add this and run. It sends only the new question, the way it feels like a chat should work.</p>
+      <pre><code>followup = [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Make it shorter&quot;}]
+reply2 = claude.create(model=&quot;claude-haiku-5-5&quot;, max_tokens=1000, messages=followup)
+print(reply2.content[0].text)</code></pre>
+      <p class="demo-see">You should see</p>
+    <pre class="demo-out"><code>Shorter than what? I see no earlier message.</code></pre>
+      <p>The call before this one is gone. Nothing linked the two calls, because they are two separate function calls.</p>
+    </li>
+    <li>
+      <p><strong>Follow up the right way.</strong> Add the model's earlier reply to your list as an <code>"assistant"</code> turn, then the new <code>"user"</code> turn, and send the whole list.</p>
+      <pre><code>messages.append({&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: reply.content[0].text})
+messages.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Make it shorter&quot;})
+reply3 = claude.create(model=&quot;claude-haiku-5-5&quot;, max_tokens=1000, messages=messages)
+print(len(messages), &quot;|&quot;, reply3.content[0].text)</code></pre>
+      <p class="demo-see">You should see</p>
+    <pre class="demo-out"><code>3 | It links engine to gearbox through spinning fluid, so the car can idle in gear.</code></pre>
+      <p>Three dicts went in: user, assistant, user. <em>Your</em> program wrote the assistant turn, copying the earlier reply into it.</p>
+    </li>
+    <li>
+      <p><strong>Predict, then run.</strong> This asks the first question again with <code>max_tokens=8</code>.</p>
+      <p class="demo-predict">Before you run it: will the stand-in write a short, complete answer, or something else? What will <code>stop_reason</code> say?</p>
+      <pre><code>cut = claude.create(model=&quot;claude-haiku-5-5&quot;, max_tokens=8, messages=messages[:1])
+print(cut.stop_reason, &quot;|&quot;, cut.content[0].text)</code></pre>
+      <details><summary>Show what you should see</summary><p class="demo-see">You should see</p>
+    <pre class="demo-out"><code>max_tokens | A torque converter is a fluid coupling between</code></pre>
+      <p>The reply was cut off mid-sentence, not shortened. <code>max_tokens</code> is a ceiling, and <code>stop_reason</code> tells you when the ceiling, not the model, ended the reply.</p></details>
+    </li>
+    <li>
+      <p><strong>Optional: the real call.</strong> If you have an API key from the Claude Console (real calls cost a little money), install the SDK and set the key in your shell, never in the code:</p>
+      <pre><code>python3 -m venv .venv &amp;&amp; source .venv/bin/activate
+pip install anthropic
+export ANTHROPIC_API_KEY=&quot;your-api-key-here&quot;</code></pre>
+      <p>Then replace the first line of <code>call.py</code> with these two lines and run it again. Nothing else changes.</p>
+      <pre><code>import anthropic
+claude = anthropic.Anthropic().messages   # replaces: import fake_claude as claude</code></pre>
+      <p class="demo-see">You should see</p>
+      <p>The same six results in shape: a real explanation of a torque converter, a list holding a <code>TextBlock</code>, <code>end_turn</code> and a token count, most likely a model asking what &ldquo;it&rdquo; refers to, a shorter answer after you resent the history, and <code>max_tokens</code> with a cut-off reply. The wording will differ on every run.</p>
+    </li>
+  </ol>
+</section>

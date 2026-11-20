@@ -5,9 +5,33 @@
 - Background (from PREFERENCES.md): first-year engineering student, learns hands-on first, relates to car examples.
 
 ## What they know
-- Says they understand the agent loop (self-reported, not yet shown; see record 0003). Asked a check question about tool calls and stop conditions.
-- Programming background: unknown, so we asked which language they know. Find out before the first build lesson.
+- Says they understand the agent loop (self-reported; see record 0003). Quiz 0001 shows it is partial: they know the tool round trip (q2) but counted tool runs as model calls (q5); see record 0005.
+- Quiz 0001 (diagnostic, 3/6): has the tool round trip (O2), knows a research agent needs search and fetch (O4), and picks a workflow when the steps are fixed (O6).
+- Not yet: the API is stateless and the conversation must be resent on every call (O1, M1, record 0004); one model call per reply, however many tools it asks for (O3); a citation holds up only if the page states the claim (O5, showed M5).
+- Suggested first lesson: O1, one model call from code, with them resending the history themselves.
+- Programming background: knows Python (stated 2026-11-13). Write build lessons in Python.
+
+- 2026-11-13: asked how guardrails are placed on agents; got a chat overview (instructions, tool choice, checks in code before a tool runs, loop limits, checking output). Good material for the O2/O3 lessons.
 
 ## Working notes
 - Build objectives in order: (1) one model call from code; (2) a tool: define it, run it when asked, return the result; (3) the loop in code with a stop condition; (4) a research agent that searches, reads and cites; (5) testing it and checking its citations; (6) when to build a workflow instead.
 - Before teaching API details, read current API docs (claude-api skill or official docs), not memory.
+
+## Objective ids (from the build order above)
+- O1: one model call from code. O2: a tool (define, run when asked, return the result). O3: the loop in code with a stop condition.
+- O4: a research agent that searches, reads and cites. O5: testing it and checking its citations. O6: when to build a workflow instead.
+
+## Misconception ids
+- M1: the model API remembers earlier calls, so you need not resend the conversation.
+- M2: the model provider runs a tool you defined in your own program.
+- M3: once your program runs the tool, the turn is over; the result need not go back to the model.
+- M4: a model can cite sources reliably from memory, without reading them.
+- M5: a citation holds up if its link works or the site is reputable, without checking the page says the claim.
+- M6: an agent is the better build even when the steps are fixed and known in advance.
+- M7: the reply's content is the answer as a string (it is a list of blocks).
+- M8: max_tokens sets the reply's length, so the model writes about that much (it is only a ceiling).
+- M9: only the model can write "assistant" turns, so the history the program sends holds only user messages.
+
+## Quizzes
+- 2026-11-13: quiz 0001, a diagnostic across O1-O6 (one item each), given before any lesson.
+- 2026-11-13: lesson 0001 (O1, one model call from Python, 15 min, hands-on demo with a stand-in for the API) and its quiz 0002 (5 items). Not yet taken.

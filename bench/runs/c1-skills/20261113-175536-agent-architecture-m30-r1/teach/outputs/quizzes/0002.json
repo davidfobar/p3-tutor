@@ -1,0 +1,62 @@
+{
+  "id": "0002",
+  "objective": "O3",
+  "title": "Context and memory in an agent",
+  "items": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "Which description best fits the context window of a language model in an agent?",
+      "options": [
+        {"id": "a", "text": "The booking and manual data that the assistant is able to query"},
+        {"id": "b", "text": "The training data, which sets everything the model can know"},
+        {"id": "c", "text": "All the text the model is given for one call, plus its reply"},
+        {"id": "d", "text": "The list of tools that the program has defined for the model"}
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "An agent makes three model calls for one student question, with two tool results arriving in between. What is the third call sent as input?",
+      "options": [
+        {"id": "a", "text": "Only the second tool result, since the model remembers earlier steps"},
+        {"id": "b", "text": "Only the question, and then it recalls the results by itself"},
+        {"id": "c", "text": "Only the question and its own final answer, without the results"},
+        {"id": "d", "text": "The whole history so far: instructions, question, requests and results"}
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "A student finished laser cutter training on Monday. On Friday they open a new chat with an assistant that has no saved notes or records. What does the assistant know about their training?",
+      "options": [
+        {"id": "a", "text": "Nothing, unless the program saved a record and loaded it in"},
+        {"id": "b", "text": "It recalls Monday, because the model stored that earlier chat"},
+        {"id": "c", "text": "It recalls Monday, as long as the context window is large enough"},
+        {"id": "d", "text": "It knows, because the model updates itself after every chat"}
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "numeric",
+      "objective": "O3",
+      "stem": "A request makes three model calls. The system prompt, tool definitions and question together are 1,200 tokens. Each of the two tool requests the model writes is 100 tokens. The first tool result is 400 tokens and the second is 600 tokens. The final answer is output, so ignore it. Each call is sent the whole history so far. How many input tokens are sent in total across the three calls?",
+      "unit": "tokens"
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "Your makerspace manuals total about 450,000 tokens and are full of error codes such as E-417. Students also have preferences, such as favoring morning slots. Which design best fits, for accuracy and cost?",
+      "options": [
+        {"id": "a", "text": "Load every manual into each request and skip any saved notes"},
+        {"id": "b", "text": "Exact-match plus meaning search over chunks, and notes per student"},
+        {"id": "c", "text": "Meaning search over chunks, and trust the model to recall preferences"},
+        {"id": "d", "text": "Load every manual at session start and tell the model to remember"}
+      ]
+    }
+  ]
+}

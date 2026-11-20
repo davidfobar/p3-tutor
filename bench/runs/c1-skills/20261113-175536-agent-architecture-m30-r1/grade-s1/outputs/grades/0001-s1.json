@@ -1,0 +1,43 @@
+{
+  "quiz": "0001",
+  "submission": "s1",
+  "items": [
+    {
+      "id": "q1",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Right: the loop of choose an action, run it, feed the result back is the structure that makes it an agent. A longer prompt or bigger model only changes what a single call can do. For more on how the loop works, see the Anthropic docs page \"Tool use with Claude\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview)."
+    },
+    {
+      "id": "q2",
+      "verdict": "wrong",
+      "misconception": "M4",
+      "feedback": "You picked the option where the model opens the booking system itself. A model only writes text; when it wants a tool, its output is a structured request naming check_calendar with the machine and date as arguments (option c). The program around the model reads that request, runs the tool and returns the result. This is tempting because the whole system looks like it acts, but the acting is done by the program. Look in the Anthropic docs page \"Tool use with Claude\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview) for the part where the model returns a tool_use block and your application executes it."
+    },
+    {
+      "id": "q3",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Right: the agent is repeating itself with the same failure, so what it needs is a stopping condition like a step limit, not a bigger window or a sterner prompt. In the makerspace assistant, a step limit also caps cost per request. For more on the loop and when it ends, see the Anthropic docs page \"Tool use with Claude\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview)."
+    },
+    {
+      "id": "q4",
+      "verdict": "wrong",
+      "misconception": "M4",
+      "feedback": "The answer is 4, not 1. You wrote that the model runs the 3 tools itself inside one call, and that is the first mistake: the model only requests a tool, then the program runs it and calls the model again with the result. Count one call for the question that produces the first request, one for each of the other two results that produce further requests, and one more for the last result that produces the final answer: 3 + 1 = 4. Look in the Anthropic docs page \"Tool use with Claude\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview) at how the loop keeps sending results back until the model answers without requesting another tool."
+    },
+    {
+      "id": "q5",
+      "verdict": "partial",
+      "misconception": null,
+      "feedback": "You have the what: the result goes back to the model, as part of its next input. The answer also needs the why: the model has not seen the result yet, so it needs it to decide its next step or write the final answer. Always say what the model does with it next. Reread how the tool result is sent back in the Anthropic docs page \"Tool use with Claude\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview)."
+    },
+    {
+      "id": "q6",
+      "verdict": "partial",
+      "misconception": "M3",
+      "feedback": "The first half is right: the program sends the model each tool's name and a description of what it does, and the model picks the one that fits. The second half is wrong: the model does not remember earlier sessions on its own. Each call starts fresh with only the text it is given, so any memory across sessions has to be saved and put back into its input by the program. It is tempting because chat products feel like they remember. See the part of the Anthropic docs page \"Tool use with Claude\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview) about tool definitions with a name, description and input schema."
+    }
+  ],
+  "summary": "You have the shape of the loop (q1) and know a step limit is the safeguard against a stuck agent (q3), and you know the model chooses tools from their descriptions. The thing to work on is who does what: the model only writes a request, and the program runs the tool and calls the model again, so each step is a separate model call, and the model has no memory of its own across sessions. That one idea cost you q2 and q4 and part of q6. Before trying again, reread the Anthropic docs page \"Tool use with Claude\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview), and redraw your Friday laser-cutter trace with two columns, model and program, marking which one does each step. The memory point leads into the context and memory topic next."
+}

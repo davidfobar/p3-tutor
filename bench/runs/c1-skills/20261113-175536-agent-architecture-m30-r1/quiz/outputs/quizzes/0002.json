@@ -1,0 +1,74 @@
+{
+  "id": "0002",
+  "objective": "O4",
+  "title": "Workflows, agents and who owns the control flow",
+  "items": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "What separates a workflow from an agent in a system like the makerspace assistant?",
+      "options": [
+        {"id": "a", "text": "A workflow uses no language model at all, while an agent always uses one"},
+        {"id": "b", "text": "A workflow serves one request at a time, while an agent serves many at once"},
+        {"id": "c", "text": "In a workflow the program's code fixes the order of steps; in an agent the model chooses the next step"},
+        {"id": "d", "text": "In a workflow the model chooses the order of steps; in an agent the program's code fixes it"}
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "Which of these makerspace tasks is the best candidate for a fixed workflow rather than an agent?",
+      "options": [
+        {"id": "a", "text": "Answering \"my 3D print keeps warping, what should I try?\" by searching the manuals and following up on what turns up"},
+        {"id": "b", "text": "Confirming a booking: check the calendar slot, then check the training record, then write the booking, in that order every time"},
+        {"id": "c", "text": "Helping a student plan a project that needs several machines, where the steps depend on what they want to build"},
+        {"id": "d", "text": "Investigating a booking-system error message that nobody on the team has seen before"}
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "numeric",
+      "objective": "O4",
+      "stem": "Two versions of the booking-confirmation feature handle the same 40 requests. In the workflow version, code runs the fixed steps and the model is called exactly 2 times per request. In the agent version, the model requests 4 tools one at a time and then writes the final answer, and each model call either requests one tool or writes the final answer. Every model call costs the same. How many more model calls does the agent version make than the workflow version over the 40 requests?",
+      "unit": "model calls"
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "A program always does the same two things for a manual question: its own code runs search_manuals on the question, then it calls the model once with the pages found so the model can write the answer. The model never chooses a tool or a next step. What is this?",
+      "options": [
+        {"id": "a", "text": "A workflow, because the code fixes the steps even though the model writes the answer"},
+        {"id": "b", "text": "An agent, because a language model produces the final answer"},
+        {"id": "c", "text": "An agent, because a tool returns the manual pages the answer is based on"},
+        {"id": "d", "text": "Neither, because a workflow cannot include a call to a language model"}
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "Your team has a booking sequence whose steps are known in advance and identical for every request. Which is the best reason to build it as a fixed workflow rather than an agent, given a small model budget?",
+      "options": [
+        {"id": "a", "text": "A workflow copes better than an agent with requests nobody planned for"},
+        {"id": "b", "text": "A workflow lets the model reason over more tools than an agent can handle"},
+        {"id": "c", "text": "A workflow needs no stopping condition because it never calls a model"},
+        {"id": "d", "text": "A fixed path is cheaper and more predictable than letting the model pick the steps each time"}
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "In a design, code checks each request: if it contains \"book\", the code runs a fixed three-step booking sequence and calls the model only to write the confirmation text. Any other request goes to a model loop with search_manuals and check_calendar, where the model decides which tool to call and when to stop. Which statement about who owns the control flow is correct?",
+      "options": [
+        {"id": "a", "text": "The whole assistant is an agent, because one of its paths lets the model choose steps"},
+        {"id": "b", "text": "The whole assistant is a workflow, because code makes the first routing decision"},
+        {"id": "c", "text": "Code owns it for booking requests and the model owns it for other requests, so the design mixes both"},
+        {"id": "d", "text": "The model owns it for booking requests too, because the model writes the confirmation text"}
+      ]
+    }
+  ]
+}

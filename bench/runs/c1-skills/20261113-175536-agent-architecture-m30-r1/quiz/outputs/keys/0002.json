@@ -1,0 +1,41 @@
+{
+  "id": "0002",
+  "items": [
+    {
+      "id": "q1",
+      "answer": "c",
+      "rationale": "The difference is who owns the control flow: in a workflow the code fixes the path, in an agent the model picks the next step. Both can use a model (a), and scale is unrelated (b). Option d swaps the two roles.",
+      "distractors": {"a": "M7", "b": "M8", "d": "M9"}
+    },
+    {
+      "id": "q2",
+      "answer": "b",
+      "rationale": "A workflow fits when the steps are known in advance and the same every time, as in the booking confirmation. The other tasks are open-ended or unpredictable, where the model needs to choose its next step.",
+      "distractors": {"a": "M10", "c": "M10", "d": "M10"}
+    },
+    {
+      "id": "q3",
+      "answer": 120,
+      "tolerance": 0,
+      "rationale": "The agent makes 4 tool requests + 1 final answer = 5 model calls per request, against 2 for the workflow: (5 - 2) x 40 = 120 extra calls. Answering 200 or 80 shows only one version was counted; 160 forgets the final-answer call (4 - 2 = 2 per request)."
+    },
+    {
+      "id": "q4",
+      "answer": "a",
+      "rationale": "The code decides every step and the model never chooses the next action, so this is a workflow; using a model or a tool does not make a system an agent. Workflows can include model calls (d).",
+      "distractors": {"b": "M11", "c": "M11", "d": "M7"}
+    },
+    {
+      "id": "q5",
+      "answer": "d",
+      "rationale": "When the path is known and constant, fixing it in code removes the model's per-step decisions, which saves calls and makes behavior predictable. Handling unplanned requests (a) is the strength of an agent, not a workflow. A workflow can still call a model (c), and tool count (b) is not the reason.",
+      "distractors": {"a": "M12", "b": "M10", "c": "M7"}
+    },
+    {
+      "id": "q6",
+      "answer": "c",
+      "rationale": "Control flow is decided per path: code fixes the booking sequence (workflow) and the model drives the open-ended path (agent), so the design is a hybrid. Writing text inside a fixed step (d) does not give the model control of the flow, and all-or-nothing labels (a, b) miss that the two paths differ.",
+      "distractors": {"a": "M13", "b": "M13", "d": "M11"}
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "duration_api_ms": 46100,
+  "stop_reason": "end_turn",
+  "session_id": "5fe88686-4f1d-4367-a3f9-76cdaee94c79",
+  "total_cost_usd": 0.1927371,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 30164,
+    "cache_read_input_tokens": 99851,
+    "output_tokens": 6208,
+    "output_tokens_details": {
+      "thinking_tokens": 2716
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 30164,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 312,
+        "cache_read_input_tokens": 35303,
+        "cache_creation_input_tokens": 5487,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 5487
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 8,
+      "outputTokens": 6208,
+      "cacheReadInputTokens": 99851,
+      "cacheCreationInputTokens": 30164,
+      "webSearchRequests": 0,
+      "costUSD": 0.1927371,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 2716,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 30164,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 0,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+    },
+    "started_in_background": 0,
+    "max_depth": 0,
+    "spawned_by_subagents": 0,
+    "completed": 0,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {}
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 11,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "I wrote the quiz to `quizzes/0002.json` and its key to `keys/0002.json`. It has six items on O4, all `mcq` except q3, which is `numeric`. There are no `short` items.\n\n- **Covers:** who owns the control flow in a workflow versus an agent, and when a fixed workflow is the better choice.\n- **Examples:** the makerspace booking and manual-search tasks.\n- **Ahead of the lessons:** the workspace has no lesson on O4 yet, so this checks the objective at the level its wording states.\n- **Tiers:** four basic items (q1, q2, q4, q5), one moderate (q3, a model-call count) and one challenging (q6, a design that mixes both).\n- **New misconception ids:** I used M7–M13 in the key for the distractors, because the workspace had no ids for these ideas yet. I couldn't tell whether M2 and M5 are already taken, so check them before reusing any.",
+  "ttft_ms": 964,
+  "type": "result",
+  "duration_ms": 46186,
+  "uuid": "b3ff2db4-1a12-40ee-8961-5da2a90e547d",
+  "ttft_stream_ms": 633,
+  "time_to_request_ms": 44,
+  "first_content_frame_ms": 633,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 8,
+      "outputTokens": 6208,
+      "cacheReadInputTokens": 99851,
+      "cacheCreationInputTokens": 30164,
+      "webSearchRequests": 0,
+      "costUSD": 0.1927371,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 2716,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 30164,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-11-21T00:33:23.707Z"
+}

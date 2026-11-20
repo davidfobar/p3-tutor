@@ -1,0 +1,34 @@
+{
+  "id": "0002",
+  "items": [
+    {
+      "id": "q1",
+      "answer": "b",
+      "rationale": "The SDK reads the key from the ANTHROPIC_API_KEY environment variable, which lives in your shell, so the code can be shared without it. A key written in the script (a) is published with the code; c and d put the key in the request's content, where it does nothing for authentication."
+    },
+    {
+      "id": "q2",
+      "answer": "c",
+      "rationale": "max_tokens is only a ceiling: a short question gets a short answer that ends on its own with stop_reason \"end_turn\". Answers a and b treat max_tokens as a target length the model aims for (M8); d treats a generous ceiling as an error.",
+      "distractors": {"a": "M8", "b": "M8"}
+    },
+    {
+      "id": "q3",
+      "answer": "d",
+      "rationale": "The API is stateless, so your program writes the model's earlier answer into the list itself, as an \"assistant\" turn, before appending the next user question. Answer b assumes the API remembers (M1); a files the model's words as the user's, as if only the model could write assistant turns (M9).",
+      "distractors": {"a": "M9", "b": "M1"}
+    },
+    {
+      "id": "q4",
+      "answer": "a",
+      "rationale": "In the reply, content is a list of blocks, so a list has no .upper() and Python raises an AttributeError; the text is reply.content[0].text. Answer b treats content as the reply string (M7).",
+      "distractors": {"b": "M7"}
+    },
+    {
+      "id": "q5",
+      "answer": 130,
+      "tolerance": 0,
+      "rationale": "The third call resends the whole history: question 1 + reply 1 + question 2 + reply 2 + question 3 = 10 + 50 + 10 + 50 + 10 = 130. An answer of 10 sends only the new question (M1); 30 sends the questions without the replies (M9)."
+    }
+  ]
+}
