@@ -26,7 +26,7 @@ They are about what you chose and what you saw, and the Builder and the Guide ne
 Of everything you changed while building `c1-skills`, which one change to a skill made the biggest difference, and how do you know?
 Name the round, and give the evidence: a rating that moved, a check in `REPORT.md` that moved, or a quote from an output before and after.
 
-TODO: your answer to prompt 1.
+I added a plan and demo skill that combined made a significant difference. Now, planning to cover misunderstandings takes place before anything is written, then interactive demos are created to directly address the likely misconceptions. This change took place between reviews 7 and 8.
 
 ---
 
