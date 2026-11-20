@@ -135,87 +135,65 @@ While using the tutor, I was provided a quiz that was meant to expose my misunde
 
 #### Technical correctness and facts
 
-Rating: TODO
-
-TODO
+Rating: 5
 
 #### Pedagogy
 
-Rating: TODO
+Rating: 4
 
-TODO
+There should be more graphical explainations
 
 #### Alignment with the learning goal
 
-Rating: TODO
-
-TODO
+Rating: 5
 
 #### Overall quality
 
-Rating: TODO
+Rating: 3
 
-TODO
+I want more links to relevant material.
 
 ### Quiz
 
 #### Difficulty
 
-Rating: TODO
-
-TODO
+Rating: 5
 
 #### Coverage of the lesson's core
 
-Rating: TODO
-
-TODO
+Rating: 5
 
 #### Wording and possible misreadings
 
-Rating: TODO
-
-TODO
+Rating: 5
 
 #### Writing quality
 
-Rating: TODO
-
-TODO
+Rating: 5
 
 #### Alignment with the learning goal
 
-Rating: TODO
-
-TODO
+Rating: 5
 
 ### Feedback
 
 #### Useful
 
-Rating: TODO
-
-TODO
+Rating: 4
 
 #### Explains enough
 
-Rating: TODO
-
-TODO
+Rating: 3
 
 #### Personalized to how I like things explained
 
-Rating: TODO
-
-TODO
+Rating: 4
 
 ### Tutor
 
 #### Guardrails
 
-Rating: TODO
-
-TODO
+Rating: 5
 
 #### Personalization
 
