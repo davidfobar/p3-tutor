@@ -1,0 +1,141 @@
+<!--
+  Kind: interactive graphic.
+  Core idea: the context window is rebuilt and resent on every model call, so it grows within a session; a new session starts empty unless the program saves a note outside the context and loads it back.
+  After the demo the learner should notice: each call sends everything so far, a new session forgets, and only a saved note (not the model) carries a fact across sessions.
+  Belongs in the lesson section about what is kept between steps and between sessions (section 2), after the context window is introduced.
+  About 4 minutes to do.
+  All token counts are made up for illustration (window 2,000 tokens).
+-->
+<section class="demo" aria-labelledby="demo-title">
+  <style>
+    .demo { border: 1px solid var(--rule); border-radius: 6px; padding: 1rem 1.25rem; margin: 1.75rem 0; font-family: var(--sans); font-size: 0.9rem; }
+    .demo h3 { margin: 0 0 0.5rem; font-size: 1.05rem; }
+    .demo .demo-row { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; margin: 0.6rem 0; }
+    .demo button { font: inherit; color: inherit; background: transparent; border: 1px solid var(--accent); border-radius: 6px; padding: 0.35rem 0.8rem; cursor: pointer; }
+    .demo button:hover:not(:disabled) { background: var(--accent-soft); }
+    .demo button:focus-visible, .demo input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .demo button:disabled { opacity: 0.45; cursor: not-allowed; }
+    .demo svg { display: block; width: 100%; height: auto; }
+    .demo ul.demo-ctx { list-style: none; margin: 0.5rem 0; padding: 0; }
+    .demo ul.demo-ctx li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.25rem 0.5rem; border-bottom: 1px solid var(--rule); }
+    .demo .demo-tok { font-family: var(--mono); white-space: nowrap; }
+    .demo .demo-readout { background: var(--accent-soft); border-radius: 6px; padding: 0.6rem 0.8rem; margin: 0.6rem 0; }
+    .demo .demo-readout p { margin: 0.2rem 0; }
+    .demo .demo-bad { color: var(--warn); font-weight: 600; }
+    .demo .demo-store { border: 1px dashed var(--muted); border-radius: 6px; padding: 0.5rem 0.8rem; margin: 0.6rem 0; }
+    .demo ol.demo-prompts { margin: 0.75rem 0 0; padding-left: 1.2rem; }
+  </style>
+  <h3 id="demo-title">Demo: watch the context grow, then end the session</h3>
+  <p>A made-up assistant answers "Is the laser cutter free on Friday?". The numbers are invented, and the window is 2,000 tokens.</p>
+
+  <div class="demo-row">
+    <label><input type="checkbox" id="demo-manual"> Paste the whole manual into context (1,500 tokens)</label>
+  </div>
+  <div class="demo-row">
+    <button type="button" id="demo-run">Run next model call</button>
+    <label><input type="checkbox" id="demo-save"> Save a note when the session ends</label>
+    <button type="button" id="demo-end">End session, start a new one</button>
+    <button type="button" id="demo-reset">Reset everything</button>
+  </div>
+
+  <svg viewBox="0 0 640 70" role="img" aria-labelledby="demo-svg-title">
+    <title id="demo-svg-title">A bar showing how much of the 2,000-token context window is filled</title>
+    <rect x="10" y="15" width="620" height="30" fill="none" stroke="currentColor" stroke-width="1.5"></rect>
+    <g id="demo-bar"></g>
+    <text x="10" y="64" font-size="16" fill="currentColor" font-family="system-ui, sans-serif">0</text>
+    <text x="630" y="64" font-size="16" fill="currentColor" text-anchor="end" font-family="system-ui, sans-serif">window limit: 2,000 tokens</text>
+  </svg>
+
+  <p><strong>Context window (what the model sees on the next call)</strong></p>
+  <ul class="demo-ctx" id="demo-ctx"></ul>
+
+  <div class="demo-store"><strong>Notes file (outside the context, kept by the program):</strong> <span id="demo-notes">empty</span></div>
+
+  <div class="demo-readout" aria-live="polite">
+    <p id="demo-r1"></p>
+    <p id="demo-r2"></p>
+    <p id="demo-r3"></p>
+  </div>
+
+  <ol class="demo-prompts">
+    <li>Before you press Run, guess: will call 2 send more tokens than call 1, or the same? Run both and check.</li>
+    <li>Tick "paste the whole manual", then try to run. What stops you, and why?</li>
+    <li>Finish a session without saving a note, start a new one, and see what the assistant can say about the student. Then repeat with the note saved.</li>
+  </ol>
+
+  <script>
+  (function () {
+    var root = document.currentScript.parentNode;
+    function $(id) { return root.querySelector("#" + id); }
+    var LIMIT = 2000;
+    var base = [
+      { label: "System prompt", tok: 300, kind: "prog" },
+      { label: "Tool definitions", tok: 400, kind: "prog" },
+      { label: "Student: Is the laser cutter free on Friday?", tok: 20, kind: "user" }
+    ];
+    var ctx, calls = 0, billed = 0, notes = null, sessions = 0;
+
+    function sum(a) { return a.reduce(function (t, x) { return t + x.tok; }, 0); }
+    function startSession() {
+      ctx = base.slice();
+      if (notes) { ctx.splice(2, 0, { label: "Note loaded by the program: " + notes, tok: 60, kind: "note" }); }
+      if ($("demo-manual").checked) { ctx.push({ label: "Whole machine manual", tok: 1500, kind: "doc" }); }
+      calls = 0;
+    }
+    function fullReset() {
+      notes = null; sessions = 1; billed = 0;
+      $("demo-manual").checked = false; $("demo-save").checked = false;
+      startSession(); render();
+    }
+
+    function render() {
+      var list = $("demo-ctx"), bar = $("demo-bar"), x = 10, total = sum(ctx);
+      list.innerHTML = ""; bar.innerHTML = "";
+      ctx.forEach(function (it, i) {
+        var li = document.createElement("li");
+        var a = document.createElement("span"), b = document.createElement("span");
+        a.textContent = it.label; b.className = "demo-tok"; b.textContent = it.tok;
+        li.appendChild(a); li.appendChild(b); list.appendChild(li);
+        var w = Math.max(0, Math.min(630 - x, 620 * it.tok / LIMIT));
+        var r = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        r.setAttribute("x", x); r.setAttribute("y", 15); r.setAttribute("width", w); r.setAttribute("height", 30);
+        r.setAttribute("fill", it.kind === "model" ? "var(--ok)" : it.kind === "doc" ? "var(--warn)" : "var(--accent)");
+        r.setAttribute("opacity", i % 2 ? "0.6" : "0.9");
+        bar.appendChild(r); x += w;
+      });
+      var over = total > LIMIT;
+      var hasNote = ctx.some(function (i) { return i.kind === "note"; });
+      $("demo-r1").textContent = "Tokens in context now: " + total + " of " + LIMIT + ". Model calls this session: " + calls + ".";
+      $("demo-r2").textContent = "Input tokens sent over all calls so far (what you pay for): " + billed + ".";
+      $("demo-r3").className = over ? "demo-bad" : "";
+      $("demo-r3").textContent = over
+        ? "Too long: this request would be rejected with a 'prompt is too long' error."
+        : sessions > 1
+          ? (hasNote ? "Session " + sessions + ": the assistant can say the student finished laser cutter training, but only because the program loaded the note."
+                     : "Session " + sessions + ": nothing about the student's earlier visit is in context, so the assistant knows nothing about it.")
+          : "Session 1.";
+      $("demo-notes").textContent = notes || "empty";
+      $("demo-run").disabled = over || calls >= 2;
+      $("demo-manual").disabled = calls > 0;
+    }
+
+    $("demo-run").addEventListener("click", function () {
+      billed += sum(ctx); calls++;
+      if (calls === 1) {
+        ctx.push({ label: "Model output: call check_calendar(laser cutter, Friday)", tok: 30, kind: "model" });
+        ctx.push({ label: "Tool result, added by the program: free 2-4 pm", tok: 150, kind: "prog" });
+      } else {
+        ctx.push({ label: "Model output: final answer", tok: 40, kind: "model" });
+      }
+      render();
+    });
+    $("demo-end").addEventListener("click", function () {
+      if ($("demo-save").checked) { notes = "Student finished laser cutter training"; }
+      sessions++; startSession(); render();
+    });
+    $("demo-reset").addEventListener("click", fullReset);
+    $("demo-manual").addEventListener("change", function () { startSession(); render(); });
+    fullReset();
+  })();
+  </script>
+</section>

@@ -1,0 +1,75 @@
+<!-- Demo for lesson 0001-context-and-memory (objective O3).
+     Place: in the section "What the model sees on each step", after the explanation of re-sending history.
+     Time to do: 4 minutes. Self-contained; paste as is. -->
+<section class="demo" id="demo-context">
+  <style>
+    .demo { border: 2px solid var(--accent); border-radius: 6px; padding: 1rem 1.25rem; margin: 1.75rem 0; font-family: var(--sans); font-size: 0.92rem; }
+    .demo .row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin: 0.6rem 0; }
+    .demo button { font: inherit; color: inherit; background: transparent; border: 1px solid var(--accent); border-radius: 6px; padding: 0.4rem 0.8rem; cursor: pointer; }
+    .demo button:hover { background: var(--accent-soft); }
+    .demo button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .demo button:disabled { opacity: 0.45; cursor: default; }
+    .demo table { font-size: 0.85rem; margin: 0.6rem 0; }
+    .demo .bar { height: 1.1rem; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; display: flex; background: var(--bg); }
+    .demo .bar span { display: block; height: 100%; }
+    .demo .totals { font-weight: 600; margin: 0.5rem 0 0; }
+  </style>
+  <p><strong>Try it: watch the context grow.</strong> The makerspace assistant gets "Is the laser cutter free on Friday?" Press <em>Run next model call</em> and watch what goes into each call. The token counts are made-up round numbers, not measurements.</p>
+  <div class="row" role="group" aria-label="Manual handling">
+    <label><input type="radio" name="demo-mode" value="none" checked> No manual</label>
+    <label><input type="radio" name="demo-mode" value="whole"> Whole manual in context (60,000 tokens)</label>
+    <label><input type="radio" name="demo-mode" value="page"> One retrieved page (800 tokens)</label>
+  </div>
+  <div class="row">
+    <button type="button" id="demo-next">Run next model call</button>
+    <button type="button" id="demo-reset">Start over</button>
+  </div>
+  <div class="bar" aria-hidden="true"><span id="demo-bar" style="width:0;background:var(--accent)"></span></div>
+  <table>
+    <thead><tr><th>Call</th><th>Tokens the model reads</th><th>What it writes</th></tr></thead>
+    <tbody id="demo-rows"></tbody>
+  </table>
+  <p class="totals" id="demo-total" aria-live="polite">Press the button to start.</p>
+  <p id="demo-hint" class="feedback"></p>
+  <details>
+    <summary>What to notice</summary>
+    <p>Each call re-reads everything from the start: the instructions, the tool descriptions, the question, and every earlier result. Call 2 costs more than call 1 even though the student said nothing new. Switch the manual setting, press <em>Start over</em>, and run again to compare the totals. Nothing here was remembered by the model; the program rebuilt the input each time.</p>
+  </details>
+  <script>
+  (function () {
+    var base = [["System prompt and rules", 300], ["Tool descriptions", 400], ["Student question", 20]];
+    var steps = [
+      { out: "Tool request: check_calendar(laser, Friday)", outTok: 40, add: ["Model's tool request", 40] },
+      { out: "Final answer: free 2 to 4 pm", outTok: 30, add: ["Calendar result", 100] }
+    ];
+    var window_ = 66000, n = 0, billed = 0, ctx = [];
+    var rows = document.getElementById("demo-rows"), total = document.getElementById("demo-total");
+    var bar = document.getElementById("demo-bar"), next = document.getElementById("demo-next"), hint = document.getElementById("demo-hint");
+    function mode() { return document.querySelector("input[name=demo-mode]:checked").value; }
+    function sum() { return ctx.reduce(function (a, b) { return a + b[1]; }, 0); }
+    function reset() {
+      n = 0; billed = 0; ctx = base.slice();
+      if (mode() === "whole") ctx.push(["Whole manual", 60000]);
+      if (mode() === "page") ctx.push(["Retrieved manual page", 800]);
+      rows.innerHTML = ""; total.textContent = "Press the button to start."; hint.textContent = "";
+      bar.style.width = "0"; next.disabled = false;
+    }
+    next.addEventListener("click", function () {
+      var read = sum(); billed += read;
+      var s = steps[n];
+      var tr = document.createElement("tr");
+      tr.innerHTML = "<td>" + (n + 1) + "</td><td>" + read.toLocaleString() + "</td><td>" + s.out + "</td>";
+      rows.appendChild(tr);
+      ctx.push(s.add);
+      bar.style.width = Math.min(100, read / window_ * 100) + "%";
+      total.textContent = "Tokens read so far, all calls added up: " + billed.toLocaleString();
+      hint.textContent = mode() === "whole" ? "The manual is read again on every call, and the model may recall a single value in it less reliably." : "";
+      n++;
+      if (n >= steps.length) { next.disabled = true; }
+    });
+    document.getElementById("demo-reset").addEventListener("click", reset);
+    Array.prototype.forEach.call(document.querySelectorAll("input[name=demo-mode]"), function (r) { r.addEventListener("change", reset); });
+    reset();
+  })();
+  </script>
+</section>

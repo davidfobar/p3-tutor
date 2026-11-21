@@ -1,0 +1,67 @@
+{
+  "id": "0002",
+  "objective": "O3",
+  "title": "Context and memory in an agent",
+  "items": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "Your makerspace assistant is about to make one model call. Which description of its context window for that call is correct?",
+      "options": [
+        {"id": "a", "text": "Only the student's latest message, since the model handles one message at a time"},
+        {"id": "b", "text": "Everything sent in the call: system prompt, tool definitions, messages, tool results"},
+        {"id": "c", "text": "The model's training data plus the student's latest message and its reply"},
+        {"id": "d", "text": "All past conversations with every student, which the model stores itself"}
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "In a five-step agent loop, the fifth model call needs to know what the tool returned in step two. How does the model get that information?",
+      "options": [
+        {"id": "a", "text": "It carries the step-two result inside itself between calls, like a running memory"},
+        {"id": "b", "text": "It looks the result up in the tool's own log, which the model can read directly"},
+        {"id": "c", "text": "The program includes the earlier steps in the input it sends with the fifth call"},
+        {"id": "d", "text": "It guesses the result from its training, which usually matches what the tool returned"}
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "In a retrieval setup over the machine manuals, what actually happens when the assistant answers a question?",
+      "options": [
+        {"id": "a", "text": "A program or tool picks relevant pages and puts them into the context for the model"},
+        {"id": "b", "text": "The model already knows where each page is and reads it straight from storage"},
+        {"id": "c", "text": "The model's weights are updated with the manual so it remembers the pages later"},
+        {"id": "d", "text": "The whole manual is loaded each time and the model ignores the irrelevant parts"}
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "A 300-page manual fits in the window. Your team proposes pasting it into the context for every request, and a typical request takes six model calls. Which is the strongest reason this is a poor design for your small budget?",
+      "options": [
+        {"id": "a", "text": "The manual would be permanently deleted from the model once the window fills"},
+        {"id": "b", "text": "The model can only read the first page of text placed in its context"},
+        {"id": "c", "text": "The model would refuse any input longer than a single chat message"},
+        {"id": "d", "text": "Every call re-sends and pays for those tokens, and recall can get worse"}
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "Which statement correctly tells apart compaction and structured notes in an agent?",
+      "options": [
+        {"id": "a", "text": "Compaction saves facts to a file between sessions; notes summarize a conversation inside the model"},
+        {"id": "b", "text": "Both happen automatically inside the model, so the program never has to store anything"},
+        {"id": "c", "text": "Compaction summarizes a near-full conversation into a new window; notes are saved outside the window"},
+        {"id": "d", "text": "Both only delete old messages, and neither one keeps any information from them"}
+      ]
+    }
+  ]
+}

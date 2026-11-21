@@ -1,0 +1,62 @@
+{
+  "id": "0002",
+  "objective": "O3",
+  "title": "Context and memory in an agent",
+  "items": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "For one call to the model in your makerspace assistant, which of these counts toward the context window?",
+      "options": [
+        {"id": "a", "text": "Only the student's latest message and the model's reply"},
+        {"id": "b", "text": "Instructions, tool descriptions, history, tool results and the reply"},
+        {"id": "c", "text": "Only what the model learned in training plus the latest message"},
+        {"id": "d", "text": "Everything every student has ever typed into the assistant before"}
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "A student passes laser-cutter training on Monday. Next week they start a brand-new chat with your assistant. What must your program do for the assistant to know about the pass?",
+      "options": [
+        {"id": "a", "text": "Nothing, because the model keeps what it has seen from every chat"},
+        {"id": "b", "text": "Nothing, because a larger context window carries over across chats"},
+        {"id": "c", "text": "Save the status when it happens, then load it into the new chat"},
+        {"id": "d", "text": "Retrieve the status from the machine manuals when it is needed"}
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "numeric",
+      "objective": "O3",
+      "stem": "In one request, your program makes 3 model calls. Each call sends the full input again. Call 1 input: instructions and question, 1,050 tokens. The model's reply to call 1 is 50 tokens, and a tool result of 200 tokens is then added. Call 2 sends everything so far. Its reply is another 50 tokens, and a tool result of 300 tokens is added. Call 3 sends everything so far. How many input tokens are read in total across the 3 calls? Count input tokens only, not replies as output.",
+      "unit": "tokens"
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "Your machine manuals total 3,000,000 tokens and a student asks about one lathe setting. Which design best keeps cost low and answers reliable?",
+      "options": [
+        {"id": "a", "text": "Search the manuals and put only the matching pages in context"},
+        {"id": "b", "text": "Put the whole manual in context so that nothing is ever missed"},
+        {"id": "c", "text": "Switch to the model with the biggest window and send it all"},
+        {"id": "d", "text": "Remove the instructions so the manual takes up the whole window"}
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "A research agent has run 60 steps and its window is 90% full, mostly old tool results it has already used. The task must go on. Which change is best for recall and cost?",
+      "options": [
+        {"id": "a", "text": "Keep going unchanged, since the model remembers it better than you do"},
+        {"id": "b", "text": "Move to a larger window and keep every old result in the input"},
+        {"id": "c", "text": "End the session and start again with no record of earlier work"},
+        {"id": "d", "text": "Save key findings as notes, clear old results and keep a summary"}
+      ]
+    }
+  ]
+}

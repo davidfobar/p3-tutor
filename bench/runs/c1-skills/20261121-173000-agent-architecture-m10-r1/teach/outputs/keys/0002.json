@@ -1,0 +1,35 @@
+{
+  "id": "0002",
+  "items": [
+    {
+      "id": "q1",
+      "answer": "b",
+      "rationale": "The context window holds everything sent for the call (system prompt, tool definitions, messages including tool results) plus the output. Picking d shows M3, that the model stores past conversations itself.",
+      "distractors": {"a": "M4", "c": "M3", "d": "M3"}
+    },
+    {
+      "id": "q2",
+      "answer": "c",
+      "rationale": "Each step is a separate model call, and the program sends the history again with each call. Picking a shows M3, that the model remembers by itself.",
+      "distractors": {"a": "M3", "b": "M3"}
+    },
+    {
+      "id": "q3",
+      "answer": "a",
+      "rationale": "Retrieval is done by the program or a tool, which selects the relevant pages and loads them; the model sees only what is loaded. Picking b shows M6.",
+      "distractors": {"b": "M6", "d": "M4"}
+    },
+    {
+      "id": "q4",
+      "answer": "d",
+      "rationale": "Context is re-sent on every call, so a pasted manual is paid for six times per request, and more context can reduce recall (context rot). Picking a, b or c invents limits that do not exist.",
+      "distractors": {"a": "M5", "b": "M4"}
+    },
+    {
+      "id": "q5",
+      "answer": "c",
+      "rationale": "Compaction summarizes a conversation nearing the limit and starts a new window with the summary; structured notes are written to storage outside the window and loaded back later. Picking b shows M5, that memory is automatic and inside the model.",
+      "distractors": {"a": "M5", "b": "M5"}
+    }
+  ]
+}

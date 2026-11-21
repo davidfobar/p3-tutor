@@ -1,0 +1,176 @@
+{
+  "duration_api_ms": 205496,
+  "stop_reason": "end_turn",
+  "session_id": "04b8dd5d-f3c1-4f2c-a67e-163eb7372fcf",
+  "total_cost_usd": 0.706083965,
+  "usage": {
+    "input_tokens": 42,
+    "cache_creation_input_tokens": 75764,
+    "cache_read_input_tokens": 918136,
+    "output_tokens": 28272,
+    "output_tokens_details": {
+      "thinking_tokens": 2727
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 75764,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 843,
+        "cache_read_input_tokens": 86512,
+        "cache_creation_input_tokens": 263,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 263
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 42,
+      "outputTokens": 28272,
+      "cacheReadInputTokens": 918136,
+      "cacheCreationInputTokens": 75764,
+      "webSearchRequests": 0,
+      "costUSD": 0.6776736000000001,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 2727,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 75764,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 26500,
+      "outputTokens": 6601,
+      "cacheReadInputTokens": 8874,
+      "cacheCreationInputTokens": 18969,
+      "webSearchRequests": 2,
+      "costUSD": 0.028410365,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 2527,
+      "cacheCreationEphemeral5mInputTokens": 18969,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [
+    {
+      "tool_name": "Bash",
+      "tool_use_id": "toolu_01TneLpQYaMwyfsuXkCv8n2B",
+      "tool_input": {
+        "command": "cd /tmp/p3-fbgibqym; mkdir -p demos; cat > demos/0001-context-and-memory.html <<'EOF'\n<!--\n  Kind: interactive graphic.\n  Core idea: the context window is rebuilt and resent on every model call, so it grows within a session; a new session starts empty unless the program saves a note outside the context and loads it back.\n  After the demo the learner should notice: each call sends everything so far, a new session forgets, and only a saved note (not the model) carries a fact across sessions.\n  Belongs in the lesson section about what is kept between steps and between sessions (section 2), after the context window is introduced.\n  About 4 minutes to do.\n  All token counts are made up for illustration (window 2,000 tokens).\n-->\n<section class=\"demo\" aria-labelledby=\"demo-title\">\n  <style>\n    .demo { border: 1px solid var(--rule); border-radius: 6px; padding: 1rem 1.25rem; margin: 1.75rem 0; font-family: var(--sans); font-size: 0.9rem; }\n    .demo h3 { margin: 0 0 0.5rem; font-size: 1.05rem; }\n    .demo .demo-row { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; margin: 0.6rem 0; }\n    .demo button { font: inherit; color: inherit; background: transparent; border: 1px solid var(--accent); border-radius: 6px; padding: 0.35rem 0.8rem; cursor: pointer; }\n    .demo button:hover:not(:disabled) { background: var(--accent-soft); }\n    .demo button:focus-visible, .demo input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n    .demo button:disabled { opacity: 0.45; cursor: not-allowed; }\n    .demo svg { display: block; width: 100%; height: auto; }\n    .demo ul.demo-ctx { list-style: none; margin: 0.5rem 0; padding: 0; }\n    .demo ul.demo-ctx li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.25rem 0.5rem; border-bottom: 1px solid var(--rule); }\n    .demo .demo-tok { font-family: var(--mono); white-space: nowrap; }\n    .demo .demo-readout { background: var(--accent-soft); border-radius: 6px; padding: 0.6rem 0.8rem; margin: 0.6rem 0; }\n    .demo .demo-readout p { margin: 0.2rem 0; }\n    .demo .demo-bad { color: var(--warn); font-weight: 600; }\n    .demo .demo-store { border: 1px dashed var(--muted); border-radius: 6px; padding: 0.5rem 0.8rem; margin: 0.6rem 0; }\n    .demo ol.demo-prompts { margin: 0.75rem 0 0; padding-left: 1.2rem; }\n  </style>\n  <h3 id=\"demo-title\">Demo: watch the context grow, then end the session</h3>\n  <p>A made-up assistant answers \"Is the laser cutter free on Friday?\". Numbers are invented; the window is 2,000 tokens.</p>\n\n  <div class=\"demo-row\">\n    <label><input type=\"checkbox\" id=\"demo-manual\"> Paste the whole manual into context (1,500 tokens)</label>\n  </div>\n  <div class=\"demo-row\">\n    <button type=\"button\" id=\"demo-run\">Run next model call</button>\n    <label><input type=\"checkbox\" id=\"demo-save\"> Save a note when the session ends</label>\n    <button type=\"button\" id=\"demo-end\">End session, start a new one</button>\n    <button type=\"button\" id=\"demo-reset\">Reset everything</button>\n  </div>\n\n  <svg viewBox=\"0 0 640 70\" role=\"img\" aria-labelledby=\"demo-svg-title\">\n    <title id=\"demo-svg-title\">A bar showing how much of the 2,000-token context window is filled</title>\n    <rect x=\"10\" y=\"15\" width=\"620\" height=\"30\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"></rect>\n    <g id=\"demo-bar\"></g>\n    <text x=\"10\" y=\"64\" font-size=\"16\" fill=\"currentColor\" font-family=\"system-ui, sans-serif\">0</text>\n    <text x=\"630\" y=\"64\" font-size=\"16\" fill=\"currentColor\" text-anchor=\"end\" font-family=\"system-ui, sans-serif\">window limit: 2,000 tokens</text>\n  </svg>\n\n  <p><strong>Context window (what the model sees on the next call)</strong></p>\n  <ul class=\"demo-ctx\" id=\"demo-ctx\"></ul>\n\n  <div class=\"demo-store\"><strong>Notes file (outside the context, kept by the program):</strong> <span id=\"demo-notes\">empty</span></div>\n\n  <div class=\"demo-readout\" aria-live=\"polite\">\n    <p id=\"demo-r1\"></p>\n    <p id=\"demo-r2\"></p>\n    <p id=\"demo-r3\"></p>\n  </div>\n\n  <ol class=\"demo-prompts\">\n    <li>Before you press Run, guess: will call 2 send more tokens than call 1, or the same? Run both and check.</li>\n    <li>Tick \"paste the whole manual\", then reset and try to run. What stops you, and why?</li>\n    <li>Finish a session without saving a note, start a new one, and see what the assistant can say about the student. Then repeat with the note saved.</li>\n  </ol>\n\n  <script>\n  (function () {\n    var root = document.currentScript.parentNode;\n    function $(id) { return root.querySelector(\"#\" + id); }\n    var LIMIT = 2000;\n    var base = [\n      { label: \"System prompt\", tok: 300, kind: \"prog\" },\n      { label: \"Tool definitions\", tok: 400, kind: \"prog\" },\n      { label: \"Student: Is the laser cutter free on Friday?\", tok: 20, kind: \"user\" }\n    ];\n    var ctx, calls, billed, notes = null, sessions;\n\n    function sum(a) { return a.reduce(function (t, x) { return t + x.tok; }, 0); }\n    function startSession() {\n      ctx = base.map(function (x) { return x; });\n      if (notes) { ctx.splice(2, 0, { label: \"Note loaded by the program: \" + notes, tok: 60, kind: \"note\" }); }\n      if ($(\"demo-manual\").checked) { ctx.push({ label: \"Whole machine manual\", tok: 1500, kind: \"doc\" }); }\n      calls = 0; sessions = (sessions || 0) + 1;\n    }\n    function fullReset() { notes = null; sessions = 0; billed = 0; $(\"demo-manual\").checked = false; $(\"demo-save\").checked = false; startSession(); billed = 0; render(); }\n\n    function render() {\n      var list = $(\"demo-ctx\"), bar = $(\"demo-bar\"), x = 10, total = sum(ctx);\n      list.innerHTML = \"\"; bar.innerHTML = \"\";\n      ctx.forEach(function (it, i) {\n        var li = document.createElement(\"li\");\n        li.innerHTML = \"<span></span><span class='demo-tok'>\" + it.tok + \"</span>\";\n        li.firstChild.textContent = it.label;\n        list.appendChild(li);\n        var w = Math.min(620 - (x - 10), 620 * it.tok / LIMIT);\n        var r = document.createElementNS(\"http://www.w3.org/2000/svg\", \"rect\");\n        r.setAttribute(\"x\", x); r.setAttribute(\"y\", 15); r.setAttribute(\"width\", Math.max(w, 0)); r.setAttribute(\"height\", 30);\n        r.setAttribute(\"fill\", it.kind === \"model\" ? \"var(--ok)\" : it.kind === \"doc\" ? \"var(--warn)\" : \"var(--accent)\");\n        r.setAttribute(\"opacity\", i % 2 ? \"0.6\" : \"0.9\");\n        bar.appendChild(r); x += w;\n      });\n      var over = total > LIMIT;\n      $(\"demo-r1\").textContent = \"Tokens in context now: \" + total + \" of \" + LIMIT + \". Model calls this session: \" + calls + \".\";\n      $(\"demo-r2\").textContent = \"Input tokens sent to the model, added up over every call so far (what you pay for): \" + billed + \".\";\n      var know = notes && ctx.some(function (i) { return i.kind === \"note\"; });\n      $(\"demo-r3\").className = over ? \"demo-bad\" : \"\";\n      $(\"demo-r3\").textContent = over ? \"Too long: the request would be rejected with a 'prompt is too long' error.\"\n        : sessions > 1 ? (know ? \"New session: the assistant can say the student finished laser cutter training, only because the program loaded the note.\" : \"New session: the context is empty of the student's history, so the assistant knows nothing about their training.\")\n        : \"Session 1.\";\n      $(\"demo-notes\").textContent = notes || \"empty\";\n      $(\"demo-run\").disabled = over || calls >= 2;\n      $(\"demo-manual\").disabled = calls > 0;\n    }\n\n    $(\"demo-run\").addEventListener(\"click\", function () {\n      billed += sum(ctx); calls++;\n      if (calls === 1) {\n        ctx.push({ label: \"Model output: call check_calendar(laser cutter, Friday)\", tok: 30, kind: \"model\" });\n        ctx.push({ label: \"Tool result, added by the program: free 2-4 pm\", tok: 150, kind: \"prog\" });\n      } else {\n        ctx.push({ label: \"Model output: final answer\", tok: 40, kind: \"model\" });\n      }\n      render();\n    });\n    $(\"demo-end\").addEventListener(\"click\", function () {\n      if ($(\"demo-save\").checked) { notes = \"Student finished laser cutter training\"; }\n      startSession(); render();\n    });\n    $(\"demo-reset\").addEventListener(\"click\", fullReset);\n    $(\"demo-manual\").addEventListener(\"change\", function () { startSession(); sessions--; render(); });\n    fullReset();\n  })();\n  </script>\n</section>\nEOF"
+      }
+    },
+    {
+      "tool_name": "Bash",
+      "tool_use_id": "toolu_01QaTSCp4hTEL397zvKYromr",
+      "tool_input": {
+        "command": "cd /tmp/p3-fbgibqym; mkdir -p lessons; python3 -I - <<'PY'\nimport re\nt=open('.claude/skills/teach/references/lesson-template.html').read()\ncss=re.search(r'<style>.*?</style>',t,re.S).group(0)\nopen('/tmp/css.txt','w').write(css)\nPY\nwc -c /tmp/css.txt"
+      }
+    },
+    {
+      "tool_name": "Bash",
+      "tool_use_id": "toolu_017qfgiVrzfkGryybw3y9Yns",
+      "tool_input": {
+        "command": "cd /tmp/p3-fbgibqym; printf '%s\\n' '- Lesson 0001 (context and memory, O3) and quiz 0002 are written; not yet taken. Misconceptions M3-M6 are defined in plans/0001-context-and-memory.md. Learner has not yet shown any of them.' >> NOTES.md"
+      }
+    }
+  ],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 2,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 2
+    },
+    "started_in_background": 0,
+    "max_depth": 1,
+    "spawned_by_subagents": 0,
+    "completed": 2,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {
+      "web-fetch": 2
+    }
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 29,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "The O3 lesson is written at `lessons/0001-context-and-memory.html`. Its 5-item quiz is ready as `quizzes/0002.json`, with the key in `keys/0002.json`. I haven't opened the lesson in a browser or run the demo's script, so the demo is untested. I also did not check the lesson's word count or its links.\n\n**What it covers.** It runs from your last session, on the agent loop, to what the model actually sees at each step, using the \"Is the laser cutter free on Friday?\" example.\n- **Context window:** what goes in it, and why filling it with the whole manual is a mistake.\n- **Steps and sessions:** each loop step is a separate model call and the program resends the history, so the context grows. A new session starts empty.\n- **Retrieval and notes:** retrieval loads only the relevant page, and notes saved outside the context carry facts across sessions. Compaction gets a short mention.\n- **Car analogy:** the workbench is the context, the service logbook is the notes, and one page of the shop manual is retrieval.\n\nIt includes one figure, one interactive demo (a context meter you step through, with a \"save a note\" option), two misconception boxes and a practice check. The sources are Anthropic's [context engineering post](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) and the [Claude docs on context windows](https://platform.claude.com/docs/en/build-with-claude/context-windows).\n\n**Time.** About 10 min reading + 4 min demo + 5 min quiz = 19 min. You can ask for a shorter or longer lesson.\n\n**Quiz.** The quiz is five multiple-choice items; I didn't include a numeric one.\n\n**Other files.**\n- **Plan:** `plans/0001-context-and-memory.md`\n- **Demo:** `demos/0001-context-and-memory.html`\n- **Sources:** `RESOURCES.md`, new\n- **Notes:** an entry added to `NOTES.md`\n\n**Open points.**\n- **Statelessness:** the docs only imply that the caller resends the history, so I worded it that way rather than claiming the API stores nothing.\n- **Retrieval gap:** I found no trusted source yet on chunking and embeddings for the manuals. `RESOURCES.md` lists it as a gap for a later lesson.\n- **Quiz 0001:** it is still ungraded.\n\nThe quiz is ready when you are, and you can ask me anything about the lesson. Question for you: do you want a cheat sheet on context versus saved memory for your design review?",
+  "ttft_ms": 1059,
+  "type": "result",
+  "duration_ms": 189504,
+  "uuid": "869ceffe-585c-4d74-ba58-5081d3f89755",
+  "ttft_stream_ms": 765,
+  "time_to_request_ms": 115,
+  "first_content_frame_ms": 765,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 42,
+      "outputTokens": 28272,
+      "cacheReadInputTokens": 918136,
+      "cacheCreationInputTokens": 75764,
+      "webSearchRequests": 0,
+      "costUSD": 0.6776736000000001,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 2727,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 75764,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 26500,
+      "outputTokens": 6601,
+      "cacheReadInputTokens": 8874,
+      "cacheCreationInputTokens": 18969,
+      "webSearchRequests": 2,
+      "costUSD": 0.028410365,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 2527,
+      "cacheCreationEphemeral5mInputTokens": 18969,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-12-16T23:36:35.528Z"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "0002",
+  "items": [
+    {
+      "id": "q1",
+      "answer": "b",
+      "rationale": "The window holds everything the model reads and writes for the call: instructions, tool descriptions, history, tool results and the reply. Picking a shows only the messages are counted; c and d confuse the window with training or with other chats (M3).",
+      "distractors": {"a": "M4", "c": "M3", "d": "M3"}
+    },
+    {
+      "id": "q2",
+      "answer": "c",
+      "rationale": "Nothing persists between sessions unless the program saves it and loads it into the next context. Window size does not carry over, and the manuals do not hold a student's status.",
+      "distractors": {"a": "M3", "b": "M6", "d": "M5"}
+    },
+    {
+      "id": "q3",
+      "answer": 4000,
+      "tolerance": 0,
+      "rationale": "Call 1 reads 1,050. Call 2 reads 1,050 + 50 + 200 = 1,300. Call 3 reads 1,300 + 50 + 300 = 1,650. Total 1,050 + 1,300 + 1,650 = 4,000. An answer of 1,650 counts only the last call, as if the model remembered the earlier ones (M3)."
+    },
+    {
+      "id": "q4",
+      "answer": "a",
+      "rationale": "Retrieval puts only the relevant pages in context, so cost stays low and recall is better. Sending everything costs tokens each call and degrades recall; a bigger window is not the fix.",
+      "distractors": {"b": "M5", "c": "M4", "d": "M5"}
+    },
+    {
+      "id": "q5",
+      "answer": "d",
+      "rationale": "Saving findings as notes, clearing old tool results and keeping a summary (compaction) reduces cost and context rot while keeping progress. A larger window keeps the clutter (M4); restarting loses the work; the model does not remember better than the input it is given (M3).",
+      "distractors": {"a": "M3", "b": "M4", "c": "M6"}
+    }
+  ]
+}
