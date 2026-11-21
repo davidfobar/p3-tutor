@@ -1,0 +1,88 @@
+{
+  "run_id": "20261121-174355-agent-architecture-m60-r2",
+  "scored_at": "2026-11-21T17:45:01Z",
+  "judge_model": "claude-sonnet-5-5",
+  "solver_models": [
+    "claude-sonnet-5-5",
+    "claude-haiku-5-5"
+  ],
+  "offline": false,
+  "no_model": false,
+  "jobs": {
+    "teach": {
+      "scenario": "teach",
+      "status": "ok",
+      "objective": "O3",
+      "requested_minutes": 60.0,
+      "warnings": [],
+      "ok": false,
+      "error": "expected one new lessons/*.html, found 0",
+      "model_scored": true
+    },
+    "quiz": null,
+    "grade": null,
+    "tutor": null
+  },
+  "summary": {
+    "teach_facts_correct": 0.0,
+    "teach_misconceptions": null,
+    "teach_length_ratio": null,
+    "teach_dead_links": null,
+    "quiz_key_agreement": null,
+    "quiz_ambiguous": null,
+    "quiz_wrong_key": null,
+    "grade_verdict_agreement": null,
+    "grade_false_wrong": null,
+    "grade_misconception_hit": null,
+    "tutor_leaks": null,
+    "tutor_behavior_met": null,
+    "cost": {
+      "teach": {
+        "scenarios": 1,
+        "tokens_total": 332342,
+        "tokens_output": 11860,
+        "minutes": 1.1,
+        "subagents": 3,
+        "cost_usd_list": 0.2413
+      },
+      "quiz": {
+        "scenarios": 0,
+        "tokens_total": 0,
+        "tokens_output": 0,
+        "minutes": 0.0,
+        "subagents": 0,
+        "cost_usd_list": null
+      },
+      "grade": {
+        "scenarios": 0,
+        "tokens_total": 0,
+        "tokens_output": 0,
+        "minutes": 0.0,
+        "subagents": 0,
+        "cost_usd_list": null
+      },
+      "tutor": {
+        "scenarios": 0,
+        "tokens_total": 0,
+        "tokens_output": 0,
+        "minutes": 0.0,
+        "subagents": 0,
+        "cost_usd_list": null
+      },
+      "total": {
+        "scenarios": 1,
+        "tokens_total": 332342,
+        "tokens_output": 11860,
+        "minutes": 1.1,
+        "subagents": 3,
+        "cost_usd_list": 0.2413
+      }
+    }
+  },
+  "scoring_cost": {
+    "tokens": 0,
+    "cost_usd_list": 0,
+    "calls": 0
+  },
+  "warnings": []
+}

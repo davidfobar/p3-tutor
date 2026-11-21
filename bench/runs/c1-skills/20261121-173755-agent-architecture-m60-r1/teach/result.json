@@ -1,0 +1,184 @@
+{
+  "duration_api_ms": 392831,
+  "stop_reason": "end_turn",
+  "session_id": "d1432601-45c6-48c6-aa7a-731132267342",
+  "total_cost_usd": 1.154394475,
+  "usage": {
+    "input_tokens": 38,
+    "cache_creation_input_tokens": 112901,
+    "cache_read_input_tokens": 1447938,
+    "output_tokens": 51294,
+    "output_tokens_details": {
+      "thinking_tokens": 8121
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 112901,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 731,
+        "cache_read_input_tokens": 122168,
+        "cache_creation_input_tokens": 1744,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1744
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 38,
+      "outputTokens": 51294,
+      "cacheReadInputTokens": 1447938,
+      "cacheCreationInputTokens": 112901,
+      "webSearchRequests": 0,
+      "costUSD": 1.1094138000000002,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 8121,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 112901,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 41146,
+      "outputTokens": 10683,
+      "cacheReadInputTokens": 22920,
+      "cacheCreationInputTokens": 42363,
+      "webSearchRequests": 3,
+      "costUSD": 0.044980675000000005,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 2202,
+      "cacheCreationEphemeral5mInputTokens": 42363,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [
+    {
+      "tool_name": "Bash",
+      "tool_use_id": "toolu_016F3ngj2WAwEqFNWYhabP1o",
+      "tool_input": {
+        "command": "python3 - <<'E'\nimport re\np='lessons/0001-context-and-memory.html'\ns=open(p).read()\nd=open('demos/0001-context-and-memory.html').read()\nd=d[d.index('<section class=\"demo\"'):]\nhead='''<section id=\"demo\">\n    <h2>Try it: watch a window fill <span class=\"section-objective\">O3</span> <span class=\"section-time\">7 min demo</span></h2>\n    <p>Before reading on, run the assistant's context window yourself. The numbers are toy numbers, chosen to be easy to add, but the behavior matches the section above: the program resends everything on every call. Do the three prompts under the graphic, and write down your prediction before you press each button.</p>\n    '''\ntail='''\n    <p>What you should have seen: the manual text, once it entered, rode along in every later call, so the \"whole manual\" choice cost far more in total than the retrieved page, even though the answer was the same. And the second session started empty, so only a saved note could bring Session 1's knowledge back. The next sections explain why a window should stay lean, and how a note or a retrieved page gets in.</p>\n  </section>'''\ns=s.replace('<!--DEMO-->',head+d+tail)\ns=s.replace(\"(you met this in the first lesson)\",\"(a word you have already heard; here is what it limits)\")\ns=s.replace(\"runs steps 4 above and\",\"runs the search step above and\")\ns=s.replace(\"(section 3 showed the cost, section 5 the quality)\",\"(the window section showed the cost, the rot section the quality)\")\ns=s.replace(\"Section 5 told you that\",\"The rot section told you that\")\ns=s.replace(\"(section 3)\",\"(the cost section)\")\ns=s.replace(\"Do steps 1 and 2 yourself, then step 3: list (a)\",\"List (a)\")\ns=s.replace(\"Step 4, what should be written to memory at the end, is yours too.\",\"Then (d): say what, if anything, should be written to memory at the end.\")\nopen(p,'w').write(s)\nt=re.sub(r'<(script|style)[\\s\\S]*?</\\1>','',s)\nt=re.sub(r'<!--[\\s\\S]*?-->','',t); t=re.sub(r'<[^>]+>',' ',t)\nprint(len(t.split()))\nE"
+      }
+    },
+    {
+      "tool_name": "Write",
+      "tool_use_id": "toolu_01BdiNEH6kWPE5a9TwT34he2",
+      "tool_input": {
+        "file_path": "/tmp/p3tools/splice.py",
+        "content": "import re, sys\nroot = sys.argv[1]\np = root + '/lessons/0001-context-and-memory.html'\ns = open(p).read()\nd = open(root + '/demos/0001-context-and-memory.html').read()\nd = d[d.index('<section class=\"demo\"'):]\nhead = '''<section id=\"demo\">\n    <h2>Try it: watch a window fill <span class=\"section-objective\">O3</span> <span class=\"section-time\">7 min demo</span></h2>\n    <p>Before reading on, run the assistant's context window yourself. The numbers are toy numbers, chosen to be easy to add, but the behavior matches the section above: the program resends everything on every call. Do the three prompts under the graphic, and write down your prediction before you press each button.</p>\n    '''\ntail = '''\n    <p>What you should have seen: the manual text, once it entered, rode along in every later call, so the \"whole manual\" choice cost far more in total than the retrieved page, even though the answer was the same. And the second session started empty, so only a saved note could bring Session 1's knowledge back. The next sections explain why a window should stay lean, and how a note or a retrieved page gets in.</p>\n  </section>'''\ns = s.replace('<!--DEMO-->', head + d + tail)\ns = s.replace(\"(you met this in the first lesson)\", \"(a word you have already heard; here is what it limits)\")\ns = s.replace(\"runs steps 4 above and\", \"runs the search step above and\")\ns = s.replace(\"(section 3 showed the cost, section 5 the quality)\", \"(the window section showed the cost, the rot section the quality)\")\ns = s.replace(\"Section 5 told you that\", \"The rot section told you that\")\ns = s.replace(\"(section 3)\", \"(the cost section)\")\ns = s.replace(\"Do steps 1 and 2 yourself, then step 3: list (a)\", \"List (a)\")\ns = s.replace(\"Step 4, what should be written to memory at the end, is yours too.\", \"Then (d): say what, if anything, should be written to memory at the end.\")\nopen(p, 'w').write(s)\nt = re.sub(r'<(script|style)[\\s\\S]*?</\\1>', '', s)\nt = re.sub(r'<!--[\\s\\S]*?-->', '', t)\nt = re.sub(r'<[^>]+>', ' ', t)\nprint(len(t.split()))\n"
+      }
+    },
+    {
+      "tool_name": "Bash",
+      "tool_use_id": "toolu_01KZ3DNEkqVtkJ3jfBGASH1J",
+      "tool_input": {
+        "command": "perl -0pe 's/<(script|style).*?<\\/\\1>//gs; s/<!--.*?-->//gs; s/<[^>]+>/ /g' lessons/0001-context-and-memory.html | wc -w"
+      }
+    },
+    {
+      "tool_name": "Bash",
+      "tool_use_id": "toolu_01PqbjXyH8HLn2KzouXy6TsW",
+      "tool_input": {
+        "command": "sed -e 's/<[^>]*>/ /g' /tmp/p3-lv5g916h/lessons/0001-context-and-memory.html | wc -w"
+      }
+    }
+  ],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 4,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 4
+    },
+    "started_in_background": 0,
+    "max_depth": 1,
+    "spawned_by_subagents": 0,
+    "completed": 4,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {
+      "web-fetch": 4
+    }
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 52,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "The lesson, demo, quiz and cheat sheet are all written; the only check I couldn't run was the exact word count.\n\n**Lesson:** `lessons/0001-context-and-memory.html` (objective O3, declared as 60 minutes).\n\nIt covers:\n- why the model keeps nothing between calls\n- what the context window holds and what it costs, with a worked token trace\n- context rot and keeping the window lean\n- notes and the memory tool for carrying things between sessions\n- retrieval for finding the right manual page: keyword search next to semantic search, and chunks that lose their context\n- a worked example and a faded practice task on the makerspace assistant\n- a design-review checklist\n\nThe warm-up recalls O1 (the agent loop), there are five practice checks with immediate feedback, and every fact links to its source. Four Anthropic pages were the sources.\n\n**Time:** about 60 min reading + 7 min demo + 6 min quiz = 73 min. The \"Try it: watch a window fill\" section holds an interactive context-window demo (`demos/0001-context-and-memory.html`). You press \"run next model call\" and watch the window and the token bill grow. You can also start a second session, with or without a saved note.\n\n**Word count:** the shell blocked my exact counter. A raw count of the file, including CSS, script and markup, is 7,896 words. I estimate the visible text at about 5,500–6,000, against the bench's 5,400–13,500 range for 60 minutes. That is on the short side, and I added about 700 words after the first draft to give it margin.\n\n**Quiz:** `quizzes/0002.json` has five items (four multiple-choice, one numeric) and is ready when you are. I changed one item so it doesn't repeat a lesson practice check.\n\n**Also written:**\n- `plans/0001-context-and-memory.md`\n- `RESOURCES.md`\n- `cheatsheets/context-and-memory.html`\n- a `NOTES.md` update: I added misconceptions M7, M8 and M9 and reused M3.\n\nAsk me anything about the lesson in the chat.\n\nOne question for you: the manuals are the big unknown for your design review. Roughly how many pages are they in total? That decides whether your team can skip retrieval or needs it.",
+  "ttft_ms": 1062,
+  "type": "result",
+  "duration_ms": 355283,
+  "uuid": "99e406b8-8708-442a-8b44-aa556e657ef6",
+  "ttft_stream_ms": 728,
+  "time_to_request_ms": 115,
+  "first_content_frame_ms": 729,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 38,
+      "outputTokens": 51294,
+      "cacheReadInputTokens": 1447938,
+      "cacheCreationInputTokens": 112901,
+      "webSearchRequests": 0,
+      "costUSD": 1.1094138000000002,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 8121,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 112901,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 41146,
+      "outputTokens": 10683,
+      "cacheReadInputTokens": 22920,
+      "cacheCreationInputTokens": 42363,
+      "webSearchRequests": 3,
+      "costUSD": 0.044980675000000005,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 2202,
+      "cacheCreationEphemeral5mInputTokens": 42363,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-12-16T23:36:35.528Z"
+}

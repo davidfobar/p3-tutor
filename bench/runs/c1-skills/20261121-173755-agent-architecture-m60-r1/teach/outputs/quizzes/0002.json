@@ -1,0 +1,62 @@
+{
+  "id": "0002",
+  "objective": "O3",
+  "title": "Context and memory in an agent",
+  "items": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "Which of these is part of the context window the model reads on every call of the makerspace assistant?",
+      "options": [
+        {"id": "a", "text": "The full text of every manual the assistant could search"},
+        {"id": "b", "text": "The tool definitions, such as the description of check_calendar"},
+        {"id": "c", "text": "Every earlier student's conversation from previous sessions"},
+        {"id": "d", "text": "The program's Python code that actually runs each tool"}
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "A student finishes a session and closes the chat. Which design lets the assistant know their preferred booking time at the next session?",
+      "options": [
+        {"id": "a", "text": "Write a short note to a file, and load it at the next session's start"},
+        {"id": "b", "text": "Trust the model to remember the student from the earlier chat"},
+        {"id": "c", "text": "Choose a model with a larger context window for the assistant"},
+        {"id": "d", "text": "Lengthen the system prompt so it describes every possible student"}
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "numeric",
+      "objective": "O3",
+      "stem": "In one session, the system prompt plus tool definitions total 1,000 tokens and the student's question is 100. Call 1 ends with a 50-token tool request; the tool result is 350 tokens. Call 2 writes a 200-token answer. The student then sends a 100-token follow-up, which triggers call 3. Each call's input is everything in the window so far. What is the total number of input tokens across the three calls?",
+      "unit": "tokens"
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "The assistant's search returns generic pages for the query \"fault E-47\" and misses the one page that lists that exact code. Which change best fixes this?",
+      "options": [
+        {"id": "a", "text": "Add keyword matching, such as BM25, and merge it with the semantic results"},
+        {"id": "b", "text": "Return many more chunks per search so the right page is in there"},
+        {"id": "c", "text": "Place every manual into the system prompt for every request"},
+        {"id": "d", "text": "Tell the model in the prompt to understand the meaning better"}
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "In a long session your assistant clears old tool results to keep the window small. The student's confirmed booking time appeared only in a result that was cleared, and the assistant later forgets it. What design change prevents this?",
+      "options": [
+        {"id": "a", "text": "Switch to a model whose context window is much larger"},
+        {"id": "b", "text": "Stop clearing results and let the window fill to its limit"},
+        {"id": "c", "text": "Tell the model in the system prompt to remember all results"},
+        {"id": "d", "text": "Save key facts to notes before the results are cleared"}
+      ]
+    }
+  ]
+}

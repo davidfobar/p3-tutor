@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cheat sheet: context and memory in an agent</title>
+  <style>
+    :root { --bg: #fffdf8; --text: #1f1d1a; --muted: #6b665e; --rule: #e4dfd4; --accent: #9a4517; }
+    @media (prefers-color-scheme: dark) { :root { --bg: #171614; --text: #e9e5dc; --muted: #a49e93; --rule: #36332e; --accent: #eaa77a; } }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: Charter, Georgia, serif; line-height: 1.5; }
+    main { max-width: 42rem; margin: 0 auto; padding: 2rem 1.25rem; }
+    h1 { font-size: 1.6rem; } h2 { font-size: 1.1rem; margin-top: 1.5rem; color: var(--accent); }
+    a { color: var(--accent); }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th, td { text-align: left; vertical-align: top; padding: 0.35rem 0.5rem; border-bottom: 1px solid var(--rule); }
+    @media print { :root { --bg: #fff; --text: #000; --accent: #000; } }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Context and memory in an agent</h1>
+  <p>From <a href="../lessons/0001-context-and-memory.html">lesson 1</a>. Objective O3.</p>
+  <h2>Where information lives</h2>
+  <table>
+    <thead><tr><th>Place</th><th>Lasts</th><th>Use for</th></tr></thead>
+    <tbody>
+      <tr><td>Context window</td><td>One session</td><td>What the model sees now: system prompt, tool definitions, messages, tool results</td></tr>
+      <tr><td>Notes / memory files</td><td>Across sessions</td><td>Short facts the agent learned; the program loads them at session start</td></tr>
+      <tr><td>Retrieval</td><td>Permanent store</td><td>Long documents; only the best chunks enter the window</td></tr>
+      <tr><td>System of record</td><td>Permanent</td><td>Facts that must be exact (training status, bookings), read by a tool</td></tr>
+    </tbody>
+  </table>
+  <h2>Rules</h2>
+  <ul>
+    <li>The model keeps nothing between calls; the program resends the whole history.</li>
+    <li>Input cost of a call = everything in the window so far. Total = sum over calls.</li>
+    <li>More context is not better: context rot. Keep tool results small; clear, compact or hand to a sub-agent when long.</li>
+    <li>New session = empty window. Save notes before results are cleared or the session ends.</li>
+    <li>Retrieval: chunk, embed, search, add top chunks. Add keyword search (BM25) for exact codes; give chunks their context.</li>
+    <li>Under about 200,000 tokens (about 500 pages) you may skip retrieval; weigh cost and rot first.</li>
+  </ul>
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents</a></li>
+    <li><a href="https://platform.claude.com/docs/en/build-with-claude/context-windows">Context windows</a></li>
+    <li><a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/memory-tool">Memory tool</a></li>
+    <li><a href="https://www.anthropic.com/engineering/contextual-retrieval">Contextual Retrieval</a></li>
+  </ul>
+</main>
+</body>
+</html>

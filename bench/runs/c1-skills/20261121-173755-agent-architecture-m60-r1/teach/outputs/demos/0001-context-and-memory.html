@@ -1,0 +1,140 @@
+<!--
+  Demo for lesson 0001-context-and-memory (objective O3).
+  Kind: interactive graphic.
+  Core idea: every model call gets the whole context resent, so what you put in the window is paid for again on every call, and a new session starts empty unless a note was saved.
+  After the demo the learner should be able to say how many input tokens each call carried, why a pasted-in manual is costly, and why a saved note is the only thing that survives into session 2.
+  Belongs in: the section "Try it: watch a window fill".
+  Takes about 7 minutes. All token numbers are toy numbers, not real measurements.
+-->
+<section class="demo" id="ctxdemo">
+  <style>
+    .demo { border: 1px solid var(--rule); border-radius: 6px; padding: 1rem 1.25rem; margin: 1.5rem 0; font-family: var(--sans); font-size: 0.9rem; }
+    .demo .row { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; margin: 0.5rem 0; }
+    .demo button { font: inherit; color: inherit; background: transparent; border: 1px solid var(--accent); border-radius: 6px; padding: 0.35rem 0.8rem; cursor: pointer; }
+    .demo button:hover:not(:disabled) { background: var(--accent-soft); }
+    .demo button:disabled { opacity: 0.4; cursor: default; }
+    .demo button:focus-visible, .demo input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .demo fieldset { border: 1px solid var(--rule); border-radius: 6px; margin: 0.5rem 0; }
+    .demo legend { font-size: 0.8rem; color: var(--muted); }
+    .demo svg { display: block; width: 100%; height: auto; margin: 0.5rem 0; }
+    .demo .seg-f { fill: currentColor; opacity: 0.25; }
+    .demo .seg-m { fill: var(--accent); opacity: 0.45; }
+    .demo .seg-r { fill: var(--accent); opacity: 1; }
+    .demo .seg-n { fill: var(--ok); opacity: 1; }
+    .demo table { font-size: 0.85rem; margin: 0.5rem 0; }
+    .demo .readout { background: var(--code-bg); border-radius: 6px; padding: 0.6rem 0.8rem; margin: 0.5rem 0; min-height: 3rem; }
+    .demo .prompts { color: var(--muted); }
+    .demo .prompts li { margin-bottom: 0.3rem; }
+    .demo .sw { display: inline-block; width: 0.8rem; height: 0.8rem; vertical-align: middle; margin-right: 0.2rem; border: 1px solid var(--rule); }
+  </style>
+  <span class="label">Interactive: the makerspace assistant's context window (toy numbers)</span>
+  <p>Session 1: a student asks, "Is the laser cutter free Friday, and how do I focus it?" Press the button to run one model call at a time, and choose how the manual reaches the model.</p>
+  <fieldset>
+    <legend>How the manual text gets in</legend>
+    <label><input type="radio" name="ctx-x" value="6000" checked> The whole manual comes back (6,000 tokens)</label><br>
+    <label><input type="radio" name="ctx-x" value="600"> Only the one retrieved page comes back (600 tokens)</label>
+  </fieldset>
+  <div class="row">
+    <button type="button" id="ctx-run">Run next model call</button>
+    <button type="button" id="ctx-reset">Reset</button>
+    <button type="button" id="ctx-new">End session, start session 2</button>
+    <label><input type="checkbox" id="ctx-note"> The assistant saved a training note before session 1 ended</label>
+  </div>
+  <svg viewBox="0 0 640 110" role="img" aria-labelledby="ctx-title">
+    <title id="ctx-title">A bar showing how full the context window is, split into the pieces inside it</title>
+    <rect x="20" y="30" width="600" height="40" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <g id="ctx-segs"></g>
+    <text x="20" y="22" font-size="16" fill="currentColor">0</text>
+    <text x="620" y="22" font-size="16" fill="currentColor" text-anchor="end">window: 8,000 tokens</text>
+    <text id="ctx-fill" x="20" y="98" font-size="18" fill="currentColor"></text>
+  </svg>
+  <p><span class="sw seg-f" style="background:currentColor;opacity:.25"></span>fixed (system prompt, tool definitions)
+     <span class="sw" style="background:var(--accent);opacity:.45"></span>messages and tool requests
+     <span class="sw" style="background:var(--accent)"></span>tool results
+     <span class="sw" style="background:var(--ok)"></span>note loaded from memory</p>
+  <div class="readout" id="ctx-readout" aria-live="polite"></div>
+  <table>
+    <thead><tr><th>Model call</th><th>Input tokens sent</th><th>Running total of input</th></tr></thead>
+    <tbody id="ctx-rows"></tbody>
+  </table>
+  <ol class="prompts">
+    <li>Before the third call, predict: does the calendar result from call 1 still get sent? Run it and check the table.</li>
+    <li>Switch to "whole manual", reset, and run all four calls. Compare the running total with the retrieved-page choice. Which call paid for the manual, and how many times?</li>
+    <li>Press "End session, start session 2" with the note box unticked, then ticked. What does the new window hold, and where did the note live in between?</li>
+  </ol>
+  <script>
+  (function () {
+    var root = document.getElementById("ctxdemo");
+    var WIN = 8000;
+    var calls = 0, mode = 1;
+    function q(sel) { return root.querySelector(sel); }
+    function xval() { return parseInt(root.querySelector('input[name="ctx-x"]:checked').value, 10); }
+    function fmt(n) { return n.toLocaleString("en-US"); }
+    function items(c) {
+      var a = [{n: "System prompt", t: 500, c: "f"}, {n: "Tool definitions", t: 700, c: "f"}, {n: "Student question", t: 60, c: "m"}];
+      if (c >= 1) { a.push({n: "Request: check_calendar", t: 40, c: "m"}, {n: "Calendar result", t: 200, c: "r"}); }
+      if (c >= 2) { a.push({n: "Request: search_manuals", t: 40, c: "m"}, {n: "Manual text", t: xval(), c: "r"}); }
+      if (c >= 3) { a.push({n: "Answer 1", t: 150, c: "m"}); }
+      if (c >= 4) { a.push({n: "Follow-up question", t: 60, c: "m"}, {n: "Answer 2", t: 150, c: "m"}); }
+      return a;
+    }
+    function sum(a) { return a.reduce(function (s, i) { return s + i.t; }, 0); }
+    function inputFor(k) {
+      if (k === 4) { return sum(items(3)) + 60; }
+      return sum(items(k - 1));
+    }
+    function draw(a) {
+      var g = q("#ctx-segs"), x = 20, html = "";
+      a.forEach(function (i) {
+        var w = i.t / WIN * 600;
+        html += '<rect class="seg-' + i.c + '" x="' + x.toFixed(1) + '" y="30" width="' + w.toFixed(1) + '" height="40" stroke="var(--bg)" stroke-width="1"><title>' + i.n + ": " + fmt(i.t) + " tokens</title></rect>";
+        x += w;
+      });
+      g.innerHTML = html;
+      var total = sum(a), pct = Math.round(total / WIN * 100);
+      q("#ctx-fill").textContent = fmt(total) + " tokens in the window (" + pct + "% full)";
+    }
+    var says = [
+      "Nothing has run yet. The window holds the system prompt, the tool definitions and the question.",
+      "Call 1 saw only the first three pieces and asked for check_calendar. The program ran it and appended the request and the result.",
+      "Call 2 saw everything so far, including the calendar result, and asked for search_manuals. The manual text is now in the window.",
+      "Call 3 saw everything again, manual included, and wrote answer 1. The model remembered nothing: the program resent it all.",
+      "Call 4: the follow-up question arrived, and the program resent the whole history plus the new question."
+    ];
+    function renderS1() {
+      var a = items(calls);
+      draw(a);
+      q("#ctx-readout").textContent = says[calls];
+      var rows = "", run = 0;
+      for (var k = 1; k <= calls; k++) { var t = inputFor(k); run += t; rows += "<tr><td>Call " + k + "</td><td>" + fmt(t) + "</td><td>" + fmt(run) + "</td></tr>"; }
+      q("#ctx-rows").innerHTML = rows;
+      q("#ctx-run").disabled = calls >= 4;
+      q("#ctx-run").textContent = calls === 3 ? "Student asks a follow-up (call 4)" : "Run next model call";
+    }
+    function renderS2() {
+      var note = q("#ctx-note").checked;
+      var a = [{n: "System prompt", t: 500, c: "f"}, {n: "Tool definitions", t: 700, c: "f"}, {n: "Student question", t: 60, c: "m"}];
+      var msg;
+      if (note) {
+        a.push({n: "Request: view /memories", t: 40, c: "m"}, {n: "Note: laser training done", t: 80, c: "n"});
+        msg = "Session 2 starts empty. The assistant looks in its memory folder first, finds the note the program stored in a file, and the note enters the window. It can answer: this student has done laser training. Session 1's calendar and manual text are gone.";
+      } else {
+        msg = "Session 2 starts empty and nothing was saved. The window holds only the fixed pieces and the new question, so the assistant has no idea what happened in session 1. It has to ask the student again.";
+      }
+      draw(a);
+      q("#ctx-readout").textContent = msg;
+      q("#ctx-rows").innerHTML = "<tr><td colspan='3'>Session 2: a new count starts from zero.</td></tr>";
+      q("#ctx-run").disabled = true;
+    }
+    function render() { if (mode === 1) { renderS1(); } else { renderS2(); } }
+    q("#ctx-run").addEventListener("click", function () { if (calls < 4) { calls++; } render(); });
+    q("#ctx-reset").addEventListener("click", function () { calls = 0; mode = 1; render(); });
+    q("#ctx-new").addEventListener("click", function () { mode = 2; render(); });
+    q("#ctx-note").addEventListener("change", function () { if (mode === 2) { render(); } });
+    root.querySelectorAll('input[name="ctx-x"]').forEach(function (r) {
+      r.addEventListener("change", function () { calls = 0; mode = 1; render(); });
+    });
+    render();
+  })();
+  </script>
+</section>

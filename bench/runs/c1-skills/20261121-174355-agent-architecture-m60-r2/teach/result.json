@@ -1,0 +1,154 @@
+{
+  "duration_api_ms": 71876,
+  "stop_reason": "end_turn",
+  "session_id": "e1fae740-fba7-452f-9a47-dd32f9698c57",
+  "total_cost_usd": 0.24131136499999997,
+  "usage": {
+    "input_tokens": 14,
+    "cache_creation_input_tokens": 37493,
+    "cache_read_input_tokens": 218762,
+    "output_tokens": 4999,
+    "output_tokens_details": {
+      "thinking_tokens": 153
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 37493,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 255,
+        "cache_read_input_tokens": 45146,
+        "cache_creation_input_tokens": 3358,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 3358
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 14,
+      "outputTokens": 4999,
+      "cacheReadInputTokens": 218762,
+      "cacheCreationInputTokens": 37493,
+      "webSearchRequests": 0,
+      "costUSD": 0.2218662,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 153,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 37493,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 13093,
+      "outputTokens": 6861,
+      "cacheReadInputTokens": 14649,
+      "cacheCreationInputTokens": 36471,
+      "webSearchRequests": 1,
+      "costUSD": 0.019445165,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 1144,
+      "cacheCreationEphemeral5mInputTokens": 36471,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 3,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 3
+    },
+    "started_in_background": 0,
+    "max_depth": 1,
+    "spawned_by_subagents": 0,
+    "completed": 3,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {
+      "web-fetch": 3
+    }
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 10,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "The plan is at `plans/0001-context-and-memory.md`. It covers objective O3 as a 60-minute lesson. The plan has these parts:\n- **Sources:** three I read in full. They are Anthropic's context-engineering article, the context-windows docs and the memory-tool docs. All three are logged in `RESOURCES.md`.\n- **Misconceptions:** M5 to M10, each with a diagnostic question. M3 and M4 from key 0001 came up but are not reused.\n- **Threads to earlier lessons:** `lessons/` is empty, so the plan builds on learning records 0001 and 0002 and on the laser-cutter example.\n\nI haven't written the demo, lesson or quiz yet. The `/teach` skill's later steps still need to run.",
+  "ttft_ms": 1222,
+  "type": "result",
+  "duration_ms": 65303,
+  "uuid": "6243b438-b35d-4ee6-927e-130ef7395e49",
+  "ttft_stream_ms": 620,
+  "time_to_request_ms": 107,
+  "first_content_frame_ms": 621,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 14,
+      "outputTokens": 4999,
+      "cacheReadInputTokens": 218762,
+      "cacheCreationInputTokens": 37493,
+      "webSearchRequests": 0,
+      "costUSD": 0.2218662,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 153,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 37493,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 13093,
+      "outputTokens": 6861,
+      "cacheReadInputTokens": 14649,
+      "cacheCreationInputTokens": 36471,
+      "webSearchRequests": 1,
+      "costUSD": 0.019445165,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 1144,
+      "cacheCreationEphemeral5mInputTokens": 36471,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-12-16T23:36:35.528Z"
+}

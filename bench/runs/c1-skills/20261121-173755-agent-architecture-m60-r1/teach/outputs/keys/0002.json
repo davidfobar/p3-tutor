@@ -1,0 +1,35 @@
+{
+  "id": "0002",
+  "items": [
+    {
+      "id": "q1",
+      "answer": "b",
+      "rationale": "The window holds the system prompt, tool definitions, messages and tool results, and the whole of it is sent on each call. Manuals sit outside it until retrieval pulls a chunk in (a, M7), earlier sessions are gone unless notes are loaded (c, M3), and the model never sees the tool's code, which the program runs (d, M4).",
+      "distractors": {"a": "M7", "c": "M3", "d": "M4"}
+    },
+    {
+      "id": "q2",
+      "answer": "a",
+      "rationale": "A new session starts with an empty window, so information survives only if the program saves it outside the window and loads it back. Trusting the model to remember is M3; a larger window or longer prompt does not carry anything between sessions.",
+      "distractors": {"b": "M3", "c": "M7", "d": "M1"}
+    },
+    {
+      "id": "q3",
+      "answer": 4400,
+      "tolerance": 0,
+      "rationale": "Call 1 input = 1,000 + 100 = 1,100. Call 2 input = 1,100 + 50 + 350 = 1,500. Call 3 input = 1,500 + 200 + 100 = 1,800. Total = 1,100 + 1,500 + 1,800 = 4,400. Answering 1,800 counts only the last call, and forgets the history is resent each time (M9)."
+    },
+    {
+      "id": "q4",
+      "answer": "a",
+      "rationale": "Semantic search can miss exact identifiers; keyword matching such as BM25 finds them, and merging the two keeps both strengths. Returning more chunks or pasting every manual adds cost and rot (M7); a prompt instruction cannot change what the search returns (M8).",
+      "distractors": {"b": "M7", "c": "M7", "d": "M8"}
+    },
+    {
+      "id": "q5",
+      "answer": "d",
+      "rationale": "Clearing removes text from the window for good, so anything that must survive has to be written to notes before it is cleared. A larger window does not help and lets rot grow (M7); unlimited filling ends in overflow; an instruction cannot make a cleared result reappear (M9).",
+      "distractors": {"a": "M7", "b": "M7", "c": "M9"}
+    }
+  ]
+}
