@@ -37,14 +37,14 @@ When no length is asked for, use the one `PREFERENCES.md` implies, or 15 minutes
 
 ## The shape of a lesson
 
-1. **Opening:** the title, the time broken down into reading, demo and quiz minutes with the total, the win in one sentence ("By the end of this lesson you can ..."), and one or two sentences tying it to the mission.
+1. **Opening:** the title, the time broken down into reading and demo minutes (and quiz minutes, only when the lesson comes with a quiz) with the total, the win in one sentence ("By the end of this lesson you can ..."), and one or two sentences tying it to the mission.
 2. **Warm-up:** one or two recall questions on earlier material from the learning records, for spacing, with the answers revealed on demand.
 3. **Sections, one idea each,** in a steady rhythm: explain only the knowledge the skill needs, in plain words; show a concrete example, drawn from the examples `PREFERENCES.md` says the learner relates to; then check with a practice question that gives immediate feedback.
 4. **Misconceptions where they bite:** name the common wrong ideas about this objective (from `NOTES.md`, the learning records, the keys' distractors and your sources), say why each is tempting, and show with an example why it is wrong.
 5. **Worked example, then practice:** a worked example step by step, then a similar task for the learner with the steps faded, and the solution on demand.
 6. **Summary:** the key ideas in three to five lines, and a prompt to explain the main idea in their own words before moving on.
 7. **Go further:** the primary source, the single most high-quality, high-trust resource you found, to read or watch next; two to four other sources you cited; and a community where they can test the skill (see Wisdom below).
-8. **Closing:** a reminder that they can ask you follow-up questions in the chat about anything unclear, and that a short quiz on this lesson is ready when they are, with its minutes.
+8. **Closing:** a reminder that they can ask you follow-up questions in the chat about anything unclear, and either that its quiz is ready, with its minutes, when the lesson comes with one, or that they can ask for a quiz on it whenever they want.
 
 Every section heading carries the id of the objective it focuses on and its minutes, and the demo from `demos/` sits in the section where its idea is introduced, under a heading of its own.
 
@@ -105,7 +105,7 @@ A cheat sheet is the compressed essence of the lesson, designed for quick refere
 Check the lesson once against this list, and fix anything that fails:
 
 - `<meta name="p3-minutes">` holds the requested minutes and `<meta name="p3-objective">` the objective id.
-- Every section heading has its objective label and its minutes, and the header shows reading, demo and quiz minutes and their total.
+- Every section heading has its objective label and its minutes, and the header shows reading and demo minutes (and quiz minutes, when there is a quiz) and their total.
 - The demo is in the lesson, and every fact the lesson teaches links to its source.
 - No stylesheet, script, font or image comes from the web.
 - The length is near the budget, judging by your section plan.

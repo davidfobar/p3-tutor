@@ -131,7 +131,8 @@
     <p class="lead">By the end of this lesson you can {{THE ONE TANGIBLE WIN}}.</p>
     <div class="meta">
       <span>Objective {{OBJECTIVE_ID}}: {{OBJECTIVE IN PLAIN WORDS}}</span>
-      <span>About {{MINUTES}} min reading + {{DEMO}} min demo + {{QUIZ}} min quiz = {{TOTAL}} min</span>
+      <!-- Add " + {{QUIZ}} min quiz" before the total only when the lesson comes with a quiz. -->
+      <span>About {{MINUTES}} min reading + {{DEMO}} min demo = {{TOTAL}} min</span>
       <span>Builds on <a href="{{EARLIER LESSON FILE}}">{{EARLIER LESSON TITLE}}</a></span>
     </div>
     <div class="box mission">
@@ -267,7 +268,8 @@
 
   <footer class="closing">
     <p>Anything unclear? Ask me in the chat; I can explain any part again, another way, or go deeper.</p>
-    <p>A short quiz on this lesson is ready (quiz {{QUIZ NUMBER}}): ask me for it when you want to check what stuck.</p>
+    <!-- When the lesson comes with a quiz, say instead: A short quiz on this lesson is ready (quiz {{QUIZ NUMBER}}, about {{QUIZ}} min): ask me for it when you want to check what stuck. -->
+    <p>When you want to check what stuck, ask me for a quiz on this lesson.</p>
   </footer>
 
 </main>

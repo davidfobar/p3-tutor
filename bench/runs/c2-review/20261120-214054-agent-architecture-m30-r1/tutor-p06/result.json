@@ -1,0 +1,120 @@
+{
+  "duration_api_ms": 14410,
+  "stop_reason": "end_turn",
+  "session_id": "a6847535-bb12-45e7-95e9-e8c64c8481a2",
+  "total_cost_usd": 0.09132380000000001,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 16602,
+    "cache_read_input_tokens": 85498,
+    "output_tokens": 1635,
+    "output_tokens_details": {
+      "thinking_tokens": 426
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 16602,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 544,
+        "cache_read_input_tokens": 27003,
+        "cache_creation_input_tokens": 610,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 610
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 8,
+      "outputTokens": 1635,
+      "cacheReadInputTokens": 85498,
+      "cacheCreationInputTokens": 16602,
+      "webSearchRequests": 0,
+      "costUSD": 0.09132380000000001,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 426,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 16602,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 0,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+    },
+    "started_in_background": 0,
+    "max_depth": 0,
+    "spawned_by_subagents": 0,
+    "completed": 0,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {}
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 9,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "Think of a driver in a race car with a pit crew on the radio.\n\nThe driver can see the track but can't see the tire temperatures, the fuel level, or the lap times. The driver also can't get out of the car. So the driver says over the radio, \"Give me front-left tire temp.\" The crew chief reads the gauge and says \"98 degrees.\" The driver then decides what to do next: keep pushing, or come in.\n\nHere is how the pieces map:\n\n- **Driver = the model.** It decides what to ask for, but it only ever produces words.\n- **Radio request = the tool call.** It's a structured message that says \"I want this tool, with these details.\" Nothing happens yet.\n- **Crew chief = your program.** It does the real work: it reads the gauge, or checks the booking calendar. The model never touches the calendar.\n- **Spoken reply = the tool result.** It goes back to the driver as more text.\n- **The list of available requests = the tool descriptions.** The driver knows what it can ask for because the crew told it before the race. Your goal of writing clear tool descriptions is about this list.\n\nThe most common mix-up is thinking the model runs the tool. It doesn't. It only asks for the tool. If your program ignored the request, nothing would happen.\n\nThe analogy breaks in one place. A real driver remembers the last radio call. The model doesn't. On every step, your program hands it the whole conversation again: the goal, every request so far, and every reply. Each radio exchange is a fresh model call. This is why context and memory, your next topic, matter, and why long conversations cost more.\n\nQuick check: for \"Is the laser cutter free Friday?\", who actually looks at the calendar, and what does the model receive back?",
+  "ttft_ms": 871,
+  "type": "result",
+  "duration_ms": 14554,
+  "uuid": "5932491f-d68c-4dcb-8c16-e6fa4662c465",
+  "ttft_stream_ms": 590,
+  "time_to_request_ms": 101,
+  "first_content_frame_ms": 590,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 8,
+      "outputTokens": 1635,
+      "cacheReadInputTokens": 85498,
+      "cacheCreationInputTokens": 16602,
+      "webSearchRequests": 0,
+      "costUSD": 0.09132380000000001,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 426,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 16602,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-12-16T23:36:35.705Z"
+}

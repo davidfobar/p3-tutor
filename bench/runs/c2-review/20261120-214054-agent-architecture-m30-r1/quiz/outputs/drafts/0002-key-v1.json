@@ -1,0 +1,41 @@
+{
+  "id": "0002",
+  "items": [
+    {
+      "id": "q1",
+      "answer": "b",
+      "rationale": "The difference is who owns the control flow: in a workflow the programmer's code fixes the steps in advance, in an agent the model decides the next step as it goes. Both can call a model (a) and use tools (c); reversing the roles (d) is the opposite of the definition.",
+      "distractors": {"a": "M8", "c": "M10", "d": "M11"}
+    },
+    {
+      "id": "q2",
+      "answer": "d",
+      "rationale": "Only in d does the model choose the tools, their order and when to stop, which is what makes it an agent. In a, b and c the code fixes the path; calling the model once or several times inside a fixed path does not change who owns the control flow.",
+      "distractors": {"a": "M9", "b": "M9", "c": "M9"}
+    },
+    {
+      "id": "q3",
+      "answer": "a",
+      "rationale": "The order of steps is fixed in code, so the code owns the control flow and this is a workflow; the model is used inside two of its steps. Using a model, even more than once, does not make a system an agent.",
+      "distractors": {"b": "M8", "c": "M9", "d": "M8"}
+    },
+    {
+      "id": "q4",
+      "answer": "c",
+      "rationale": "When the steps are known and the same every time, a fixed workflow gives predictable cost, is easier to test, and needs no model to decide what comes next. An agent is not automatically more reliable (a) or cheaper (b), since every decision costs a model call, and a workflow can still call a model for a step such as writing the message (d).",
+      "distractors": {"a": "M7", "b": "M7", "d": "M8"}
+    },
+    {
+      "id": "q5",
+      "answer": 100,
+      "tolerance": 0,
+      "rationale": "The agent makes 3 tool-request calls plus 1 final-answer call = 4 calls per question; the workflow makes 2. The difference is 4 - 2 = 2 per question, and 2 x 50 = 100."
+    },
+    {
+      "id": "q6",
+      "answer": "b",
+      "rationale": "The code decides when to retry and when to stop, and the model only writes text at each step, so the code still owns the control flow: it is a workflow with a loop in it. A loop (a) or several model calls (c) does not make an agent; the question is who decides the next step. A retry (d) does not hand the control to the model.",
+      "distractors": {"a": "M9", "c": "M9", "d": "M9"}
+    }
+  ]
+}

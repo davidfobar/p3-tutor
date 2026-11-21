@@ -1,6 +1,12 @@
 {
   "permissions": {
-    "allow": ["WebSearch", "WebFetch"],
-    "deny": ["Agent(p3-guide)"]
+    "allow": [
+      "WebSearch",
+      "WebFetch",
+      "Bash(python3 .claude/tools/lesson_check.py:*)"
+    ],
+    "deny": [
+      "Agent(p3-guide)"
+    ]
   }
 }

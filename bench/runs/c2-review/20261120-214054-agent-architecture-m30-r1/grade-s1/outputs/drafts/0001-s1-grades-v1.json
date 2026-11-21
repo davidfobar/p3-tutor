@@ -1,0 +1,43 @@
+{
+  "quiz": "0001",
+  "submission": "s1",
+  "items": [
+    {
+      "id": "q1",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Yes, that's the right instinct: the loop of choose an action, run it, feed the result back is the structure that makes it an agent, while a longer prompt or a bigger model only changes what a single call can do. To go deeper, see the \"The agentic loop (client tools)\" section of \"How tool use works\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works)."
+    },
+    {
+      "id": "q2",
+      "verdict": "wrong",
+      "misconception": "M4",
+      "feedback": "You picked the option where the model reads the calendar by opening the booking system itself. That's the first mistake: a model only produces text, so when it decides to use a tool, its output is a structured request naming check_calendar and its arguments, and the program around it runs the tool. It's a tempting belief because the final answer looks like the model looked the calendar up. Reread \"User-defined tools (client-executed)\" under \"Where tools run\" in \"How tool use works\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works), looking for who produces the tool_use block and who executes the operation."
+    },
+    {
+      "id": "q3",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Right: the agent is repeating itself with identical failing feedback, so more steps or more context add nothing, and a step limit that ends the loop and reports back is the safeguard. Every loop needs a way out that doesn't depend on the model deciding to stop. To go deeper, see \"The agentic loop (client tools)\" in \"How tool use works\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works), and its note on limiting retries."
+    },
+    {
+      "id": "q4",
+      "verdict": "wrong",
+      "misconception": "M4",
+      "feedback": "You answered 1, and the first mistake is in \"it runs the 3 tools itself\": the model never runs tools, the program does. Each model call ends with either one tool request or the final answer, so the three tool requests take three calls and the final answer takes a fourth, for 4 calls; the model is called once for the question and once more for each tool result. Reread \"The agentic loop (client tools)\" in \"How tool use works\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works), and look at how each pass sends a request, then a tool_result, then another request."
+    },
+    {
+      "id": "q5",
+      "verdict": "partial",
+      "misconception": null,
+      "feedback": "The what is right: the program sends the result back to the model. The why is missing: the model needs the result as part of its next input, so it can decide its next step or write the final answer, since a model only knows what is in the text it is given. Reread \"The agentic loop (client tools)\" in \"How tool use works\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works), looking for what the tool_result is attached to and what happens right after it is sent."
+    },
+    {
+      "id": "q6",
+      "verdict": "partial",
+      "misconception": "M3",
+      "feedback": "The first half is exactly right: the model gets a list of tools, each with a name and a description, and picks the one that fits. The second sentence is wrong: the model does not remember earlier sessions on its own, so each call starts with only the text it is given; remembering would need the program to save and re-supply that information. That's the belief that memory is automatic, and it's easy to hold because chat products often feel like they remember. Reread \"Specifying client tools\" and \"Best practices for tool definitions\" in \"Define tools\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/implement-tool-use), looking at how the name, description and input schema are all the model has to go on."
+    }
+  ],
+  "summary": "You have the agent loop and the stopping safeguard down (q1, q3), and you know the model picks tools from their descriptions (q6). The one thing to fix is who does what: the model only writes a request for a tool, and the program runs it and calls the model again, which cost you q2 and q4. A related point is that the model keeps nothing between calls unless the program supplies it. Before retrying, reread \"Where tools run\" and \"The agentic loop (client tools)\" in \"How tool use works\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works), and \"Specifying client tools\" in \"Define tools\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/implement-tool-use)."
+}

@@ -71,3 +71,30 @@ An example of a finished entry:
 - With and without: reviews/c1-skills.md, Round 8 (without) and Round 9 (with)
 - Review: TODO
 - Kept in final: TODO
+
+### grade-reviewer
+
+- Kind: subagent
+- Step added: c2-review
+- Purpose: TODO
+- With and without: reviews/c2-review.md, Round 1 (without) and Round 2 (with)
+- Review: TODO
+- Kept in final: TODO
+
+### quiz-reviewer
+
+- Kind: subagent
+- Step added: c2-review
+- Purpose: TODO
+- With and without: reviews/c2-review.md, Round 2 (without) and Round 3 (with)
+- Review: TODO
+- Kept in final: TODO
+
+### lesson-reviewer
+
+- Kind: subagent
+- Step added: c2-review
+- Purpose: TODO
+- With and without: reviews/c2-review.md, Round 3 (without) and Round 4 (with)
+- Review: TODO
+- Kept in final: TODO

@@ -1,0 +1,120 @@
+{
+  "duration_api_ms": 13955,
+  "stop_reason": "end_turn",
+  "session_id": "090c3722-0aa4-4287-9ace-2a7528dfb7f4",
+  "total_cost_usd": 0.08489660000000002,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 15838,
+    "cache_read_input_tokens": 58626,
+    "output_tokens": 1567,
+    "output_tokens_details": {
+      "thinking_tokens": 456
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 15838,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 640,
+        "cache_read_input_tokens": 26125,
+        "cache_creation_input_tokens": 724,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 724
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 6,
+      "outputTokens": 1567,
+      "cacheReadInputTokens": 58626,
+      "cacheCreationInputTokens": 15838,
+      "webSearchRequests": 0,
+      "costUSD": 0.08489660000000002,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 456,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 15838,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 0,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+    },
+    "started_in_background": 0,
+    "max_depth": 0,
+    "spawned_by_subagents": 0,
+    "completed": 0,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {}
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 6,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "Short version: frontier models do get RL training for tool use, but that's done by the labs. For your makerspace assistant it's the wrong tool. Your mission file puts training out of scope, and your budget is small. A tuned model also needs a reward signal, thousands of rollouts and GPUs, and you'd likely get more from a better tool description.\n\n**PPO in one picture.** Think of tuning a car on a dyno. You change the tune a little, measure, and keep what helped. Change too much at once and you can blow the engine. PPO is that rule written as math:\n\n- The policy π is the model's choice of action (which tool, which arguments).\n- The advantage A says whether an action did better than expected. For example, a correct booking scores higher than average.\n- The plain policy gradient is E[A · ∇log π]. This is \"make good actions more likely\".\n- To reuse samples from the old policy, you weight each one by the ratio r = π_new / π_old.\n- Large steps are risky, so you clip the ratio: L = E[min(r·A, clip(r, 1−ε, 1+ε)·A)]. The clip is the rev limiter. Once an action's probability has moved about 20% (ε ≈ 0.2), the gradient stops pushing it further.\n\nThis sketch leaves out the value-function loss, the entropy bonus, how A is estimated (GAE), and the KL penalty used for language models. Those need a proper lesson. It would cover probability, expectations and gradients first.\n\n**What I'd do for your assistant instead:**\n- Write sharper tool descriptions.\n- Add a few worked examples to the prompt.\n- Build 20–30 real student questions as a test set, and check which ones call the wrong tool.\n\nThat test set is also the first thing any RL setup would need.\n\nQuick check: in the clipped objective, what stops the model from changing too much in one update?\n\nDo you want a hands-on lesson on tool descriptions and a test set next, or the PPO math lesson for curiosity?",
+  "ttft_ms": 915,
+  "type": "result",
+  "duration_ms": 14085,
+  "uuid": "8ba7955a-0355-4235-b25a-0c983b64cbc6",
+  "ttft_stream_ms": 603,
+  "time_to_request_ms": 101,
+  "first_content_frame_ms": 603,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 6,
+      "outputTokens": 1567,
+      "cacheReadInputTokens": 58626,
+      "cacheCreationInputTokens": 15838,
+      "webSearchRequests": 0,
+      "costUSD": 0.08489660000000002,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 456,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 15838,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-12-16T23:36:35.705Z"
+}

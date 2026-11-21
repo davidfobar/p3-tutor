@@ -1,0 +1,43 @@
+{
+  "quiz": "0001",
+  "submission": "s2",
+  "items": [
+    {
+      "id": "q1",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Right: the loop of choose an action, run it, feed the result back is what makes a system an agent. A longer prompt or a bigger context window only changes what a single call can do. To go deeper, see the \"The agentic loop (client tools)\" section of \"How tool use works\" (https://platform.claude.com/docs/agents-and-tools/tool-use/how-tool-use-works)."
+    },
+    {
+      "id": "q2",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Right: the model's output is only a structured request naming check_calendar with its arguments, and the program runs the tool. Keep this split in mind for q4's reasoning below. To go deeper, see \"The tool-use contract\" in \"How tool use works\" (https://platform.claude.com/docs/agents-and-tools/tool-use/how-tool-use-works)."
+    },
+    {
+      "id": "q3",
+      "verdict": "wrong",
+      "misconception": "M6",
+      "feedback": "You chose 'no change; left to run longer it will eventually fix the bug'. That assumes more steps always bring progress. Here all 40 steps are in context and the agent keeps getting the same failing test, so step 41 will repeat step 40. The program needs a stopping condition, such as a step limit that ends the loop and reports back to a person. This is tempting because a loop looks like it should converge, but nothing in it forces that. Reread the \"Agents\" part of \"Building blocks, workflows, and agents\" in \"Building effective agents\" (https://www.anthropic.com/research/building-effective-agents), and look for stopping conditions as a guard the program adds to keep control."
+    },
+    {
+      "id": "q4",
+      "verdict": "partial",
+      "misconception": "M4",
+      "feedback": "4 is correct: three tool requests plus the final answer. The reason you gave is wrong, though: 'the model can only run one tool itself each time' is the wrong belief. The model never runs a tool; it only outputs a request, and the program runs it and then calls the model again. The count works because each call ends in one request or the answer. Reread \"The tool-use contract\" in \"How tool use works\" (https://platform.claude.com/docs/agents-and-tools/tool-use/how-tool-use-works), looking for who executes the operation."
+    },
+    {
+      "id": "q5",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Right on both parts: the result goes back in as the next input, and the model takes another turn with it so it can decide what to do next. Your group-chat comparison works. One precision: it is the program that appends the result and calls the model again, because the model cannot see the result otherwise. To go deeper, see the numbered steps of \"The agentic loop (client tools)\" in \"How tool use works\" (https://platform.claude.com/docs/agents-and-tools/tool-use/how-tool-use-works)."
+    },
+    {
+      "id": "q6",
+      "verdict": "partial",
+      "misconception": null,
+      "feedback": "The name is part of what the model sees, but not all of it. The model also gets each tool's description and parameters, and picks the one whose description fits the need. A name alone can mislead: check_calendar could mean viewing or booking. Your s1 answer mentioned name plus description, which was the fuller version. See \"Specifying client tools\" and \"Best practices for tool definitions\" in \"Define tools\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools), and look at what the description field is for."
+    }
+  ],
+  "summary": "You have the loop down: q1, q2 and q5 are solid, and your count in q4 is right. Two things to fix. First, q3: an agent needs a stopping condition because repeating the same failing step will not eventually succeed. Second, the program, not the model, runs tools (q4's reasoning), and the model chooses tools from names plus descriptions and parameters (q6). Before you try again, reread \"The tool-use contract\" in \"How tool use works\" (https://platform.claude.com/docs/agents-and-tools/tool-use/how-tool-use-works), the \"Agents\" part of \"Building effective agents\" (https://www.anthropic.com/research/building-effective-agents), and \"Specifying client tools\" in \"Define tools\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools)."
+}

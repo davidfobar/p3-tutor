@@ -1,0 +1,217 @@
+<!--
+  Demo for lesson 0001-context-and-memory (objective O3).
+  Kind: interactive graphic.
+  Core idea: the context window is everything the model is sent on each call; it fills up, it starts empty in a new session, and only a saved notes file carries over.
+  After the demo the learner should notice: the model call re-reads the whole stack each time, pasting the whole manual overflows the window, and a new session knows only what the notes file gives it.
+  Belongs in: the section on the context window and what is kept between steps and sessions (the first main section of the lesson).
+  Time to do: about 6 minutes.
+-->
+<section class="demo" id="demo-context">
+  <style>
+    .demo { border: 1px solid var(--rule); border-radius: 6px; padding: 1rem 1.25rem; margin: 1.75rem 0; font-family: var(--sans); font-size: 0.9rem; }
+    .demo h3 { margin: 0 0 0.5rem; font-family: var(--sans); }
+    .demo fieldset { border: 1px solid var(--rule); border-radius: 6px; margin: 0.5rem 0; padding: 0.4rem 0.8rem; }
+    .demo legend { font-size: 0.78rem; color: var(--muted); padding: 0 0.3rem; }
+    .demo label { display: inline-block; margin-right: 1rem; }
+    .demo .demo-buttons { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.75rem 0; }
+    .demo button { font: inherit; color: inherit; background: transparent; border: 1px solid var(--accent); border-radius: 6px; padding: 0.4rem 0.8rem; cursor: pointer; }
+    .demo button:hover:not(:disabled) { background: var(--accent-soft); }
+    .demo button:focus-visible, .demo input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .demo button:disabled { opacity: 0.45; cursor: not-allowed; }
+    .demo svg { display: block; width: 100%; height: auto; color: var(--text); }
+    .demo .demo-bar { fill: var(--accent); }
+    .demo .demo-bar.over { fill: var(--warn); }
+    .demo .demo-track { fill: var(--code-bg); stroke: var(--rule); }
+    .demo .demo-cols { display: grid; grid-template-columns: 2fr 1fr; gap: 0.75rem; }
+    @media (max-width: 32rem) { .demo .demo-cols { grid-template-columns: 1fr; } }
+    .demo .demo-stack { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.25rem; min-height: 3rem; }
+    .demo .demo-stack li { border: 1px solid var(--rule); border-left-width: 5px; border-radius: 4px; padding: 0.25rem 0.5rem; hyphens: none; }
+    .demo .demo-stack li b { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); display: block; }
+    .demo li.k-sys, .demo li.k-tools { border-left-color: var(--muted); }
+    .demo li.k-doc { border-left-color: var(--accent); }
+    .demo li.k-user { border-left-color: var(--text); }
+    .demo li.k-model, .demo li.k-note { border-left-color: var(--ok); }
+    .demo li.k-result { border-left-color: var(--accent); }
+    .demo .demo-file { border: 1px dashed var(--ok); border-radius: 4px; padding: 0.4rem 0.6rem; background: var(--ok-soft); min-height: 3rem; }
+    .demo .demo-file b { display: block; font-size: 0.72rem; text-transform: uppercase; color: var(--ok); }
+    .demo .demo-readout { margin: 0.75rem 0 0.25rem; }
+    .demo .demo-readout p { margin: 0.2rem 0; }
+    .demo .demo-warn { color: var(--warn); font-weight: 600; }
+    .demo ol.demo-prompts { padding-left: 1.2rem; }
+  </style>
+
+  <h3>Demo: watch the context window fill up <span class="section-objective">O3</span> <span class="section-time">6 min</span></h3>
+  <p>A student, Sam, uses the makerspace assistant on the band saw. The window below holds 1,000 toy tokens (made-up numbers, so the sums stay small). Press <strong>Next step</strong> and watch what the model is sent.</p>
+
+  <fieldset>
+    <legend>How the assistant gets the manual</legend>
+    <label><input type="radio" name="demo-mode" value="index" checked> Index in context, read one page on demand</label>
+    <label><input type="radio" name="demo-mode" value="whole"> Paste the whole manual in context</label>
+  </fieldset>
+  <fieldset>
+    <legend>Between sessions</legend>
+    <label><input type="checkbox" name="demo-notes"> The assistant saves a note to a file</label>
+  </fieldset>
+
+  <div class="demo-buttons">
+    <button type="button" class="demo-next">Next step</button>
+    <button type="button" class="demo-newsession" disabled>Start next week's session</button>
+    <button type="button" class="demo-reset">Restart</button>
+  </div>
+
+  <svg viewBox="0 0 400 34" role="img" aria-labelledby="demo-gauge-title">
+    <title id="demo-gauge-title">Gauge showing how much of the 1,000-token context window is used</title>
+    <rect class="demo-track" x="1" y="4" width="398" height="22" rx="4"></rect>
+    <rect class="demo-bar" x="2" y="5" width="0" height="20" rx="3"></rect>
+    <text class="demo-gauge-text" x="200" y="22" text-anchor="middle" font-size="13" fill="currentColor"></text>
+  </svg>
+
+  <div class="demo-cols">
+    <div>
+      <strong>Context window (what the model is sent)</strong>
+      <ul class="demo-stack" aria-live="polite"></ul>
+    </div>
+    <div>
+      <strong>Outside the window</strong>
+      <div class="demo-file"><b>Notes file</b><span class="demo-filetext"></span></div>
+    </div>
+  </div>
+
+  <div class="demo-readout" aria-live="polite">
+    <p class="demo-msg"></p>
+    <p class="demo-stats"></p>
+  </div>
+
+  <p><strong>Predict, then try:</strong></p>
+  <ol class="demo-prompts">
+    <li>Before each model reply, guess how many tokens the model is sent. Then compare it with "Sent to the model so far". Why is that total much bigger than the window's final size?</li>
+    <li>Switch to "Paste the whole manual" and step through. Where does it break, and would a bigger window have fixed the cost?</li>
+    <li>With notes off, finish the session and start next week's. Then repeat with notes on. What does the assistant know about Sam each time?</li>
+  </ol>
+
+  <script>
+  (function () {
+    var root = document.getElementById("demo-context");
+    var LIMIT = 1000;
+    var $ = function (s) { return root.querySelector(s); };
+    var stackEl = $(".demo-stack"), msgEl = $(".demo-msg"), statsEl = $(".demo-stats"), fileEl = $(".demo-filetext");
+    var bar = $(".demo-bar"), gaugeText = $(".demo-gauge-text");
+    var nextBtn = $(".demo-next"), newBtn = $(".demo-newsession"), resetBtn = $(".demo-reset");
+    var notesBox = $("input[name=demo-notes]");
+    var st;
+
+    function mode() { return root.querySelector("input[name=demo-mode]:checked").value; }
+    function notesOn() { return notesBox.checked; }
+
+    function total() { return st.ctx.reduce(function (a, r) { return a + r.t; }, 0); }
+
+    function startContext() {
+      var c = [
+        { k: "sys", name: "System prompt", text: "Role, rules, tone", t: 100 },
+        { k: "tools", name: "Tool descriptions", text: "check_calendar, read_page, memory", t: 150 }
+      ];
+      if (mode() === "whole") c.push({ k: "doc", name: "Whole band saw manual", text: "Every page, up front", t: 700 });
+      else c.push({ k: "doc", name: "Manual index", text: "Page titles only", t: 40 });
+      if (notesOn() && st.file.length) c.push({ k: "note", name: "Loaded from notes file", text: st.file.join("; "), t: 30 });
+      return c;
+    }
+
+    function stepsFor(session) {
+      var s = [];
+      if (session === 1) {
+        s.push({ k: "user", name: "Student", text: "Sam here. I just finished band saw training. Is it free Friday, and how do I change the blade?", t: 30 });
+        s.push({ k: "model", name: "Model asks for a tool", text: "check_calendar(band saw, Friday)", t: 20 });
+        s.push({ k: "result", name: "Tool result", text: "Free 2 to 4 pm", t: 40 });
+        if (mode() === "index") {
+          s.push({ k: "model", name: "Model asks for a tool", text: "read_page(band saw, blade change)", t: 20 });
+          s.push({ k: "result", name: "Tool result", text: "One page: the blade change steps", t: 150 });
+        }
+        s.push({ k: "model", name: "Model final answer", text: "Free 2 to 4 pm Friday. To change the blade: ...", t: 60 });
+        if (notesOn()) {
+          s.push({ k: "model", name: "Model asks for a tool", text: "memory: create Sam.txt \"Sam: band saw training done\"", t: 25, save: "Sam: band saw training done" });
+          s.push({ k: "result", name: "Tool result", text: "Saved by the program", t: 10 });
+        }
+      } else {
+        s.push({ k: "user", name: "Student", text: "Sam again. Can I book the band saw on my own?", t: 30 });
+        s.push({ k: "model", name: "Model final answer", text: notesOn() && st.file.length ? "Yes, your notes say you finished band saw training." : "I have no record of you. I can't tell if you are trained.", t: 60 });
+      }
+      return s;
+    }
+
+    function newSession(n) {
+      st.session = n;
+      st.ctx = startContext();
+      st.steps = stepsFor(n);
+      st.i = 0;
+      st.over = false;
+    }
+
+    function reset() {
+      st = { file: [], calls: 0, sent: 0, session: 1, ctx: [], steps: [], i: 0, over: false };
+      newSession(1);
+      msgEl.textContent = "Session 1 starts. The window already holds the system prompt, the tool descriptions and the manual (or its index).";
+      msgEl.className = "demo-msg";
+      render();
+    }
+
+    function next() {
+      if (st.over || st.i >= st.steps.length) return;
+      var step = st.steps[st.i];
+      var note = "";
+      if (step.k === "model") {
+        st.calls += 1;
+        st.sent += total();
+        note = "Model call " + st.calls + ": the program sent the whole window, " + total() + " tokens, and the model wrote the reply below.";
+      } else {
+        note = "The program adds this to the window.";
+      }
+      st.ctx.push({ k: step.k, name: step.name, text: step.text, t: step.t });
+      if (step.save) st.file.push(step.save);
+      st.i += 1;
+      msgEl.className = "demo-msg";
+      if (total() > LIMIT) {
+        st.over = true;
+        msgEl.className = "demo-msg demo-warn";
+        note = "Over the window: " + total() + " of " + LIMIT + ". Nothing more fits, so the next call cannot be made. Even if it did fit, every call would pay for those tokens and recall would get worse. Restart and choose the index.";
+      }
+      msgEl.textContent = note;
+      render();
+    }
+
+    function render() {
+      stackEl.textContent = "";
+      st.ctx.forEach(function (r) {
+        var li = document.createElement("li");
+        li.className = "k-" + r.k;
+        var b = document.createElement("b");
+        b.textContent = r.name + " (" + r.t + ")";
+        li.appendChild(b);
+        li.appendChild(document.createTextNode(r.text));
+        stackEl.appendChild(li);
+      });
+      var used = total();
+      bar.setAttribute("width", String(Math.min(used / LIMIT, 1) * 396));
+      bar.setAttribute("class", "demo-bar" + (used > LIMIT ? " over" : ""));
+      gaugeText.textContent = used + " / " + LIMIT + " toy tokens";
+      fileEl.textContent = st.file.length ? st.file.join("; ") : "(empty)";
+      statsEl.textContent = "Session " + st.session + ". Model calls: " + st.calls + ". Sent to the model so far, all calls added up: " + st.sent + " tokens.";
+      var done = st.i >= st.steps.length;
+      nextBtn.disabled = st.over || done;
+      newBtn.disabled = !(done && st.session === 1) || st.over;
+      if (done && st.session === 1 && !st.over) msgEl.textContent += " Session 1 is finished. Close the chat, then start next week's session.";
+      if (done && st.session === 2 && !st.over) msgEl.textContent += " Done. Restart and flip the notes box to compare.";
+    }
+
+    nextBtn.addEventListener("click", next);
+    newBtn.addEventListener("click", function () {
+      newSession(2);
+      msgEl.className = "demo-msg";
+      msgEl.textContent = "A new session: the old window is gone. The window starts fresh" + (notesOn() && st.file.length ? ", plus a note the program loaded from the file." : " with nothing about Sam.");
+      render();
+    });
+    resetBtn.addEventListener("click", reset);
+    root.querySelectorAll("input").forEach(function (el) { el.addEventListener("change", reset); });
+    reset();
+  })();
+  </script>
+</section>

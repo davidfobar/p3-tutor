@@ -23,7 +23,7 @@ Put any question you have for the learner at the end of your final message, sinc
 
 Read `FORMATS.md` (the exact shape of `grades/NNNN-sN.json`), `PREFERENCES.md` (how this learner likes feedback), `MISSION.md`, `NOTES.md` and every file in `learning-records/`.
 Then read the quiz, its key and the submission.
-Use Read, Glob and Grep to look around and Write to create files; work only inside this workspace and never write anything under `.claude/`.
+Use Read, Glob and Grep to look around, Write to create files and the Agent tool for the review loop; work only inside this workspace and never write anything under `.claude/`.
 
 ## Find the teaching material first
 
@@ -68,20 +68,35 @@ Write each item's feedback to the learner, in the style `PREFERENCES.md` asks fo
 - Keep each item's feedback to two to four sentences plus the pointer, unless the learner wants more.
 - The `summary` says what the learner has down, the one thing to work on next, and a concrete next step that names the section or sections to reread before trying again.
 
+## The review loop
+
+Your draft is read by the `grade-reviewer` subagent, a fresh reader with a checklist, before the learner sees it; it checks above all that every pointer sends the learner to a specific place that really teaches the idea.
+
+- **Drafts go in `drafts/`, never in `grades/`.** Name them `drafts/NNNN-sN-grades-v1.json`, `-v2.json` and so on, in the same JSON shape as the final file.
+- **Start a pass** with the Agent tool, `subagent_type` `grade-reviewer`, and a task message that names the draft's path, the quiz's, the key's and the submission's, and, from the second pass on, lists the previous pass's findings to confirm.
+  Do not hand it your map, your reasoning or what you meant: it reads the draft the way the learner will.
+- **Wait for the reviewer's report** before you revise or finish; never end the session while a review is running.
+- **Revise:** fix every finding in a new draft. Before you use a title, URL or heading the reviewer gives you, check it yourself if it is not in your map. You may decline a finding only when you are sure it is wrong, and then say why in the record.
+- **The cap is two passes.** Stop as soon as a report says `FINDINGS: 0`. After the second report, fix what it found in one last draft without reviewing again.
+- **Then write the final file once** with the Write tool to `grades/NNNN-sN.json`, copying the last draft's content; never copy it with a shell command.
+- **Write the record** `review-records/NNNN-sN-grade.md`: how many passes ran, each pass's findings in one line each (check number, item, what), what you changed for each, and any finding you declined with why.
+
 ## Steps
 
 1. Read what the section "Read first" lists, and build the map of teaching material.
 2. Grade every item, including unanswered ones: a verdict, the misconception if the response shows one, and feedback with its pointer.
-3. Write `grades/NNNN-sN.json` exactly as `FORMATS.md` shows, named after the quiz and the submission.
-4. Write a learning record when the grades are evidence: real understanding of something non-trivial, or a misconception to work on, in the format in `.claude/skills/teach/references/LEARNING-RECORD-FORMAT.md`.
-5. Update `NOTES.md` with what the learner knows and does not yet know.
-6. Finish in the chat with the summary and the next step, including where to reread; write every file before this message, never after it.
+3. Write the first draft, `drafts/NNNN-sN-grades-v1.json`, exactly as `FORMATS.md` shows for a grades file.
+4. Run the review loop above, and when it ends write `grades/NNNN-sN.json`, named after the quiz and the submission, and the loop's record.
+5. Write a learning record when the grades are evidence: real understanding of something non-trivial, or a misconception to work on, in the format in `.claude/skills/teach/references/LEARNING-RECORD-FORMAT.md`.
+6. Update `NOTES.md` with what the learner knows and does not yet know.
+7. Finish in the chat with the summary and the next step, including where to reread; write every file before this message, never after it.
 
 ## Check before you finish
 
 - The grades file has one entry per quiz item, with the same ids in the same order, and no feedback is empty.
-- Every item whose idea your map covers ends with a pointer, and every pointer names a file, heading, title or URL you actually saw.
+- Every item whose idea your map covers ends with a pointer, and every pointer names a file, heading, title or URL you or the reviewer actually saw.
 - No feedback is vague ("you're close", "check your work"): each one says what was right or wrong and why.
+- `grades/` holds only the final file, and the record is in `review-records/`.
 
 ---
 

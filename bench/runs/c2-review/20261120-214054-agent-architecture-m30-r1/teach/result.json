@@ -1,0 +1,127 @@
+{
+  "duration_api_ms": 653033,
+  "stop_reason": "end_turn",
+  "session_id": "9cd5f549-a2e6-4a70-913e-0068e0d48d07",
+  "total_cost_usd": 2.215007605,
+  "usage": {
+    "input_tokens": 12,
+    "cache_creation_input_tokens": 51892,
+    "cache_read_input_tokens": 666451,
+    "output_tokens": 27135,
+    "output_tokens_details": {
+      "thinking_tokens": 396
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 51892,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 794,
+        "cache_read_input_tokens": 166871,
+        "cache_creation_input_tokens": 540,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 540
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 78,
+      "outputTokens": 98677,
+      "cacheReadInputTokens": 2541293,
+      "cacheCreationInputTokens": 286482,
+      "webSearchRequests": 0,
+      "costUSD": 2.1918602999999997,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 15757,
+      "cacheCreationEphemeral5mInputTokens": 130082,
+      "cacheCreationEphemeral1hInputTokens": 156400,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 28946,
+      "outputTokens": 11197,
+      "cacheReadInputTokens": 18983,
+      "cacheCreationInputTokens": 35715,
+      "webSearchRequests": 1,
+      "costUSD": 0.023147305,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 5085,
+      "cacheCreationEphemeral5mInputTokens": 35715,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "origin": {
+    "kind": "task-notification",
+    "producer": "session-task",
+    "runId": "0mwpig4iy-fc288fd4"
+  },
+  "subagent_stats": {
+    "spawned": 4,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 4
+    },
+    "started_in_background": 2,
+    "max_depth": 1,
+    "spawned_by_subagents": 0,
+    "completed": 4,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {
+      "web-fetch": 2,
+      "lesson-reviewer": 2
+    }
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 12,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "The lesson is written at `lessons/0001-context-and-memory.html` (objective O3, 30 minutes). I could not measure its reading time: the reviewer's shell was denied, so its length is a hand estimate of about 4,600 words, roughly 30 minutes. The review loop ran two passes, and I fixed everything the second pass found without a third review. The demo's script was checked only by reading it; I did not run it in a browser.\n\n**What it covers**\n- **The context window:** everything the model is sent on each call, with a trace of your laser cutter example.\n- **Steps and sessions:** the program re-sends the whole history on every step, and a new session starts empty unless the program saves something.\n- **Why not just a bigger window:** cost grows with every call, and recall gets worse as the window fills (context rot).\n- **Retrieval:** an index in the window plus a tool that fetches one manual page.\n- **Notes as memory:** files the program saves and reloads, which don't change the model.\n- **Practice:** a worked token-cost comparison with made-up numbers, a \"where does this item go\" procedure, and a design-review checklist for the makerspace assistant.\n- **Format:** four figures, five immediate-feedback checks, and a link to the source for each fact. The sources are Anthropic's context-engineering article and the context window and memory tool docs.\n\n**Time:** about 30 min reading + 6 min demo = 36 min. The demo is an interactive context-window simulator with toy numbers: you step through Sam's band saw request, switch between pasting the whole manual and using an index, and compare a session with and without a notes file.\n\n**Other files:** the plan (`plans/0001-context-and-memory.md`), the demo (`demos/0001-context-and-memory.html`), the review record (`review-records/0001-teach.md`), a cheat sheet (`cheatsheets/context-and-memory.md`), `RESOURCES.md` and `NOTES.md`. I wrote no learning record, since there is no evidence of learning yet. No quiz was requested, so you can ask for one whenever you want to check what stuck. The lesson takes the default 30-minute length, and I can write a shorter or longer version.\n\nYou can ask me anything about the lesson.\n\nQuestion for you: your team's assistant will need to store student training status somewhere. Do you already know where it will live (a spreadsheet, a database, plain files)? That decides how concrete the notes part of your design can get.",
+  "ttft_ms": 1244,
+  "type": "result",
+  "duration_ms": 132870,
+  "uuid": "fe5bfb55-4ccb-4dd6-848d-a183a2eb302f",
+  "ttft_stream_ms": 484,
+  "time_to_request_ms": 17,
+  "first_content_frame_ms": 484,
+  "queued_turn_count": 0,
+  "result_index": 2,
+  "model_usage_since_last_result": {},
+  "credential_expires_at": "2026-12-16T23:36:35.705Z"
+}

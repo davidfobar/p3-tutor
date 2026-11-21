@@ -1,0 +1,120 @@
+{
+  "duration_api_ms": 9905,
+  "stop_reason": "end_turn",
+  "session_id": "75229e12-4223-415f-a29c-778dad20d6ac",
+  "total_cost_usd": 0.0786191,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 15407,
+    "cache_read_input_tokens": 58491,
+    "output_tokens": 1113,
+    "output_tokens_details": {
+      "thinking_tokens": 98
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 15407,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 550,
+        "cache_read_input_tokens": 26056,
+        "cache_creation_input_tokens": 362,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 362
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 6,
+      "outputTokens": 1113,
+      "cacheReadInputTokens": 58491,
+      "cacheCreationInputTokens": 15407,
+      "webSearchRequests": 0,
+      "costUSD": 0.0786191,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 98,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 15407,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 0,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+    },
+    "started_in_background": 0,
+    "max_depth": 0,
+    "spawned_by_subagents": 0,
+    "completed": 0,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {}
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 6,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "The premise isn't right: more agents don't always give better results. That also means \"five or ten\" is the wrong question for your assistant. The better question is whether it needs to be split at all.\n\nSplitting is tempting because it feels like a team. Ten specialists should beat one generalist. But every agent is its own loop with its own context, and each one re-reads instructions and history. The agents also have to pass information to each other, and every handoff can lose detail.\n\nThink of a car. One engine driving the wheels through a good transmission is simple and efficient. Ten small engines, one per wheel plus extras, means more weight and more fuel burned. You also need something to keep them in sync. Extra engines only pay off when one engine can't do the job.\n\nYour assistant is three jobs: answer from manuals, check the calendar, and book time. They run one after another for one student's request, and the booking step needs what the earlier steps found. That is a poor fit for splitting. A single agent with three well-described tools, or a fixed workflow for the predictable parts, is the usual starting point. It is also the cheapest, which matters with your budget.\n\nSplitting starts to pay off when:\n- the work is parallel and independent, like searching many manuals at once\n- one context would get too big or cluttered for one agent\n- different parts need different tools or permissions\n\nI can't give you a measured number for your case. Build the single-agent version first and measure where it fails, then split only for a reason you can name at your design review.\n\nQuick check: if a student asks \"book the laser cutter Thursday after I finish training\", what would the second agent need to be told by the first, and what could get lost in that handoff?\n\nIf you want, I can teach a lesson on when multi-agent systems pay off. We haven't covered that yet.",
+  "ttft_ms": 1127,
+  "type": "result",
+  "duration_ms": 10045,
+  "uuid": "b5c7347d-7004-46af-96f0-2c99414166d0",
+  "ttft_stream_ms": 609,
+  "time_to_request_ms": 108,
+  "first_content_frame_ms": 609,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 6,
+      "outputTokens": 1113,
+      "cacheReadInputTokens": 58491,
+      "cacheCreationInputTokens": 15407,
+      "webSearchRequests": 0,
+      "costUSD": 0.0786191,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 98,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 15407,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-12-16T23:36:35.705Z"
+}

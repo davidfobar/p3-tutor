@@ -1,0 +1,74 @@
+{
+  "id": "0002",
+  "objective": "O4",
+  "title": "Workflows, agents and who owns the control flow",
+  "items": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "What separates a workflow from an agent?",
+      "options": [
+        {"id": "a", "text": "A workflow never calls a language model, but an agent always does"},
+        {"id": "b", "text": "In a workflow, code fixes the steps ahead of time; in an agent, the model chooses them"},
+        {"id": "c", "text": "A workflow handles one request at a time, but an agent handles many at once"},
+        {"id": "d", "text": "In a workflow, the model chooses the steps; in an agent, code fixes their order"}
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "Which of these makerspace assistant designs is an agent?",
+      "options": [
+        {"id": "a", "text": "Code always runs check_calendar, then book_slot, then sends a fixed confirmation text"},
+        {"id": "b", "text": "Code sorts each question by keyword, then sends it to either the manual search or the calendar"},
+        {"id": "c", "text": "Code runs three prompts in a fixed order, and each model reply is pasted into the next prompt"},
+        {"id": "d", "text": "The model is given three tools and picks which to call, in what order, and when to stop"}
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "Students send open-ended questions about a broken machine. What to look up next depends on what each earlier lookup returns, and no fixed sequence covers them. Which design fits this part of the assistant?",
+      "options": [
+        {"id": "a", "text": "An agent, because the model must choose each next lookup from the results so far"},
+        {"id": "b", "text": "A fixed workflow, because a workflow is always cheaper than an agent"},
+        {"id": "c", "text": "A fixed workflow, because code can run the same lookups for every question"},
+        {"id": "d", "text": "An agent, because an agent is always more reliable than a workflow"}
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "A teammate says: \"Booking a machine always goes check the calendar, reserve the slot, send a confirmation, so let's build it as an agent.\" Given a small model budget, what is the best reply?",
+      "options": [
+        {"id": "a", "text": "Agree: an agent handles these steps more reliably because it reasons about each one"},
+        {"id": "b", "text": "Agree: an agent costs less here, because it only calls the tools it needs"},
+        {"id": "c", "text": "Disagree: the steps are the same every time, so a workflow has predictable cost and is easier to test"},
+        {"id": "d", "text": "Disagree: a workflow cannot call tools, so it could not check the calendar or reserve"}
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "numeric",
+      "objective": "O4",
+      "stem": "A student question needs the calendar, the manuals and the training record. As an agent, the model requests those three tools one at a time and then writes its final answer, and each model call ends with one tool request or the final answer. A fixed workflow handles the same kind of question with exactly 2 model calls every time. Across 50 such questions, how many more model calls does the agent make than the workflow, in total?",
+      "unit": "model calls"
+    },
+    {
+      "id": "q6",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "A program asks the model to draft a booking confirmation. Code then checks that the machine and date match the booking. If they do not, the code asks the model to draft again, up to 3 drafts in total, and then stops with an error. Is this a workflow or an agent?",
+      "options": [
+        {"id": "a", "text": "An agent, because it keeps looping until the result is right"},
+        {"id": "b", "text": "A workflow, because the code sets the retry rule and limit; the model only writes text"},
+        {"id": "c", "text": "An agent, because it makes more than one model call for a single request"},
+        {"id": "d", "text": "A workflow only if it never retries; once it retries, the model is steering"}
+      ]
+    }
+  ]
+}

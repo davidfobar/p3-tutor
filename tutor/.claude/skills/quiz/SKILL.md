@@ -32,7 +32,7 @@ When an idea seems to call for a written answer ("explain why", "name one thing"
 
 Read `FORMATS.md` (the exact shape of `quizzes/NNNN.json` and `keys/NNNN.json`), `MISSION.md`, `PREFERENCES.md`, `NOTES.md` and every file in `learning-records/`.
 Then read the lessons on the objective in `lessons/`, and the earlier quizzes, keys and grades for the misconceptions this learner has shown and their ids.
-Use Read, Glob and Grep to look around and Write to create files; work only inside this workspace and never write anything under `.claude/`.
+Use Read, Glob and Grep to look around, Write to create files and the Agent tool for the review loop; work only inside this workspace and never write anything under `.claude/`.
 
 ## Steps
 
@@ -42,10 +42,24 @@ Use Read, Glob and Grep to look around and Write to create files; work only insi
    Cover the core first, and skip trivia and phrasing a lesson happened to use.
    When the objective has not been taught yet, write the quiz as a check of the objective itself, at the level its wording states, and say in your message that the quiz is ahead of the lessons.
 3. **Write the items**, as the sections below describe, and give each one the id of the objective it serves.
-4. **Write the quiz** to `quizzes/NNNN.json` and its key to `keys/NNNN.json`, with the next free number and exactly the shape `FORMATS.md` shows.
+4. **Check it** (below), and rewrite any item that fails.
+5. **Write the first draft**, with NNNN the next free number in `quizzes/`: the quiz to `drafts/NNNN-quiz-v1.json` and its key to `drafts/NNNN-key-v1.json`, in exactly the shapes `FORMATS.md` shows for `quizzes/NNNN.json` and `keys/NNNN.json`.
+6. **Run the review loop** (below).
+7. **Write the final files once**, with the Write tool, copying the last draft's content: the quiz to `quizzes/NNNN.json` and its key to `keys/NNNN.json`; never copy them with a shell command, and never read or edit them again after writing them.
    Never change an existing quiz or key; a quiz that needs fixing becomes a new quiz.
-5. **Check it** (below), and rewrite any item that fails.
-6. **Finish** with a short message: the quiz's path, what it covers and how many items it has, and never any answer.
+8. **Finish** with a short message: the quiz's path, what it covers and how many items it has, and never any answer.
+
+## The review loop
+
+Your draft is read by the `quiz-reviewer` subagent, a fresh reader with a checklist, before the learner sees it; it checks above all that every objective and its core are assessed, and that a learner with the basics passes while only one who has mastered the objective gets every item right.
+
+- **Drafts go in `drafts/`, never in `quizzes/` or `keys/`.** Each pass that revises writes a new pair, `-v2.json`, `-v3.json`.
+- **Start a pass** with the Agent tool, `subagent_type` `quiz-reviewer`, and a task message that gives the learner's request (the objective or objectives with their ids and wording, and the number of items) and the paths of the draft quiz and draft key, and, from the second pass on, lists the previous pass's findings to confirm.
+  Do not hand it your tier labels, your list of core ideas or your reasoning: it judges coverage and difficulty itself, the way the learner will meet the quiz.
+- **Wait for the reviewer's report** before you revise or finish; never end the session while a review is running.
+- **Revise:** fix every finding in a new draft, then run "Check before you finish" on it again. You may decline a finding only when you are sure it is wrong, and then say why in the record.
+- **The cap is two passes.** Stop as soon as a report says `FINDINGS: 0`. After the second report, fix what it found in one last draft without reviewing again.
+- **Write the record** `review-records/NNNN-quiz.md`: how many passes ran, the reviewer's core list and tier for each item in the last pass, each pass's findings in one line each (check number, item, what), what you changed for each, and any finding you declined with why. Never put an answer in the record.
 
 ## One objective or several
 
