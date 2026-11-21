@@ -36,7 +36,42 @@ In `c2-review` you put reviewers on teach, quiz and grade.
 Which loop earned its cost and which did not?
 For each of the two, give what it cost in tokens against `c1-skills` and one thing its reviewer caught, or say that it caught nothing.
 
-TODO: your answer to prompt 2.
+The grade review is quite expensive for what it provides. It spent 2M tokens without changing the substance of the feedback. I do think the teach reviewer earned its keep despite being the most expensive at 3M tokens. In my opinion the lesson is the heart of the purpose of this tutor, and the lessons became more coherent and useful with the review implemented.
+
+### Cost: teach
+
+| config | runs | tokens | output tokens | minutes | subagents | list-price $ |
+|---|---:|---:|---:|---:|---:|---:|
+| `c1-skills` | 1 | 1.51M | 47.5k | 4.5 | 3 | 0.89 |
+| `c2-review` | 1 | 3.02M | 109.9k | 10.5 | 4 | 2.21 |
+
+### Cost: quiz
+
+| config | runs | tokens | output tokens | minutes | subagents | list-price $ |
+|---|---:|---:|---:|---:|---:|---:|
+| `c1-skills` | 1 | 136.2k | 6.2k | 0.8 | 0 | 0.19 |
+| `c2-review` | 1 | 266.5k | 16.3k | 1.9 | 2 | 0.37 |
+
+### Cost: grade
+
+| config | runs | tokens | output tokens | minutes | subagents | list-price $ |
+|---|---:|---:|---:|---:|---:|---:|
+| `c1-skills` | 1 | 460.0k | 12.4k | 1.4 | 0 | 0.41 |
+| `c2-review` | 1 | 2.00M | 55.6k | 5.3 | 8 | 1.38 |
+
+### Cost: tutor
+
+| config | runs | tokens | output tokens | minutes | subagents | list-price $ |
+|---|---:|---:|---:|---:|---:|---:|
+| `c1-skills` | 1 | 752.6k | 12.3k | 1.6 | 1 | 0.58 |
+| `c2-review` | 1 | 748.7k | 12.3k | 1.6 | 1 | 0.60 |
+
+### Cost: all jobs
+
+| config | runs | tokens | output tokens | minutes | subagents | list-price $ |
+|---|---:|---:|---:|---:|---:|---:|
+| `c1-skills` | 1 | 2.86M | 78.4k | 8.2 | 4 | 2.08 |
+| `c2-review` | 1 | 6.04M | 194.1k | 19.4 | 15 | 4.57 |
 
 ---
 
