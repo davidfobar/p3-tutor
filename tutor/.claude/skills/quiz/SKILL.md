@@ -31,7 +31,7 @@ When an idea seems to call for a written answer ("explain why", "name one thing"
 ## Read first
 
 Read `FORMATS.md` (the exact shape of `quizzes/NNNN.json` and `keys/NNNN.json`), `MISSION.md`, `PREFERENCES.md`, `NOTES.md` and every file in `learning-records/`.
-Then read the lessons on the objective in `lessons/`, and the earlier quizzes, keys and grades for the misconceptions this learner has shown and their ids.
+Then read the lessons on the objective in `lessons/`, and the earlier quizzes and grades for the misconceptions this learner has shown and their ids. Never read, list or search `keys/`: a guard blocks it.
 Use Read, Glob and Grep to look around, Write to create files and the Agent tool for the review loop; work only inside this workspace and never write anything under `.claude/`.
 
 ## Steps

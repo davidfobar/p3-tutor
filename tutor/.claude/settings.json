@@ -8,5 +8,20 @@
     "deny": [
       "Agent(p3-guide)"
     ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Read|Grep|Glob|Bash|PowerShell|Monitor|Edit|MultiEdit|Write|NotebookEdit|Skill",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -I \"$CLAUDE_PROJECT_DIR/.claude/hooks/keys_guard.py\"",
+            "timeout": 20,
+            "onFailure": "block"
+          }
+        ]
+      }
+    ]
   }
 }

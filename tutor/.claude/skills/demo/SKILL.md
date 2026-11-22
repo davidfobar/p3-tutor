@@ -20,7 +20,7 @@ A request that says what to do gets done now, without stopping to ask first.
 
 ## Read first
 
-Read the lesson's plan, the newest file in `plans/` unless the request names another; it gives the objectives and their core, where the learner starts, the material, the misconceptions and the threads to earlier lessons.
+Read the lesson's plan, the newest file in `plans/` unless the request names another; it gives the objective, the demo's section and idea, and each section's key points and likely misconception.
 When there is no plan, read `MISSION.md`, `NOTES.md` and the learning records, and work from the request's objective.
 Read `PREFERENCES.md` (the examples the learner relates to, and how they like to learn), `MISSION.md` for what they will build or do with this, and `.claude/skills/teach/references/lesson-template.html` for the lesson's CSS variables and classes.
 Use Read, Glob and Grep to look around and Write to create files; work only inside this workspace and never write anything under `.claude/`.
@@ -39,7 +39,7 @@ Use Read, Glob and Grep to look around and Write to create files; work only insi
 - One self-contained HTML fragment: a `<section class="demo">` that holds its own inline SVG, a `<style>` whose rules all start with `.demo`, and a `<script>` in plain JavaScript, with no library and nothing loaded from the web.
 - Use the template's CSS variables for colors, so the demo works in light and dark mode, and keep it legible at phone width.
 - The learner changes one or two things (a slider, a step button, a toggle), and the graphic and a short readout change with them; show what is happening in words beside the picture.
-- Make it correct to the material: every number, label and behavior must match the plan's facts and sources, simplified but never wrong.
+- Make it correct to the material: every number, label and behavior must agree with the plan's key points, simplified but never wrong.
 - When the plan lists a misconception the demo can break, include a moment where the learner can try the wrong belief and see it fail.
 - Accessible: every control a real `<button>` or `<input>` with a label, usable from the keyboard, and the SVG with a `<title>`.
 - Under the graphic, two or three short prompts ("Double this value. Before you move the slider, what do you expect to happen to that one?") that make the learner predict, then try.
@@ -71,5 +71,5 @@ When the learner asked for the demo, end with a short message: the demo's path, 
 ## Check before you finish
 
 - The fragment loads nothing from the web, its CSS rules all start with `.demo`, and its script touches nothing outside its own section.
-- Every fact, number and behavior in it matches the plan's material.
+- Every fact, number and behavior in it agrees with the plan's key points.
 - An interactive graphic works from the keyboard and has its prediction prompts; a hands-on exercise gives the expected result for every step.

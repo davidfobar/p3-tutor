@@ -14,17 +14,47 @@ Keep every heading as it is, because `p3 check` reads them, and add a round by c
 
 ### Round 1 (optional)
 
-**Run:** TODO
+**Run:** bench/runs/_live/20261122-180533-agent-architecture-m30-r1
 
 **My thoughts:**
 
-TODO
+The content of the lesson had minimal impact from the reduced reviews, token usage was 4.53M, up from 3.7M. I expected it to decrease with fewer reviews. This could just be noise from a single run. Provide a reduced scope for the planner agent. I recorded thoughts on how to change it at the end of c3.
 
 **What changed:**
 
-- Kind: TODO
-- Files: TODO
-- Why: TODO
+- Kind: modified skill
+- Files: tutor/.claude/skills/plan/SKILL.md, tutor/.claude/agents/lesson-planner.md, tutor/.claude/agents/product-reviewer.md, tutor/.claude/agents/demo-dev.md, tutor/.claude/agents/lesson-reviewer.md, tutor/.claude/skills/demo/SKILL.md, tutor/.claude/skills/teach/SKILL.md
+- Why: To reduce the planner's scope as the round and the end of c3-split ask, the plan skill now makes only a size-capped outline of minutes, key points and sources per section from at most three web pages, and the agents that write, review or use the plan now work from that outline.
+
+### Round 2 (optional)
+
+**Run:** bench/runs/_live/20261122-184436-agent-architecture-m30-r1
+
+**My thoughts:**
+
+token usage went down dramatically without any apparant loss in quality.
+
+Add a guard, a PreToolUse hook in tutor/.claude/settings.json that blocks keys/ for everyone except the grade-reviewer subagent and a future subagent named grader, with its tests in tests/test_guard.py
+
+**What changed:**
+
+- Kind: other
+- Files: tutor/.claude/hooks/keys_guard.py, tutor/.claude/settings.json, tutor/.claude/skills/quiz/SKILL.md, tests/test_guard.py
+- Why: As the round asks, a PreToolUse hook now keeps keys/ from being read by everyone except the grade-reviewer and grader subagents, with its tests, while the main conversation may still create a new key so that the quiz skill, which no longer reads earlier keys, keeps working.
+
+### Round 3 (optional)
+
+**Run:** bench/runs/_live/20261122-191516-agent-architecture-m30-r1
+
+**My thoughts:**
+
+The grader sub-agent needs to be implemented as specified in guide/12-final.html
+
+**What changed:**
+
+- Kind: new subagent
+- Files: tutor/.claude/agents/grader.md, tutor/.claude/skills/grade/SKILL.md, tutor/.claude/agents/grade-reviewer.md
+- Why: To implement the grader as the round and guide/12-final.html specify, a grader subagent now reads the key, grades and runs the grade-reviewer itself, while the grade skill only starts it, waits for its report and reads the finished grades, so neither the key nor the reviewer's report on it comes into the main conversation.
 
 ## Major review
 

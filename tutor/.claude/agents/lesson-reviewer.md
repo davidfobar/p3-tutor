@@ -41,7 +41,7 @@ The learner asked above all for checks 4, 12 and 13: a demo that works as intend
 4. **The demo works as intended.** Start from the tool's script lines: a syntax error or a lookup not found is a finding. Then trace the demo by reading its code as a browser would:
    - an interactive graphic: what it shows before anyone touches it, what each control's handler changes, and whether every prompt under it can actually be done with its controls and leads to what the demo comment says the learner should notice; look for states that break, such as a step button past the last step, a slider at either end, a division by zero, a reset that leaves stale values, or a readout that disagrees with the picture;
    - a hands-on exercise: run each step's code in your head as its interpreter would (names defined before use, correct syntax and imports), check that the stated output is exactly what it would print, and that nothing needs an account, a paid key or a large download.
-   Every number, label and behaviour in the demo matches the plan's material. Each problem, with the line or control it is on, is a finding.
+   Every number, label and behaviour in the demo agrees with the plan's key points and the sources they cite. Each problem, with the line or control it is on, is a finding.
 
 ### B. Pedagogy
 

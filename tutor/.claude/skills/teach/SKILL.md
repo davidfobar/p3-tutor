@@ -107,23 +107,23 @@ The learner should always feel challenged just enough: teach the most relevant n
 1. **Plan:** start the `lesson-planner` subagent with the Agent tool, `subagent_type` `lesson-planner`, and a task message that gives the learning objectives with their ids (or the topic, when the request names no objective), the requested minutes (or that none were asked for), and the learner's request in their own words.
    Wait for its report before you go on; never end the session while it is running.
    It has the plan reviewed by the `product-reviewer` before it reports, and records that review in `review-records/NNNN-plan.md`; do not review the plan again.
-   It writes `plans/NNNN-<slug>.md`: the objectives and their core, where the learner starts, the material with its sources, the misconceptions, the threads to earlier lessons, diagnostic questions, and an `## Outline` of the complete lesson: the win, one row per section with its objective, core idea, misconception, example, figure, practice check and word budget, the demo slot, and the sources per section.
+   It writes `plans/NNNN-<slug>.md`: a short outline with the objective, the win, the demo's section, each section's minutes and key points (with any likely misconception or figure), and the sources. The explanations, examples and practice are yours to write.
    Read the plan; the lesson takes its number, slug, objectives and sections from it.
    If the agent is not available, read `.claude/agents/lesson-planner.md` and follow it yourself.
 2. **Visuals:** start the `demo-dev` subagent with the Agent tool, `subagent_type` `demo-dev`, and a task message that names the plan's path.
    Wait for its report; never end the session while it is running.
    It writes `demos/NNNN-<slug>.html`, the demo, with a comment that says where it belongs and how many minutes it takes to do, and one `drafts/figures/NNNN-fig<k>.html` per figure in the outline, each a `<figure>` ready to paste with a comment that names its section.
-   It has them reviewed by the `product-reviewer`, at most twice, before it reports, records that review in `review-records/NNNN-visuals.md`, and says in its report which figures are accepted; do not review them again.
+   It has them reviewed by the `product-reviewer`, at most once, before it reports, records that review in `review-records/NNNN-visuals.md`, and says in its report which figures are accepted; do not review them again.
    If the agent is not available, read `.claude/agents/demo-dev.md` and follow it yourself.
 3. **Pin down the lesson** from the plan's outline: the objective and its id, the requested length in minutes, and the win it states.
    When no length is asked for, use the plan's, and say in your message that the learner can ask for a shorter or longer lesson.
 4. **Budget the time.**
-   - The requested minutes are the reading time, and `p3-minutes` declares them: the outline already splits them into sections at about 150 visible words per minute, with the demo's visible words counted in its slot; use its sections and budgets as they are.
+   - The requested minutes are the reading time, and `p3-minutes` declares them: the outline already splits them into sections, with the demo's visible words counted in its section; write about 150 visible words for each of a section's minutes.
    - The time to do the demo comes on top: take it from the demo's comment.
    - Only when the lesson calls for a quiz (step 7), the time to take it comes on top too: about 1 minute per `mcq` item and 2 per `numeric` item, five items unless the request says otherwise.
 5. **Write the lesson's draft** to `drafts/NNNN-<slug>.html`, never to `lessons/`, following `FORMATS.md`, `references/LESSONS.md` and the template: beautiful and self-contained, with figures, worked examples, practice with immediate feedback, and citations.
-   - **Follow the outline:** its sections in order, each written to its word budget, with the example, figure, misconception and practice check its row names.
-   - **Teach from the plan:** its material and sources, its threads to earlier lessons in the opening and warm-up, each of its misconceptions where the idea comes up, and its diagnostic questions in the practice; search for more only when the plan leaves a gap.
+   - **Follow the outline:** its sections in order, each written to its minutes, covering its key points, with the figure and misconception it names.
+   - **Fill in the outline:** write each section's explanation, concrete example and practice check yourself, from its key points. When a section needs a fact or detail they do not give, fetch that section's listed source, each source at most once, and search only when no listed source has it.
    - **The figures:** paste each accepted figure's `<figure>` as it is, in the section its comment names, and refer to it in the text by its number; never draw a figure of your own or redraw one, and leave out a figure `demo-dev` reports as not accepted.
    - **The demo:** paste its `<section class="demo">` as it is, in the section its comment names, give it a heading of its own with its objective and its time, and write the text around it so the learner does it where the idea is introduced and the text refers back to what they saw or ran.
    - **Objective labels:** every section heading carries the id of the objective it focuses on, as `<span class="section-objective">O3</span>` before its `section-time`; the warm-up carries the earlier objective it recalls, and the summary and "go further" sections every objective the lesson covers.
