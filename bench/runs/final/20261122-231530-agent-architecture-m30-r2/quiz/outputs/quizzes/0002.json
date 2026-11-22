@@ -1,0 +1,74 @@
+{
+  "id": "0002",
+  "objective": "O4",
+  "title": "Workflows and agents: who owns the control flow",
+  "items": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "Which statement correctly separates a workflow from an agent in a system built around a language model?",
+      "options": [
+        {"id": "a", "text": "A workflow makes no model calls at all; only an agent calls a language model"},
+        {"id": "b", "text": "A workflow runs on a smaller, cheaper model; an agent needs a larger, stronger one"},
+        {"id": "c", "text": "In a workflow the code fixes the order of the steps; in an agent the model decides the next step"},
+        {"id": "d", "text": "A workflow can use tools; an agent can only answer from what it learned in training"}
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "For a certain job, what the next step should be depends on what the previous step turned up, and the possible paths cannot be listed in advance. Which design fits best, and why?",
+      "options": [
+        {"id": "a", "text": "A fixed workflow, because the code can list every path ahead of time and run it cheaply"},
+        {"id": "b", "text": "A fixed workflow, because a model is too unpredictable to be trusted to choose any step"},
+        {"id": "c", "text": "An agent, because an agent gives a better answer than a workflow on every kind of job"},
+        {"id": "d", "text": "An agent, because the model has to choose each next step from what the last result showed"}
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "numeric",
+      "objective": "O4",
+      "stem": "Two designs handle one kind of request. Workflow: the code runs 3 fixed steps, and only the middle step calls the model, once. Agent: the model is called once each time it requests a tool and once more to write the final answer, and on this kind of request it asks for 4 tools. How many more model calls does the agent design make than the workflow design on one such request?",
+      "unit": "model calls"
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "Which of these makerspace jobs is the best fit for a fixed workflow rather than an agent?",
+      "options": [
+        {"id": "a", "text": "Diagnosing why a student's 3D print keeps failing, using the manuals, the booking history and the student's replies"},
+        {"id": "b", "text": "Every Monday, finding bookings whose student has no training on record and emailing each one a reminder"},
+        {"id": "c", "text": "Answering any question a student types, from machine setup to makerspace policy, using whatever tools it needs"},
+        {"id": "d", "text": "Helping a student plan a project across several machines, deciding which to use and in what order"}
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "A job's steps are known in advance and are the same for every request. What is the main reason to build it as a fixed workflow rather than an agent?",
+      "options": [
+        {"id": "a", "text": "Cost and behavior stay predictable and easy to test, because no model calls go to choosing steps"},
+        {"id": "b", "text": "It can handle unexpected requests that nobody planned for, because the code adapts as it runs"},
+        {"id": "c", "text": "A model cannot follow a set order of steps unless it runs inside an agent loop of its own"},
+        {"id": "d", "text": "It lets the model learn from each run, so the system gets better over time as it is used"}
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "In a makerspace assistant, the code first makes one model call that labels each student message as \"manual question\", \"booking\" or \"other\". The code then runs the pipeline for that label, and every pipeline's steps are written in advance. Who owns the control flow, and so what is this system?",
+      "options": [
+        {"id": "a", "text": "The model, so it is an agent, because its decision changes which steps happen next"},
+        {"id": "b", "text": "The model, so it is an agent, because the pipelines call tools and the model reads results"},
+        {"id": "c", "text": "The code, so it is a workflow, because the model only picks among paths the code defines"},
+        {"id": "d", "text": "The code, but only while labels are correct; a wrong label turns it into an agent"}
+      ]
+    }
+  ]
+}

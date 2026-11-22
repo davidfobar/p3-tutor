@@ -1,0 +1,41 @@
+{
+  "id": "0002",
+  "items": [
+    {
+      "id": "q1",
+      "answer": "c",
+      "rationale": "What separates the two is who owns the control flow: in a workflow the program's code fixes the sequence, in an agent the model chooses each next step. Model size, tool use and whether a model is called at all do not decide it.",
+      "distractors": {"a": "M10", "b": "M12", "d": "M11"}
+    },
+    {
+      "id": "q2",
+      "answer": "d",
+      "rationale": "The code decides which step runs next and the order never changes; the model is called inside one step to write text. Writing text in a step does not give the model control of the flow.",
+      "distractors": {"a": "M13"}
+    },
+    {
+      "id": "q3",
+      "answer": 900,
+      "tolerance": 0,
+      "rationale": "Extra calls per request = 5 - 2 = 3; over 300 requests, 3 x 300 = 900 more model calls. An answer of 1500 or 600 is the agent's or workflow's total instead of the difference."
+    },
+    {
+      "id": "q4",
+      "answer": "b",
+      "rationale": "The Monday reminder has the same known steps every time, so code can fix them and no model has to choose a path. The other three need the path to depend on what earlier results show, which is what an agent is for.",
+      "distractors": {"a": "M14", "c": "M14", "d": "M14"}
+    },
+    {
+      "id": "q5",
+      "answer": "a",
+      "rationale": "When the steps are known, a fixed path gives predictable cost and behavior, is easier to test, and spends no model calls on deciding what to do next. Handling unplanned requests is the agent's advantage, not the workflow's.",
+      "distractors": {"b": "M15", "c": "M16", "d": "M17"}
+    },
+    {
+      "id": "q6",
+      "answer": "c",
+      "rationale": "The model picks only a label from a set the code defines, and the code runs the written-in-advance steps of that path, so the code owns the control flow: this is a routing workflow. One model decision, or tools inside a pipeline, does not make an agent; it is an agent only when the model chooses the steps.",
+      "distractors": {"a": "M18", "b": "M11", "d": "M19"}
+    }
+  ]
+}

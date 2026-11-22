@@ -1,0 +1,110 @@
+{
+  "duration_api_ms": 127415,
+  "stop_reason": "end_turn",
+  "session_id": "5f1125c2-e20f-4abe-b529-4534df393d86",
+  "total_cost_usd": 0.40471949999999995,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 10208,
+    "cache_read_input_tokens": 137396,
+    "output_tokens": 7522,
+    "output_tokens_details": {
+      "thinking_tokens": 1060
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 10208,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 489,
+        "cache_read_input_tokens": 49201,
+        "cache_creation_input_tokens": 3712,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 3712
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 24,
+      "outputTokens": 18158,
+      "cacheReadInputTokens": 305635,
+      "cacheCreationInputTokens": 51870,
+      "webSearchRequests": 0,
+      "costUSD": 0.40471949999999995,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 5597,
+      "cacheCreationEphemeral5mInputTokens": 9968,
+      "cacheCreationEphemeral1hInputTokens": 41902,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "origin": {
+    "kind": "task-notification",
+    "producer": "session-task",
+    "runId": "0mwsg11ov-16640407"
+  },
+  "subagent_stats": {
+    "spawned": 1,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 1
+    },
+    "started_in_background": 1,
+    "max_depth": 1,
+    "spawned_by_subagents": 0,
+    "completed": 1,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {
+      "quiz-reviewer": 1
+    }
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 6,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "I wrote the quiz to `quizzes/0002.json` and its key to `keys/0002.json`. It has six items on O4, five multiple-choice and one numeric.\n\n- **What it covers:**\n  - who owns the control flow, whether the code (workflow) or the model (agent)\n  - spotting a fixed workflow among four designs\n  - why a fixed workflow suits known steps on a small budget\n  - counting model calls on one path of a routing workflow\n  - picking which part of the makerspace assistant needs an agent\n  - telling a model-routed workflow from an agent\n- **Difficulty:** four items are basic (q1–q4), q5 is moderate and q6 is the one challenging item.\n- **Ahead of the lessons:** O4 hasn't been taught yet, and `lessons/` has no lesson on it. The quiz checks the objective as worded.\n- **Review:** the reviewer found 10 issues in the first draft, and I fixed them in a second draft. I didn't run a second review pass, so v2 hasn't been reviewed. The record is in `review-records/0002-quiz.md`.\n- **Misconception ids:** the key uses M1–M9. The workspace had no misconception ids yet, so I made these up. They will need reconciling when the first grades name misconceptions.\n- **Cars:** I dropped the car example for the makerspace framing, since the reviewer said it added nothing to the idea.\n\nDo you want a short lesson on O4 before Riley takes this quiz?",
+  "ttft_ms": 9490,
+  "type": "result",
+  "duration_ms": 42872,
+  "uuid": "2c8e54b6-7583-4ab4-998e-3a0050d82ffc",
+  "ttft_stream_ms": 638,
+  "time_to_request_ms": 14,
+  "first_content_frame_ms": 638,
+  "queued_turn_count": 0,
+  "result_index": 1,
+  "model_usage_since_last_result": {},
+  "credential_expires_at": "2026-12-16T23:36:35.249Z"
+}

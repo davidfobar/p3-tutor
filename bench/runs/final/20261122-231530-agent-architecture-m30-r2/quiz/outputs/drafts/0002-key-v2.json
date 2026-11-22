@@ -1,0 +1,41 @@
+{
+  "id": "0002",
+  "items": [
+    {
+      "id": "q1",
+      "answer": "c",
+      "rationale": "What separates the two is who owns the control flow: in a workflow the program's code fixes the sequence, in an agent the model chooses each next step. Model size, tool use and whether a model is called at all do not decide it.",
+      "distractors": {"a": "M10", "b": "M12", "d": "M11"}
+    },
+    {
+      "id": "q2",
+      "answer": "d",
+      "rationale": "When the path depends on intermediate results and cannot be listed in advance, code cannot fix the steps, so the model has to choose them: that is an agent, at the price of more calls and less predictability. A workflow needs the paths known ahead of time.",
+      "distractors": {"a": "M20", "b": "M21", "c": "M14"}
+    },
+    {
+      "id": "q3",
+      "answer": 800,
+      "tolerance": 0,
+      "rationale": "Workflow: 1 model call per request. Agent: 4 tool requests + 1 final answer = 5 calls. Difference 5 - 1 = 4 per request; 4 x 200 = 800. An answer of 1000 is the agent's total, 200 the workflow's, and 600 treats the agent as 4 calls."
+    },
+    {
+      "id": "q4",
+      "answer": "b",
+      "rationale": "The Monday reminder has the same known steps every time, so code can fix them and no model has to choose a path. The other three need the path to depend on what earlier results show, which is what an agent is for.",
+      "distractors": {"a": "M22", "c": "M11", "d": "M23"}
+    },
+    {
+      "id": "q5",
+      "answer": "a",
+      "rationale": "When the steps are known, a fixed path gives predictable cost and behavior, is easier to test, and spends no model calls on deciding what to do next. Handling unplanned requests is the agent's advantage, not the workflow's.",
+      "distractors": {"b": "M15", "c": "M16", "d": "M17"}
+    },
+    {
+      "id": "q6",
+      "answer": "c",
+      "rationale": "The model picks only a label from a set the code defines, and the code runs the written-in-advance steps of that path, so the code owns the control flow: this is a routing workflow. One model decision, or tools inside a pipeline, does not make an agent; it is an agent only when the model chooses the steps.",
+      "distractors": {"a": "M18", "b": "M11", "d": "M19"}
+    }
+  ]
+}

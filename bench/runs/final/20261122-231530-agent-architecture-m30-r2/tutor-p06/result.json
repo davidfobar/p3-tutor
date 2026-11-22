@@ -1,0 +1,120 @@
+{
+  "duration_api_ms": 17651,
+  "stop_reason": "end_turn",
+  "session_id": "9ed49ee0-c35b-43f2-95a3-5c0b356bbe53",
+  "total_cost_usd": 0.0965824,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 17199,
+    "cache_read_input_tokens": 87104,
+    "output_tokens": 1906,
+    "output_tokens_details": {
+      "thinking_tokens": 754
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 17199,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 532,
+        "cache_read_input_tokens": 27399,
+        "cache_creation_input_tokens": 811,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 811
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 8,
+      "outputTokens": 1906,
+      "cacheReadInputTokens": 87104,
+      "cacheCreationInputTokens": 17199,
+      "webSearchRequests": 0,
+      "costUSD": 0.0965824,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 754,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 17199,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 0,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+    },
+    "started_in_background": 0,
+    "max_depth": 0,
+    "spawned_by_subagents": 0,
+    "completed": 0,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {}
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 9,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "Picture a race engineer in the garage and a pit crew out at the car.\n\nThe engineer can see the live radio feed and the strategy board, but can't touch the car. The crew can touch the car, but only does what they're told. Say the engineer wonders about the rear-left tire. They can't walk out and check it, so they write a request card: \"Check tire temperature, rear left.\" The crew reads the card, goes to the car, takes the reading, and hands back a card saying \"104°C.\" The engineer reads it, decides what to do next, and either writes another card or makes the call.\n\nThat's tool calling:\n\n- **The model is the engineer.** It only produces text. When it wants something done, the text it produces is a request: which tool, with which details.\n- **Your program is the crew.** It sees the request, runs the real action (checks the calendar, searches a manual), and sends the result back as new text.\n- **The model never touches anything.** It reads the result and decides what's next, which is the loop you already traced.\n- **The tool description is the labelled menu of checks the crew offers.** The engineer picks from what's written there, so a vague label gets bad requests.\n\nFor the makerspace: a student asks \"Is the laser cutter free Friday?\" and the model writes a card, \"calendar lookup, laser cutter, Friday\". Your code runs the lookup and returns the free slots. The model then words the answer.\n\nThe analogy breaks in one place. A real crew has judgment and might say \"that card makes no sense.\" Your program does exactly what the card says, so checking the card is your job.\n\nQuick check: in the laser cutter example, which part decides that a calendar lookup is needed, and which part actually looks at the calendar?",
+  "ttft_ms": 1043,
+  "type": "result",
+  "duration_ms": 17861,
+  "uuid": "bbf7c38e-f9b9-4971-bb0d-1190bcbf6de2",
+  "ttft_stream_ms": 774,
+  "time_to_request_ms": 124,
+  "first_content_frame_ms": 774,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 8,
+      "outputTokens": 1906,
+      "cacheReadInputTokens": 87104,
+      "cacheCreationInputTokens": 17199,
+      "webSearchRequests": 0,
+      "costUSD": 0.0965824,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 754,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 17199,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-12-16T23:36:35.249Z"
+}

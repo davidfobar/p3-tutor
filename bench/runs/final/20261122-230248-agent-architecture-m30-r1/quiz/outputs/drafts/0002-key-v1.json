@@ -1,0 +1,41 @@
+{
+  "id": "0002",
+  "items": [
+    {
+      "id": "q1",
+      "answer": "b",
+      "rationale": "The difference is who owns the control flow: in a workflow the code fixes the path, in an agent the model chooses the next step. Workflows can call models and tools, and the number of calls does not define either.",
+      "distractors": {"a": "M1", "c": "M2", "d": "M3"}
+    },
+    {
+      "id": "q2",
+      "answer": "c",
+      "rationale": "Only in c does the code fix the order of steps, even though two of them are model calls. In a, b and d the model chooses or plans the steps, even when the program enforces a limit or carries them out.",
+      "distractors": {"a": "M4", "b": "M4", "d": "M5"}
+    },
+    {
+      "id": "q3",
+      "answer": "a",
+      "rationale": "When the steps are known in advance, code can run them directly and no model calls go to deciding the next step, which keeps cost and behavior predictable. Flexibility for unforeseen requests is the agent's advantage, not the workflow's.",
+      "distractors": {"b": "M6", "c": "M7", "d": "M2"}
+    },
+    {
+      "id": "q4",
+      "answer": 100,
+      "tolerance": 0,
+      "rationale": "The agent makes 4 + 1 = 5 calls per request against the workflow's 3, a difference of 2; 2 x 50 = 100. An answer of 150 or 250 compares totals instead of the difference."
+    },
+    {
+      "id": "q5",
+      "answer": "d",
+      "rationale": "When the next check depends on what the last one found, the path cannot be written in advance, so the model should choose each step. The other three tasks follow a known sequence, which suits a fixed workflow.",
+      "distractors": {"a": "M8", "b": "M8", "c": "M8"}
+    },
+    {
+      "id": "q6",
+      "answer": "b",
+      "rationale": "Control flow belongs to whoever decides the sequence of steps. Here the code defines every path and runs it, and the model only classifies; this is a routing workflow. Making a decision or making several calls does not by itself make a system an agent.",
+      "distractors": {"a": "M9", "c": "M3", "d": "M10"}
+    }
+  ]
+}

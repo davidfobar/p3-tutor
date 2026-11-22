@@ -1,0 +1,152 @@
+{
+  "duration_api_ms": 17741,
+  "stop_reason": "end_turn",
+  "session_id": "24613a78-0246-4d67-9bf1-097a94518368",
+  "total_cost_usd": 0.12962769999999998,
+  "usage": {
+    "input_tokens": 14,
+    "cache_creation_input_tokens": 21454,
+    "cache_read_input_tokens": 151913,
+    "output_tokens": 1666,
+    "output_tokens_details": {
+      "thinking_tokens": 229
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 21454,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 334,
+        "cache_read_input_tokens": 32104,
+        "cache_creation_input_tokens": 361,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 361
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 14,
+      "outputTokens": 1666,
+      "cacheReadInputTokens": 151913,
+      "cacheCreationInputTokens": 21454,
+      "webSearchRequests": 0,
+      "costUSD": 0.1176953,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 229,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 21454,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 14559,
+      "outputTokens": 953,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 1,
+      "costUSD": 0.011932400000000001,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 119,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 0,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+    },
+    "started_in_background": 0,
+    "max_depth": 0,
+    "spawned_by_subagents": 0,
+    "completed": 0,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {}
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 14,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "I can't confirm an option for q2. Quiz 0001 hasn't been graded, so I'm sending you back to the material instead.\n\n**What q2 checks (O2):** who does what when the model decides to use a tool. It asks what the model produces at that moment, as opposed to what the program around it does. The rest of the quiz checks O1, the agent loop: what repeats, what each model call does, and how the loop stops.\n\n**Where to reread:** the workspace has no lesson or cheat sheet for these yet. I added one source to `RESOURCES.md`:\n- [Tool use with Claude](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview), Anthropic docs. Read the opening explanation of how a tool call works, and who handles each step.\n\nYour learning record 0002 also lists \"who runs each tool\" as something still to check. The quiz tests that.\n\nReread the source, then come back with your answer and your reasoning. Once the quiz is graded, I'm happy to go through q2 with you.",
+  "ttft_ms": 1100,
+  "type": "result",
+  "duration_ms": 17920,
+  "uuid": "5dcb9734-3511-4242-ad05-2db34f38d5c6",
+  "ttft_stream_ms": 832,
+  "time_to_request_ms": 100,
+  "first_content_frame_ms": 833,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 14,
+      "outputTokens": 1666,
+      "cacheReadInputTokens": 151913,
+      "cacheCreationInputTokens": 21454,
+      "webSearchRequests": 0,
+      "costUSD": 0.1176953,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 229,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 21454,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 14559,
+      "outputTokens": 953,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 1,
+      "costUSD": 0.011932400000000001,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 119,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-12-16T23:36:35.249Z"
+}

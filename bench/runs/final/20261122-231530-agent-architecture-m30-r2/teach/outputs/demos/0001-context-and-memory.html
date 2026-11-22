@@ -1,0 +1,193 @@
+<!--
+Kind: interactive graphic.
+Core idea: the context window is a finite space that each loop step fills, and you decide what to clear, summarize or save to notes.
+The learner should notice: every tool result costs room and attention, clearing or compacting frees it, notes live outside the window, and pasting in more text does not help.
+Section: 3. The context window and what stays between steps.
+Minutes: about 5.
+Example numbers: the 100-unit window, the item sizes and the 50 and 80 marks are examples, not real token counts.
+Layout check (viewBox 640 x 232; text box y from baseline-14.4 to baseline+4.5; width = chars x 10.8; scale 6 per unit, segment x = 20 + 6 x units before + 1, w = 6 x size - 2, y 50, h 44, label baseline 77):
+Fixed text:
+ Title "Inside the window (example: 100 units)" 38 chars, 410.4 wide, x 20-430.4, y 15.6-34.5 (30); frame ok
+ Capacity outline x18 w604 (ends 622) y46 h52; segments inside it
+ Used "Used 100 of 100 units" worst case 21 chars, 226.8 wide, x 20-246.8, y 109.6-128.5 (124); clear of outline (bottom 98) and next label (top 145.6)
+ Label "Kept outside the window" 23 chars, 248.4 wide, x 20-268.4, y 145.6-164.5 (160); clear of notes box (top 172)
+ Notes box x20 y172 w600 h48 (bottom 220, frame bottom 232)
+ "Notes saved: 12" 15 chars, 162 wide, x 36-198, y 186.6-205.5 (201); side clear 16, top/bottom clear 14.6, in box
+ "Results cleared: 12" 19 chars, 205.2 wide, x 336-541.2, y 186.6-205.5; right clear 78.8, in box; clear of the left text (ends 198)
+Segments, state before anyone touches it (only I, 15 units):
+ I  x21 y50 w88 h44; "I" 10.8 wide centred 65; side clear 38.6; text y 62.6-81.5, top clear 12.6, bottom clear 12.5  ok
+Fullest state (I + T1..T4, 91 units; the last step T5 only fits after clearing or compaction):
+ I  x21 w88 (as above)
+ T1 x111 w70; "T1" 21.6 wide centred 146; side clear 24.2  ok
+ T2 x183 w142; centred 254; side clear 60.2  ok
+ T3 x327 w166; centred 410; side clear 72.2  ok
+ T4 x495 w70, ends 565 (< outline 622); centred 530; side clear 24.2  ok
+Other states: M (60 units) x w358, "M" label side clear 173; S (10 units) w58, "S" side clear 23.6; T5 (10 units) w58, "T5" 21.6 wide, side clear 18.2; all labels have the same vertical clear as I.
+No labels overlap, none crosses an edge; every label has at least 12 clear on each side; no arrows.
+Layout check: passed
+-->
+<section class="demo" aria-labelledby="demo-title">
+  <style>
+    .demo { border: 1px solid var(--rule); border-radius: 6px; padding: 1rem 1.25rem; margin: 2rem 0; font-family: var(--sans); }
+    .demo h3 { margin: 0 0 0.5rem; }
+    .demo p { margin: 0.5rem 0; font-size: 0.92rem; hyphens: none; }
+    .demo svg { display: block; width: 100%; height: auto; }
+    .demo .demo-controls { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.75rem 0; }
+    .demo button { font: inherit; font-size: 0.9rem; color: inherit; background: transparent; border: 1px solid var(--rule); border-radius: 6px; padding: 0.45rem 0.8rem; cursor: pointer; }
+    .demo button:hover { border-color: var(--accent); }
+    .demo button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .demo button:disabled { opacity: 0.5; cursor: default; }
+    .demo button.demo-next { border-color: var(--accent); border-width: 2px; }
+    .demo button.demo-wrong { border-color: var(--warn); color: var(--warn); }
+    .demo .demo-readout { background: var(--accent-soft); border-radius: 6px; padding: 0.6rem 0.8rem; min-height: 5.5em; }
+    .demo ul.demo-items { font-size: 0.9rem; margin: 0.5rem 0; padding-left: 1.2rem; }
+    .demo ol.demo-prompts { font-size: 0.92rem; padding-left: 1.2rem; margin: 0.5rem 0 0; }
+    .demo ol.demo-prompts li { margin-bottom: 0.4rem; }
+  </style>
+  <h3 id="demo-title">Fill the window, then decide</h3>
+  <p>The assistant is booking the laser cutter and looking up a 3 mm acrylic setting. Press <strong>Next step</strong> and watch each tool result take room. Sizes, and the 50 and 80 marks, are examples.</p>
+  <svg viewBox="0 0 640 232" role="img" aria-labelledby="demo-svg-title">
+    <title id="demo-svg-title">A bar showing what is inside the context window, one block per item, and a box below for notes saved outside it.</title>
+    <rect x="18" y="46" width="604" height="52" rx="10" fill="none" stroke-width="1.5" stroke-dasharray="6 4" style="stroke: var(--muted)"/>
+    <g data-segs></g>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18" text-anchor="start">
+      <text x="20" y="30">Inside the window (example: 100 units)</text>
+      <text x="20" y="124" data-used>Used 15 of 100 units</text>
+      <text x="20" y="160">Kept outside the window</text>
+      <text x="36" y="201" data-notes>Notes saved: 0</text>
+      <text x="336" y="201" data-cleared>Results cleared: 0</text>
+    </g>
+    <rect x="20" y="172" width="600" height="48" rx="8" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  </svg>
+  <div class="demo-controls">
+    <button type="button" class="demo-next" data-act="next">Next step</button>
+    <button type="button" data-act="clear">Clear old results</button>
+    <button type="button" data-act="compact">Compact into summary</button>
+    <button type="button" data-act="note">Save a note</button>
+    <button type="button" class="demo-wrong" data-act="paste">Paste in the whole manual</button>
+    <button type="button" data-act="reset">Start over</button>
+  </div>
+  <div class="demo-readout" aria-live="polite">
+    <p data-event></p>
+    <p data-status></p>
+  </div>
+  <ul class="demo-items" data-list></ul>
+  <ol class="demo-prompts">
+    <li>Before pressing Next step: after step 4, how full will the window be? Then check.</li>
+    <li>Press Start over, then Paste in the whole manual before any step. Does more text help? What does the readout say?</li>
+    <li>Press Start over and Next step four times. When step 5 will not fit, try clear, compact and save a note. What does each remove, and what does each keep?</li>
+  </ol>
+  <script>
+    (function () {
+      var root = (document.currentScript && document.currentScript.closest('.demo')) || document.querySelector('.demo');
+      var NS = 'http://www.w3.org/2000/svg', CAP = 100, U = 6, X0 = 20;
+      var segs = root.querySelector('[data-segs]');
+      var usedT = root.querySelector('[data-used]');
+      var notesT = root.querySelector('[data-notes]');
+      var clearedT = root.querySelector('[data-cleared]');
+      var list = root.querySelector('[data-list]');
+      var evT = root.querySelector('[data-event]');
+      var stT = root.querySelector('[data-status]');
+      var nextB = root.querySelector('[data-act="next"]');
+      var STEPS = [
+        { n: 'T1', size: 12, t: 'Calendar result: laser cutter bookings for Friday', say: 'the model calls the calendar tool, and T1 joins the window.' },
+        { n: 'T2', size: 24, t: 'Manual search results: several snippets', say: 'the model searches the manual, and T2 joins the window.' },
+        { n: 'T3', size: 28, t: 'A full manual page on acrylic settings', say: 'the model reads a manual page, and T3 joins the window.' },
+        { n: 'T4', size: 12, t: "The student's training status", say: 'the model checks training status, and T4 joins the window.' },
+        { n: 'T5', size: 10, t: 'Booking confirmation', say: 'the model books the slot, and T5 joins the window. The task is done.' }
+      ];
+      var state;
+
+      function el(name, attrs) {
+        var e = document.createElementNS(NS, name);
+        Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+        return e;
+      }
+      function used() { return state.items.reduce(function (a, i) { return a + i.size; }, 0); }
+      function say(msg) { evT.textContent = msg; render(); }
+      function statusFor(u) {
+        if (u <= 50) { return 'Lean: plenty of room, and each item is easy to find.'; }
+        if (u <= 80) { return 'Filling: every token draws on the attention budget, and recall of earlier content declines as the window grows.'; }
+        return 'Crowded: near the limit. Clear old results or compact before the next step.';
+      }
+      function styleFor(kind) {
+        if (kind === 'S') { return 'fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2.5'; }
+        if (kind === 'M') { return 'fill: var(--warn-soft); stroke: var(--warn); stroke-width: 1.5'; }
+        return 'fill: none; stroke: currentColor; stroke-width: 1.5';
+      }
+      function render() {
+        var cum = 0, u = used();
+        while (segs.firstChild) { segs.removeChild(segs.firstChild); }
+        state.items.forEach(function (it) {
+          var x = X0 + cum * U + 1, w = it.size * U - 2;
+          segs.appendChild(el('rect', { x: x, y: 50, width: w, height: 44, rx: 8, style: styleFor(it.kind) }));
+          var t = el('text', { x: x + w / 2, y: 77, 'text-anchor': 'middle', 'font-size': 18, 'font-family': 'system-ui, sans-serif', style: 'fill: currentColor' });
+          t.textContent = it.n;
+          segs.appendChild(t);
+          cum += it.size;
+        });
+        usedT.textContent = 'Used ' + u + ' of ' + CAP + ' units';
+        notesT.textContent = 'Notes saved: ' + state.notes;
+        clearedT.textContent = 'Results cleared: ' + state.cleared;
+        stT.textContent = statusFor(u);
+        while (list.firstChild) { list.removeChild(list.firstChild); }
+        state.items.forEach(function (it) {
+          var li = document.createElement('li');
+          var b = document.createElement('strong');
+          b.textContent = it.n;
+          li.appendChild(b);
+          li.appendChild(document.createTextNode(' ' + it.t + ' (' + it.size + ')'));
+          list.appendChild(li);
+        });
+        nextB.disabled = state.step >= STEPS.length;
+        nextB.textContent = state.step >= STEPS.length ? 'Task finished' : 'Next step';
+      }
+      function reset() {
+        state = { items: [{ n: 'I', kind: 'I', size: 15, t: 'Task and instructions: book the laser cutter, find a 3 mm acrylic setting' }], step: 0, notes: 0, cleared: 0 };
+        say('Start: only the task and instructions are in the window.');
+      }
+      function next() {
+        var s = STEPS[state.step], u = used();
+        if (!s) { return; }
+        if (u + s.size > CAP) {
+          say(s.n + ' needs ' + s.size + ' units but only ' + (CAP - u) + ' are free. Clear old results or compact, then try again. A saved note keeps text outside the window but frees no room here.');
+          return;
+        }
+        state.items.push({ n: s.n, kind: 'T', size: s.size, t: s.t });
+        state.step++;
+        say('Step ' + state.step + ': ' + s.say);
+      }
+      function clearOld() {
+        var keep = [], gone = 0;
+        state.items.forEach(function (it, i) {
+          var clearable = it.kind === 'T' || it.kind === 'M';
+          if (clearable && i !== state.items.length - 1) { gone++; } else { keep.push(it); }
+        });
+        if (!gone) { say('Nothing old to clear: the window holds only the task and one other item, and the newest item is kept. Try Compact or Start over.'); return; }
+        state.items = keep;
+        state.cleared += gone;
+        say('Cleared ' + gone + ' old raw result' + (gone > 1 ? 's' : '') + '. That text is gone from the window; the newest result stays.');
+      }
+      function compact() {
+        var others = state.items.filter(function (it) { return it.kind !== 'I'; });
+        if (!others.length || (others.length === 1 && others[0].kind === 'S')) { say('Nothing to summarize yet.'); return; }
+        state.items = [state.items[0], { n: 'S', kind: 'S', size: 10, t: 'Summary of the work so far' }];
+        say('Compaction: the history is summarized and a new window starts from the task plus the summary. Anything the summary leaves out is lost from the window.');
+      }
+      function note() {
+        state.notes++;
+        say('Saved a note outside the window. It takes no room here, and a later session can reload it. Nothing is remembered between sessions unless it is written down and reloaded.');
+      }
+      function paste() {
+        if (used() + 60 > CAP) { say('The whole manual is 60 units and does not fit right now.'); return; }
+        state.items.push({ n: 'M', kind: 'M', size: 60, t: 'The whole manual, pasted in' });
+        say('Whole manual pasted. The page you need is in there, but more text is not more help: it spreads attention thin. Keep the smallest set of high-signal text.');
+      }
+      var acts = { next: next, clear: clearOld, compact: compact, note: note, paste: paste, reset: reset };
+      root.querySelectorAll('button[data-act]').forEach(function (b) {
+        b.addEventListener('click', function () { acts[b.getAttribute('data-act')](); });
+      });
+      reset();
+    })();
+  </script>
+</section>

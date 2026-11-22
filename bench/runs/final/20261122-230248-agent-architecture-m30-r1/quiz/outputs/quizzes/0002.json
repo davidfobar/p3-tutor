@@ -1,0 +1,74 @@
+{
+  "id": "0002",
+  "objective": "O4",
+  "title": "Workflows, agents and who owns the control flow",
+  "items": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "What most basically separates a workflow from an agent?",
+      "options": [
+        {"id": "a", "text": "A workflow never calls a language model, but an agent always does"},
+        {"id": "b", "text": "In a workflow the code fixes the order of steps; in an agent the model picks the next step"},
+        {"id": "c", "text": "A workflow cannot use any tools, but an agent can call tools to act"},
+        {"id": "d", "text": "A workflow makes a single model call, but an agent makes many calls in a row"}
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "Your team sketches four designs for handling a makerspace booking request. Which one is a fixed workflow?",
+      "options": [
+        {"id": "a", "text": "The model gets the tools check_calendar, search_manuals and book_slot and picks which to call at each step until it answers"},
+        {"id": "b", "text": "The model may call any tool in any order, and the program only stops the loop after ten steps"},
+        {"id": "c", "text": "The code always runs the same order: a model call extracts machine and time, code checks the calendar, a model call writes the reply"},
+        {"id": "d", "text": "After every tool result, the model decides which tool to call next or whether it is done, and the program runs what it names"}
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "Every booking confirmation needs the same three steps in the same order, and your sponsor gave you a small model budget. Why is a fixed workflow the better choice for this task?",
+      "options": [
+        {"id": "a", "text": "Code can run the known steps without model calls spent on choosing them, so cost is predictable"},
+        {"id": "b", "text": "A workflow copes with requests nobody anticipated, which an agent cannot because it follows its prompt"},
+        {"id": "c", "text": "A workflow lets the model learn from every booking, so confirmations improve as the assistant runs"},
+        {"id": "d", "text": "An agent is slower than a workflow on every task, whatever the steps are or how they are chosen"}
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "numeric",
+      "objective": "O4",
+      "stem": "A fixed workflow handles each request like this. Step 1: a model call labels the request \"booking\" or \"manual question\". For a booking, step 2 is code that checks the calendar and step 3 is a model call that writes the reply. For a manual question, step 2 is code that searches the manuals and step 3 is a model call that writes the reply. How many model calls does one manual-question request use?",
+      "unit": "model calls"
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "Which part of the makerspace assistant is the best candidate for an agent rather than a fixed workflow, because its steps cannot be written ahead of time?",
+      "options": [
+        {"id": "a", "text": "Sending the confirmation email once a booking is saved, with the same fields each time"},
+        {"id": "b", "text": "Checking a student's training record before a booking, which is always the same lookup"},
+        {"id": "c", "text": "Checking that a requested slot is still free before saving it, which is always the same check"},
+        {"id": "d", "text": "Working out why a student's laser cuts keep failing, where each next lookup depends on the last result"}
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "A teammate's design makes one model call that labels each request as \"booking\", \"manual question\" or \"other\". Code then sends the request down the fixed path written for that label. The teammate says the model owns the control flow, so this is an agent. Is the teammate right?",
+      "options": [
+        {"id": "a", "text": "Yes: whenever the model makes a decision, such as picking a branch, it owns the control flow"},
+        {"id": "b", "text": "No: the code defines the paths and runs them, and the model only chooses among options the code set"},
+        {"id": "c", "text": "Yes: a design becomes an agent once it makes more than one model call to handle a request"},
+        {"id": "d", "text": "No: a design is an agent only if the model also has a tool, and this one has none"}
+      ]
+    }
+  ]
+}

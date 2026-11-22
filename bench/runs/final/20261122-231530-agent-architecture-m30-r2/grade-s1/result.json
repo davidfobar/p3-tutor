@@ -1,0 +1,155 @@
+{
+  "duration_api_ms": 133042,
+  "stop_reason": "end_turn",
+  "session_id": "faa291f9-07b3-47ca-8e95-d47c0965981a",
+  "total_cost_usd": 0.6409402,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 15931,
+    "cache_read_input_tokens": 55387,
+    "output_tokens": 1275,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 15931,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 925,
+        "cache_read_input_tokens": 23708,
+        "cache_creation_input_tokens": 3234,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 3234
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 50,
+      "outputTokens": 19452,
+      "cacheReadInputTokens": 661938,
+      "cacheCreationInputTokens": 137741,
+      "webSearchRequests": 0,
+      "costUSD": 0.6290628,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 2444,
+      "cacheCreationEphemeral5mInputTokens": 121810,
+      "cacheCreationEphemeral1hInputTokens": 15931,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 14574,
+      "outputTokens": 840,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 1,
+      "costUSD": 0.0118774,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 127,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 3,
+    "requested": {
+      "background": 0,
+      "foreground": 1,
+      "unset": 2
+    },
+    "started_in_background": 0,
+    "max_depth": 2,
+    "spawned_by_subagents": 2,
+    "completed": 3,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {
+      "grader": 1,
+      "grade-reviewer": 2
+    }
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 4,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "## Quiz 0001, submission s1: 2 correct, 2 partial, 2 wrong\n\n**Verdicts**\n\n| Item | Verdict | What happened |\n|---|---|---|\n| q1 | Correct | The loop (model picks an action, it runs, the result comes back) is what makes it an agent. |\n| q2 | Wrong | You had the model opening the booking system itself. The model only outputs a structured request naming the tool and its arguments, and the program around it does the lookup. |\n| q3 | Correct | A step limit is the right fix. The 40 steps already fit in context, so a bigger window adds nothing. A better prompt can't stop a loop that is already repeating. |\n| q4 | Wrong | You answered 1 call, as if the model ran all three tools in a single call. The program runs the tools, and the model is called again for each result. That makes one call for the question plus one for each of the three results. |\n| q5 | Partial | You had the what: the result goes back to the model. The why was missing. The model has no other way to see what the tool returned, so it needs the result to pick its next step or write the final answer. |\n| q6 | Partial | The first half is right: the model picks a tool from its name and description. The second half is wrong. The model has no memory of earlier sessions unless the program sends it that text on the call. |\n\n**Summary**\n\nYou have the shape of the loop and the stopping condition, and you know the model picks tools from their descriptions. The idea to fix is who does what. The model only outputs a request, and the program runs the tool and calls the model again with the result. That mix-up cost you q2 and q4, and it left q5 without its reason. Your q6 slip is related: the model only knows what the program sends it on each call.\n\n**Next step**\n\nReread these in [How tool use works](https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works):\n- \"The tool-use contract\" (q2).\n- \"User-defined tools (client-executed)\" (q2).\n- \"The agentic loop (client tools)\", steps 2 to 5 (q4, q5, and step 4 for q6).\n\nFor q6, read \"Best practices for tool definitions\" in [Define tools](https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools).\n\nThen try tracing one request on paper. Mark each step as either a model call or the program running a tool. A car version: the model is the driver deciding to brake, and the program is the brake system that does the braking. Count how many times the driver gets new information.\n\nThe grades are in `grades/0001-s1.json`.\n\nThe workspace had no lessons or cheat sheets, so the grader added two Claude Platform Docs pages to `RESOURCES.md` as the teaching sources. It also added learning record `0003-who-runs-the-tool.md` and updated `NOTES.md`.",
+  "ttft_ms": 1852,
+  "type": "result",
+  "duration_ms": 134244,
+  "uuid": "2ef024a6-4e2f-4926-8374-3add7cff170b",
+  "ttft_stream_ms": 957,
+  "time_to_request_ms": 85,
+  "first_content_frame_ms": 957,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 50,
+      "outputTokens": 19452,
+      "cacheReadInputTokens": 661938,
+      "cacheCreationInputTokens": 137741,
+      "webSearchRequests": 0,
+      "costUSD": 0.6290628,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 2444,
+      "cacheCreationEphemeral5mInputTokens": 121810,
+      "cacheCreationEphemeral1hInputTokens": 15931,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 14574,
+      "outputTokens": 840,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 1,
+      "costUSD": 0.0118774,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 127,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-12-16T23:36:35.249Z"
+}

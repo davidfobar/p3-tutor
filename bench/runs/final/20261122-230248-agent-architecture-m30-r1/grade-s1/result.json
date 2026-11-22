@@ -1,0 +1,155 @@
+{
+  "duration_api_ms": 142719,
+  "stop_reason": "end_turn",
+  "session_id": "7ec5afb0-0e23-4092-8ee4-fb66537df0e9",
+  "total_cost_usd": 0.6237107000000001,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 15732,
+    "cache_read_input_tokens": 55481,
+    "output_tokens": 1630,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 15732,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1282,
+        "cache_read_input_tokens": 23766,
+        "cache_creation_input_tokens": 2977,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 2977
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 46,
+      "outputTokens": 19382,
+      "cacheReadInputTokens": 587937,
+      "cacheCreationInputTokens": 132646,
+      "webSearchRequests": 0,
+      "costUSD": 0.6079187000000001,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 3091,
+      "cacheCreationEphemeral5mInputTokens": 116914,
+      "cacheCreationEphemeral1hInputTokens": 15732,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 37565,
+      "outputTokens": 4071,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 1,
+      "costUSD": 0.015792,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 2354,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 3,
+    "requested": {
+      "background": 0,
+      "foreground": 1,
+      "unset": 2
+    },
+    "started_in_background": 0,
+    "max_depth": 2,
+    "spawned_by_subagents": 2,
+    "completed": 3,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {
+      "grader": 1,
+      "grade-reviewer": 2
+    }
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 4,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "Quiz 0001, submission s1: 2 correct, 2 partial, 2 wrong. The grades are in `grades/0001-s1.json`.\n\n**Verdicts**\n\n- **q1: correct.** The loop is what makes a system an agent: the model picks an action, the program runs it, and the result comes back. Prompt length and context size change what one call can do, not the structure.\n- **q2: wrong (M4).**\n  - **Where it went wrong:** You picked the option where the model opens the booking system itself. A model only produces text. Its output here is a structured request naming `check_calendar` with the machine and date, and the program around it runs the tool.\n  - **Why it's tempting:** The final answer sounds as if the model looked at the calendar, but it only sees the result the program sends back.\n  - **Where to reread:** \"The tool-use contract\" and \"User-defined tools (client-executed)\" in [How tool use works](https://platform.claude.com/docs/agents-and-tools/tool-use/how-tool-use-works). Look for who emits the request and who runs the code.\n- **q3: correct.** The agent keeps repeating the same failure, so a step limit that stops the loop and reports back is the right safeguard. More context or a sterner prompt won't break a loop. See the \"Agents\" section of [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents).\n- **q4: wrong (M4).**\n  - **Where it went wrong:** Your answer of 1 treats the three tools as run by the model inside a single call. The model only requests a tool, and the program runs it and then calls the model again with the result. Each tool request ends one model call, and each result starts a new one, so the total is different.\n  - **Where to reread:** \"The agentic loop (client tools)\" in [How tool use works](https://platform.claude.com/docs/agents-and-tools/tool-use/how-tool-use-works), steps 2 to 5. Each pass there is a new request to the model.\n- **q5: partial.** You have the what: the result goes back to the model. The why is missing. The model needs the result as part of its next input so it can decide its next step or write the final answer, and the program has to call the model again for that to happen. Say both parts. See step 4 of the same section.\n- **q6: partial (M3).**\n  - **What was right:** The model is sent each tool's name and a description, and it picks the one that fits the request.\n  - **Where it went wrong:** The model doesn't remember anything from earlier sessions on its own. Each call sees only the text the program puts in front of it. Past tool choices are kept only if the program stores them and sends them again.\n  - **Where to reread:** [Define tools](https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools), \"Best practices for tool definitions\", shows that the description is what the model chooses from. For the memory claim, step 4 of the agentic loop shows the program re-sending earlier messages with each request. The grades file says no source covers memory between sessions yet, and that is the next topic.\n\n**Summary**\n\n- **What's solid:** The shape of the agent loop, the step limit as the safeguard against a stuck agent, and the model picking tools from their descriptions.\n- **What to fix:** Who does what. The model only writes a request, and the program runs the tool and calls the model again. That cost you q2 and q4.\n- **What to drop:** The idea that the model remembers past sessions by itself. It matters for the memory topic next.\n\n**Next step:** Reread \"The tool-use contract\" and \"The agentic loop (client tools)\" in [How tool use works](https://platform.claude.com/docs/agents-and-tools/tool-use/how-tool-use-works). Then trace the laser cutter request from q4 and mark each model call.\n\nThe grader also created `RESOURCES.md` and `learning-records/0003-model-requests-program-runs.md`, and updated `NOTES.md`.",
+  "ttft_ms": 4138,
+  "type": "result",
+  "duration_ms": 142888,
+  "uuid": "cfae072b-ba3d-456c-954d-ae90f83e7e26",
+  "ttft_stream_ms": 3275,
+  "time_to_request_ms": 79,
+  "first_content_frame_ms": 3275,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 46,
+      "outputTokens": 19382,
+      "cacheReadInputTokens": 587937,
+      "cacheCreationInputTokens": 132646,
+      "webSearchRequests": 0,
+      "costUSD": 0.6079187000000001,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 3091,
+      "cacheCreationEphemeral5mInputTokens": 116914,
+      "cacheCreationEphemeral1hInputTokens": 15732,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 37565,
+      "outputTokens": 4071,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 1,
+      "costUSD": 0.015792,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 2354,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-12-16T23:36:35.249Z"
+}

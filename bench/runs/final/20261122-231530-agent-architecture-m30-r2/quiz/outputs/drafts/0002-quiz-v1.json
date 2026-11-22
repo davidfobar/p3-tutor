@@ -1,0 +1,74 @@
+{
+  "id": "0002",
+  "objective": "O4",
+  "title": "Workflows and agents: who owns the control flow",
+  "items": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "Which statement correctly separates a workflow from an agent in a system built around a language model?",
+      "options": [
+        {"id": "a", "text": "A workflow makes no model calls at all; only an agent calls a language model"},
+        {"id": "b", "text": "A workflow runs on a smaller, cheaper model; an agent needs a larger, stronger one"},
+        {"id": "c", "text": "In a workflow the code fixes the order of the steps; in an agent the model decides the next step"},
+        {"id": "d", "text": "A workflow can use tools; an agent can only answer from what it learned in training"}
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "The makerspace assistant handles a booking request like this: the code reads the form fields, calls check_calendar, makes one model call to write a confirmation message, then saves the booking. This order never changes. Who owns the control flow?",
+      "options": [
+        {"id": "a", "text": "The model, because it writes the message the student actually reads"},
+        {"id": "b", "text": "The student, because their form submission is what starts the run"},
+        {"id": "c", "text": "The calendar tool, because the later steps depend on what it returns"},
+        {"id": "d", "text": "The code, because it fixes the order and uses the model for only one step"}
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "numeric",
+      "objective": "O4",
+      "stem": "Two designs handle booking requests. In the workflow design, the code always makes exactly 2 model calls per request. In the agent design, the model is called once per step of its loop and averages 5 model calls per request. The assistant gets 300 booking requests in one week. How many more model calls does the agent design make than the workflow design that week?",
+      "unit": "model calls"
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "Which of these makerspace jobs is the best fit for a fixed workflow rather than an agent?",
+      "options": [
+        {"id": "a", "text": "Diagnosing why a student's 3D print keeps failing, using the manuals, the booking history and the student's replies"},
+        {"id": "b", "text": "Every Monday, finding bookings whose student has no training on record and emailing each one a reminder"},
+        {"id": "c", "text": "Answering any question a student types, from machine setup to makerspace policy, using whatever tools it needs"},
+        {"id": "d", "text": "Helping a student plan a project across several machines, deciding which to use and in what order"}
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "A job's steps are known in advance and are the same for every request. What is the main reason to build it as a fixed workflow rather than an agent?",
+      "options": [
+        {"id": "a", "text": "Cost and behavior are predictable and easy to test, and no model calls are spent on choosing steps"},
+        {"id": "b", "text": "A fixed workflow can handle unexpected requests that nobody planned for"},
+        {"id": "c", "text": "A model cannot follow a set order of steps unless it runs inside an agent loop"},
+        {"id": "d", "text": "A workflow lets the model learn from each run, so it gets better over time"}
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "In a makerspace assistant, the code first makes one model call that labels each student message as \"manual question\", \"booking\" or \"other\". The code then runs the pipeline for that label, and every pipeline's steps are written in advance. Who owns the control flow, and so what is this system?",
+      "options": [
+        {"id": "a", "text": "The model, so it is an agent, because a model decision changes what happens next"},
+        {"id": "b", "text": "The model, so it is an agent, because the pipelines call tools and the model reads their results"},
+        {"id": "c", "text": "The code, so it is a workflow, because the model only picks among paths the code defines and the code runs them"},
+        {"id": "d", "text": "The code, but only while the labels are correct; a wrong label turns it into an agent"}
+      ]
+    }
+  ]
+}

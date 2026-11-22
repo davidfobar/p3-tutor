@@ -1,0 +1,127 @@
+{
+  "duration_api_ms": 139988,
+  "stop_reason": "end_turn",
+  "session_id": "fd43c862-d297-4af6-b934-c82e5f1adc4a",
+  "total_cost_usd": 0.5803774999999999,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 3849,
+    "cache_read_input_tokens": 47729,
+    "output_tokens": 961,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 3849,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 819,
+        "cache_read_input_tokens": 24332,
+        "cache_creation_input_tokens": 2914,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 2914
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 44,
+      "outputTokens": 18462,
+      "cacheReadInputTokens": 511032,
+      "cacheCreationInputTokens": 121598,
+      "webSearchRequests": 0,
+      "costUSD": 0.5641587,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 3272,
+      "cacheCreationEphemeral5mInputTokens": 105363,
+      "cacheCreationEphemeral1hInputTokens": 16235,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 37093,
+      "outputTokens": 5019,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 1,
+      "costUSD": 0.016218800000000002,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 2782,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "origin": {
+    "kind": "task-notification",
+    "producer": "session-task",
+    "runId": "0mwsggali-ad5babf4"
+  },
+  "subagent_stats": {
+    "spawned": 3,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 3
+    },
+    "started_in_background": 1,
+    "max_depth": 2,
+    "spawned_by_subagents": 2,
+    "completed": 3,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {
+      "grader": 1,
+      "grade-reviewer": 2
+    }
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 3,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "Quiz 0001, submission s2: 4 correct, 1 partial, 1 wrong.\n\n| Item | Verdict | Why |\n|---|---|---|\n| q1 | Correct | An agent is defined by its loop: choose an action, run it, feed the result back. A longer prompt or bigger context doesn't make one. |\n| q2 | Correct | At that point the model's output is only a request naming the tool and its arguments. The program around it runs `check_calendar`. |\n| q3 | **Wrong** | Your answer 'c' assumes an agent left running will get there eventually. The same edit and the same failing test repeated 40 times, so more steps add nothing. The loop needs a stopping rule, such as a step limit, that hands the problem to a person. (This is misconception M6.) |\n| q4 | Correct | 4 is right: three tool requests plus the final answer. One wording fix: you wrote that the model \"runs\" each tool, but it only requests it. The program runs the tool and the result goes back in for the next call. |\n| q5 | Correct | You gave both halves: the result goes back in as part of the next input, and the model uses it to decide what to do next. |\n| q6 | Partial | The name does matter, and the model does see it. But the model picks a tool from its whole description: the name, what it does and when to use it, and what each parameter means. A name alone can mislead, for example when two tools have similar names. |\n\n**Summary:** You have the loop down. You know what makes an agent, what the model outputs when it uses a tool, that each call ends in one tool request or the final answer, and why the result goes back to the model. Three things to work on:\n- An agent loop needs a stopping condition, because more steps don't help when it repeats the same failure.\n- The model only requests tools and the program runs them, so watch that wording even when your count is right.\n- The model picks tools from their full descriptions, not just their names.\n\n**Next step:** Before your next attempt, reread these:\n- The \"Agents\" section of [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents). Look for what it says about stopping conditions, such as a maximum number of iterations.\n- \"Model responses with tools\" and \"Best practices for tool definitions\" in [Define tools](https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools). Look for the `tool_use` block that names a tool and its input but doesn't run it, and for what a tool description should contain.\n\nThe grades are in `grades/0001-s2.json`.",
+  "ttft_ms": 899,
+  "type": "result",
+  "duration_ms": 6309,
+  "uuid": "83dcc40d-dd55-425f-9313-7a6857c3d6e9",
+  "ttft_stream_ms": 570,
+  "time_to_request_ms": 12,
+  "first_content_frame_ms": 570,
+  "queued_turn_count": 0,
+  "result_index": 1,
+  "model_usage_since_last_result": {},
+  "credential_expires_at": "2026-12-16T23:36:35.249Z"
+}

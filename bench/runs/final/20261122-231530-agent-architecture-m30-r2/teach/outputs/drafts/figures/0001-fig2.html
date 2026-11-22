@@ -1,0 +1,69 @@
+<!--
+Section: 5. Retrieval: finding the right manual page.
+Notice: the long manual is split into chunks and only the best-matching chunks, not the whole manual, enter the context window with the question.
+Source: S2, Introducing Contextual Retrieval (chunks of a few hundred tokens, fetch the relevant ones). Which chunks match is an example.
+Layout check (viewBox 640 x 356; text box y from baseline-14.4 to baseline+4.5; width = chars x 10.8):
+Header "Manual split into chunks" x 20-280.2, y 15.6-34.5 (30); frame ok; above chunk 1 (top 50)  ok
+Chunk boxes x20 w180 h44 at y 50, 104, 158, 212, 266 (bottoms 94, 148, 202, 256, 310); labels "Chunk n" 75.6 wide centred 110 (72.2-147.8), side clear 52.2; baselines 77, 131, 185, 239, 293 -> text spans y+12.6..y+31.5 of each box: top clear 12.6, bottom clear 12.5  ok
+ Chunks 2 and 4 are accent (stroke 2.5); centres y 126 and 234.
+Question box x240 y144 w160 h76 (bottom 220): "Question:" 97.2 wide (271.4-368.6) y 161.6-180.5 (176); "3 mm acrylic" 129.6 wide (255.2-384.8) y 186.8-205.7 (201.2): side clear 15.2, top clear 17.6, bottom clear 14.3  ok
+Window box x420 y90 w200 h160 rx10 (right 620, bottom 250):
+ "Context window" 151.2 wide centred 520 (444.4-595.6) y 103.6-122.5 (118): side clear 24.4, top clear 13.6
+ "Question" 86.4 wide centred 520 y 141.6-160.5 (156); "Chunk 2" 75.6 wide y 177.6-196.5 (192); "Chunk 4" y 213.6-232.5 (228): bottom clear 17.5, side clear >= 56  ok; rows do not overlap (gaps >= 17)
+Arrows (end on box edge, tip within 1 to 2 units of it):
+ A1 (200,126) -> (419,126), accent: chunk 2 right edge to window left edge (420); question box top 144 is 18 below  ok
+ A2 (200,234) -> (419,234), accent: chunk 4 right edge to window left edge; question box bottom 220 is 14 above  ok
+ A3 (400,152) -> (419,152): question box right edge to window left edge, beside "Question" (baseline 156)  ok
+Arrow labels, horizontal, beside their arrow:
+ "best match" 108 wide centred 310 (256-364), y 97.6-116.5 (112): above A1 (arrow 126, clear 9.5); clear of chunks (right edge 200) and window (420)  ok
+ "best match" y 247.6-266.5 (262): below A2 (arrow 234, clear 13.4); question box bottom 220  ok
+Note "Each chunk is a few hundred tokens" 367.2 wide x 20-387.2, y 323.6-342.5 (338); chunk 5 bottom 310 clear; frame bottom 356 (13.5 left)  ok
+Frame: min x 20, max x 620, min y 15.6, max y 342.5; no empty band over 40.
+Boxes: 7 labelled (5 chunks, question, window). No overlaps found.
+Layout check: passed
+-->
+<figure>
+  <svg viewBox="0 0 640 356" role="img" aria-labelledby="fig2-title">
+    <title id="fig2-title">A manual split into five chunks. The question about 3 mm acrylic is compared with the chunks, and only the two best-matching chunks, chunk 2 and chunk 4, are copied into the context window next to the question. The other three chunks stay outside.</title>
+    <defs>
+      <marker id="fig2-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+      </marker>
+      <marker id="fig2-arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" style="fill: var(--accent)"/>
+      </marker>
+    </defs>
+    <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="20" y="50" width="180" height="44" rx="8"/>
+      <rect x="20" y="104" width="180" height="44" rx="8" style="stroke: var(--accent); stroke-width: 2.5"/>
+      <rect x="20" y="158" width="180" height="44" rx="8"/>
+      <rect x="20" y="212" width="180" height="44" rx="8" style="stroke: var(--accent); stroke-width: 2.5"/>
+      <rect x="20" y="266" width="180" height="44" rx="8"/>
+      <rect x="240" y="144" width="160" height="76" rx="8"/>
+      <rect x="420" y="90" width="200" height="160" rx="10"/>
+      <line x1="200" y1="126" x2="419" y2="126" marker-end="url(#fig2-arrow-accent)" style="stroke: var(--accent); stroke-width: 2.5"/>
+      <line x1="200" y1="234" x2="419" y2="234" marker-end="url(#fig2-arrow-accent)" style="stroke: var(--accent); stroke-width: 2.5"/>
+      <line x1="400" y1="152" x2="419" y2="152" marker-end="url(#fig2-arrow)"/>
+    </g>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18" text-anchor="middle">
+      <text x="110" y="77">Chunk 1</text>
+      <text x="110" y="131">Chunk 2</text>
+      <text x="110" y="185">Chunk 3</text>
+      <text x="110" y="239">Chunk 4</text>
+      <text x="110" y="293">Chunk 5</text>
+      <text x="320" y="176">Question:</text>
+      <text x="320" y="201.2">3 mm acrylic</text>
+      <text x="520" y="118">Context window</text>
+      <text x="520" y="156">Question</text>
+      <text x="520" y="192" style="fill: var(--accent)">Chunk 2</text>
+      <text x="520" y="228" style="fill: var(--accent)">Chunk 4</text>
+      <text x="310" y="112">best match</text>
+      <text x="310" y="262">best match</text>
+    </g>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18" text-anchor="start">
+      <text x="20" y="30">Manual split into chunks</text>
+      <text x="20" y="338">Each chunk is a few hundred tokens</text>
+    </g>
+  </svg>
+  <figcaption>Figure 2. The assistant does not load the whole manual. It matches the question against the chunks and copies only the best ones (accent) into the window beside the question; which chunks match here is an example.</figcaption>
+</figure>

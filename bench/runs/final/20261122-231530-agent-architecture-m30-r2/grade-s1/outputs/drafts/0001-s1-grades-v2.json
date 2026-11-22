@@ -1,0 +1,43 @@
+{
+  "quiz": "0001",
+  "submission": "s1",
+  "items": [
+    {
+      "id": "q1",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Right. The loop (the model picks an action, it gets run, the result comes back) is the structure that makes it an agent. A longer prompt or a bigger context window only changes what a single call can do. Hold onto that loop shape, because the stopping condition in q3 is part of it. For more depth, see the `while` loop in \"The agentic loop (client tools)\" in \"How tool use works\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works)."
+    },
+    {
+      "id": "q2",
+      "verdict": "wrong",
+      "misconception": "M4",
+      "feedback": "You picked the option where the model reads the calendar by opening the booking system itself. A model only produces text, so it cannot reach into any system. What it outputs is a structured request naming the tool and its arguments, and the program around it does the actual calendar lookup. It is a tempting picture because the final answer sounds like the model checked the calendar. Reread \"The tool-use contract\" and \"User-defined tools (client-executed)\" in \"How tool use works\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works), and look for what the model emits versus what your code does."
+    },
+    {
+      "id": "q3",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Right. Since all 40 steps already fit in the context, a bigger window adds nothing. A step limit is a stopping condition that ends the loop and hands the problem back to a person. A stronger prompt cannot stop a loop that is already repeating. For more depth, see \"The agentic loop (client tools)\" in \"How tool use works\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works): it shows the loop running on a `while` and exiting on a stop reason, and a step limit is an extra exit your own program adds on top of that (the page does not cover step limits itself)."
+    },
+    {
+      "id": "q4",
+      "verdict": "wrong",
+      "misconception": "M4",
+      "feedback": "Your answer of 1 treats the model as running the three tools itself inside one call. The first mistake is there: the program runs the tools, and each time a result comes back, the model has to be called again to read it. Count the calls this way: one for the question, plus one for each of the three tool results it receives. Reread \"The agentic loop (client tools)\" in \"How tool use works\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works), and look at steps 2 to 5 for how each round trip is a new request to the model."
+    },
+    {
+      "id": "q5",
+      "verdict": "partial",
+      "misconception": null,
+      "feedback": "You have the what: the result goes back to the model. The question also asked why. The program sends the result back and calls the model again so the model can use it to choose its next step or write the final answer, and the model has no other way to see what the tool returned. Add the reason whenever you describe this step. Reread \"The agentic loop (client tools)\" in \"How tool use works\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works), and look at steps 3 and 4 for what gets sent back and why."
+    },
+    {
+      "id": "q6",
+      "verdict": "partial",
+      "misconception": "M3",
+      "feedback": "Your first sentence is right: the model is sent each tool's name and description, and it picks the one that fits the request. The second sentence is wrong. The model does not remember earlier sessions on its own, so it has no stored memory of which tools it picked before. Anything it knows is in the text the program sends it on that call. The idea that memory comes automatically is a common one, and memory is the next topic in your mission. For the right half, see \"Best practices for tool definitions\" in \"Define tools\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools), which says what a description should cover. For the wrong half, reread step 4 of \"The agentic loop (client tools)\" in \"How tool use works\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works) and look at what the program resends on every request, which shows the model only knows what it is given each call."
+    }
+  ],
+  "summary": "You have the shape of the agent loop and the stopping condition (q1, q3), and you know the model picks tools from their descriptions (q6). The idea to fix is who does what: the model only outputs a request, and the program runs the tool and calls the model again with the result. That mix-up cost you q2 and q4, and it also left q5 without its reason. Before your next attempt, reread \"The tool-use contract\" and \"The agentic loop (client tools)\" in \"How tool use works\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works), plus \"User-defined tools (client-executed)\" on the same page for what the model receives. For q6, the \"Best practices for tool definitions\" section of \"Define tools\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools) covers descriptions. Then try tracing one request on paper, marking each step as a model call or as the program running a tool."
+}

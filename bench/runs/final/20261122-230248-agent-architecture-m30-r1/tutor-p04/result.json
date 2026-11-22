@@ -1,0 +1,120 @@
+{
+  "duration_api_ms": 11358,
+  "stop_reason": "end_turn",
+  "session_id": "f85fb71a-1bcb-4489-827d-e6c38bb838b7",
+  "total_cost_usd": 0.0822594,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 15986,
+    "cache_read_input_tokens": 59634,
+    "output_tokens": 1234,
+    "output_tokens_details": {
+      "thinking_tokens": 102
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 15986,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 664,
+        "cache_read_input_tokens": 26626,
+        "cache_creation_input_tokens": 371,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 371
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 6,
+      "outputTokens": 1234,
+      "cacheReadInputTokens": 59634,
+      "cacheCreationInputTokens": 15986,
+      "webSearchRequests": 0,
+      "costUSD": 0.0822594,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 102,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 15986,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 0,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+    },
+    "started_in_background": 0,
+    "max_depth": 0,
+    "spawned_by_subagents": 0,
+    "completed": 0,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {}
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 6,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "The premise isn't right, so neither five nor ten is the answer yet. More agents don't always give better results, and for your assistant the default should be one agent.\n\nThink of a car. Adding cylinders adds power, but it also adds weight, friction, fuel use and parts that can fail. Past a point, a bigger engine gives you a worse car. Agents work the same way.\n\nSplitting costs you in three ways:\n- **Money.** Each agent carries its own prompt and context, and the agents pass messages to each other. All of that is tokens you pay for. Multi-agent setups commonly use several times the tokens of a single agent, and your sponsor's budget is small.\n- **Lost context.** Every handoff is a chance to drop something. If a \"booking agent\" doesn't see what the \"manual agent\" told the student, the answer can contradict itself.\n- **More to debug.** In a design review, \"why did it book the wrong slot?\" now has many possible culprits.\n\nSplitting does pay off in a few cases:\n- The work is truly parallel and independent, like researching many separate sources at once.\n- One agent's context would get too big or cluttered with unrelated material.\n- Different parts need different tools or permissions that you want kept apart.\n\nYour assistant's three jobs are answering from manuals, checking the calendar and booking. They're sequential, small and share the student's context. That looks like one agent with three tools. Parts of it, like \"check calendar, then book,\" may not need an agent at all and could be a fixed workflow. That's one of your own success criteria.\n\nSo pick the number from your task's structure, not from a bigger-is-better rule. Start with one agent and split only when you can name the specific problem a split would solve.\n\nQuick check: if a student asks \"Is the laser cutter free Thursday, and how do I load the material?\", which of the three cases above would justify giving each half to its own agent? (If your answer is \"none,\" that's a good instinct.)\n\nI haven't taught multi-agent systems yet. If you want, I can make a lesson on when splitting pays off, with a cost comparison for your assistant.",
+  "ttft_ms": 1400,
+  "type": "result",
+  "duration_ms": 11506,
+  "uuid": "c9e94b94-6f41-4033-b82a-5fe54e2199b3",
+  "ttft_stream_ms": 1152,
+  "time_to_request_ms": 90,
+  "first_content_frame_ms": 1152,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 6,
+      "outputTokens": 1234,
+      "cacheReadInputTokens": 59634,
+      "cacheCreationInputTokens": 15986,
+      "webSearchRequests": 0,
+      "costUSD": 0.0822594,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 102,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 15986,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-12-16T23:36:35.249Z"
+}

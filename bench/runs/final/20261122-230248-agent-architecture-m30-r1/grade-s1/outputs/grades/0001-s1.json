@@ -1,0 +1,43 @@
+{
+  "quiz": "0001",
+  "submission": "s1",
+  "items": [
+    {
+      "id": "q1",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Right: the loop of the model choosing actions, the program running them and the results coming back is what makes a system an agent. Prompt length and context size change what one call can do, not the structure. For the definition in Anthropic's own words, see the \"Agents\" section of \"Building effective agents\" (https://www.anthropic.com/engineering/building-effective-agents)."
+    },
+    {
+      "id": "q2",
+      "verdict": "wrong",
+      "misconception": "M4",
+      "feedback": "You picked the option where the model reads the calendar itself by opening the booking system. A model only produces text, so at that point its output is a structured request naming check_calendar with the machine and date as arguments; the program around it runs the tool. The tempting part is that the final answer sounds as if the model looked at the calendar, but it only ever sees the result the program sends back. Reread \"The tool-use contract\" and \"User-defined tools (client-executed)\" in \"How tool use works\" (https://platform.claude.com/docs/agents-and-tools/tool-use/how-tool-use-works), and look for who emits the request and who runs the code."
+    },
+    {
+      "id": "q3",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Right: the agent is repeating itself on the same failure, so a step limit that stops the loop and reports back is the safeguard. More context or a sterner prompt does not break a loop. Anthropic names this as a stopping condition such as a maximum number of iterations; see the \"Agents\" section of \"Building effective agents\" (https://www.anthropic.com/engineering/building-effective-agents) to go deeper."
+    },
+    {
+      "id": "q4",
+      "verdict": "wrong",
+      "misconception": "M4",
+      "feedback": "Your answer of 1 treats the three tools as run by the model inside a single call. The model only requests a tool; the program runs it and then calls the model again with the result. So each tool request ends one model call, and each result starts a new one. Count the calls this way and you get a different total. Reread \"The agentic loop (client tools)\" in \"How tool use works\" (https://platform.claude.com/docs/agents-and-tools/tool-use/how-tool-use-works), and look at steps 2 to 5, where each pass is a new request to the model."
+    },
+    {
+      "id": "q5",
+      "verdict": "partial",
+      "misconception": null,
+      "feedback": "You have the what: the result goes back to the model. The answer is missing the why: the model needs the result as part of its next input so it can decide its next step or write the final answer, and the program has to call the model again for that to happen. Say both parts. See step 4 of \"The agentic loop (client tools)\" in \"How tool use works\" (https://platform.claude.com/docs/agents-and-tools/tool-use/how-tool-use-works)."
+    },
+    {
+      "id": "q6",
+      "verdict": "partial",
+      "misconception": "M3",
+      "feedback": "The first half is right: the model is sent each tool's name and a description, and picks the one that fits the request. The second sentence is wrong: the model does not remember anything from earlier sessions on its own, and each call sees only the text the program puts in front of it. Nothing about past tool choices is kept unless the program stores it and sends it again. Reread \"Best practices for tool definitions\" in \"Define tools\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools) to see that the description is what the model chooses from; for the memory claim, step 4 of \"The agentic loop (client tools)\" in \"How tool use works\" (https://platform.claude.com/docs/agents-and-tools/tool-use/how-tool-use-works) shows the program re-sending the earlier messages with each request, but no source I have covers memory between sessions yet, which is the next topic."
+    }
+  ],
+  "summary": "You have the shape of the agent loop and you know a step limit is the safeguard against a stuck agent (q1, q3), and you know the model picks tools from their descriptions. The one thing to fix is who does what: the model only writes a request, and the program runs the tool and calls the model again, which cost you q2 and q4. Also drop the idea that the model remembers past sessions by itself; that matters for the memory topic next. Before trying again, reread \"The tool-use contract\" and \"The agentic loop (client tools)\" in \"How tool use works\" (https://platform.claude.com/docs/agents-and-tools/tool-use/how-tool-use-works), then trace the laser cutter request from q4 and mark each model call."
+}

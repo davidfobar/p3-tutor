@@ -1,0 +1,110 @@
+{
+  "duration_api_ms": 197936,
+  "stop_reason": "end_turn",
+  "session_id": "6351d375-21ff-426b-bb7b-258e51e0c2a7",
+  "total_cost_usd": 0.5800493,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 9285,
+    "cache_read_input_tokens": 165564,
+    "output_tokens": 7036,
+    "output_tokens_details": {
+      "thinking_tokens": 438
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 9285,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 423,
+        "cache_read_input_tokens": 58123,
+        "cache_creation_input_tokens": 3739,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 3739
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 36,
+      "outputTokens": 28687,
+      "cacheReadInputTokens": 450808,
+      "cacheCreationInputTokens": 68700,
+      "webSearchRequests": 0,
+      "costUSD": 0.5800493,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 10778,
+      "cacheCreationEphemeral5mInputTokens": 17849,
+      "cacheCreationEphemeral1hInputTokens": 50851,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "origin": {
+    "kind": "task-notification",
+    "producer": "session-task",
+    "runId": "0mwsgj0rt-f37dc758"
+  },
+  "subagent_stats": {
+    "spawned": 2,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 2
+    },
+    "started_in_background": 2,
+    "max_depth": 1,
+    "spawned_by_subagents": 0,
+    "completed": 2,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {
+      "quiz-reviewer": 2
+    }
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 6,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "I wrote the O4 quiz to `quizzes/0002.json`, \"Workflows and agents: who owns the control flow\". It has six items: five multiple-choice and one numeric.\n\nNo lesson on O4 exists yet, so the quiz runs ahead of the lessons. I wrote it as a check of the objective's wording, using the makerspace assistant as the setting.\n\nIt covers:\n- the definition: code fixes the steps in a workflow, and the model chooses them in an agent\n- when an agent fits, and why a fixed workflow suits known steps (predictable, testable, no calls spent choosing steps)\n- a call-count comparison of the two designs\n- picking which makerspace job should be a workflow\n- the hardest item: a model that only picks a label inside a code-defined pipeline is still a workflow\n\nThe review loop ran two passes, and I fixed the second pass's two findings in a final draft that was not reviewed again. The review record is in `review-records/0002-quiz.md`.\n\nMisconception ids M10–M25 are new, because the workspace had none to reuse. I couldn't read `keys/`, so I can't rule out a clash with ids used in the key for quiz 0001.\n\nQuestion for the learner: do you want a short O4 lesson before taking this quiz? It would use the same makerspace examples.",
+  "ttft_ms": 4118,
+  "type": "result",
+  "duration_ms": 36538,
+  "uuid": "feea422f-f1e7-4c1c-a50f-153d14cfd4e7",
+  "ttft_stream_ms": 639,
+  "time_to_request_ms": 15,
+  "first_content_frame_ms": 639,
+  "queued_turn_count": 0,
+  "result_index": 2,
+  "model_usage_since_last_result": {},
+  "credential_expires_at": "2026-12-16T23:36:35.249Z"
+}

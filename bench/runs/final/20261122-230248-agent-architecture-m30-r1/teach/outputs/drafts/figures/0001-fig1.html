@@ -1,0 +1,62 @@
+<!--
+Section: 3, The context window.
+Notice: across three loop steps the bar fills toward the window limit, and the tool results are the biggest block each time.
+Source: S1, Effective context engineering for AI agents (context holds instructions, history and tool results; finite resource). Block sizes are an example, not measured.
+viewBox 0 0 640 280. Label width = chars x 10.8 (font-size 18); label height runs from baseline - 14.4 to baseline + 4.5 (18.9). Every label has at least 12 clear on each side of its box.
+Window rects: x=100 w=520, y=40 / 110 / 180, h=54 (to 94 / 164 / 234). Segments: y = row y + 5 (45 / 115 / 185), h=44, rx 8, 4 apart; segment center = row y + 27.
+| label | x range | baseline y (y range) | w | box it sits in (x range, y range) | clear L/R, top/bottom | overlaps |
+| "Right edge = window limit" (25 ch, end at 620) | 350 to 620 | 26 (11.6 to 30.5) | 270 | frame | 350 left; 20 right | none; 9.5 above row 1 rect |
+| "Step 1" | 20 to 85 | 72 (57.6 to 76.5) | 65 | frame; 15 left of window at 100 | 20 from frame edge | none |
+| "Step 2" | 20 to 85 | 142 | 65 | same | 20 | none |
+| "Step 3" | 20 to 85 | 212 | 65 | same | 20 | none |
+| "Rules" row 1 (center 147) | 120 to 174 | 72 (57.6 to 76.5) | 54 | seg x 104 to 190 (86), y 45 to 89 | 16 / 16; 12.6 top, 12.5 bottom | none |
+| "History" row 1 (center 246) | 208 to 284 | 72 | 76 | seg x 194 to 298 (104) | 14 / 14; 12.6 / 12.5 | none |
+| "Tool results" row 1 (center 382) | 317 to 447 | 72 | 130 | seg x 302 to 462 (160) | 15 / 15; 12.6 / 12.5 | none |
+| "Rules" row 2 | 120 to 174 | 142 (127.6 to 146.5) | 54 | seg x 104 to 190, y 115 to 159 | 16 / 16; 12.6 / 12.5 | none |
+| "History" row 2 (center 251) | 213 to 289 | 142 | 76 | seg x 194 to 308 (114) | 19 / 19; 12.6 / 12.5 | none |
+| "Tool results" row 2 (center 427) | 362 to 492 | 142 | 130 | seg x 312 to 542 (230) | 50 / 50; 12.6 / 12.5 | none |
+| "Rules" row 3 | 120 to 174 | 212 (197.6 to 216.5) | 54 | seg x 104 to 190, y 185 to 229 | 16 / 16; 12.6 / 12.5 | none |
+| "History" row 3 (center 256) | 218 to 294 | 212 | 76 | seg x 194 to 318 (124) | 24 / 24; 12.6 / 12.5 | none |
+| "Tool results" row 3 (center 463) | 398 to 528 | 212 | 130 | seg x 322 to 604 (282), window edge 620 | 76 / 76; 12.6 / 12.5 | none |
+| "Fuller window, weaker recall" (28 ch) | 100 to 402 | 262 (247.6 to 266.5) | 302 | frame; row 3 rect ends 234 | 100 | none; 13.6 below row 3 |
+Frame: leftmost content x=20, rightmost 620, top of text 11.6, bottom of text 266.5 of 280 (13.5 clear). No empty band over 40.
+Layout check: passed
+-->
+<figure>
+  <svg viewBox="0 0 640 280" role="img" aria-labelledby="fig1-title">
+    <title id="fig1-title">Three bars labelled Step 1, Step 2 and Step 3, each a context window made of rules, history and tool results. The bar fills a little more at each step, tool results are the largest block every time, and at step 3 it is close to the window limit at the right edge.</title>
+    <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="100" y="40" width="520" height="54" rx="8"/>
+      <rect x="104" y="45" width="86" height="44" rx="8"/>
+      <rect x="194" y="45" width="104" height="44" rx="8"/>
+      <rect x="302" y="45" width="160" height="44" rx="8" style="stroke: var(--accent); stroke-width: 2.5; fill: var(--accent-soft)"/>
+      <rect x="100" y="110" width="520" height="54" rx="8"/>
+      <rect x="104" y="115" width="86" height="44" rx="8"/>
+      <rect x="194" y="115" width="114" height="44" rx="8"/>
+      <rect x="312" y="115" width="230" height="44" rx="8" style="stroke: var(--accent); stroke-width: 2.5; fill: var(--accent-soft)"/>
+      <rect x="100" y="180" width="520" height="54" rx="8"/>
+      <rect x="104" y="185" width="86" height="44" rx="8"/>
+      <rect x="194" y="185" width="124" height="44" rx="8"/>
+      <rect x="322" y="185" width="282" height="44" rx="8" style="stroke: var(--accent); stroke-width: 2.5; fill: var(--accent-soft)"/>
+    </g>
+    <g fill="currentColor" style="font-family: var(--sans)" font-size="18">
+      <text x="620" y="26" text-anchor="end">Right edge = window limit</text>
+      <text x="20" y="72">Step 1</text>
+      <text x="20" y="142">Step 2</text>
+      <text x="20" y="212">Step 3</text>
+      <g text-anchor="middle">
+        <text x="147" y="72">Rules</text>
+        <text x="246" y="72">History</text>
+        <text x="382" y="72">Tool results</text>
+        <text x="147" y="142">Rules</text>
+        <text x="251" y="142">History</text>
+        <text x="427" y="142">Tool results</text>
+        <text x="147" y="212">Rules</text>
+        <text x="256" y="212">History</text>
+        <text x="463" y="212">Tool results</text>
+      </g>
+      <text x="100" y="262">Fuller window, weaker recall</text>
+    </g>
+  </svg>
+  <figcaption>Figure 1. Each loop step adds a tool result, the biggest block of all, and the window creeps toward its limit; a fuller window means weaker recall of earlier content. Rules are the instructions; sizes are an example.</figcaption>
+</figure>

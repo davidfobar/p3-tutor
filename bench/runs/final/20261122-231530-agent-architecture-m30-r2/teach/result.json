@@ -1,0 +1,129 @@
+{
+  "duration_api_ms": 930702,
+  "stop_reason": "end_turn",
+  "session_id": "6b1abe41-4766-4911-82c2-6fd789b1d741",
+  "total_cost_usd": 2.7500516999999998,
+  "usage": {
+    "input_tokens": 20,
+    "cache_creation_input_tokens": 45315,
+    "cache_read_input_tokens": 1041737,
+    "output_tokens": 25635,
+    "output_tokens_details": {
+      "thinking_tokens": 582
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 45315,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 616,
+        "cache_read_input_tokens": 148422,
+        "cache_creation_input_tokens": 366,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 366
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 122,
+      "outputTokens": 136506,
+      "cacheReadInputTokens": 3061799,
+      "cacheCreationInputTokens": 345139,
+      "webSearchRequests": 0,
+      "costUSD": 2.7409969,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 49207,
+      "cacheCreationEphemeral5mInputTokens": 207362,
+      "cacheCreationEphemeral1hInputTokens": 137777,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 44423,
+      "outputTokens": 9225,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.009054800000000002,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 5920,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "origin": {
+    "kind": "task-notification",
+    "producer": "session-task",
+    "runId": "0mwsgvuuc-9fb33680"
+  },
+  "subagent_stats": {
+    "spawned": 6,
+    "requested": {
+      "background": 0,
+      "foreground": 1,
+      "unset": 5
+    },
+    "started_in_background": 4,
+    "max_depth": 2,
+    "spawned_by_subagents": 2,
+    "completed": 6,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {
+      "lesson-planner": 1,
+      "product-reviewer": 2,
+      "demo-dev": 1,
+      "lesson-reviewer": 2
+    }
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 20,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "The lesson is written: `lessons/0001-context-and-memory.html`, \"What the assistant sees, keeps and looks up\" (objective O3).\n\n**What it covers**\n- A warm-up with two recall questions on the agent loop (O1).\n- The context window: tokens, context rot, and clearing or compaction as ways to keep the window small.\n- Notes as memory between sessions, with a worked save-and-load trace.\n- Retrieval: chunks, embeddings, BM25, and retrieval as a tool the loop calls.\n- Worked examples sorting what the assistant keeps in context, saves as notes, or retrieves, with practice checks.\n- Two figures, one interactive demo and a Sources list. The facts come from two Anthropic articles, which are linked.\n\n**Time:** about 30 min reading + 5 min demo = 35 min. The measured reading time is 27.8 min, close to the 30 you asked for. You can ask for a shorter or longer lesson.\n\n**Verification**\n- The reviewer ran two passes and I fixed everything it found.\n- I did not run a third pass after the final fixes.\n- I never ran the demo in a browser. The reviewer traced its script and found no errors.\n- The review record is in `review-records/0001-teach.md`.\n\n**Housekeeping**\n- I declined the reviewer's request for a third figure in the notes section. The teach skill only allows the figures the demo builder made, so I added a worked trace instead.\n- I updated `RESOURCES.md` and `NOTES.md`.\n- I wrote no cheat sheet or glossary entry.\n\nYou can ask me anything about the lesson. No quiz was written. Ask for one whenever you want to check what stuck.\n\nI have one question: the lesson's \"test it with others\" link points to your design team, because I had no community link I'd seen this session. Is there a makerspace or course forum you'd like it to point to?",
+  "ttft_ms": 939,
+  "type": "result",
+  "duration_ms": 127104,
+  "uuid": "306a9803-86ca-43e4-8cd2-8540c8669946",
+  "ttft_stream_ms": 582,
+  "time_to_request_ms": 11,
+  "first_content_frame_ms": 582,
+  "queued_turn_count": 0,
+  "result_index": 4,
+  "model_usage_since_last_result": {},
+  "credential_expires_at": "2026-12-16T23:36:35.249Z"
+}

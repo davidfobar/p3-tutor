@@ -1,0 +1,155 @@
+{
+  "duration_api_ms": 145433,
+  "stop_reason": "end_turn",
+  "session_id": "98252ab7-1aed-4cc5-bec7-acdc0331f458",
+  "total_cost_usd": 0.6195851999999998,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 15600,
+    "cache_read_input_tokens": 55458,
+    "output_tokens": 1237,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 15600,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 891,
+        "cache_read_input_tokens": 23747,
+        "cache_creation_input_tokens": 2864,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 2864
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 40,
+      "outputTokens": 19122,
+      "cacheReadInputTokens": 472445,
+      "cacheCreationInputTokens": 136647,
+      "webSearchRequests": 0,
+      "costUSD": 0.6035619999999999,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 3291,
+      "cacheCreationEphemeral5mInputTokens": 121047,
+      "cacheCreationEphemeral1hInputTokens": 15600,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 37642,
+      "outputTokens": 4518,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 1,
+      "costUSD": 0.0160232,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 2738,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 3,
+    "requested": {
+      "background": 0,
+      "foreground": 1,
+      "unset": 2
+    },
+    "started_in_background": 0,
+    "max_depth": 2,
+    "spawned_by_subagents": 2,
+    "completed": 3,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {
+      "grader": 1,
+      "grade-reviewer": 2
+    }
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 4,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "Quiz 0001, submission s2: 4 correct, 1 partial, 1 wrong.\n\n| Item | Verdict | Feedback |\n|---|---|---|\n| q1 | Correct | What makes it an agent is the loop: choose an action, run it, feed the result back. A longer prompt or a bigger context window doesn't change that structure. |\n| q2 | Correct | The model only outputs a structured request naming the tool and its arguments. The program around it runs the tool. |\n| q3 | **Wrong** (M6) | The agent repeats the same edit against the same failing test, so 40 more steps add nothing. Nothing in the loop ends it by itself. The program needs a stopping condition, such as a step limit that halts and reports to a person. |\n| q4 | Correct | 4 is right: three tool requests plus the final answer, one per call. Fix one wording slip. The model doesn't run `check_calendar` or the other tools. Each call ends with a request, the program runs the tool, then calls the model again with the result. |\n| q5 | Correct | The result goes back in as the model's next input so the model can decide what to do next. |\n| q6 | Partial | The name is part of it, but the model chooses from the full description. That covers the name, what the tool does and when to use it, and its parameters. A name alone can mislead. For example, `check_calendar` doesn't say whether it books or only reads. |\n\n**Summary:** You have the agent loop down. You saw that the model only requests a tool and the program runs it, you counted model calls correctly, and you explained why the result goes back to the model. Two things to work on:\n- **Stopping:** an agent that repeats itself won't fix itself by running longer. The program needs a limit that ends the loop.\n- **Roles and tool choice:** keep the model and the program separate in your wording. In q4 you wrote that the model runs the tools. A model also picks a tool from its whole description, not just its name.\n\n**Next step:** reread these before you try again.\n- The \"Agents\" section of [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents) (q3). Look for the line about stopping conditions such as a maximum number of iterations.\n- \"Model responses with tools\" in [Define tools](https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools) (q4). The model's reply holds a `tool_use` block with a name and an input, which is a request and not a result.\n- \"Best practices for tool definitions\" in the same [Define tools](https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools) page (q6). Look for what a good description says beyond the name.\n\nThe grades are in `grades/0001-s2.json`.",
+  "ttft_ms": 4148,
+  "type": "result",
+  "duration_ms": 143298,
+  "uuid": "612cf41b-2485-4130-b496-80d0417fb40b",
+  "ttft_stream_ms": 3207,
+  "time_to_request_ms": 79,
+  "first_content_frame_ms": 3207,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 40,
+      "outputTokens": 19122,
+      "cacheReadInputTokens": 472445,
+      "cacheCreationInputTokens": 136647,
+      "webSearchRequests": 0,
+      "costUSD": 0.6035619999999999,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 3291,
+      "cacheCreationEphemeral5mInputTokens": 121047,
+      "cacheCreationEphemeral1hInputTokens": 15600,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 37642,
+      "outputTokens": 4518,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 1,
+      "costUSD": 0.0160232,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 2738,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-12-16T23:36:35.249Z"
+}

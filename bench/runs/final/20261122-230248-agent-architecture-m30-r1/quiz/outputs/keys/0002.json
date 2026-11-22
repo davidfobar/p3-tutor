@@ -1,0 +1,41 @@
+{
+  "id": "0002",
+  "items": [
+    {
+      "id": "q1",
+      "answer": "b",
+      "rationale": "The difference is who owns the control flow: in a workflow the code fixes the path, in an agent the model chooses the next step. Workflows can call models and tools, and the number of calls does not define either.",
+      "distractors": {"a": "M1", "c": "M2", "d": "M3"}
+    },
+    {
+      "id": "q2",
+      "answer": "c",
+      "rationale": "Only in c does the code fix the order of steps, even though two of them are model calls. In a, b and d the model chooses the next step, and a step limit only caps the loop.",
+      "distractors": {"a": "M4", "b": "M4", "d": "M4"}
+    },
+    {
+      "id": "q3",
+      "answer": "a",
+      "rationale": "When the steps are known in advance, code can run them directly and no model calls go to deciding the next step, which keeps cost predictable. Flexibility for unforeseen requests is the agent's advantage, not the workflow's.",
+      "distractors": {"b": "M5", "c": "M6", "d": "M7"}
+    },
+    {
+      "id": "q4",
+      "answer": 2,
+      "tolerance": 0,
+      "rationale": "Count only the model calls on the manual-question path: the label call in step 1 and the reply call in step 3 make 2. The search in step 2 is code, not a model call. An answer of 3 counts every step, or both branches."
+    },
+    {
+      "id": "q5",
+      "answer": "d",
+      "rationale": "When the next lookup depends on what the last one found, the path cannot be written in advance, so the model should choose each step. The other three are the same fixed steps every time, which suits a workflow.",
+      "distractors": {"a": "M8", "b": "M8", "c": "M8"}
+    },
+    {
+      "id": "q6",
+      "answer": "b",
+      "rationale": "Control flow belongs to whoever decides the sequence of steps. Here the code defines every path and runs it, and the model only classifies; this is a routing workflow. Making a decision or making several calls does not by itself make a system an agent.",
+      "distractors": {"a": "M9", "c": "M3", "d": "M2"}
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+<!--
+Section: 5, Retrieval and notes as memory.
+Notice: the manual and the notes file live outside the window, and only the chosen page and the note are loaded into it; the notes file is written to as well as read.
+Source: S2, Building effective agents (retrieval); S1, Effective context engineering for AI agents (just-in-time retrieval, structured notes).
+viewBox 0 0 640 296. Label width = chars x 10.8 at size 18 (x 9.6 at size 16). Padding needed 12 on each side.
+Boxes: Manual x=20 y=60 w=200 h=70; Notes file x=20 y=190 w=200 h=70; Window x=380 y=40 w=240 h=240; Relevant page x=392 y=60 w=216 h=70; Reloaded note x=392 y=190 w=216 h=70. Arrows use marker fig3-arrow.
+| label | x range | baseline y (y range) | w | box it sits in | clear L/R, top/bottom | overlaps |
+| "Outside the window" (18 ch, center 120) | 23 to 217 | 28 (13.6 to 32.5) | 194 | frame, above boxes (top 60) | 23 from the left edge | none; 27.5 above the Manual box |
+| "Context window" (14 ch, center 500) | 424.4 to 575.6 | 28 | 151 | frame, above window (top 40) | far | none; 7.5 above window rect |
+| "Manual" (6 ch, center 120) | 87.2 to 152.8 | 90 (75.6 to 94.5) | 65 | Manual box x 20 to 220, y 60 to 130 | 67 / 67; 15.6 top | none |
+| "(many pages)" size 16 (12 ch, center 120) | 62.4 to 177.6 | 113 (100.2 to 117) | 115 | same | 42 / 42; 13 bottom | none; 5.7 below line 1 text |
+| "Notes file" (10 ch, center 120) | 66 to 174 | 220 (205.6 to 224.5) | 108 | Notes box x 20 to 220, y 190 to 260 | 46 / 46; 15.6 top | none |
+| "(agent writes)" size 16 (14 ch, center 120) | 52.8 to 187.2 | 243 (230.2 to 247) | 134 | same | 33 / 33; 13 bottom | none |
+| "Relevant page" (13 ch, center 500) | 429.8 to 570.2 | 100 (85.6 to 104.5) | 140 | box x 392 to 608, y 60 to 130 | 38 / 38; 25.6 top | none |
+| "Reloaded note" (13 ch, center 500) | 429.8 to 570.2 | 230 (215.6 to 234.5) | 140 | box x 392 to 608, y 190 to 260 | 38 / 38 | none |
+| "retrieve" (8 ch, center 300) | 257 to 343 | 76 (61.6 to 80.5) | 86 | gap x 220 to 380 above arrow y=95 | 37 / 37 from arrow ends | none; 14.5 above arrow |
+| "on demand" (9 ch, center 300) | 252.4 to 347.6 | 122 (107.6 to 126.5) | 95 | same gap, below arrow y=95 | 32 / 32 | none; 12.6 below arrow |
+| "writes notes" (12 ch, center 300) | 235.4 to 364.6 | 206 (191.6 to 210.5) | 130 | gap x 220 to 380 above arrow y=225 | 15 / 15 | none; 14.5 above arrow |
+| "reloads" (8 ch, center 300) | 257 to 343 | 252 (237.6 to 256.5) | 86 | gap x 220 to 380 below arrow y=225 | 37 / 37 | none; 12.6 below arrow |
+Arrows: retrieve (220,95) to (380,95): box edge to window edge. notes: both ends marked, (220,225) to (380,225): notes box edge and window edge.
+Frame: left 20, right 620, top 13.6, bottom 280 (window) of 296 (16 clear). No empty band.
+Layout check: passed
+-->
+<figure>
+  <svg viewBox="0 0 640 296" role="img" aria-labelledby="fig3-title">
+    <title id="fig3-title">On the left, outside the context window, a manual with many pages and a notes file the agent writes. On the right, the context window holds only a relevant page and a reloaded note. One arrow retrieves a page from the manual on demand; a two-headed arrow shows notes being written to the file and reloaded.</title>
+    <defs>
+      <marker id="fig3-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+      </marker>
+    </defs>
+    <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="20" y="60" width="200" height="70" rx="8"/>
+      <rect x="20" y="190" width="200" height="70" rx="8"/>
+      <rect x="380" y="40" width="240" height="240" rx="8"/>
+      <rect x="392" y="60" width="216" height="70" rx="8" style="stroke: var(--accent); stroke-width: 2.5; fill: var(--accent-soft)"/>
+      <rect x="392" y="190" width="216" height="70" rx="8"/>
+      <line x1="220" y1="95" x2="380" y2="95" marker-end="url(#fig3-arrow)"/>
+      <line x1="220" y1="225" x2="380" y2="225" marker-start="url(#fig3-arrow)" marker-end="url(#fig3-arrow)"/>
+    </g>
+    <g fill="currentColor" style="font-family: var(--sans)" font-size="18">
+      <g text-anchor="middle">
+        <text x="120" y="28">Outside the window</text>
+        <text x="500" y="28">Context window</text>
+        <text x="120" y="90">Manual</text>
+        <text x="120" y="113" font-size="16">(many pages)</text>
+        <text x="120" y="220">Notes file</text>
+        <text x="120" y="243" font-size="16">(agent writes)</text>
+        <text x="500" y="100">Relevant page</text>
+        <text x="500" y="230">Reloaded note</text>
+        <text x="300" y="76">retrieve</text>
+        <text x="300" y="122">on demand</text>
+        <text x="300" y="206">writes notes</text>
+        <text x="300" y="252">reloads</text>
+      </g>
+    </g>
+  </svg>
+  <figcaption>Figure 3. Only the chosen page and the saved note enter the window; the rest of the manual stays outside. The agent writes notes to the file and reloads them later.</figcaption>
+</figure>

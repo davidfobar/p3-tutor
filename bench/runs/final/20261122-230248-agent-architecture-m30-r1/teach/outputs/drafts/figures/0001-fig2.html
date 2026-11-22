@@ -1,0 +1,62 @@
+<!--
+Section: 4, Kept between steps, and between sessions.
+Notice: session 2 starts with an empty history, and only a note saved to a file and loaded back reaches it; inside a session, compaction turns a long history into a short summary.
+Source: S1, Effective context engineering for AI agents (compaction, structured notes, nothing carries over by itself).
+viewBox 0 0 640 340. Label width = chars x 10.8 at size 18 (x 9.6 at size 16). Padding needed 12 on each side.
+Windows: rect x=20 w=290 and x=330 w=290, y=44, h=182 (to 226). Notes box x=170 y=282 w=300 h=44. Arrows use marker fig2-arrow.
+| label | x range | baseline y (y range) | w | box it sits in | clear L/R, top/bottom | overlaps |
+| "Session 1" (9 ch, center 165) | 117.9 to 212.1 | 30 (15.6 to 34.5) | 97 | frame, above window 1 (top 44) | 108 left; 9.5 above window | none |
+| "Session 2" (center 475) | 427.9 to 522.1 | 30 | 97 | frame, above window 2 | far | none |
+| "Long history" (12 ch, center 165) | 100 to 230 | 83 (68.6 to 87.5) | 130 | box x 32 to 298, y 56 to 126 | 68 / 68; 12.6 top | none |
+| "(steps, tool results)" size 16 (21 ch, center 165) | 64 to 266 | 107 (94.2 to 111) | 202 | same box | 32 / 32; 15 bottom | none; 7 below line 1 text |
+| "Compaction" (10 ch, start 177) | 177 to 285 | 152 (137.6 to 156.5) | 108 | clear gap between box bottom 126 and next box top 166, inside window 1 | 12 right of arrow x=165; 25 to window edge 310 | none |
+| "Summary of history" (18 ch, center 165) | 68 to 262 | 193 (178.6 to 197.5) | 194 | box x 32 to 298, y 166 to 210 | 36 / 36; 12.6 top, 12.5 bottom | none |
+| "New history" (11 ch, center 475) | 415.6 to 534.4 | 83 | 119 | box x 342 to 608, y 56 to 126 | 73 / 73; 12.6 top | none |
+| "(starts empty)" size 16 (14 ch, center 475) | 407.2 to 542.8 | 107 | 134 | same box | 65 / 65; 15 bottom | none |
+| "Saved note" (10 ch, center 475) | 421 to 529 | 193 | 108 | box x 342 to 608, y 166 to 210 | 79 / 79; 12.6 / 12.5 | none |
+| "saves note" (10 ch, start 212) | 212 to 320 | 260 (245.6 to 264.5) | 108 | gap between windows bottom 226 and notes box top 282 | 12 right of arrow x=200 | none with "loads note" (starts 452) |
+| "loads note" (10 ch, start 452) | 452 to 560 | 260 | 108 | same gap | 12 right of arrow x=440 | none |
+| "Notes file (saved)" (18 ch, center 320) | 222.8 to 417.2 | 309 (294.6 to 313.5) | 194 | box x 170 to 470, y 282 to 326 | 53 / 53; 12.6 top, 12.5 bottom | none |
+Arrows: compaction (165,126) to (165,166): box edge to box edge. saves: (200,226) to (200,282): window 1 bottom edge to notes box top edge. loads: (440,282) to (440,226): notes box top edge to window 2 bottom edge.
+Frame: left 20, right 620, top 15.6, bottom 326 of 340 (14 clear). No empty band.
+Layout check: passed
+-->
+<figure>
+  <svg viewBox="0 0 640 340" role="img" aria-labelledby="fig2-title">
+    <title id="fig2-title">Two sessions side by side. In session 1 a long history is compacted into a short summary, and a note is saved to a notes file. Session 2 starts with a new, empty history, and only the saved note, loaded from the notes file, is in its window.</title>
+    <defs>
+      <marker id="fig2-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+      </marker>
+    </defs>
+    <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="20" y="44" width="290" height="182" rx="8"/>
+      <rect x="32" y="56" width="266" height="70" rx="8"/>
+      <rect x="32" y="166" width="266" height="44" rx="8"/>
+      <rect x="330" y="44" width="290" height="182" rx="8"/>
+      <rect x="342" y="56" width="266" height="70" rx="8" stroke-dasharray="6 4"/>
+      <rect x="342" y="166" width="266" height="44" rx="8" style="stroke: var(--accent); stroke-width: 2.5; fill: var(--accent-soft)"/>
+      <rect x="170" y="282" width="300" height="44" rx="8"/>
+      <line x1="165" y1="126" x2="165" y2="166" marker-end="url(#fig2-arrow)"/>
+      <line x1="200" y1="226" x2="200" y2="282" marker-end="url(#fig2-arrow)"/>
+      <line x1="440" y1="282" x2="440" y2="226" marker-end="url(#fig2-arrow)"/>
+    </g>
+    <g fill="currentColor" style="font-family: var(--sans)" font-size="18">
+      <g text-anchor="middle">
+        <text x="165" y="30">Session 1</text>
+        <text x="475" y="30">Session 2</text>
+        <text x="165" y="83">Long history</text>
+        <text x="165" y="107" font-size="16">(steps, tool results)</text>
+        <text x="165" y="193">Summary of history</text>
+        <text x="475" y="83">New history</text>
+        <text x="475" y="107" font-size="16">(starts empty)</text>
+        <text x="475" y="193">Saved note</text>
+        <text x="320" y="309">Notes file (saved)</text>
+      </g>
+      <text x="177" y="152">Compaction</text>
+      <text x="212" y="260">saves note</text>
+      <text x="452" y="260">loads note</text>
+    </g>
+  </svg>
+  <figcaption>Figure 2. Inside a session, compaction shrinks a long history into a summary. Between sessions nothing carries over by itself: session 2 starts with an empty history, and only the note saved to a file and loaded back reaches it.</figcaption>
+</figure>

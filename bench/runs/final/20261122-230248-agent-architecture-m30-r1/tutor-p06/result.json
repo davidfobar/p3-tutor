@@ -1,0 +1,120 @@
+{
+  "duration_api_ms": 14630,
+  "stop_reason": "end_turn",
+  "session_id": "ea99cfbc-1b26-4048-bef3-57304f9eb27d",
+  "total_cost_usd": 0.09194849999999999,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 16792,
+    "cache_read_input_tokens": 86845,
+    "output_tokens": 1608,
+    "output_tokens_details": {
+      "thinking_tokens": 412
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 16792,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 592,
+        "cache_read_input_tokens": 27118,
+        "cache_creation_input_tokens": 685,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 685
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 8,
+      "outputTokens": 1608,
+      "cacheReadInputTokens": 86845,
+      "cacheCreationInputTokens": 16792,
+      "webSearchRequests": 0,
+      "costUSD": 0.09194849999999999,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 412,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 16792,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 0,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+    },
+    "started_in_background": 0,
+    "max_depth": 0,
+    "spawned_by_subagents": 0,
+    "completed": 0,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {}
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 8,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "Picture a race engineer on the pit wall with a radio, and a pit crew down at the car.\n\nThe engineer can't touch the car, but they're good at deciding what to check. The crew has hands and tools, but only does what it's told. The crew also posts a menu of what it can do: \"check tire pressure,\" \"read engine temps,\" \"swap a wheel.\"\n\nHere's one exchange:\n\n- The driver radios in: \"The car feels loose in the corners.\"\n- The engineer picks one item from the menu and says it over the radio: \"Read the rear tire pressures.\"\n- The crew does the reading. The engineer never touches a gauge.\n- The crew radios back: \"Rear left 24 psi, rear right 31.\"\n- The engineer reasons from that and either asks for another action or gives the final call: \"Pit now, add air to rear left.\"\n\n**Tool calling is the radio message.** When the model \"calls a tool,\" all it does is write out a request: which menu item, plus the details. Your program is the pit crew. It runs the action and sends the result back as text. The model never runs anything itself.\n\nTwo more things follow from the analogy:\n\n- **The menu is the tool descriptions.** The engineer can only pick from what the crew has listed, and vague menu wording leads to wrong requests. That's why writing a good tool description is a skill in your mission.\n- **Each radio exchange is a fresh call to the model.** The engineer \"remembers\" only because the whole conversation so far gets handed back each time.\n\nThe analogy breaks in one place. A real engineer has memory and judgment built up over many seasons. The model has only the menu and the transcript in front of it.\n\nQuick check: for \"Is the laser cutter free on Friday?\", who reads the booking calendar, and what does the model write?\n\nIf you'd like to see this working, I can put together a hands-on lesson where you watch one exchange step by step.",
+  "ttft_ms": 1018,
+  "type": "result",
+  "duration_ms": 14802,
+  "uuid": "34fcab8f-896a-48fa-8a90-8d226905f4d1",
+  "ttft_stream_ms": 768,
+  "time_to_request_ms": 93,
+  "first_content_frame_ms": 768,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 8,
+      "outputTokens": 1608,
+      "cacheReadInputTokens": 86845,
+      "cacheCreationInputTokens": 16792,
+      "webSearchRequests": 0,
+      "costUSD": 0.09194849999999999,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 412,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 16792,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-12-16T23:36:35.249Z"
+}

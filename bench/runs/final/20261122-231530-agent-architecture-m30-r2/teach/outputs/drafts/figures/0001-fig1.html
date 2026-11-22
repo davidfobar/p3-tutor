@@ -1,0 +1,85 @@
+<!--
+Section: 3. The context window and what stays between steps.
+Notice: the window fills as tool results arrive; clearing old raw results or compacting into a summary frees room.
+Source: S1, Effective context engineering for AI agents. The 100-unit window and every size are examples, not real token counts.
+Layout check (viewBox 640 x 380; text box y from baseline-14.4 to baseline+4.5; width = chars x 10.8):
+Row i (0..4): segment y = 50+60i, h 44; capacity outline y = 48+60i, h 48; label baseline = segment y + 27, so text spans y+12.6 to y+31.5 inside the segment (top clear 12.6, bottom clear 12.5).
+Row labels (x=20, anchor start), none inside a box, all end left of the outlines (x=128):
+ "Step 1"  x 20-84.8,  y 62.6-81.5 (77)    ok
+ "Step 3"  x 20-84.8,  y 122.6-141.5 (137) ok
+ "Step 4"  x 20-84.8,  y 182.6-201.5 (197) ok
+ "Cleared" x 20-95.6,  y 242.6-261.5 (257) ok
+ "Compact" x 20-95.6,  y 302.6-321.5 (317) ok
+Header "Context window: example of 100 units" x 20-408.8, y 15.6-34.5 (30); frame ok; clear of row 0 outline (top 48)  ok
+Segments (x, w) and their labels (width, side clear = (w - label)/2):
+ I   all rows x131 w71.5; "I" 10.8 wide at 166.75; side clear 30.4  ok
+ T1  rows 0-2 x204.5 w56.8; "T1" 21.6 wide at 232.9; side clear 17.6  ok
+ T2  rows 1-2 x263.3 w115.6; "T2" at 321.1; side clear 47  ok
+ T3  rows 1-2 x380.9 w135.2; "T3" at 448.5; side clear 56.8  ok
+ T4  row 2 x518.1 w56.8; "T4" at 546.5; side clear 17.6; ends 574.9  ok
+ T4  row 3 x204.5 w56.8; "T4" at 232.9; side clear 17.6  ok
+ cleared box row 3 x263.3 w311.6 (dashed); "T1-T3 cleared" 140.4 wide at 419.1 (348.9-489.3); side clear 85.6  ok
+ S   row 4 x204.5 w47; "S" 10.8 wide at 228; side clear 18.1  ok
+Capacity outlines x128 w494 (ends 622 <= 630); every segment sits inside, no label touches an outline.
+Legend "I = task, T = tool result, S = summary" 410.4 wide, x 20-430.4, y 347.6-366.5 (362); last outline bottom 336, clear; frame bottom 380, 13.5 left.
+Rows are 60 apart and outlines 48 high, so none overlap. No arrows.
+Layout check: passed
+-->
+<figure>
+  <svg viewBox="0 0 640 380" role="img" aria-labelledby="fig1-title">
+    <title id="fig1-title">Five bars show the same example context window of 100 units at different moments. At step 1 it holds the task and one tool result. By step 3 it holds three tool results, and at step 4 it is nearly full at 91 units. After clearing, the task and the newest tool result remain and the old results are freed. After compaction, the task and a short summary remain.</title>
+    <g fill="none" stroke-width="1.5" style="stroke: var(--muted)" stroke-dasharray="6 4">
+      <rect x="128" y="48" width="494" height="48" rx="10"/>
+      <rect x="128" y="108" width="494" height="48" rx="10"/>
+      <rect x="128" y="168" width="494" height="48" rx="10"/>
+      <rect x="128" y="228" width="494" height="48" rx="10"/>
+      <rect x="128" y="288" width="494" height="48" rx="10"/>
+      <rect x="263.3" y="230" width="311.6" height="44" rx="8"/>
+    </g>
+    <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="131" y="50" width="71.5" height="44" rx="8"/>
+      <rect x="204.5" y="50" width="56.8" height="44" rx="8"/>
+      <rect x="131" y="110" width="71.5" height="44" rx="8"/>
+      <rect x="204.5" y="110" width="56.8" height="44" rx="8"/>
+      <rect x="263.3" y="110" width="115.6" height="44" rx="8"/>
+      <rect x="380.9" y="110" width="135.2" height="44" rx="8"/>
+      <rect x="131" y="170" width="71.5" height="44" rx="8"/>
+      <rect x="204.5" y="170" width="56.8" height="44" rx="8"/>
+      <rect x="263.3" y="170" width="115.6" height="44" rx="8"/>
+      <rect x="380.9" y="170" width="135.2" height="44" rx="8"/>
+      <rect x="518.1" y="170" width="56.8" height="44" rx="8"/>
+      <rect x="131" y="230" width="71.5" height="44" rx="8"/>
+      <rect x="204.5" y="230" width="56.8" height="44" rx="8"/>
+      <rect x="131" y="290" width="71.5" height="44" rx="8"/>
+      <rect x="204.5" y="290" width="47" height="44" rx="8" style="stroke: var(--accent); stroke-width: 2.5; fill: var(--accent-soft)"/>
+    </g>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18" text-anchor="middle">
+      <text x="166.75" y="77">I</text>
+      <text x="232.9" y="77">T1</text>
+      <text x="166.75" y="137">I</text>
+      <text x="232.9" y="137">T1</text>
+      <text x="321.1" y="137">T2</text>
+      <text x="448.5" y="137">T3</text>
+      <text x="166.75" y="197">I</text>
+      <text x="232.9" y="197">T1</text>
+      <text x="321.1" y="197">T2</text>
+      <text x="448.5" y="197">T3</text>
+      <text x="546.5" y="197">T4</text>
+      <text x="166.75" y="257">I</text>
+      <text x="232.9" y="257">T4</text>
+      <text x="419.1" y="257">T1-T3 cleared</text>
+      <text x="166.75" y="317">I</text>
+      <text x="228" y="317">S</text>
+    </g>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18" text-anchor="start">
+      <text x="20" y="30">Context window: example of 100 units</text>
+      <text x="20" y="77">Step 1</text>
+      <text x="20" y="137">Step 3</text>
+      <text x="20" y="197">Step 4</text>
+      <text x="20" y="257">Cleared</text>
+      <text x="20" y="317">Compact</text>
+      <text x="20" y="362">I = task, T = tool result, S = summary</text>
+    </g>
+  </svg>
+  <figcaption>Figure 1. Each loop step adds a tool result and the window fills (example sizes). Near the limit, clearing old raw results or compacting into a short summary (accent) frees room; both start from step 4.</figcaption>
+</figure>

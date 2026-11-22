@@ -1,0 +1,120 @@
+{
+  "duration_api_ms": 15324,
+  "stop_reason": "end_turn",
+  "session_id": "b341cfd0-128e-43da-a5c4-f7c0dc5d0308",
+  "total_cost_usd": 0.0885769,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 16457,
+    "cache_read_input_tokens": 59769,
+    "output_tokens": 1676,
+    "output_tokens_details": {
+      "thinking_tokens": 484
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 16457,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 702,
+        "cache_read_input_tokens": 26695,
+        "cache_creation_input_tokens": 773,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 773
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 6,
+      "outputTokens": 1676,
+      "cacheReadInputTokens": 59769,
+      "cacheCreationInputTokens": 16457,
+      "webSearchRequests": 0,
+      "costUSD": 0.0885769,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 484,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 16457,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 0,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+    },
+    "started_in_background": 0,
+    "max_depth": 0,
+    "spawned_by_subagents": 0,
+    "completed": 0,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {}
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 6,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "Yes, the strongest agents do get RL on top of base training. But two things first.\n\n**Scope.** Your `MISSION.md` lists training and the math inside models as out of scope, and you haven't met policies or rewards yet. A full derivation would sit on top of material we haven't covered, so here is the short, honest version. It leaves out the proof details.\n\n**The idea, with a car analogy.** Think of tuning an engine map on a dyno. You change a setting, measure, and keep what scores better. Change too much at once and you can blow the engine, so you take small, bounded steps. PPO is that rule for a model.\n\n- The model is a *policy*. It gives the probability of each next action, such as \"call `check_calendar`\".\n- A *reward* scores a whole attempt. For example: +1 if the call is valid, the right tool was chosen and the booking succeeded.\n- The basic update raises the probability of actions that scored above average. That gap is the *advantage* A.\n- Reusing old attempts means comparing new and old probabilities. That gives the ratio r = π_new(action) / π_old(action).\n- Without a limit, a big r means a big, unstable jump. PPO clips it:\n\n  **L = E[ min( r·A, clip(r, 1−ε, 1+ε)·A ) ]**\n\n  With ε around 0.2, the model can't be pushed more than about 20% away from its old behavior on any one step. It works like traction control.\n\n**Using it for your assistant.** Realistically, it's not a fit for your project:\n\n- You need an open-weights model, GPUs, and a reward function. You also need hundreds or thousands of scored makerspace tasks.\n- Your budget is small, and you have never called a model from code yet.\n- Tool-calling failures usually come from vague tool descriptions or missing examples. Both are cheap to fix and are in your mission.\n\nA better path is to write a small test set of 20 real requests, measure how often the right tool gets called, and improve the descriptions. That is the same loop as RL, done by hand. If you still want RL later, the first lesson to take is policies and rewards.\n\nQuick check: in the clipped formula, what is the clip protecting you from?",
+  "ttft_ms": 984,
+  "type": "result",
+  "duration_ms": 15465,
+  "uuid": "c3d94b7e-9834-426f-b41a-50619081a902",
+  "ttft_stream_ms": 736,
+  "time_to_request_ms": 85,
+  "first_content_frame_ms": 736,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 6,
+      "outputTokens": 1676,
+      "cacheReadInputTokens": 59769,
+      "cacheCreationInputTokens": 16457,
+      "webSearchRequests": 0,
+      "costUSD": 0.0885769,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 484,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 16457,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-12-16T23:36:35.249Z"
+}

@@ -1,0 +1,43 @@
+{
+  "quiz": "0001",
+  "submission": "s2",
+  "items": [
+    {
+      "id": "q1",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Right: what makes it an agent is the structure, a loop of choose an action, run it, feed the result back. A longer prompt or a bigger context window changes what one call can do, not that structure. For more on this, see the \"Agents\" section of \"Building effective agents\" (https://www.anthropic.com/engineering/building-effective-agents)."
+    },
+    {
+      "id": "q2",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Right: the model only outputs a structured request naming the tool and its arguments, and the program around it runs the tool. The model never touches the booking system or the tool's code. To go deeper, see \"Model responses with tools\" in \"Define tools\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools), where the model's output is a tool_use block with a name and an input."
+    },
+    {
+      "id": "q3",
+      "verdict": "wrong",
+      "misconception": "M6",
+      "feedback": "The first mistake is assuming that more time will fix it: the agent is repeating the same edit against the same failing test, so another 40 steps add nothing new. This is tempting because a loop does keep making progress on many tasks, but nothing in the loop itself ever ends it, so the program needs a stopping condition such as a step limit that halts and reports back to a person. Reread the \"Agents\" section of \"Building effective agents\" (https://www.anthropic.com/engineering/building-effective-agents) and look for the line about stopping conditions such as a maximum number of iterations."
+    },
+    {
+      "id": "q4",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Right, 4: three tool requests plus the final answer, one per call. One wording to fix in your explanation: the model does not run check_calendar and the other tools. Each call ends with a request, the program runs the tool, and the program then calls the model again with the result. Your count is right because you counted requests, but keep the two roles separate. Reread \"Model responses with tools\" in \"Define tools\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools) and look for how the model's reply holds a tool_use block with a name and an input, which is a request and not a result."
+    },
+    {
+      "id": "q5",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Right on both parts: the result goes back in as the model's next input, and that is so the model can decide what to do next. The group-chat picture works, as long as you remember the model only sees what is put in front of it. For where this fits, see the \"Agents\" section of \"Building effective agents\" (https://www.anthropic.com/engineering/building-effective-agents), which describes the model using tools based on feedback from the environment in a loop."
+    },
+    {
+      "id": "q6",
+      "verdict": "partial",
+      "misconception": null,
+      "feedback": "The name is part of it, but it is not the whole of it. The model chooses from the full description the program gives it: the tool's name, what it does and when to use it, and what parameters it takes. A name alone can mislead, for example a tool called check_calendar might not say whether it books or only reads. Reread \"Best practices for tool definitions\" in \"Define tools\" (https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools) and look for what a good description has to say beyond the name."
+    }
+  ],
+  "summary": "You have the agent loop down: you identified what makes a system an agent, you saw in q2 that the model only requests a tool while the program runs it, you counted model calls correctly, and you explained why the result goes back to the model. Two things to work on. First, stopping: an agent that repeats itself will not fix itself by running longer, so the program needs a limit that ends the loop. Second, keep the roles straight in your wording (in q4 you wrote that the model runs the tools) and remember that a model picks a tool from its whole description, not its name. Before you try again, reread the \"Agents\" section of \"Building effective agents\", and \"Model responses with tools\" and \"Best practices for tool definitions\" in \"Define tools\"."
+}
