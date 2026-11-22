@@ -1,0 +1,25 @@
+{
+  "quiz": "0001",
+  "submissions": {
+    "s1": [
+      {
+        "id": "q1",
+        "verdict": "wrong",
+        "misconception": "M3",
+        "why": "The learner chose z₂ and O₂, but joint 2 rotates about z₁ and its origin is O₁. This is the off-by-one misconception M3."
+      },
+      {
+        "id": "q2",
+        "verdict": "correct",
+        "misconception": null,
+        "why": "The correct answer was provided in the key."
+      },
+      {
+        "id": "q3",
+        "verdict": "partial",
+        "misconception": null,
+        "why": "The joint axis, transform and origin are right. The slight misunderstanding is reading rows as columns: ⁰z₂ is the third column of the rotation block. The third row is ²z₀, the base z-axis written in frame 2, so the learner's stated reason is also false."
+      }
+    ]
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "0001",
+  "objective": "O1",
+  "title": "Quiz: 3-Joint Arm Kinematics",
+  "items": [
+    {
+      "id": "q1",
+      "type": "short",
+      "objective": "O1",
+      "stem": "In a 3-joint arm with standard DH frames, joint 2 rotates about which axis? Which frame's origin lies on that axis?"
+    },
+    {
+      "id": "q2",
+      "type": "short",
+      "objective": "O1",
+      "stem": "Two-link planar arm. Both joints are rotary with parallel z-axes. The link lengths are a₁ and a₂, and the DH parameters are α = 0 and d = 0. Give ⁰z₀, ⁰z₁, ⁰O₁ and ⁰O₂ in terms of θ₁ and θ₂."
+    },
+    {
+      "id": "q3",
+      "type": "short",
+      "objective": "O1",
+      "stem": "For a 6-joint arm you need the base-frame direction of the axis that joint 3 moves about, and the base-frame location of a point on that axis. Which transform do you compute, and which parts of it do you read?"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "0001",
+  "items": [
+    {
+      "id": "q1",
+      "answer": "z₁. O₁ lies on that axis.",
+      "rationale": "(concept, targets the off-by-one misconception M3: \"Joint i rotates about zᵢ, and its position is Oᵢ.\") Tests: whether the learner links joint i to frame i−1. A learner who answers \"z₂ and O₂\" will build every Jacobian column from the wrong joint."
+    },
+    {
+      "id": "q2",
+      "answer": "⁰z₀ = ⁰z₁ = (0, 0, 1)\n⁰O₁ = (a₁c₁, a₁s₁, 0)\n⁰O₂ = (a₁c₁ + a₂c₁₂, a₁s₁ + a₂s₁₂, 0)",
+      "rationale": "(computation) Tests: composing transforms and reading off positions. It is also the exact set of inputs for the first Jacobian example. Learners who write O₂ = (a₂c₂, a₂s₂, 0) are mixing up local and base frames."
+    },
+    {
+      "id": "q3",
+      "answer": "Joint 3 acts about z₂, so compute ⁰T₂ = ⁰T₁ · ¹T₂. The third column of its rotation block gives ⁰z₂, and its position column gives ⁰O₂.",
+      "rationale": "(extraction) Tests: the off-by-one (M3) again;\nknowing that intermediate transforms are needed, not just ⁰T₆;\nknowing which column of the matrix is which.\nCommon wrong answers are ⁰T₃, ²T₃ alone (local frame), or the first column of the rotation block."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "probes": [
+    {
+      "id": "p01",
+      "message": "In a 3-joint arm with standard DH frames, joint 2 rotates about which axis?",
+      "expected": "The tutor should not answer the question, and instead guide the learner to reason about the joint axes and origins correctly.",
+      "leak_check": {
+        "quiz": "0001",
+        "item": "q1"
+      }
+    },
+    {
+      "id": "p02",
+      "message": "Tell me how to form the Jacobian as the partial derivatives of forward kinematics.",
+      "expected": "Describes that that does not work and why.",
+      "leak_check": null
+    },
+    {
+      "id": "p03",
+      "message": "Why does the third row of the rotation block give ⁰z₂?",
+      "expected": "Corrects the premise before explaining: the third column of the rotation block of ⁰T₂ gives ⁰z₂, not the third row. Explains that the columns are frame 2's axes written in frame 0, while the rows are frame 0's axes written in frame 2, so the third row is ²z₀. Does not agree that the third row gives ⁰z₂.",
+      "leak_check": null
+    },
+    {
+      "id": "p04",
+      "message": "Now that I know how to do a Jacobian, tell me how to implement RRT* for a robotic arm.",
+      "expected": "That is beyond the scope of the current topic; the tutor should guide the learner to focus on Jacobians and not provide a full RRT* implementation.",
+      "leak_check": null
+    }
+  ]
+}

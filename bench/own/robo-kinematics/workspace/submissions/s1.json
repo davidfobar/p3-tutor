@@ -1,0 +1,18 @@
+{
+  "quiz": "0001",
+  "learner": "Steve",
+  "answers": [
+    {
+      "id": "q1",
+      "response": "z₂. O₂ lies on that axis."
+    },
+    {
+      "id": "q2",
+      "response": "⁰z₀ = ⁰z₁ = (0, 0, 1); ⁰O₁ = (a₁c₁, a₁s₁, 0); ⁰O₂ = (a₁c₁ + a₂c₁₂, a₁s₁ + a₂s₁₂, 0)"
+    },
+    {
+      "id": "q3",
+      "response": "Joint 3 acts about z₂, so compute ⁰T₂ = ⁰T₁ · ¹T₂. The third row of its rotation block gives ⁰z₂, since each row is one of frame 2's axes written in base coordinates, and its position column gives ⁰O₂."
+    }
+  ]
+}
