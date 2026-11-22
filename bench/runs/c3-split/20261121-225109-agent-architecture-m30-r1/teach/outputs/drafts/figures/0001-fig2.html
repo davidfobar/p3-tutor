@@ -1,0 +1,57 @@
+<!--
+Section: 5, "Between sessions: notes as memory".
+Notice: the context of Monday's session is gone when it ends; only the notes file the program saved survives, and the program loads it into Wednesday's new, empty context. The model itself learns nothing.
+Source: MT intro and "How it works" (client-side file store, read back later); CW "How the context window works" (window separate from training); E "Long-horizon tasks" (structured note-taking). The file content is an adapted example.
+
+Layout check (viewBox 0 0 640 272; boxes rx 8; labels 18 and 16 start at box x + 12 or centered; arrows end on box edges):
+| Element | x | y | w | h | Must sit inside | Result |
+| Box "Monday session" | 20 | 20 | 250 | 70 | frame | ok |
+| label "Monday session" (14 ch, 18, centered at 145) | 69.4 | 33.6 | 151.2 | 19 | its box (clear 49 each side) | ok |
+| label "then context is gone" (20 ch, 16, centered at 145) | 49 | 59.2 (baseline 72) | 192 | 17 | its box (clear 29 each side; bottom 14 clear) | ok |
+| Box "Wednesday session" | 370 | 20 | 250 | 70 | frame (right edge 620) | ok |
+| label "Wednesday session" (17 ch, 18, centered at 495) | 403 | 33.6 | 183.6 | 19 | its box (clear 33) | ok |
+| label "context starts empty" (20 ch, 16, centered at 495) | 399 | 59.2 | 192 | 17 | its box | ok |
+| Box "Notes file" (accent) | 145 | 190 | 350 | 70 | frame (bottom 260, 12 clear to 272) | ok |
+| label "Notes file, kept on disk" (24 ch, 18, centered at 320) | 190.4 | 203.6 | 259.2 | 19 | its box (clear 45) | ok |
+| label "laser cutter: trained Monday" (28 ch, 16, centered at 320) | 185.6 | 209.2 | 268.8 | 17 | its box (clear 40) | ok |
+| Arrow 1 (down) | 195 | 90 | 0 | 100 | starts on Monday box bottom edge (x 20..270), ends on notes box top edge (x 145..495) | ok |
+| label "program saves notes" (19 ch, 16) at x=205 | 205 | 133.2 | 182.4 | 17 | clear space right of arrow 1; ends 387.4, left of arrow 2 (x=445) | ok |
+| Arrow 2 (up) | 445 | 90 | 0 | 100 | starts on notes top edge, ends on Wednesday bottom edge (x 370..620) | ok |
+| label "program loads it" (16 ch, 16) at x=455 | 455 | 133.2 | 153.6 | 17 | clear space right of arrow 2; ends 608.6 < 630 | ok |
+The two arrow labels (205..387 and 455..609) do not meet each other or either arrow.
+Layout check: passed
+-->
+<figure>
+  <svg viewBox="0 0 640 272" role="img" aria-labelledby="fig2-title">
+    <title id="fig2-title">Two sessions side by side with a notes file below them. The Monday session ends and its context is gone. An arrow labelled program saves notes goes from the Monday session down to the notes file, and an arrow labelled program loads it goes from the notes file up to the Wednesday session, which starts with an empty context.</title>
+    <defs>
+      <marker id="fig2-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+      </marker>
+    </defs>
+    <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="20" y="20" width="250" height="70" rx="8"/>
+      <rect x="370" y="20" width="250" height="70" rx="8"/>
+      <rect x="145" y="190" width="350" height="70" rx="8" style="stroke: var(--accent); fill: var(--accent-soft); stroke-width: 2.5"/>
+      <line x1="195" y1="90" x2="195" y2="190" marker-end="url(#fig2-arrow)"/>
+      <line x1="445" y1="190" x2="445" y2="90" marker-end="url(#fig2-arrow)"/>
+    </g>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18" text-anchor="middle">
+      <text x="145" y="48">Monday session</text>
+      <text x="495" y="48">Wednesday session</text>
+      <text x="320" y="218">Notes file, kept on disk</text>
+    </g>
+    <g font-family="system-ui, sans-serif" font-size="16" text-anchor="middle" style="fill: var(--muted)">
+      <text x="145" y="72">then context is gone</text>
+      <text x="495" y="72">context starts empty</text>
+    </g>
+    <g font-family="system-ui, sans-serif" font-size="16" fill="currentColor" text-anchor="middle">
+      <text x="320" y="242">laser cutter: trained Monday</text>
+    </g>
+    <g font-family="system-ui, sans-serif" font-size="16" fill="currentColor">
+      <text x="205" y="146">program saves notes</text>
+      <text x="455" y="146">program loads it</text>
+    </g>
+  </svg>
+  <figcaption>Figure 2. Only the notes file survives between sessions. The program saves it and loads it into the next session's empty context; the model itself learns nothing.</figcaption>
+</figure>

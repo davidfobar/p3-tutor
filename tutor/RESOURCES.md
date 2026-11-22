@@ -16,6 +16,8 @@
   Every parameter of messages.create (model, max_tokens, messages, system) and the response fields. Use for: exact parameter meanings; it is very long, so search it.
 - [Docs: "Models overview" (Anthropic)](https://platform.claude.com/docs/en/about-claude/models/overview)
   Current model ids and how they compare. Use for: picking the model string to pass.
+- [Docs: "Context windows" (Anthropic, Claude platform docs)](https://platform.claude.com/docs/en/build-with-claude/context-windows)
+  What counts toward the window, its size by model, what happens on overflow, and context rot. Use for: keeping an agent's context within limits (O3, O4).
 
 ## Gaps
 - A hands-on, build-it-yourself source for a first small agent.

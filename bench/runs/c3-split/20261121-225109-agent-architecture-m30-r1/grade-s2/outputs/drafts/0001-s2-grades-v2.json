@@ -1,0 +1,43 @@
+{
+  "quiz": "0001",
+  "submission": "s2",
+  "items": [
+    {
+      "id": "q1",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Right: what makes it an agent is the structure, a loop of choose an action, run it, feed the result back. A longer prompt or bigger model only changes what one call can do. To go deeper, see the \"Agents\" section of \"Building effective agents\" (https://www.anthropic.com/research/building-effective-agents), and \"What are agents?\" for the contrast with fixed workflows."
+    },
+    {
+      "id": "q2",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Right: the model's output is a structured request naming check_calendar with its arguments; the program runs it. That split (model asks, program acts) is what the next questions build on. To go deeper, see \"Appendix 2: Prompt engineering your tools\" in \"Building effective agents\" (https://www.anthropic.com/research/building-effective-agents), where the model emits a tool use block when it plans to invoke a tool."
+    },
+    {
+      "id": "q3",
+      "verdict": "wrong",
+      "misconception": "M6",
+      "feedback": "You picked 'left to run longer, it will eventually fix the bug', which assumes an agent needs no stopping condition. But it is getting the same failing result each time, so more steps add nothing; it only spends budget, and cost matters for your assistant. The safeguard is a step limit that ends the loop and reports back. Reread the stopping-conditions passage in the \"Agents\" section of \"Building effective agents\" (https://www.anthropic.com/research/building-effective-agents), and look for why a maximum number of iterations is included."
+    },
+    {
+      "id": "q4",
+      "verdict": "partial",
+      "misconception": "M4",
+      "feedback": "Your count of 4 is right: three tool requests plus the final answer is four model calls. The reasoning is off, though: you wrote that the model 'runs' each tool itself. It only outputs a request; the program runs the tool and sends the result back, and the next model call starts from that. Count calls as one per input the model receives (the question plus three results). Reread the tool use block passage in \"Appendix 2: Prompt engineering your tools\" in \"Building effective agents\" (https://www.anthropic.com/research/building-effective-agents) and look at who emits the request."
+    },
+    {
+      "id": "q5",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Right on both parts: the result goes back in as the next input, and the model uses it to decide what to do next. The group-chat picture works, because the model only ever sees what is put in front of it. To go deeper, see the \"Agents\" section of \"Building effective agents\" (https://www.anthropic.com/research/building-effective-agents), which describes tool use in a loop on environmental feedback."
+    },
+    {
+      "id": "q6",
+      "verdict": "partial",
+      "misconception": null,
+      "feedback": "Name only is partial: the model relies on the whole description the program gives it, meaning what the tool does and the parameters it takes. A name alone can mislead (check_calendar could mean read or book). Reread \"Appendix 2: Prompt engineering your tools\" in \"Building effective agents\" (https://www.anthropic.com/research/building-effective-agents) and look at what a good tool definition includes."
+    }
+  ],
+  "summary": "You have the loop down: you spot what makes an agent, what the model outputs when it picks a tool, and what happens to a result afterwards. Work on next: the program, not the model, runs tools, and the loop needs a stopping condition (q3, q4's reasoning), plus tool descriptions as more than a name (q6). Before the next quiz, reread the \"Agents\" section and \"Appendix 2: Prompt engineering your tools\" in \"Building effective agents\" (https://www.anthropic.com/research/building-effective-agents)."
+}

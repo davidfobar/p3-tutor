@@ -1,0 +1,230 @@
+<!--
+Kind: interactive graphic.
+Core idea (C2, M1): the model keeps nothing between calls, so the program resends the whole history every call; the input grows with each tool result, and the total billed grows faster than the number of calls. Clearing old tool results and compaction cut it down.
+The learner should notice: each call's bar is longer than the one before because everything so far is sent again, and the "only the new message" belief leaves the model without the question.
+Section: 4, "Between steps: the program resends everything" (under its own heading).
+Time: about 5 minutes.
+Source for facts: MA "Multiple conversational turns"; CW "How the context window works", "The context window with thinking" (billing), "Manage context with compaction"; E "Long-horizon tasks". All token numbers are illustrative (the demo says so): system prompt and tool definitions 2,000; student question 100; each model request 100; each calendar result 3,000; demo window 12,000 (scaled down; real windows are 200k or up to 1M); a compacted summary 1,000; clearing keeps the latest 2 results. Convention as in Q4: call n carries the results of calls 1 to n-1.
+
+Layout check (viewBox 0 0 640 284; scale S = 420/18000 = 0.02333 unit per token; bars start at x=100; row i top = 44 + 40(i-1), bar height 28; row label 18 at baseline top+20, number label 16 right-aligned at x=626 baseline top+19).
+State A, before anyone touches it (call 1, all toggles off):
+| Element | x | y | w | h | Must sit inside | Result |
+| "demo window 12,000 (real: 200k+)" (32 ch, 16, centered at 380) | 226.4 | 13.2 | 307.2 | 16.8 | frame; clear of limit line (starts y=36) and row 1 (y=44) | ok |
+| "tokens" (16, end at 626) | 568.4 | 13.2 | 57.6 | 16.8 | frame (right edge 630) | ok |
+| limit line x=380 | 380 | 36 | 0 | 236 | frame (ends y=272, 12 clear) | ok |
+| "Call 1" (18) | 14 | 49.6 | 64.8 | 19 | left column, ends 21 before the bar at x=100 | ok |
+| fixed bar (2,000) | 100 | 44 | 46.7 | 28 | frame | ok |
+| history bar (100) | 146.7 | 44 | 2.3 | 28 | frame | ok |
+| "2,100" (16) | 578.4 | 50.2 | 48 | 16.8 | right of the bar end (149), frame | ok |
+| "Call 2" to "Call 6" (18), x=14, tops 84..244 | 14 | 89.6..249.6 | 64.8 | 19 | frame, 40 apart, no overlap | ok |
+State B, fullest (call 6, all toggles off): bars end at 100 + 17,600 x S = 510.7 (fixed 100..146.7, history 146.7..510.7, history 364 wide).
+| "Call 6" | 14 | 249.6 | 64.8 | 19 | frame | ok |
+| bar row 6 | 100 | 244 | 410.7 | 28 | frame, ends 57 before its number | ok |
+| "17,600" (16) | 568.4 | 250.2 | 57.6 | 16.8 | right of 510.7, frame (626 < 630) | ok |
+| other rows' numbers ("2,100".."14,500") | 568.4..578.4 | row tops + 6.2 | 48..57.6 | 16.8 | right of their bars (max bar end 438), clear of every bar | ok |
+The limit line at x=380 crosses only bars, never a label (labels sit at x >= 293.6 only in the header, above y=30, and the numbers start at 568). Wrong-belief and compacted states give shorter bars, so they fit too.
+Layout check: passed
+-->
+<section class="demo" id="demo-context" aria-labelledby="demo-heading">
+  <style>
+    .demo { border: 1px solid var(--rule); border-radius: 6px; padding: 1rem 1.25rem; margin: 1.75rem 0; font-family: var(--sans); font-size: 0.95rem; }
+    .demo h3 { margin: 0 0 0.5rem; font-size: 1.1rem; }
+    .demo p { margin: 0.4rem 0; }
+    .demo svg { display: block; width: 100%; height: auto; margin: 0.75rem 0 0.25rem; }
+    .demo .b-fixed { fill: none; stroke: currentColor; stroke-width: 1.5; }
+    .demo .b-hist { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2.5; }
+    .demo .b-sum { fill: var(--ok-soft); stroke: var(--ok); stroke-width: 1.5; }
+    .demo .b-bad { fill: var(--warn-soft); stroke: var(--warn); stroke-width: 1.5; }
+    .demo .r-muted { fill: var(--muted); }
+    .demo .limit { stroke: var(--warn); stroke-width: 1.5; stroke-dasharray: 6 4; fill: none; }
+    .demo .legend { display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; font-size: 0.85rem; color: var(--muted); margin: 0.25rem 0 0.75rem; }
+    .demo .sw { display: inline-block; width: 0.9rem; height: 0.9rem; border-radius: 3px; vertical-align: -0.1rem; margin-right: 0.3rem; border: 1.5px solid currentColor; }
+    .demo .sw-hist { background: var(--accent-soft); border-color: var(--accent); }
+    .demo .sw-sum { background: var(--ok-soft); border-color: var(--ok); }
+    .demo .sw-bad { background: var(--warn-soft); border-color: var(--warn); }
+    .demo .controls { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.5rem 0; }
+    .demo button { font: inherit; color: inherit; background: transparent; border: 1px solid var(--rule); border-radius: 6px; padding: 0.5rem 0.9rem; min-height: 2.5rem; cursor: pointer; }
+    .demo button:hover:not(:disabled) { border-color: var(--accent); }
+    .demo button:disabled { opacity: 0.45; cursor: default; }
+    .demo button:focus-visible, .demo input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .demo fieldset { border: 1px solid var(--rule); border-radius: 6px; margin: 0.5rem 0; padding: 0.4rem 0.9rem 0.6rem; }
+    .demo legend { font-size: 0.8rem; color: var(--muted); padding: 0 0.3rem; }
+    .demo label { display: flex; gap: 0.5rem; align-items: flex-start; padding: 0.25rem 0; cursor: pointer; }
+    .demo input[type="checkbox"] { width: 1.1rem; height: 1.1rem; margin-top: 0.15rem; flex: none; accent-color: var(--accent); }
+    .demo .readout { background: var(--accent-soft); border-radius: 6px; padding: 0.5rem 0.9rem; margin: 0.5rem 0; }
+    .demo .readout .note { color: var(--text); }
+    .demo .prompts { margin: 0.75rem 0 0; padding-left: 1.2rem; }
+    .demo .prompts li { margin-bottom: 0.4rem; }
+    .demo .small { font-size: 0.85rem; color: var(--muted); }
+  </style>
+
+  <h3 id="demo-heading">Demo: watch the history get resent</h3>
+  <p>"Is the laser cutter free on Friday?" Token numbers are illustrative.</p>
+
+  <svg viewBox="0 0 640 284" role="img" aria-labelledby="demo-svg-title">
+    <title id="demo-svg-title">Six horizontal bars, one per model call, showing how many tokens each call sends. The bar has a fixed part for the system prompt and tool definitions and a history part that grows with every call, with a dashed line marking the demo's window size.</title>
+    <g font-family="system-ui, sans-serif" font-size="16">
+      <text x="380" y="26" text-anchor="middle" style="fill: var(--warn)">demo window 12,000 (real: 200k+)</text>
+      <text x="626" y="26" text-anchor="end" class="r-muted">tokens</text>
+    </g>
+    <line class="limit" x1="380" y1="36" x2="380" y2="272"/>
+    <g font-family="system-ui, sans-serif" fill="currentColor">
+      <g data-row="1"><text x="14" y="64" font-size="18" class="r-muted">Call 1</text><rect class="b-fixed" x="100" y="44" width="46.7" height="28" rx="8"/><rect class="b-hist" x="146.7" y="44" width="2.3" height="28" rx="8"/><text x="626" y="63" font-size="16" text-anchor="end"></text></g>
+      <g data-row="2"><text x="14" y="104" font-size="18" class="r-muted">Call 2</text><rect class="b-fixed" x="100" y="84" width="46.7" height="28" rx="8"/><rect class="b-hist" x="146.7" y="84" width="2.3" height="28" rx="8"/><text x="626" y="103" font-size="16" text-anchor="end"></text></g>
+      <g data-row="3"><text x="14" y="144" font-size="18" class="r-muted">Call 3</text><rect class="b-fixed" x="100" y="124" width="46.7" height="28" rx="8"/><rect class="b-hist" x="146.7" y="124" width="2.3" height="28" rx="8"/><text x="626" y="143" font-size="16" text-anchor="end"></text></g>
+      <g data-row="4"><text x="14" y="184" font-size="18" class="r-muted">Call 4</text><rect class="b-fixed" x="100" y="164" width="46.7" height="28" rx="8"/><rect class="b-hist" x="146.7" y="164" width="2.3" height="28" rx="8"/><text x="626" y="183" font-size="16" text-anchor="end"></text></g>
+      <g data-row="5"><text x="14" y="224" font-size="18" class="r-muted">Call 5</text><rect class="b-fixed" x="100" y="204" width="46.7" height="28" rx="8"/><rect class="b-hist" x="146.7" y="204" width="2.3" height="28" rx="8"/><text x="626" y="223" font-size="16" text-anchor="end"></text></g>
+      <g data-row="6"><text x="14" y="264" font-size="18" class="r-muted">Call 6</text><rect class="b-fixed" x="100" y="244" width="46.7" height="28" rx="8"/><rect class="b-hist" x="146.7" y="244" width="2.3" height="28" rx="8"/><text x="626" y="263" font-size="16" text-anchor="end"></text></g>
+    </g>
+  </svg>
+  <div class="legend" aria-hidden="true">
+    <span><span class="sw"></span>system prompt and tool definitions (2,000)</span>
+    <span><span class="sw sw-hist"></span>history</span>
+    <span><span class="sw sw-sum"></span>summary</span>
+    <span><span class="sw sw-bad"></span>over the window, or question missing</span>
+  </div>
+
+  <div class="controls">
+    <button type="button" data-act="prev">Previous call</button>
+    <button type="button" data-act="next">Next call</button>
+    <button type="button" data-act="reset">Restart</button>
+  </div>
+  <fieldset>
+    <legend>Change how the program builds each call</legend>
+    <label><input type="checkbox" data-opt="clear"> <span>Clear old tool results (keep the latest 2)</span></label>
+    <label><input type="checkbox" data-opt="compact"> <span>Compact: past the window, summarize the history</span></label>
+    <label><input type="checkbox" data-opt="wrong"> <span>Wrong belief: send only the new message</span></label>
+  </fieldset>
+
+  <div class="readout" aria-live="polite">
+    <p data-out="now"></p>
+    <p data-out="total"></p>
+    <p class="note" data-out="note"></p>
+  </div>
+
+  <p><strong>Predict, then try</strong></p>
+  <ol class="prompts">
+    <li>Does call 2 send only the new result, or everything?</li>
+    <li>At call 6, is the total about 6 times call 1? Why?</li>
+    <li>Wrong belief on: what is missing at call 2?</li>
+  </ol>
+
+  <script>
+  (function () {
+    var root = document.getElementById("demo-context");
+    if (!root) { return; }
+    var LIMIT = 12000, FIXED = 2000, Q = 100, REQ = 100, RES = 3000, SUMM = 1000, KEEP = 2, N = 6;
+    var X0 = 100, S = 420 / 18000;
+    var step = 1;
+    var rows = Array.prototype.slice.call(root.querySelectorAll("[data-row]"));
+    var optClear = root.querySelector('[data-opt="clear"]');
+    var optCompact = root.querySelector('[data-opt="compact"]');
+    var optWrong = root.querySelector('[data-opt="wrong"]');
+    var btnPrev = root.querySelector('[data-act="prev"]');
+    var btnNext = root.querySelector('[data-act="next"]');
+    var btnReset = root.querySelector('[data-act="reset"]');
+    var outNow = root.querySelector('[data-out="now"]');
+    var outTotal = root.querySelector('[data-out="total"]');
+    var outNote = root.querySelector('[data-out="note"]');
+
+    function fmt(n) { return n.toLocaleString("en-US"); }
+
+    function simulate(clear, compact, wrong) {
+      var result = [];
+      var items = [{ t: Q, kind: "q" }];
+      for (var i = 1; i <= N; i++) {
+        var row = { hist: 0, compacted: false, cleared: false, bad: false, missingQ: false };
+        if (wrong) {
+          row.hist = (i === 1) ? Q : RES;
+          row.bad = i > 1;
+          row.missingQ = i > 1;
+        } else {
+          if (clear) {
+            var count = 0, k;
+            for (k = items.length - 1; k >= 0; k--) {
+              if (items[k].kind === "r") {
+                count++;
+                if (count > KEEP) { items.splice(k, 1); row.cleared = true; }
+              }
+            }
+          }
+          var hist = items.reduce(function (a, it) { return a + it.t; }, 0);
+          if (compact && FIXED + hist > LIMIT) {
+            items = [{ t: SUMM, kind: "s" }];
+            hist = SUMM;
+            row.compacted = true;
+          }
+          row.hist = hist;
+          row.bad = FIXED + hist > LIMIT;
+          items.push({ t: REQ, kind: "m" });
+          items.push({ t: RES, kind: "r" });
+        }
+        row.total = FIXED + row.hist;
+        result.push(row);
+      }
+      return result;
+    }
+
+    function render() {
+      var wrong = optWrong.checked;
+      optClear.disabled = wrong;
+      optCompact.disabled = wrong;
+      var data = simulate(optClear.checked, optCompact.checked, wrong);
+      var cum = 0;
+      rows.forEach(function (g, idx) {
+        var row = data[idx];
+        var rects = g.querySelectorAll("rect");
+        var num = g.querySelector("text:last-child");
+        if (idx + 1 > step) {
+          rects[0].setAttribute("display", "none");
+          rects[1].setAttribute("display", "none");
+          num.setAttribute("display", "none");
+          return;
+        }
+        cum += row.total;
+        var fw = FIXED * S, hw = Math.max(row.hist * S, 1);
+        rects[0].removeAttribute("display");
+        rects[1].removeAttribute("display");
+        num.removeAttribute("display");
+        rects[0].setAttribute("width", fw.toFixed(1));
+        rects[1].setAttribute("x", (X0 + fw).toFixed(1));
+        rects[1].setAttribute("width", hw.toFixed(1));
+        rects[1].setAttribute("class", row.bad ? "b-bad" : (row.compacted ? "b-sum" : "b-hist"));
+        num.textContent = fmt(row.total);
+      });
+      var cur = data[step - 1];
+      outNow.textContent = "Call " + step + " sends " + fmt(cur.total) + " tokens (" + fmt(FIXED) +
+        " fixed + " + fmt(cur.hist) + (wrong ? " message" : " history") + ").";
+      outTotal.textContent = "Total sent so far: " + fmt(cum) +
+        (wrong ? ". Cheap only because the question is gone." : ". It grows faster than the number of calls.");
+      var note;
+      if (wrong) {
+        note = step === 1
+          ? "Call 1 holds only the question. Go to call 2."
+          : "The question is gone, so the model could not answer. The API remembers nothing.";
+      } else if (cur.compacted) {
+        note = "Compacted: history replaced by a 1,000-token summary.";
+      } else if (cur.bad) {
+        note = "Past the demo window: this would not fit.";
+      } else if (cur.cleared) {
+        note = "Cleared: results older than the latest 2 were dropped.";
+      } else {
+        note = "The question, requests and results are all sent again.";
+      }
+      outNote.textContent = note;
+      btnPrev.disabled = step === 1;
+      btnNext.disabled = step === N;
+    }
+
+    btnPrev.addEventListener("click", function () { if (step > 1) { step--; render(); } });
+    btnNext.addEventListener("click", function () { if (step < N) { step++; render(); } });
+    btnReset.addEventListener("click", function () {
+      step = 1;
+      optClear.checked = false; optCompact.checked = false; optWrong.checked = false;
+      render();
+    });
+    [optClear, optCompact, optWrong].forEach(function (el) { el.addEventListener("change", render); });
+    render();
+  })();
+  </script>
+</section>

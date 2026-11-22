@@ -1,0 +1,74 @@
+{
+  "id": "0002",
+  "objective": "O4",
+  "title": "Workflows and agents: who owns the control flow",
+  "items": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "Which statement correctly tells an agent apart from a workflow?",
+      "options": [
+        {"id": "a", "text": "An agent runs on a larger, more capable model, while a workflow runs on a smaller one"},
+        {"id": "b", "text": "In an agent the model decides the steps and when to stop; in a workflow, code fixed beforehand sets them"},
+        {"id": "c", "text": "A workflow never calls a language model, while an agent calls one at every step"},
+        {"id": "d", "text": "An agent needs several different models working together, while a workflow needs only one"}
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "Which of these makerspace features is a workflow rather than an agent?",
+      "options": [
+        {"id": "a", "text": "The model gets a booking goal plus the tools check_calendar and book_machine, and chooses its own calls until it decides it is done"},
+        {"id": "b", "text": "The model answers a question by choosing between search_manuals and check_calendar, and searches again if the first result is thin"},
+        {"id": "c", "text": "Code looks up the booking, makes one model call to write the confirmation text, then sends it, in that order for every request"},
+        {"id": "d", "text": "The model reads the student's message and decides which tools to use, in what order, and how many times to use them"}
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "numeric",
+      "objective": "O4",
+      "stem": "The assistant gets 40 requests a day. 30 are booking confirmations whose steps never vary; a fixed workflow handles each with exactly 2 model calls. The other 10 are open-ended troubleshooting requests whose steps depend on what is found along the way; an agent handles each with an average of 5 model calls. If each kind of request uses the design that suits it, how many model calls does the assistant make per day in total?",
+      "unit": "model calls per day"
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "Each booking always needs three actions in one required sequence: check the student's training record, check the calendar, then write the booking. Judged on predictability and cost, which choice fits best?",
+      "options": [
+        {"id": "a", "text": "A fixed workflow: the three steps never vary, so code can run them for predictable cost and simple testing"},
+        {"id": "b", "text": "An agent: a flexible system handles bookings well, and its extra model calls are a small price for that"},
+        {"id": "c", "text": "An agent: choosing the order itself lets the model finish in fewer calls than a fixed order would"},
+        {"id": "d", "text": "A fixed workflow: code can also handle unplanned booking questions by rewriting its own steps as it goes"}
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "A student writes: \"My part came out warped on the 3D printer. Find out why and book a reprint.\" Which steps are needed depends on what the assistant finds in the manuals and the printer's logs. Which design fits best?",
+      "options": [
+        {"id": "a", "text": "A fixed workflow, because it costs less per request and the sponsor's model budget is small"},
+        {"id": "b", "text": "A fixed workflow, because one set sequence of manual search, log check and booking is more reliable"},
+        {"id": "c", "text": "An agent, because the model must pick each next step from what the earlier results show"},
+        {"id": "d", "text": "An agent, because a model that writes the final answer to the student counts as an agent"}
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "mcq",
+      "objective": "O4",
+      "stem": "In a proposed design, one model call reads each student message and outputs a single label, \"manual_question\" or \"booking\". Code then runs a pipeline the team wrote for that label, and each pipeline's steps never change. Judged by who owns the control flow, which description is best?",
+      "options": [
+        {"id": "a", "text": "A workflow: the code owns the sequence, and the model only picks among paths prepared in advance"},
+        {"id": "b", "text": "An agent: the model's label decides which steps happen next, so the model steers the process"},
+        {"id": "c", "text": "An agent: a language model reads the request, and that alone is enough to make a system an agent"},
+        {"id": "d", "text": "Neither: a single model call is too small to count as either design"}
+      ]
+    }
+  ]
+}

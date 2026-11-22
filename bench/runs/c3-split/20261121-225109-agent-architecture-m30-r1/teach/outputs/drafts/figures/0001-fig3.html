@@ -1,0 +1,75 @@
+<!--
+Section: 6, "Retrieval: finding the right page in a long manual".
+Notice: the manual stays outside the context; it is split and indexed ahead of time, and for each question only the best few chunks are put into the model's context.
+Source: CR "A primer on RAG: scaling to larger knowledge bases" (chunks, embeddings, similarity search) and "Introducing Contextual Retrieval" (BM25 for exact words plus embeddings for meaning); C2 note that retrieved chunks arrive as tool results and count against the window.
+
+Layout check (viewBox 0 0 640 406; boxes rx 8; single-line labels 18 start at x=32, centered in the box where noted):
+| Element | x | y | w | h | Must sit inside | Result |
+| Box "Long manual" | 20 | 20 | 300 | 44 | frame | ok |
+| label "Long manual" (11 ch, 18) | 32 | 32.6 | 118.8 | 19 | its box (right clear 169) | ok |
+| Box "Small chunks" | 20 | 96 | 300 | 44 | frame | ok |
+| label "Small chunks" (12 ch) | 32 | 108.6 | 129.6 | 19 | its box | ok |
+| Box "Index" | 20 | 172 | 300 | 70 | frame | ok |
+| label "Index" (5 ch, 18) | 32 | 185.6 | 54 | 19 | its box (top clear 13.6) | ok |
+| label "meaning + exact words" (21 ch, 16) | 32 | 211.2 (baseline 224) | 201.6 | 17 | its box (bottom clear 14, right clear 86) | ok |
+| Box "Question" | 440 | 185 | 180 | 44 | frame (right edge 620) | ok |
+| label "Question" (8 ch, 18) | 452 | 197.6 | 86.4 | 19 | its box (right clear 81) | ok |
+| Box "Best few chunks" (accent) | 20 | 274 | 300 | 44 | frame | ok |
+| label "Best few chunks" (15 ch) | 32 | 286.6 | 162 | 19 | its box | ok |
+| Box "Model's context" | 20 | 350 | 300 | 44 | frame (bottom 394, 12 clear to 406) | ok |
+| label "Model's context" (15 ch) | 32 | 362.6 | 162 | 19 | its box | ok |
+| Arrow Manual to Chunks (down, x=170) | 170 | 64 | 0 | 32 | box edge to box edge | ok |
+| Arrow Chunks to Index | 170 | 140 | 0 | 32 | box edge to box edge | ok |
+| Arrow Index to Best chunks | 170 | 242 | 0 | 32 | box edge to box edge | ok |
+| Arrow Best chunks to Context | 170 | 318 | 0 | 32 | box edge to box edge | ok |
+| Arrow Question to Index (left, y=207) | 320 | 207 | 120 | 0 | from Question left edge (440) to Index right edge (320) | ok |
+| label "searches" (8 ch, 16, centered at 380) | 341.6 | 183.2 | 76.8 | 17 | gap 320..440, baseline 196 so 11 above the arrow | ok |
+| note "too long to paste every time" (28 ch, 16) at x=340 | 340 | 33.2 | 268.8 | 17 | beside box 1, right edge 608.8 | ok |
+| note "split once, ahead of time" (25 ch) | 340 | 109.2 | 240 | 17 | beside box 2 | ok |
+| note "best few for this question" (26 ch) | 340 | 287.2 | 249.6 | 17 | beside the accent box | ok |
+| note "counts against the window" (25 ch) | 340 | 363.2 | 240 | 17 | beside the last box | ok |
+Notes start 20 right of the boxes and clear every arrow (arrows are at x=170 and in y 195..207 only). Six boxes.
+Layout check: passed
+-->
+<figure>
+  <svg viewBox="0 0 640 406" role="img" aria-labelledby="fig3-title">
+    <title id="fig3-title">A vertical pipeline for retrieval. A long manual is split into small chunks, which go into an index that matches meaning and exact words. A student's question searches the index, the best few chunks come back, and only those are put into the model's context.</title>
+    <defs>
+      <marker id="fig3-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+      </marker>
+    </defs>
+    <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="20" y="20" width="300" height="44" rx="8"/>
+      <rect x="20" y="96" width="300" height="44" rx="8"/>
+      <rect x="20" y="172" width="300" height="70" rx="8"/>
+      <rect x="440" y="185" width="180" height="44" rx="8"/>
+      <rect x="20" y="274" width="300" height="44" rx="8" style="stroke: var(--accent); fill: var(--accent-soft); stroke-width: 2.5"/>
+      <rect x="20" y="350" width="300" height="44" rx="8"/>
+      <line x1="170" y1="64" x2="170" y2="96" marker-end="url(#fig3-arrow)"/>
+      <line x1="170" y1="140" x2="170" y2="172" marker-end="url(#fig3-arrow)"/>
+      <line x1="170" y1="242" x2="170" y2="274" marker-end="url(#fig3-arrow)"/>
+      <line x1="170" y1="318" x2="170" y2="350" marker-end="url(#fig3-arrow)"/>
+      <line x1="440" y1="207" x2="320" y2="207" marker-end="url(#fig3-arrow)"/>
+    </g>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18">
+      <text x="32" y="47">Long manual</text>
+      <text x="32" y="123">Small chunks</text>
+      <text x="32" y="200">Index</text>
+      <text x="452" y="212">Question</text>
+      <text x="32" y="301">Best few chunks</text>
+      <text x="32" y="377">Model's context</text>
+    </g>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="16">
+      <text x="32" y="224">meaning + exact words</text>
+      <text x="380" y="196" text-anchor="middle">searches</text>
+    </g>
+    <g font-family="system-ui, sans-serif" font-size="16" style="fill: var(--muted)">
+      <text x="340" y="47">too long to paste every time</text>
+      <text x="340" y="123">split once, ahead of time</text>
+      <text x="340" y="301">best few for this question</text>
+      <text x="340" y="377">counts against the window</text>
+    </g>
+  </svg>
+  <figcaption>Figure 3. The manual stays outside the context. Only the best few chunks for this question are put in, and they count against the window like any tool result.</figcaption>
+</figure>

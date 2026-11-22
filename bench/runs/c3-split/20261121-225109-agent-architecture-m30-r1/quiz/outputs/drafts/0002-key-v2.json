@@ -1,0 +1,40 @@
+{
+  "id": "0002",
+  "items": [
+    {
+      "id": "q1",
+      "answer": "b",
+      "rationale": "The difference is who owns the control flow: in a workflow, code written in advance sets the steps and their order; in an agent, the model decides the next step and when to stop. Model size (a), whether a model is called at all (c), and how many models are used (d) do not separate the two.",
+      "distractors": {"a": "M7", "c": "M8", "d": "M9"}
+    },
+    {
+      "id": "q2",
+      "answer": "c",
+      "rationale": "Only option c has code fixing the sequence (lookup, one model call, send) the same way for every request. In a, b and d the model chooses the tools, their order or how many calls to make, which is the agent pattern."
+    },
+    {
+      "id": "q3",
+      "answer": 120,
+      "tolerance": 0,
+      "rationale": "Agent: 40 x 5 = 200 calls per day. Workflow: 40 x 2 = 80 calls per day. Difference: 200 - 80 = 120 model calls per day, the extra cost of letting the model choose each step when the steps never vary."
+    },
+    {
+      "id": "q4",
+      "answer": "a",
+      "rationale": "When the steps and their order are known in advance and the same every time, a fixed workflow is the better choice: fewer model calls, predictable cost and behaviour, and easy testing. Flexibility is not free (b), an agent does not save calls here (c), and a workflow does not adapt to unplanned requests by itself (d).",
+      "distractors": {"b": "M10", "c": "M11", "d": "M12"}
+    },
+    {
+      "id": "q5",
+      "answer": "c",
+      "rationale": "The needed steps depend on what each result shows, so they cannot be fixed beforehand; that is where an agent's flexibility is worth its extra cost. A workflow chosen for being cheap (a) or reliable (b) would force the wrong steps on the task, and an agent is not the answer to every request (d).",
+      "distractors": {"a": "M13", "b": "M13", "d": "M10"}
+    },
+    {
+      "id": "q6",
+      "answer": "a",
+      "rationale": "This is a routing workflow: the model makes one bounded choice among paths the team built, and code runs the fixed steps of each. The model does not choose steps, order or when to stop, so the code still owns the control flow. Using a model (c) or influencing which path runs (b) does not make a system an agent, and a design with code and a model call is still a workflow (d).",
+      "distractors": {"b": "M14", "c": "M15", "d": "M16"}
+    }
+  ]
+}

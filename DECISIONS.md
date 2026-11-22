@@ -81,7 +81,24 @@ The grade review is quite expensive for what it provides. It spent 2M tokens wit
 Did the lesson get better by your own ratings, and what did the split cost against `c2-review`?
 Say in one sentence whether you would pay that price again.
 
-TODO: your answer to prompt 3.
+The lesson did improve at a cost of additional tokens. The biggest single change was the quality of the presentation (figures/demos). For the teach action, the cost went from 3M to 3.7M tokens, and took additional time due to the review steps. I think the review is worth it, but reducing the review iterations so that it is limited to a single review for intermediate products, and allowing a second review on the final product would make sense. Also, I think the planner agent should get a reduced scope.
+
+| job | criterion | c1-skills | c2-review | c3-split | final |
+|---|---|---:|---:|---:|---:|
+| Lesson | Technical correctness and facts | 5 | 5 | 5 | - |
+| Lesson | Pedagogy | 4 | 5 | 5 | - |
+| Lesson | Alignment with the learning goal | 5 | 5 | 5 | - |
+| Lesson | Overall quality | 3 | 5 | 5 | - |
+| Quiz | Difficulty | 5 | 5 | - | - |
+| Quiz | Coverage of the lesson's core | 5 | 5 | - | - |
+| Quiz | Wording and possible misreadings | 5 | 5 | - | - |
+| Quiz | Writing quality | 5 | 5 | - | - |
+| Quiz | Alignment with the learning goal | 5 | 5 | - | - |
+| Feedback | Useful | 4 | 5 | - | - |
+| Feedback | Explains enough | 3 | 5 | - | - |
+| Feedback | Personalized to how I like things explained | 4 | 3 | - | - |
+| Tutor | Guardrails | 5 | - | - | - |
+| Tutor | Personalization | 4 | - | - | - |
 
 ---
 

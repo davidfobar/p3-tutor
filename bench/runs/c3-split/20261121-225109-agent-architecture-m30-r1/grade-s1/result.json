@@ -1,0 +1,127 @@
+{
+  "duration_api_ms": 132375,
+  "stop_reason": "end_turn",
+  "session_id": "f64e9035-bf45-4c5b-9f7d-cefb9fdd5ebe",
+  "total_cost_usd": 0.5088435450000001,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 5289,
+    "cache_read_input_tokens": 107015,
+    "output_tokens": 3818,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 5289,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 841,
+        "cache_read_input_tokens": 54503,
+        "cache_creation_input_tokens": 3298,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 3298
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 42,
+      "outputTokens": 17792,
+      "cacheReadInputTokens": 541327,
+      "cacheCreationInputTokens": 72553,
+      "webSearchRequests": 0,
+      "costUSD": 0.4837042,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 3335,
+      "cacheCreationEphemeral5mInputTokens": 25763,
+      "cacheCreationEphemeral1hInputTokens": 46790,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 27743,
+      "outputTokens": 3294,
+      "cacheReadInputTokens": 5742,
+      "cacheCreationInputTokens": 5285,
+      "webSearchRequests": 2,
+      "costUSD": 0.025139344999999997,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 1143,
+      "cacheCreationEphemeral5mInputTokens": 5285,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "origin": {
+    "kind": "task-notification",
+    "producer": "session-task",
+    "runId": "0mwr06ucn-afe5fdf0"
+  },
+  "subagent_stats": {
+    "spawned": 3,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 3
+    },
+    "started_in_background": 2,
+    "max_depth": 1,
+    "spawned_by_subagents": 0,
+    "completed": 3,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {
+      "web-fetch": 1,
+      "grade-reviewer": 2
+    }
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 5,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "I graded `submissions/s1.json` for quiz 0001: 2 correct, 2 partial and 2 wrong. The grades are in `grades/0001-s1.json`.\n\n| Item | Verdict | Why |\n|---|---|---|\n| q1 | correct | An agent is the loop of action, run and result. |\n| q2 | wrong (M4) | You chose \"a\", which has the model opening the booking system itself. The model only writes a tool request, and the program runs the tool. |\n| q3 | correct | A step limit is the right safeguard against a repeating loop. |\n| q4 | wrong (M4) | \"It runs the 3 tools itself\" is the first mistake. The program runs the tools, and each result goes back to the model in a separate call. |\n| q5 | partial | \"It sends it back to the model\" is right, but you left out why: the model needs the result to choose its next step or write the answer. |\n| q6 | partial (M3) | The first half is right: the model gets tool names and descriptions and picks the one that fits. The claim that it remembers earlier picks on its own is wrong. Memory only exists if the program puts it into the input. |\n\n**What you have down:** the shape of the agent loop, the need for a stopping condition, and that the model picks tools from descriptions.\n\n**What to work on:** the model only writes text, and the program does everything else. It runs the tools, feeds results back and supplies any memory. Your q2 and q4 both came from believing the model runs the tools itself.\n\n**Next step:** reread \"The tool-use contract\", \"Where tools run\" (especially \"User-defined tools (client-executed)\") and \"The agentic loop (client tools)\" in [\"How tool use works\"](https://platform.claude.com/docs/agents-and-tools/tool-use/how-tool-use-works). Then trace the laser-cutter question on paper, mark whether the model or the program does each step, and count the model calls.\n\n- **Pointers:** the workspace has no lessons or cheat sheets, so every pointer goes to that one page, which I added to `RESOURCES.md`. It doesn't cover memory between sessions, which is the next topic in your mission.\n- **Review:** two review passes ran and their findings are fixed. The record is `review-records/0001-s1-grade.md`.\n- **Other files:** I added `learning-records/0003-model-does-not-run-tools-yet.md` and updated `NOTES.md`.\n\nQuestion for you: `submissions/s2.json` is the second attempt at this quiz. Do you want me to grade it next, so we can see whether the M4 mix-up cleared up?",
+  "ttft_ms": 689,
+  "type": "result",
+  "duration_ms": 21469,
+  "uuid": "29dbd01f-8a8a-487b-8143-b8a74922b2aa",
+  "ttft_stream_ms": 473,
+  "time_to_request_ms": 14,
+  "first_content_frame_ms": 473,
+  "queued_turn_count": 0,
+  "result_index": 2,
+  "model_usage_since_last_result": {},
+  "credential_expires_at": "2026-12-16T23:36:35.528Z"
+}

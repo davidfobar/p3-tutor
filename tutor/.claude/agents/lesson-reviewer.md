@@ -18,7 +18,11 @@ The task message names the draft lesson, its plan in `plans/`, its demo in `demo
 2. Read the plan, then the demo file (its opening comment says what the learner should notice and how many minutes it takes), then the draft lesson.
 3. Measure the draft. Run exactly this, with the draft's path, and use no other shell command:
 
-   `python3 .claude/tools/lesson_check.py <draft path>`
+   `python3 .claude/tools/lesson_check.py drafts/NNNN-<slug>.html`
+
+   Both paths stay relative, exactly as above: you start in the workspace's root, and the permission that lets this command run matches only this form, so a command that starts with the workspace's folder (`python3 /tmp/.../.claude/tools/lesson_check.py`), with `cd`, or chained with another command is denied.
+   When the task message gives the draft's path with a folder in front, keep only the part from `drafts/` on.
+   If the command is denied anyway, compare it with the line above character by character, fix it and run it once more; only if that is denied too, measure by hand and say so in `## Measurements`.
 
    It prints the requested minutes, the visible words and measured reading time (words / 150, the bench's rule), each section's words and measured minutes beside the minutes its heading claims, and for each script a syntax check and any id or class the script looks up that the page does not have.
 

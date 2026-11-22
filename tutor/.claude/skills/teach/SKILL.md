@@ -1,14 +1,14 @@
 ---
 name: teach
-description: Teach the learner in this workspace with a lesson - prepare it with the plan skill, build its hands-on demo with the demo skill, write it as a beautiful, self-contained HTML page of the requested length with every section labeled by its objective and linked to its sources; it writes a quiz only when the lesson's plan or the learner asks for one. Use it whenever the learner asks for a lesson or to be taught something.
+description: Teach the learner in this workspace with a lesson - have the lesson-planner subagent plan and outline it and the demo-dev subagent build its demo and figures, each reviewed by the product-reviewer before it comes back, write it as a beautiful, self-contained HTML page of the requested length with every section labeled by its objective and linked to its sources; it writes a quiz only when the lesson's plan or the learner asks for one. Use it whenever the learner asks for a lesson or to be taught something.
 argument-hint: "What would you like to learn, and for how many minutes?"
 ---
 
 # Teach
 
 You are the learner's teacher in this workspace, over many sessions, and your job here is the lesson.
-The other jobs have skills of their own: `/plan` prepares a lesson, `/demo` builds its hands-on demo, `/quiz` writes quizzes, `/grade` grades them and `/tutor` answers the learner in the chat.
-This skill runs `/plan` and `/demo` before the lesson it writes, and runs `/quiz` after it only when the lesson calls for a quiz (step 7); otherwise quizzes are a separate job the learner asks for.
+The other jobs have skills and subagents of their own: the `lesson-planner` subagent plans and outlines a lesson, the `demo-dev` subagent builds its demo and figures, `/quiz` writes quizzes, `/grade` grades them and `/tutor` answers the learner in the chat.
+This skill starts `lesson-planner` and `demo-dev` before the lesson it writes (each has its product reviewed by the `product-reviewer` subagent before it reports back), and runs `/quiz` after it only when the lesson calls for a quiz (step 7); otherwise quizzes are a separate job the learner asks for.
 
 ## The request
 
@@ -21,7 +21,7 @@ Put any question you have for the learner at the end of your final message, sinc
 
 ## Running another skill
 
-To run `/plan`, `/demo` or `/quiz`, use the Skill tool with this request; if that tool is not available or not allowed, read the skill's `SKILL.md` in `.claude/skills/<name>/` and follow it yourself with this request, then come back to the next step here.
+To run `/quiz`, use the Skill tool with this request; if that tool is not available or not allowed, read the skill's `SKILL.md` in `.claude/skills/<name>/` and follow it yourself with this request, then come back to the next step here.
 
 ## The workspace
 
@@ -36,18 +36,32 @@ Never write anything under `.claude/`.
 | `PREFERENCES.md` | how the learner likes to learn | the learner only |
 | `NOTES.md` | what the learner knows and does not, their stated wishes, working notes | every skill |
 | `learning-records/` | what the learner has shown they learned | every skill |
-| `plans/` | one lesson plan per lesson | `/plan` |
-| `demos/` | one demo per lesson, embedded in it | `/demo` |
+| `plans/` | one lesson plan per lesson, with its outline | the `lesson-planner` subagent |
+| `demos/` | one demo per lesson, embedded in it | the `demo-dev` subagent |
 | `drafts/` | the lesson's draft, while it is reviewed | you |
-| `review-records/` | one record per review loop | you, `/quiz`, `/grade` |
+| `drafts/figures/` | the lesson's figures, one fragment each, until they are pasted in | the `demo-dev` subagent |
+| `review-records/` | one record per review loop | you, `lesson-planner`, `demo-dev`, `/quiz`, `/grade` |
 | `lessons/` | one HTML lesson per file, written once after review | you |
 | `quizzes/`, `keys/` | quizzes and their answer keys | `/quiz` |
 | `assets/` | stylesheets, scripts and images shared by lessons | you |
 | `cheatsheets/` | one-page references: glossaries, formulas, procedures | you |
-| `RESOURCES.md` | trusted sources for this topic | you and `/plan` |
+| `RESOURCES.md` | trusted sources for this topic | you and `lesson-planner` |
 | `GLOSSARY.md` | the workspace's terms, once the learner owns them | you |
 
 Any of these may be missing; create a folder or file the first time you need it.
+
+## Tools
+
+In this workspace the shell is not yours to use: almost every shell command is denied, and each denial costs a turn.
+
+- **To look at files**, use Read, Glob and Grep, never `ls`, `cat`, `head`, `sed`, `grep` or a loop over files.
+- **To make or change files**, use Write and Edit: Write creates any folder a file needs, so there is no `mkdir`, and a file such as `assets/lesson.css` is written with Write, never extracted with `sed` or a redirect.
+- **To put the lesson together**, Read each fragment (the template, the demo, the figures) and paste it into the draft with Write or Edit; never assemble pieces with a script, and never write anything outside this workspace, such as under `/tmp`.
+- **To count the draft's words**, run the one shell command you may use, exactly in this form, relative paths and nothing chained before or after it:
+
+  `python3 .claude/tools/lesson_check.py drafts/NNNN-<slug>.html`
+
+  It prints the visible words and the reading time of the whole draft and of each section; never count words with a script of your own.
 
 ## Read first
 
@@ -90,19 +104,27 @@ The learner should always feel challenged just enough: teach the most relevant n
 
 ## Steps
 
-1. **Plan:** run `/plan`.
-   It writes `plans/NNNN-<slug>.md`: the objectives and their core, where the learner starts, the material with its sources, the misconceptions, the threads to earlier lessons and diagnostic questions.
-   Read the plan; the lesson takes its number, slug and objectives from it.
-2. **Demo:** run `/demo`.
-   It writes `demos/NNNN-<slug>.html`, a fragment ready to paste, with a comment that says where it belongs and how many minutes it takes to do.
-3. **Pin down the lesson** from the plan: the objective and its id, the requested length in minutes, and the one tangible win the learner will walk away with.
+1. **Plan:** start the `lesson-planner` subagent with the Agent tool, `subagent_type` `lesson-planner`, and a task message that gives the learning objectives with their ids (or the topic, when the request names no objective), the requested minutes (or that none were asked for), and the learner's request in their own words.
+   Wait for its report before you go on; never end the session while it is running.
+   It has the plan reviewed by the `product-reviewer` before it reports, and records that review in `review-records/NNNN-plan.md`; do not review the plan again.
+   It writes `plans/NNNN-<slug>.md`: the objectives and their core, where the learner starts, the material with its sources, the misconceptions, the threads to earlier lessons, diagnostic questions, and an `## Outline` of the complete lesson: the win, one row per section with its objective, core idea, misconception, example, figure, practice check and word budget, the demo slot, and the sources per section.
+   Read the plan; the lesson takes its number, slug, objectives and sections from it.
+   If the agent is not available, read `.claude/agents/lesson-planner.md` and follow it yourself.
+2. **Visuals:** start the `demo-dev` subagent with the Agent tool, `subagent_type` `demo-dev`, and a task message that names the plan's path.
+   Wait for its report; never end the session while it is running.
+   It writes `demos/NNNN-<slug>.html`, the demo, with a comment that says where it belongs and how many minutes it takes to do, and one `drafts/figures/NNNN-fig<k>.html` per figure in the outline, each a `<figure>` ready to paste with a comment that names its section.
+   It has them reviewed by the `product-reviewer`, at most twice, before it reports, records that review in `review-records/NNNN-visuals.md`, and says in its report which figures are accepted; do not review them again.
+   If the agent is not available, read `.claude/agents/demo-dev.md` and follow it yourself.
+3. **Pin down the lesson** from the plan's outline: the objective and its id, the requested length in minutes, and the win it states.
    When no length is asked for, use the plan's, and say in your message that the learner can ask for a shorter or longer lesson.
 4. **Budget the time.**
-   - The requested minutes are the reading time, and `p3-minutes` declares them: budget about 150 visible words per minute, as `references/LESSONS.md` explains, with the demo's visible words counted in it, and split them into sections.
+   - The requested minutes are the reading time, and `p3-minutes` declares them: the outline already splits them into sections at about 150 visible words per minute, with the demo's visible words counted in its slot; use its sections and budgets as they are.
    - The time to do the demo comes on top: take it from the demo's comment.
    - Only when the lesson calls for a quiz (step 7), the time to take it comes on top too: about 1 minute per `mcq` item and 2 per `numeric` item, five items unless the request says otherwise.
 5. **Write the lesson's draft** to `drafts/NNNN-<slug>.html`, never to `lessons/`, following `FORMATS.md`, `references/LESSONS.md` and the template: beautiful and self-contained, with figures, worked examples, practice with immediate feedback, and citations.
+   - **Follow the outline:** its sections in order, each written to its word budget, with the example, figure, misconception and practice check its row names.
    - **Teach from the plan:** its material and sources, its threads to earlier lessons in the opening and warm-up, each of its misconceptions where the idea comes up, and its diagnostic questions in the practice; search for more only when the plan leaves a gap.
+   - **The figures:** paste each accepted figure's `<figure>` as it is, in the section its comment names, and refer to it in the text by its number; never draw a figure of your own or redraw one, and leave out a figure `demo-dev` reports as not accepted.
    - **The demo:** paste its `<section class="demo">` as it is, in the section its comment names, give it a heading of its own with its objective and its time, and write the text around it so the learner does it where the idea is introduced and the text refers back to what they saw or ran.
    - **Objective labels:** every section heading carries the id of the objective it focuses on, as `<span class="section-objective">O3</span>` before its `section-time`; the warm-up carries the earlier objective it recalls, and the summary and "go further" sections every objective the lesson covers.
    - **Time estimates:** the header shows the breakdown and the total, such as "About 30 min reading + 8 min demo = 38 min", and every section heading shows its own minutes; only when the lesson calls for a quiz, the header adds its minutes ("+ 7 min quiz") and the closing says it is ready and how long it takes.
@@ -127,7 +149,7 @@ It checks above all that the demo works as intended and that the lesson's readin
   Do not hand it your reasoning or what you meant: it reads the draft the way the learner will.
 - **Wait for the reviewer's report** before you revise or go on; never end the session while a review is running.
 - **Revise the draft in place with the Edit tool**, one edit per finding, rather than writing the whole lesson again. To fix the length, add or cut words in the sections the report names, and then make every stated time match the measured one.
-  When a finding is about the demo, fix it in the draft's copy of the demo; `demos/` keeps the first version. You may decline a finding only when you are sure it is wrong, and then say why in the record.
+  When a finding is about the demo or a figure, fix it in the draft's copy, keeping to the layout rules in `.claude/agents/demo-dev.md`; `demos/` and `drafts/figures/` keep the accepted versions. You may decline a finding only when you are sure it is wrong, and then say why in the record.
 - **The cap is two passes.** Stop as soon as a report says `FINDINGS: 0`. After the second report, fix what it found without reviewing again.
 - **Write the record** `review-records/NNNN-teach.md`: how many passes ran, the measured reading time at each pass, each pass's findings in one line each (review A to D, check number, section, what), what you changed for each, and any finding you declined with why.
 

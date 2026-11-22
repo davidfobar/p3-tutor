@@ -73,8 +73,6 @@ The lesson has better structure, but still needs the quiz skill to be removed fo
 
 **Live tries:**
 
-TODO
-
 ### Lesson
 
 #### Technical correctness and facts

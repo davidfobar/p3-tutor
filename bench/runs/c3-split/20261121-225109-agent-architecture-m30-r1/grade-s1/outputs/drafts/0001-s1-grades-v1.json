@@ -1,0 +1,43 @@
+{
+  "quiz": "0001",
+  "submission": "s1",
+  "items": [
+    {
+      "id": "q1",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Yes, that's the right pick. What defines an agent is the structure: the model picks an action, the program runs it, and the result comes back, repeating until a stop. A longer prompt or a bigger context window only changes what a single call can do. To go deeper, see \"The agentic loop (client tools)\" in \"How tool use works\" (https://platform.claude.com/docs/agents-and-tools/tool-use/how-tool-use-works)."
+    },
+    {
+      "id": "q2",
+      "verdict": "wrong",
+      "misconception": "M4",
+      "feedback": "You picked 'the calendar entries, which it read by opening the booking system on its own'. That treats the model as if it runs the tool. A model only writes text. Here, that text is a structured request naming check_calendar with the laser cutter and tomorrow's date as arguments (option c). The program around the model reads that request, runs check_calendar, and hands back the result. It's tempting because the whole system looks like one assistant doing everything. Reread \"The tool-use contract\" and \"Where tools run\" in \"How tool use works\" (https://platform.claude.com/docs/agents-and-tools/tool-use/how-tool-use-works), and look for who emits the request versus who runs the operation."
+    },
+    {
+      "id": "q3",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "Right. The agent is repeating itself, and all 40 steps already fit in its context, so more room (a) or more steps (c) can't help. Only a stopping condition ends the loop and hands the problem back to a person. For where loops stop, see \"The agentic loop (client tools)\" in \"How tool use works\" (https://platform.claude.com/docs/agents-and-tools/tool-use/how-tool-use-works)."
+    },
+    {
+      "id": "q4",
+      "verdict": "wrong",
+      "misconception": "M4",
+      "feedback": "The answer is 4, not 1. Your first mistake is the phrase 'it runs the 3 tools itself': the program runs the tools, and each tool result goes back to the model as new input in a separate model call. Each call ends in one tool request or the final answer, so three tool requests plus the final answer is 3 + 1 = 4 calls. The same belief as in q2 is behind this. Reread \"The agentic loop (client tools)\" in \"How tool use works\" (https://platform.claude.com/docs/agents-and-tools/tool-use/how-tool-use-works), and look for what is sent on each new request."
+    },
+    {
+      "id": "q5",
+      "verdict": "partial",
+      "misconception": null,
+      "feedback": "'It sends it back to the model' is the right half: the result goes into the model's next input. The question also asked why, and that half is missing. The model needs the result so it can decide its next step or write the final answer, since it can't see the tool's output otherwise. Always give both: what happens and what it's for. Reread steps 3-4 of \"The agentic loop (client tools)\" in \"How tool use works\" (https://platform.claude.com/docs/agents-and-tools/tool-use/how-tool-use-works), and look for what the result lets the model do next."
+    },
+    {
+      "id": "q6",
+      "verdict": "partial",
+      "misconception": "M3",
+      "feedback": "The first sentence is right: the model is sent the tools' names and descriptions and picks the one that fits the request. The second sentence is wrong: the model doesn't remember earlier picks 'on its own'. It has no memory of earlier sessions unless the program puts that information into its input. That is the belief that memory is automatic, and it's tempting because chatbots seem to remember you. Reread \"The tool-use contract\" in \"How tool use works\" (https://platform.claude.com/docs/agents-and-tools/tool-use/how-tool-use-works), and look for how the model learns which tools exist."
+    }
+  ],
+  "summary": "You have down what makes an agent (the loop), the need for a stopping condition, and that the model chooses tools from the descriptions it is given. One idea to work on: the model only writes text, and the program does everything else. It runs the tools, feeds results back, and supplies any memory. Your q2 and q4 both came from believing the model runs the tools itself. Before trying again, reread \"The tool-use contract\" and \"The agentic loop (client tools)\" in \"How tool use works\" (https://platform.claude.com/docs/agents-and-tools/tool-use/how-tool-use-works), then trace the laser-cutter question on paper and mark who does each step, model or program. I found no source that covers how a model picks a tool from its descriptions in more depth, so q6's pointer is only the closest section."
+}

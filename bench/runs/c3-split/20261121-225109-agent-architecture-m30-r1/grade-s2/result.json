@@ -1,0 +1,127 @@
+{
+  "duration_api_ms": 135438,
+  "stop_reason": "end_turn",
+  "session_id": "e9b47a30-df0c-4535-a6aa-661c4adf6b8b",
+  "total_cost_usd": 0.460536875,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 4824,
+    "cache_read_input_tokens": 98758,
+    "output_tokens": 3441,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 4824,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 727,
+        "cache_read_input_tokens": 50275,
+        "cache_creation_input_tokens": 3032,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 3032
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 44,
+      "outputTokens": 15222,
+      "cacheReadInputTokens": 523940,
+      "cacheCreationInputTokens": 69093,
+      "webSearchRequests": 0,
+      "costUSD": 0.44087849999999995,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 2628,
+      "cacheCreationEphemeral5mInputTokens": 26797,
+      "cacheCreationEphemeral1hInputTokens": 42296,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 37129,
+      "outputTokens": 8923,
+      "cacheReadInputTokens": 3110,
+      "cacheCreationInputTokens": 11623,
+      "webSearchRequests": 1,
+      "costUSD": 0.019658375000000002,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 5622,
+      "cacheCreationEphemeral5mInputTokens": 11623,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "origin": {
+    "kind": "task-notification",
+    "producer": "session-task",
+    "runId": "0mwr06yk9-4464a82d"
+  },
+  "subagent_stats": {
+    "spawned": 3,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 3
+    },
+    "started_in_background": 2,
+    "max_depth": 1,
+    "spawned_by_subagents": 0,
+    "completed": 3,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {
+      "web-fetch": 1,
+      "grade-reviewer": 2
+    }
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 5,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "I graded submission s2 on quiz 0001: 3 correct, 2 partial, 1 wrong. The grades are in `grades/0001-s2.json`.\n\n| Item | Verdict | Note |\n|---|---|---|\n| q1 | correct | The loop is what makes a system an agent. |\n| q2 | correct | The model emits a request naming the tool, and the program runs it. |\n| q3 | wrong (M6) | You picked \"left to run longer, it will eventually fix the bug\". Repeating a failing step adds nothing, so the loop needs a step limit. |\n| q4 | partial (M4) | The count of 4 is right, but you wrote that the model runs each tool. It only requests the tool; the program runs it. |\n| q5 | correct | The result goes back as the next input, and the model uses it to decide its next step. |\n| q6 | partial | Choosing by name alone is only part of it. The model works from the whole description: what the tool does and its parameters. |\n\n**What you have down:** what makes a system an agent, what the model outputs when it picks a tool, and what happens to a result afterwards.\n\n**Work on next:** the program, not the model, runs the tools, and the loop needs a stopping condition. The step limit also matters for your budget.\n\n**Next step:** before the next quiz, reread two sections of Anthropic's [Building effective agents](https://www.anthropic.com/research/building-effective-agents):\n- \"Agents\", for the loop and the stopping conditions.\n- \"Appendix 2: Prompt engineering your tools\", for the tool use block and what a good tool definition includes.\n\nThe workspace had no lessons, cheat sheets or `RESOURCES.md`, so I added that article to a new `RESOURCES.md` and used it for every pointer. The grade reviewer took two passes. The first found 5 issues, mostly pointers aimed at the wrong section, and all were fixed. The second found none.\n\nI also wrote `review-records/0001-s2-grade.md` and `learning-records/0003-quiz-0001-spaced-attempt.md`, and updated `NOTES.md`.\n\nQuestion for you: do you want `submissions/s1.json` graded too? It would show how much you kept between the first attempt and this one.",
+  "ttft_ms": 6988,
+  "type": "result",
+  "duration_ms": 20055,
+  "uuid": "bd37ae47-ae50-4eaf-a8c8-e085fcfe9de1",
+  "ttft_stream_ms": 571,
+  "time_to_request_ms": 10,
+  "first_content_frame_ms": 572,
+  "queued_turn_count": 0,
+  "result_index": 2,
+  "model_usage_since_last_result": {},
+  "credential_expires_at": "2026-12-16T23:36:35.528Z"
+}

@@ -1,0 +1,68 @@
+<!--
+Section: 3, "The context window: everything the model sees in one call".
+Notice: the window holds much more than the student's question (system prompt, tool definitions, messages, tool results and the model's own output), and the part nearest the limit is where recall and accuracy fall.
+Source: CW "How the context window works" (what counts), E "Why it matters: context rot and the attention budget" (gradual degradation). Sizes are not to scale.
+
+Layout check (viewBox 0 0 640 402; boxes x=20, w=300, h=44, rx 8; labels 18 start at x=32; notes 16 start at x=340):
+| Element | x | y | w | h | Must sit inside | Result |
+| Box "System prompt" | 20 | 20 | 300 | 44 | frame | ok |
+| label "System prompt" (13 ch) | 32 | 32.6 | 140.4 | 19 | its box, 12 clear each side (right clear 147) | ok |
+| Box "Tool definitions" | 20 | 70 | 300 | 44 | frame | ok |
+| label "Tool definitions" (16 ch) | 32 | 82.6 | 172.8 | 19 | its box (right clear 115) | ok |
+| Box "Messages so far" | 20 | 120 | 300 | 44 | frame | ok |
+| label "Messages so far" (15 ch) | 32 | 132.6 | 162 | 19 | its box | ok |
+| Box "Tool results" | 20 | 170 | 300 | 44 | frame | ok |
+| label "Tool results" (12 ch) | 32 | 182.6 | 129.6 | 19 | its box | ok |
+| Box "Model's output" | 20 | 220 | 300 | 44 | frame | ok |
+| label "Model's output" (14 ch) | 32 | 232.6 | 151.2 | 19 | its box | ok |
+| Box "Room left" (dashed) | 20 | 270 | 300 | 44 | frame | ok |
+| label "Room left" (9 ch) | 32 | 282.6 | 97.2 | 19 | its box | ok |
+| Box "Near the limit" (accent) | 20 | 320 | 300 | 44 | frame | ok |
+| label "Near the limit" (14 ch) | 32 | 332.6 | 151.2 | 19 | its box | ok |
+| note "Instructions you write" (22 ch, 16) | 340 | 34.2 | 211.2 | 17 | beside box 1, right edge 551 < 630 | ok |
+| note "What it may call" (16 ch) | 340 | 84.2 | 153.6 | 17 | beside box 2 | ok |
+| note "Student and earlier turns" (25 ch) | 340 | 134.2 | 240 | 17 | beside box 3, right edge 580 | ok |
+| note "Calendar, manual pages" (22 ch) | 340 | 184.2 | 211.2 | 17 | beside box 4 | ok |
+| note "The reply also counts" (21 ch) | 340 | 234.2 | 201.6 | 17 | beside box 5 | ok |
+| note "Accuracy and recall fall" (24 ch) | 340 | 325.2 | 230.4 | 17 | beside the accent box, right edge 570 | ok |
+| note "as it fills (context rot)" (25 ch) | 340 | 347.6 | 240 | 17 | beside the accent box, 8 below the line above | ok |
+| limit line | 20 | 380 | 300 | 0 | frame; 16 below the accent box | ok |
+| label "Window limit" (12 ch) | 340 | 373.2 | 115.2 | 17 | frame (bottom 390, 12 clear); 8.8 below the rot note | ok |
+No label crosses a box edge or the line; the notes sit 20 right of the boxes. No arrows.
+Layout check: passed
+-->
+<figure>
+  <svg viewBox="0 0 640 402" role="img" aria-labelledby="fig1-title">
+    <title id="fig1-title">A stack of boxes showing everything in the context window for one model call, from top to bottom: system prompt, tool definitions, messages so far, tool results and the model's output. Below them is room left, then a highlighted zone near the window limit where accuracy and recall fall, and the limit line.</title>
+    <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="20" y="20" width="300" height="44" rx="8"/>
+      <rect x="20" y="70" width="300" height="44" rx="8"/>
+      <rect x="20" y="120" width="300" height="44" rx="8"/>
+      <rect x="20" y="170" width="300" height="44" rx="8"/>
+      <rect x="20" y="220" width="300" height="44" rx="8"/>
+      <rect x="20" y="270" width="300" height="44" rx="8" stroke-dasharray="6 4"/>
+      <rect x="20" y="320" width="300" height="44" rx="8" stroke-dasharray="6 4" style="stroke: var(--accent); fill: var(--accent-soft); stroke-width: 2.5"/>
+      <line x1="20" y1="380" x2="320" y2="380"/>
+    </g>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18">
+      <text x="32" y="47">System prompt</text>
+      <text x="32" y="97">Tool definitions</text>
+      <text x="32" y="147">Messages so far</text>
+      <text x="32" y="197">Tool results</text>
+      <text x="32" y="247">Model's output</text>
+      <text x="32" y="297" style="fill: var(--muted)">Room left</text>
+      <text x="32" y="347">Near the limit</text>
+    </g>
+    <g font-family="system-ui, sans-serif" font-size="16" style="fill: var(--muted)">
+      <text x="340" y="47">Instructions you write</text>
+      <text x="340" y="97">What it may call</text>
+      <text x="340" y="147">Student and earlier turns</text>
+      <text x="340" y="197">Calendar, manual pages</text>
+      <text x="340" y="247">The reply also counts</text>
+      <text x="340" y="338">Accuracy and recall fall</text>
+      <text x="340" y="360.4">as it fills (context rot)</text>
+      <text x="340" y="386">Window limit</text>
+    </g>
+  </svg>
+  <figcaption>Figure 1. Everything the model gets for one call counts toward the window, not just the question. The more it fills, the worse recall gets, so more is not better. Sizes are not to scale.</figcaption>
+</figure>

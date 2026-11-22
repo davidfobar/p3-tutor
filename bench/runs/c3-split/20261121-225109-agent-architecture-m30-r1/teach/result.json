@@ -1,0 +1,129 @@
+{
+  "duration_api_ms": 1050479,
+  "stop_reason": "end_turn",
+  "session_id": "fc70afe0-ec5c-429b-84b8-db04bef7b481",
+  "total_cost_usd": 3.4082420000000004,
+  "usage": {
+    "input_tokens": 18,
+    "cache_creation_input_tokens": 61096,
+    "cache_read_input_tokens": 935822,
+    "output_tokens": 33010,
+    "output_tokens_details": {
+      "thinking_tokens": 549
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 61096,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 590,
+        "cache_read_input_tokens": 136972,
+        "cache_creation_input_tokens": 24647,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 24647
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 118,
+      "outputTokens": 157882,
+      "cacheReadInputTokens": 2960718,
+      "cacheCreationInputTokens": 515488,
+      "webSearchRequests": 0,
+      "costUSD": 3.3897598,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 55240,
+      "cacheCreationEphemeral5mInputTokens": 364880,
+      "cacheCreationEphemeral1hInputTokens": 150608,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 44367,
+      "outputTokens": 8091,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 1,
+      "costUSD": 0.0184822,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 4663,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "origin": {
+    "kind": "task-notification",
+    "producer": "session-task",
+    "runId": "0mwrvkk94-0f9be3a1"
+  },
+  "subagent_stats": {
+    "spawned": 7,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 7
+    },
+    "started_in_background": 3,
+    "max_depth": 2,
+    "spawned_by_subagents": 4,
+    "completed": 7,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {
+      "lesson-planner": 1,
+      "product-reviewer": 4,
+      "demo-dev": 1,
+      "lesson-reviewer": 1
+    }
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 29,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "I wrote the O3 lesson, `lessons/0001-context-and-memory.html`. Its closing says you can ask for a quiz on it whenever you want one.\n\nThe lesson covers the three decisions from your mission, using the makerspace assistant and a student, Sam, who finishes laser-cutter training on Monday and comes back on Wednesday:\n- **Context window:** everything the model gets for one call, and why a bigger window isn't better.\n- **Between steps:** the program resends the whole history on every call, so context and cost grow until you clear old results or compact. An interactive demo shows this over six calls.\n- **Between sessions:** memory is curated notes the program saves and reloads. The model itself learns nothing.\n- **Retrieval:** the manual stays outside the context, and only the best few chunks go in.\n\nIt ends with a worked example that sorts one request into context, memory and retrieval. Your turn then asks you to do the same for a new request, with a solution you can open. Every fact links to an Anthropic source.\n\n**Time:** about 30 min reading + 5 min demo = 35 min. The measured reading time is 27.5 min of the requested 30. You can ask for a shorter or longer lesson.\n\nI also added a one-page cheat sheet, `cheatsheets/context-and-memory.html`, and a line about the lesson in `NOTES.md`.\n\n**Limits:**\n- **One review pass:** the reviewer found 17 issues and I fixed them all, but I didn't run a second pass to check the fixes.\n- **Demo not run:** nobody has run the demo in a browser. The reviewer traced its code by hand.\n\nQuestion for you: do you want a quiz on this lesson now? Quiz 0001 (the agent loop) is also still ungraded, so I can grade your two attempts first if you'd like.",
+  "ttft_ms": 3115,
+  "type": "result",
+  "duration_ms": 158054,
+  "uuid": "cb352193-6884-41b0-98b6-f8aac29aa7c8",
+  "ttft_stream_ms": 1101,
+  "time_to_request_ms": 20,
+  "first_content_frame_ms": 1101,
+  "queued_turn_count": 0,
+  "result_index": 3,
+  "model_usage_since_last_result": {},
+  "credential_expires_at": "2026-12-16T23:36:35.249Z"
+}
