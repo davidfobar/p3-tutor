@@ -107,7 +107,7 @@ The lesson did improve at a cost of additional tokens. The biggest single change
 Which components did `final` keep and which did it drop, and what rule did you use to decide?
 Then name one change anywhere on the ladder that did not pay off: what you expected, what you measured, and what you did about it.
 
-TODO: your answer to prompt 4.
+I reduced the scale of the system by reducing the planner subagent role. That agent was the first, and it produced the largest file that was read by all other agents, which drove the context for all proceeding agents to higher token consumption. With the reduced task to the planner, the total cost of the teach action was reduced by about 40%.
 
 ---
 
@@ -116,7 +116,7 @@ TODO: your answer to prompt 4.
 Which component did you remove, and what did you predict would happen to quality and to cost before you ran it?
 Then the result, with the numbers of the ablation's run beside `final`'s, and what one run lets you claim and what it does not.
 
-TODO: your answer to prompt 5.
+I removed a demo-dev subagent. there are no built in test to access the difference, but with the agent ALL lessons had an interactive demo. I am curious to see if that continues without the demo-dev subagent.
 
 ---
 
