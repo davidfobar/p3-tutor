@@ -1,0 +1,54 @@
+<!--
+Section: 5, Retrieval and notes as memory.
+Notice: only the dashboard (the context window) is what the model sees; manuals and notes live outside it and come in only when a tool loads them.
+Source: S1, Effective context engineering for AI agents (https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents): just-in-time retrieval and structured notes, plan section 5; the window as working memory is S2.
+Layout check (viewBox 0 0 640 380; text 18, width = chars x 10.8; two-line boxes: baselines at box y+27 and y+52.2, text spans y+12.6..y+56.7 in a 70-high box)
+ item                                   x     y(base)  w     h(top..bottom)    box / clear
+ box Shelf                              20    20       600   70                inside frame
+  "Manual on the shelf"                 40    47       205   32.6..51.5        inside box, 20 left, top clear 12.6
+  "Stays outside the window until needed" 40  72.2     398   57.8..76.7        inside box, bottom clear 13.3
+ box Dashboard (accent)                 20    160      600   70                inside frame
+  "Dashboard: the context window"       40    187      313   172.6..191.5      inside box
+  "Working memory the model sees on each call" 40 212.2 454   197.8..216.7      ends 494; box edge 620
+ box Notes                              20    300      600   70                inside frame
+  "Notes card"                          40    327      108   312.6..331.5       inside box
+  "Saved outside the window, kept between visits" 40 352.2 486  337.8..356.7     ends 526; clear 94
+ arrow 1 shelf->dashboard               x=300, y 90 -> 160, starts on the shelf bottom edge, ends on the dashboard top edge
+  label "Load one page when needed"     316   130      270   115.6..134.5       gap 90..160: 25 clear above, 25 below; 16 right of the arrow, ends 586
+ arrow 2 dashboard->notes (down)        x=300, y 230 -> 300
+  label "Write a note" (anchor end)     284   270      130   255.6..274.5       gap 230..300; ends 16 left of the arrow; starts 154
+ arrow 3 notes->dashboard (up)          x=340, y 300 -> 230
+  label "Reload it next visit"          356   270      216   255.6..274.5       16 right of the arrow; ends 572
+ Labels 2 and 3 are separated by both arrows (284 vs 356), no overlap; no label touches a line. Bottom 370, viewBox 380: 10 clear.
+Layout check: passed
+-->
+<figure>
+  <svg viewBox="0 0 640 380" role="img" aria-labelledby="fig2-title">
+    <title id="fig2-title">The car analogy for agent memory: a manual on the shelf, which the assistant loads one page at a time into the dashboard; the dashboard, which is the context window; and a notes card, written from the dashboard and reloaded into it on a later visit.</title>
+    <defs>
+      <marker id="fig2-arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+      </marker>
+    </defs>
+    <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="20" y="20" width="600" height="70" rx="8"/>
+      <rect x="20" y="160" width="600" height="70" rx="8" stroke-width="2.5" style="stroke: var(--accent)"/>
+      <rect x="20" y="300" width="600" height="70" rx="8"/>
+      <line x1="300" y1="90" x2="300" y2="160" marker-end="url(#fig2-arrow)"/>
+      <line x1="300" y1="230" x2="300" y2="300" marker-end="url(#fig2-arrow)"/>
+      <line x1="340" y1="300" x2="340" y2="230" marker-end="url(#fig2-arrow)"/>
+    </g>
+    <g fill="currentColor" font-size="18" style="font-family: var(--sans)">
+      <text x="40" y="47">Manual on the shelf</text>
+      <text x="40" y="72.2" style="fill: var(--muted)">Stays outside the window until needed</text>
+      <text x="40" y="187" style="fill: var(--accent)">Dashboard: the context window</text>
+      <text x="40" y="212.2" style="fill: var(--muted)">Working memory the model sees on each call</text>
+      <text x="40" y="327">Notes card</text>
+      <text x="40" y="352.2" style="fill: var(--muted)">Saved outside the window, kept between visits</text>
+      <text x="316" y="130">Load one page when needed</text>
+      <text x="284" y="270" text-anchor="end">Write a note</text>
+      <text x="356" y="270">Reload it next visit</text>
+    </g>
+  </svg>
+  <figcaption>Figure 2. Only the dashboard is the model's view. The manual stays on the shelf until a tool loads one page; the notes card carries what to remember across visits.</figcaption>
+</figure>

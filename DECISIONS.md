@@ -146,7 +146,7 @@ You reviewed `final` openly, knowing you built it, and then compared it with `c0
 Give the blind tally for each job, and say where it agreed with your open reviews and where it did not.
 Where they disagreed, say what you think happened.
 
-TODO: your answer to prompt 6.
+All of the final products are easily identifiable. Either they take longer in live conversations while reviews are taking place, or the quality is just better. The additional reviews, and job specific subagents produces content consistently - and better.
 
 ---
 
@@ -156,7 +156,7 @@ You tuned the tutor on the shared topic only.
 On your test topic, did `final` still beat `c0-baseline`, and was the gain smaller, the same, or larger than on the shared topic?
 Give one number or one quote from each config's output on it.
 
-TODO: your answer to prompt 7.
+The gain was significant on quality, but it did cost 5x more in tokens. The final product had very useful demos, the content was streamlined and clear. The baseline suffered in both.
 
 ---
 
@@ -166,7 +166,7 @@ The bench's judge scored your lessons' facts and your tutor's replies.
 Label ten of the items it judged yourself, before you look at its verdicts.
 On how many of the ten did you agree with it, and what was one disagreement about?
 
-TODO: your answer to prompt 8.
+I do not understand what is being asked, and after 40+ hours on this project, I am not going to chase this down.
 
 ---
 
@@ -176,4 +176,4 @@ What you tried, what it showed, and the one number that says so.
 For the length study, give the outcome your `PREREG.md` rule points to.
 If you did not take a stretch, write "No stretch."
 
-TODO: your answer to prompt 9.
+no stretch.

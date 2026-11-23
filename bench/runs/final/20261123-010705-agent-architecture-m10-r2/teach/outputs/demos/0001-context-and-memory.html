@@ -1,0 +1,130 @@
+<!--
+Kind: interactive graphic.
+Core idea: every model call resends the whole history as input tokens, so a long tool result is billed again on every later call, and the model remembers nothing it is not sent.
+Learner should notice: the calendar result stays in the bar (and in the bill) at call 3, and with resending off the model cannot see the request.
+Section: 3, The context window (the plan's Demo line). About 3 minutes (the section is 2.5 min).
+Facts: plan section 3 (S2: context windows). Token counts, the 3,000 window and the $3 per million rate are EXAMPLE numbers, labelled as such on the page; billing counts input tokens only.
+
+Layout check (viewBox 0 0 640 170; text 18, estimate = chars x 10.8; height from y-14.4 to y+4.5; all inside the frame with 10+ clear)
+Static parts:
+ label                  x     y(base)  w      h(top..bottom)     box / clear
+ "Sent on this call"    20    28       184    13.6..32.5         frame; ends 204, no overlap with right label (starts 436)
+ "Toy window: 3,000"    620e  28       184    13.6..32.5         frame; spans 436..620; clear of bar top (44) by 11.5
+ bar frame rect         20    44       600    44                 inside frame (20 >= 10, right edge 620 <= 630)
+ swatches (16x16)       20/330 111/141 16     16                 inside frame
+Initial state (call 1 of 3, resend on):
+ segments: prompt 20..100, tools 100..220, messages 220..230 (50 tokens), results hidden (0); all inside the bar frame and clipped to it
+ "System prompt: 400"   46    124      194    109.6..128.5       ends 240; col 2 swatch starts 330: clear
+ "Tool definitions: 600" 356   124      227    109.6..128.5       ends 583; clear 37 to the right
+ "Messages: 50"         46    154      130    139.6..158.5       ends 176; clear
+ "Tool results: 0"      356   154      162    139.6..158.5       ends 518
+Fullest state (call 3 of 3, resend on):
+ segments: prompt 20..100, tools 100..220, messages 220..242 (110), results 242..502 (1,300); inside the bar (ends 502 < 620)
+ "Messages: 110"        46    154      140    139.6..158.5       ends 186
+ "Tool results: 1,300"  356   154      205    139.6..158.5       ends 561; clear 59 to the right edge
+Rows 1-2 are 30 apart (> 25.2); bar bottom 88 to row 1 top 109.6: 21.6 clear. Bottom of content 158.5, viewBox 170: 11.5 clear.
+Resend-off states: results 1,200 -> 240 wide (ends 460) and 100 -> 20 wide; label widths are the same as above.
+Layout check: passed
+-->
+<section class="demo" aria-labelledby="demo-heading">
+  <style>
+    .demo { border: 1px solid var(--rule); border-radius: 6px; padding: 1rem 1.25rem; margin: 1.75rem 0; font-family: var(--sans); }
+    .demo h3 { margin: 0 0 0.75rem; font-size: 1.05rem; }
+    .demo svg { display: block; width: 100%; height: auto; color: var(--text); }
+    .demo .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem; margin: 0.75rem 0; }
+    .demo button { font: inherit; font-size: 0.9rem; color: inherit; background: transparent; border: 1px solid var(--rule); border-radius: 6px; padding: 0.4rem 0.8rem; cursor: pointer; }
+    .demo button:hover:not(:disabled) { border-color: var(--accent); }
+    .demo button:focus-visible, .demo input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .demo button:disabled { opacity: 0.5; cursor: default; }
+    .demo label { font-size: 0.9rem; display: inline-flex; align-items: center; gap: 0.4rem; }
+    .demo .story { margin: 0.5rem 0 0.25rem; font-size: 0.95rem; }
+    .demo .readout { margin: 0; font-size: 0.9rem; color: var(--muted); }
+    .demo ol { margin: 0.75rem 0 0; padding-left: 1.3rem; font-size: 0.9rem; }
+  </style>
+  <h3 id="demo-heading">A booking request, call by call</h3>
+  <svg viewBox="0 0 640 170" role="img" aria-labelledby="demo-title">
+    <title id="demo-title">A bar showing the tokens sent to the model on the current call, split into system prompt, tool definitions, messages and tool results, inside a toy 3,000-token window. Example numbers.</title>
+    <defs>
+      <clipPath id="demo-clip"><rect x="20" y="44" width="600" height="44" rx="8"/></clipPath>
+    </defs>
+    <g clip-path="url(#demo-clip)" stroke="currentColor" stroke-width="1.5">
+      <rect data-seg="prompt" x="20" y="44" width="80" height="44" style="fill: var(--ok-soft)"/>
+      <rect data-seg="tools" x="100" y="44" width="120" height="44" fill="none"/>
+      <rect data-seg="msgs" x="220" y="44" width="10" height="44" style="fill: var(--warn-soft)"/>
+      <rect data-seg="res" x="230" y="44" width="0" height="44" visibility="hidden" stroke-width="2.5" style="fill: var(--accent-soft); stroke: var(--accent)"/>
+    </g>
+    <rect x="20" y="44" width="600" height="44" rx="8" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <g stroke="currentColor" stroke-width="1.5">
+      <rect x="20" y="111" width="16" height="16" rx="8" style="fill: var(--ok-soft)"/>
+      <rect x="330" y="111" width="16" height="16" rx="8" fill="none"/>
+      <rect x="20" y="141" width="16" height="16" rx="8" style="fill: var(--warn-soft)"/>
+      <rect x="330" y="141" width="16" height="16" rx="8" stroke-width="2.5" style="fill: var(--accent-soft); stroke: var(--accent)"/>
+    </g>
+    <g fill="currentColor" font-size="18" style="font-family: var(--sans)">
+      <text x="20" y="28">Sent on this call</text>
+      <text x="620" y="28" text-anchor="end">Toy window: 3,000</text>
+      <text x="46" y="124">System prompt: 400</text>
+      <text x="356" y="124">Tool definitions: 600</text>
+      <text data-t="msgs" x="46" y="154">Messages: 50</text>
+      <text data-t="res" x="356" y="154">Tool results: 0</text>
+    </g>
+  </svg>
+  <div class="controls">
+    <button type="button" data-next>Next call</button>
+    <button type="button" data-reset>Start over</button>
+    <label><input type="checkbox" data-resend checked> Resend earlier steps</label>
+  </div>
+  <p class="story" data-story aria-live="polite"></p>
+  <p class="readout" data-readout></p>
+  <ol>
+    <li>Predict: will the calendar result still count at call 3? Step to find out.</li>
+    <li>Untick Resend earlier steps, then go to call 2. What can the model see?</li>
+  </ol>
+  <script>
+  (function () {
+    var root = document.currentScript.closest(".demo");
+    var $ = function (s) { return root.querySelector(s); };
+    var SCALE = 0.2, FIXED = 1000, RATE = 3;
+    var nextBtn = $("[data-next]"), resetBtn = $("[data-reset]"), resendBox = $("[data-resend]");
+    var segMsgs = $('[data-seg="msgs"]'), segRes = $('[data-seg="res"]');
+    var tMsgs = $('[data-t="msgs"]'), tRes = $('[data-t="res"]');
+    var story = $("[data-story]"), readout = $("[data-readout]");
+    var n = 1;
+    var ON = { msgs: [50, 80, 110], res: [0, 1200, 1300] };
+    var OFF = { msgs: [50, 0, 0], res: [0, 1200, 100] };
+    var STORY_ON = [
+      "You asked for Friday. The model asks for the calendar.",
+      "The request is resent, and the calendar result (1,200 tokens) arrives with it. The model asks to book.",
+      "The calendar result is billed again. The model confirms the booking."
+    ];
+    var STORY_OFF = [
+      "You asked for Friday. The model asks for the calendar.",
+      "Nothing is resent and the model remembers nothing: it sees only the calendar result, not your request.",
+      "Only the confirmation is sent. The model cannot tell what was booked."
+    ];
+    function fmt(x) { return String(x).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+    function draw() {
+      var d = resendBox.checked ? ON : OFF;
+      var msgs = d.msgs[n - 1], res = d.res[n - 1], billed = 0, i;
+      for (i = 0; i < n; i++) { billed += FIXED + d.msgs[i] + d.res[i]; }
+      var input = FIXED + msgs + res;
+      segMsgs.setAttribute("x", 20 + FIXED * SCALE);
+      segMsgs.setAttribute("width", msgs * SCALE);
+      segMsgs.setAttribute("visibility", msgs ? "visible" : "hidden");
+      segRes.setAttribute("x", 20 + (400 + 600 + msgs) * SCALE);
+      segRes.setAttribute("width", res * SCALE);
+      segRes.setAttribute("visibility", res ? "visible" : "hidden");
+      tMsgs.textContent = "Messages: " + fmt(msgs);
+      tRes.textContent = "Tool results: " + fmt(res);
+      story.textContent = (resendBox.checked ? STORY_ON : STORY_OFF)[n - 1];
+      readout.textContent = "Call " + n + " of 3. Input " + fmt(input) + " tokens. Billed so far " + fmt(billed) +
+        " tokens, about $" + (billed * RATE / 1e6).toFixed(3) + " at $3 per million (example).";
+      nextBtn.disabled = n >= 3;
+    }
+    nextBtn.addEventListener("click", function () { if (n < 3) { n += 1; draw(); } });
+    resetBtn.addEventListener("click", function () { n = 1; resendBox.checked = true; draw(); });
+    resendBox.addEventListener("change", draw);
+    draw();
+  })();
+  </script>
+</section>

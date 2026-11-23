@@ -116,7 +116,7 @@ Which row of the table in section 4 is it?
 Did the lessons meet their lengths, and what did the cost per minute of lesson do?
 What would you do next, and what would you want a reader to take from this?
 
-TODO: your outcome.
+I reviewed the teach lessons for students ability to understand the material from mulitiple directions. In particular, I paid attention to figures and demos since my 7-years of teaching experience points to those as being the most useful for learners. Without a doubt, if provided a blind comparison, I could pick the final product from a baseline product. 
 
 ---
 

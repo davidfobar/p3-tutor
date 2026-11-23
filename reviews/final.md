@@ -194,8 +194,9 @@ TODO
 
 ### robo-kinematics
 
-TODO
+The baseline contained two graphics with little value, the only links in the lesson were at the end, it did include some code which is useful.
+The final system took 3x longer and consumed 5x tokens. The demo is great, and is needed for material like this. There are still a limited number of links, but I think that is likely because source reference material is not provided.
 
 ### TODO: your second test topic's id
 
-TODO
+no

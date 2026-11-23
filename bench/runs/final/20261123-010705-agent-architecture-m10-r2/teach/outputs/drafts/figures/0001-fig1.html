@@ -1,0 +1,73 @@
+<!--
+Section: 3, The context window.
+Notice: each call's bar holds everything sent so far, so the tool result added at call 2 is still in the bar (and billed again) at call 3, and the bar creeps toward the window's limit.
+Source: S2, Context windows (https://platform.claude.com/docs/en/build-with-claude/context-windows), as in plan section 3. All token counts and the 3,000 window are examples, and say so on the figure.
+Layout check (viewBox 0 0 640 312; text 18, width = chars x 10.8, height y-14.4..y+4.5)
+ item                       x      y(base) w     h(top..bottom)   box / frame
+ header text                20     28      432   13.6..32.5       frame; ends 452
+ "Call 1/2/3"               20     73/127/181  65  58.6..77.5 etc  left of bars (bar starts 100): 15 clear
+ bar frames x3              100    50/104/158  420 36              inside frame, 3000-token window at 0.14 unit per token
+ call 1 segments            100..247 in bar frame (prompt 56, tools 84, messages 7)
+ call 2 segments            100..419.2 (messages 11.2, results 168)  inside frame (ends 520)
+ call 3 segments            100..437.4 (messages 15.4, results 182)  inside frame (ends 520)
+ totals "1,050/2,280/2,410" 532    73/127/181 54   58.6..77.5 etc  starts 12 after frame edge 520; ends 586 (<= 630)
+ "Toy window: 3,000 tokens" 520e   222     259   207.6..226.5     spans 261..520; bar 3 bottom 194: 13.6 clear
+ legend swatches 16x16      20, 330  253, 283   16  inside frame
+ "System prompt: 400"       46     266     194   251.6..270.5     ends 240; clear of col 2 (330)
+ "Tool definitions: 600"    356    266     227   251.6..270.5     ends 583
+ "Messages: 50 to 110"      46     296     205   281.6..300.5     ends 251
+ "Tool results: 0 to 1,300" 356    296     259   281.6..300.5     ends 615 (15 clear of 630)
+Rows 30 apart (> 25.2). Bottom content 300.5, viewBox 312: 11.5 clear. Bars 18 apart, no overlaps. No arrows.
+Layout check: passed
+-->
+<figure>
+  <svg viewBox="0 0 640 312" role="img" aria-labelledby="fig1-title">
+    <title id="fig1-title">Three bars, one per model call, each showing the input tokens sent on that call. Every bar holds the system prompt and tool definitions; call 2 adds a large tool result, and call 3 keeps it and adds a small one, so the bar grows toward a toy 3,000-token window. Example numbers.</title>
+    <defs>
+      <clipPath id="fig1-clip1"><rect x="100" y="50" width="420" height="36" rx="8"/></clipPath>
+      <clipPath id="fig1-clip2"><rect x="100" y="104" width="420" height="36" rx="8"/></clipPath>
+      <clipPath id="fig1-clip3"><rect x="100" y="158" width="420" height="36" rx="8"/></clipPath>
+    </defs>
+    <g stroke="currentColor" stroke-width="1.5">
+      <g clip-path="url(#fig1-clip1)">
+        <rect x="100" y="50" width="56" height="36" style="fill: var(--ok-soft)"/>
+        <rect x="156" y="50" width="84" height="36" fill="none"/>
+        <rect x="240" y="50" width="7" height="36" style="fill: var(--warn-soft)"/>
+      </g>
+      <g clip-path="url(#fig1-clip2)">
+        <rect x="100" y="104" width="56" height="36" style="fill: var(--ok-soft)"/>
+        <rect x="156" y="104" width="84" height="36" fill="none"/>
+        <rect x="240" y="104" width="11.2" height="36" style="fill: var(--warn-soft)"/>
+        <rect x="251.2" y="104" width="168" height="36" stroke-width="2.5" style="fill: var(--accent-soft); stroke: var(--accent)"/>
+      </g>
+      <g clip-path="url(#fig1-clip3)">
+        <rect x="100" y="158" width="56" height="36" style="fill: var(--ok-soft)"/>
+        <rect x="156" y="158" width="84" height="36" fill="none"/>
+        <rect x="240" y="158" width="15.4" height="36" style="fill: var(--warn-soft)"/>
+        <rect x="255.4" y="158" width="182" height="36" stroke-width="2.5" style="fill: var(--accent-soft); stroke: var(--accent)"/>
+      </g>
+      <rect x="100" y="50" width="420" height="36" rx="8" fill="none"/>
+      <rect x="100" y="104" width="420" height="36" rx="8" fill="none"/>
+      <rect x="100" y="158" width="420" height="36" rx="8" fill="none"/>
+      <rect x="20" y="253" width="16" height="16" rx="8" style="fill: var(--ok-soft)"/>
+      <rect x="330" y="253" width="16" height="16" rx="8" fill="none"/>
+      <rect x="20" y="283" width="16" height="16" rx="8" style="fill: var(--warn-soft)"/>
+      <rect x="330" y="283" width="16" height="16" rx="8" stroke-width="2.5" style="fill: var(--accent-soft); stroke: var(--accent)"/>
+    </g>
+    <g fill="currentColor" font-size="18" style="font-family: var(--sans)">
+      <text x="20" y="28">Input tokens sent on each call (example)</text>
+      <text x="20" y="73">Call 1</text>
+      <text x="20" y="127">Call 2</text>
+      <text x="20" y="181">Call 3</text>
+      <text x="532" y="73">1,050</text>
+      <text x="532" y="127">2,280</text>
+      <text x="532" y="181">2,410</text>
+      <text x="520" y="222" text-anchor="end">Toy window: 3,000 tokens</text>
+      <text x="46" y="266">System prompt: 400</text>
+      <text x="356" y="266">Tool definitions: 600</text>
+      <text x="46" y="296">Messages: 50 to 110</text>
+      <text x="356" y="296">Tool results: 0 to 1,300</text>
+    </g>
+  </svg>
+  <figcaption>Figure 1. Each call resends everything so far: the tool result that arrives at call 2 (accent) is still in the bar at call 3, so it is billed again. Token counts are examples.</figcaption>
+</figure>

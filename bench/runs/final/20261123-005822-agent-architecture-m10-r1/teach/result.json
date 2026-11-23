@@ -1,0 +1,129 @@
+{
+  "duration_api_ms": 520779,
+  "stop_reason": "end_turn",
+  "session_id": "2bf498d9-0248-4fc9-a1bc-bf34999bf5c6",
+  "total_cost_usd": 1.6086996,
+  "usage": {
+    "input_tokens": 10,
+    "cache_creation_input_tokens": 18025,
+    "cache_read_input_tokens": 314426,
+    "output_tokens": 15274,
+    "output_tokens_details": {
+      "thinking_tokens": 334
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 18025,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 775,
+        "cache_read_input_tokens": 80585,
+        "cache_creation_input_tokens": 13376,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 13376
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 74,
+      "outputTokens": 79625,
+      "cacheReadInputTokens": 1128059,
+      "cacheCreationInputTokens": 228767,
+      "webSearchRequests": 0,
+      "costUSD": 1.6055464000000002,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 28966,
+      "cacheCreationEphemeral5mInputTokens": 145817,
+      "cacheCreationEphemeral1hInputTokens": 82950,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 15627,
+      "outputTokens": 3181,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.0031532,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 2151,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "origin": {
+    "kind": "task-notification",
+    "producer": "session-task",
+    "runId": "0mwskd28k-bb0831e0"
+  },
+  "subagent_stats": {
+    "spawned": 5,
+    "requested": {
+      "background": 0,
+      "foreground": 1,
+      "unset": 4
+    },
+    "started_in_background": 3,
+    "max_depth": 2,
+    "spawned_by_subagents": 2,
+    "completed": 5,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {
+      "lesson-planner": 1,
+      "product-reviewer": 2,
+      "demo-dev": 1,
+      "lesson-reviewer": 1
+    }
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 10,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "The lesson is written: `lessons/0001-context-and-memory.html`. It covers objective O3 in a 10-minute lesson.\n\nI did not open it in a browser or run its scripts. The only checks were the word count, a reviewer's read-through and that reviewer's trace of the demo logic. After the fixes below, the reading time wasn't re-measured; it was 10.5 minutes (1.05 of the request) on the last count.\n\n**Covered:**\n- **Context window:** what it holds, why a fuller window isn't a better one (context rot), and the mix-up that the model remembers earlier chats.\n- **Kept between steps:** history is resent each call, and two ways to make room, clearing old tool results or summarizing.\n- **Kept between sessions:** notes saved outside the window. Includes the mix-up that a bigger window replaces memory.\n- **Retrieval:** keep the manual's page paths and load one page when needed.\n- **Practice:** a worked example and an \"Your turn\" task that sort what the assistant should keep, clear, note or retrieve.\n\nIt uses car examples throughout, as you prefer, and includes three figures and one interactive demo. It cites the two sources from the plan, \"Effective context engineering for AI agents\" and \"Context windows\".\n\n**Time:** about 10 min reading + 1.5 min demo = 11.5 min. There is no quiz; ask for one whenever you want to check what stuck.\n\n**Review:** one reviewer pass found four problems and I fixed all four.\n- Removed two cost claims neither source supports. The lesson now defers cost to the next lesson.\n- Reworded a \"fuel gauge\" sentence that didn't match Figure 1, which is a stack of rows.\n- Repeated the Context windows link where it was missing.\n\nI declined two findings, recorded in `review-records/0001-teach.md`. The warm-up carries the earlier objective O2, as the skill requires. The demo's 1.5 minutes counts on top of the reading time, as the skill requires.\n\nI also added both sources to `RESOURCES.md`. I did not add a cheat sheet or a glossary term, and `NOTES.md` is unchanged.\n\nAsk me anything in the chat about any part of the lesson. Question for you: in the warm-up and the demo, do the ten slots and the \"example size\" framing help, or would real token counts be more useful for your budget planning?",
+  "ttft_ms": 2182,
+  "type": "result",
+  "duration_ms": 72934,
+  "uuid": "00ef79ad-8747-45c2-81bc-b750042ae64f",
+  "ttft_stream_ms": 650,
+  "time_to_request_ms": 19,
+  "first_content_frame_ms": 650,
+  "queued_turn_count": 0,
+  "result_index": 3,
+  "model_usage_since_last_result": {},
+  "credential_expires_at": "2026-12-16T23:36:35.249Z"
+}

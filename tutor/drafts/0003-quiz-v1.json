@@ -1,0 +1,62 @@
+{
+  "id": "0003",
+  "objective": "O1",
+  "title": "From one call to the loop: calls, tools and the history",
+  "items": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "objective": "O1",
+      "stem": "Following the quickstart's setup, you create the client with anthropic.Anthropic() and write no key anywhere in your Python code. Where does the SDK get your API key from?",
+      "options": [
+        {"id": "a", "text": "From a file named api_key.txt in the same folder as your script"},
+        {"id": "b", "text": "From your Anthropic account, because you are signed in to it in the browser"},
+        {"id": "c", "text": "From the ANTHROPIC_API_KEY environment variable set in your shell"},
+        {"id": "d", "text": "From the model id string, which carries your account's key inside it"}
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "objective": "O2",
+      "stem": "You write a Python function check_oil_level(car) in your own program and describe it to the model as a tool. The model's reply asks to use that tool with car = \"Civic\". What has to happen next so the model can use the oil level in its answer?",
+      "options": [
+        {"id": "a", "text": "Anthropic's servers run check_oil_level and hand the reading to the model"},
+        {"id": "b", "text": "Your program runs check_oil_level and sends the reading in the next request"},
+        {"id": "c", "text": "Your program runs check_oil_level, prints the reading, and the turn ends there"},
+        {"id": "d", "text": "The model works out a likely oil level by itself and carries on answering"}
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "objective": "O1",
+      "stem": "Your chat program, with no tools, has asked the model two questions about suspension setup and got a reply to each. It is about to send a third question. Listing only the role of each dict, in order, which messages list should that third call send?",
+      "options": [
+        {"id": "a", "text": "user, user, user"},
+        {"id": "b", "text": "assistant, assistant, user"},
+        {"id": "c", "text": "user"},
+        {"id": "d", "text": "user, assistant, user, assistant, user"}
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "Your agent loop calls the model, runs every tool the reply asks for, sends the results back in a new call, and repeats. Which check on each new reply is the right condition for leaving the loop and treating that reply as the final answer?",
+      "options": [
+        {"id": "a", "text": "The reply asks for no tools, so its stop_reason is \"end_turn\" rather than \"tool_use\""},
+        {"id": "b", "text": "The reply contains a text block, so the model has started writing its answer"},
+        {"id": "c", "text": "Your program has just sent back the result of the first tool the model asked for"},
+        {"id": "d", "text": "The reply's stop_reason is \"max_tokens\", so the model has used up its budget"}
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "numeric",
+      "objective": "O3",
+      "stem": "Your research agent's loop starts with a messages list holding one user turn, the task \"Find out why brakes fade on long downhill drives\". After each reply that asks for tools, your program appends that reply to the list as one assistant turn, runs every tool the reply asked for, and appends one user turn holding all of those tools' results; then it calls the model again with the whole list. The model's replies are, in order: (1) a request for two web searches; (2) a request to fetch three pages; (3) a final answer that asks for no tools. How many dicts are in the messages list your program sends on the call that returns reply (3)?",
+      "unit": "dicts"
+    }
+  ]
+}

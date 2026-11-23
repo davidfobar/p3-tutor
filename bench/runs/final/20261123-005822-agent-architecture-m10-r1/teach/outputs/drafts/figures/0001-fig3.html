@@ -1,0 +1,52 @@
+<!--
+Section: 6 (Retrieval: finding the right manual page).
+Notice: the assistant keeps only light identifiers (paths) from the manual's index and loads one page into the window when it needs it.
+Source: S1 (keep lightweight identifiers such as file paths, load content at runtime; slower than precomputed retrieval). The file names are examples.
+
+Layout check (viewBox 640 x 272; font 18; widths chars x 10.8 for 18, x 9.6 for 16):
+Box / label                              | x (left) | y (top or baseline) | w / est width | h / est height | sits inside | clear
+Heading "Manual index: lightweight paths"| 20  | base 32 | 335 | 17.6..36.5 | frame | above entries (top 48): 11.5 gap
+Entry "engine/oil.md" box                | 20  | 48  | 190 | 44 | frame
+ label (13 chars)                        | 45  | base 75 | 140 | 60.6..79.5 | box | 12.6 top, 12.5 bottom, 25 sides
+Entry "brakes/pads.md" box (accent)      | 225 | 48  | 190 | 44
+ label (14 chars)                        | 244.5 | base 75 | 151 | 60.6..79.5 | box | 12.6 top, 12.5 bottom, 19.5 sides
+Entry "tires/wear.md" box                | 430 | 48  | 190 | 44 (right edge 620, frame 10 ok)
+ label (13 chars)                        | 455 | base 75 | 140 | 60.6..79.5 | box | 25 sides
+Arrow: x 320, y 92 (bottom of the brakes entry) to 172 (top of the window box). Label "load it when needed": x 336, base 137, 205 wide (to x 541), 122.6..141.5: right of the arrow, in the gap y 92..172, clear of both boxes.
+Window box                               | 20  | 172 | 600 | 88 (bottom 260, frame bottom 272: 12 clear)
+ "Context window"                        | 244.5 | base 199 | 151 | 184.6..203.5 | box | 12.6 top
+ "Only brakes/pads.md is loaded"         | 181 | base 221 | 278 | 208.2..225 | box
+ "Other pages stay out until needed"     | 161.5 | base 244 | 317 | 231.2..248 | box | 12 bottom
+Entries are 15 apart (210..225, 415..430), no overlap.
+Layout check: passed
+-->
+<figure>
+  <svg viewBox="0 0 640 272" role="img" aria-labelledby="fig3-title">
+    <title id="fig3-title">A service manual's index lists three page paths: engine/oil.md, brakes/pads.md and tires/wear.md. An arrow labeled load it when needed carries the brakes page into the context window, while the other pages stay out.</title>
+    <defs>
+      <marker id="fig3-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+      </marker>
+    </defs>
+    <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="20" y="48" width="190" height="44" rx="8"/>
+      <rect x="225" y="48" width="190" height="44" rx="8" style="stroke: var(--accent); stroke-width: 2.5; fill: var(--accent-soft)"/>
+      <rect x="430" y="48" width="190" height="44" rx="8"/>
+      <rect x="20" y="172" width="600" height="88" rx="8"/>
+      <line x1="320" y1="92" x2="320" y2="172" marker-end="url(#fig3-arrow)"/>
+    </g>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18">
+      <text x="20" y="32">Manual index: lightweight paths</text>
+      <text x="115" y="75" text-anchor="middle">engine/oil.md</text>
+      <text x="320" y="75" text-anchor="middle">brakes/pads.md</text>
+      <text x="525" y="75" text-anchor="middle">tires/wear.md</text>
+      <text x="336" y="137">load it when needed</text>
+      <text x="320" y="199" text-anchor="middle">Context window</text>
+    </g>
+    <g font-family="system-ui, sans-serif" font-size="16" text-anchor="middle" style="fill: var(--muted)">
+      <text x="320" y="221">Only brakes/pads.md is loaded</text>
+      <text x="320" y="244">Other pages stay out until needed</text>
+    </g>
+  </svg>
+  <figcaption>Figure 3. The assistant keeps short paths, not whole pages, and loads the one it needs. Loading at run time is slower than looking the page up in a precomputed index.</figcaption>
+</figure>

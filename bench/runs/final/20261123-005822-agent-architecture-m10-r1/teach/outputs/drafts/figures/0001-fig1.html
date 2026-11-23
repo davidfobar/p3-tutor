@@ -1,0 +1,56 @@
+<!--
+Section: 3 (The context window).
+Notice: system prompt, tool definitions, history and tool results all share one window; what is left is the free room.
+Source: S2 (counts system prompt, messages, tool results, tool definitions; own response included) and S1 (more context is not better). Sizes of the rows are an example, not measured.
+
+Layout check (viewBox 640 x 374; font 18 names, 16 notes; width = chars x 10.8 for 18, x 9.6 for 16):
+Box / label           | x   | y (top or baseline) | w / est width | h / est height | sits inside | clear
+Free row box          | 76  | 12  | 544 | 46 | frame | 66 right, 12 top
+ label "Free room left for the next step" | 92 | base 40 | 346 | 25.6..44.5 | free row | 13.6 top, 13.5 bottom, 182 right
+Results row box       | 76  | 66  | 544 | 68 | frame
+ name "Tool results"  | 92 | base 93 | 130 | 78.6..97.5 | results row | 12.6 top
+ note (52 chars)      | 92 | base 115 | 499 (to x 591) | 102.2..119 | results row | 29 right, 15 bottom
+History row box       | 76  | 142 | 544 | 68
+ name "Conversation so far" | 92 | base 169 | 205 | 154.6..173.5
+ note (47 chars)      | 92 | base 191 | 451 (to x 543) | 178.2..195 | 77 right
+Tools row box         | 76  | 218 | 544 | 68
+ name "Tool definitions" | 92 | base 245 | 173 | 230.6..249.5
+ note (47 chars)      | 92 | base 267 | 451 (to x 543) | 254.2..271 | 77 right
+Instructions row box  | 76  | 294 | 544 | 68 (bottom 362, frame bottom 374: 12 clear)
+ name "System prompt" | 92 | base 321 | 140 | 306.6..325.5
+ note (34 chars)      | 92 | base 343 | 326 (to x 418) | 330.2..347 | 202 right
+Gauge strip segments  | 20  | same y and h as each row | 36 | | frame (left 20 >= 10); 20 clear to the row boxes
+Rows are 8 apart, strips 36 wide ending at x 56, rows start at x 76: nothing overlaps. Text lines in one row are 22 apart, no overlap (line 1 bottom + 4.5 < line 2 top).
+Layout check: passed
+-->
+<figure>
+  <svg viewBox="0 0 640 374" role="img" aria-labelledby="fig1-title">
+    <title id="fig1-title">A fuel gauge for the context window, filled from the bottom: system prompt, tool definitions, conversation history and tool results, with free room left at the top.</title>
+    <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="20" y="12" width="36" height="46" rx="8" stroke-dasharray="4 4" style="stroke: var(--accent); stroke-width: 2.5"/>
+      <rect x="76" y="12" width="544" height="46" rx="8" stroke-dasharray="4 4" style="stroke: var(--accent); stroke-width: 2.5; fill: var(--accent-soft)"/>
+      <rect x="20" y="66" width="36" height="68" rx="8"/>
+      <rect x="76" y="66" width="544" height="68" rx="8"/>
+      <rect x="20" y="142" width="36" height="68" rx="8"/>
+      <rect x="76" y="142" width="544" height="68" rx="8"/>
+      <rect x="20" y="218" width="36" height="68" rx="8"/>
+      <rect x="76" y="218" width="544" height="68" rx="8"/>
+      <rect x="20" y="294" width="36" height="68" rx="8"/>
+      <rect x="76" y="294" width="544" height="68" rx="8"/>
+    </g>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18">
+      <text x="92" y="40">Free room left for the next step</text>
+      <text x="92" y="93">Tool results</text>
+      <text x="92" y="169">Conversation so far</text>
+      <text x="92" y="245">Tool definitions</text>
+      <text x="92" y="321">System prompt</text>
+    </g>
+    <g font-family="system-ui, sans-serif" font-size="16" style="fill: var(--muted)">
+      <text x="92" y="115">Manual pages, calendar answers; clear old ones first</text>
+      <text x="92" y="191">Earlier turns and replies, sent again each turn</text>
+      <text x="92" y="267">Names and descriptions of the tools it can call</text>
+      <text x="92" y="343">Rules for the makerspace assistant</text>
+    </g>
+  </svg>
+  <figcaption>Figure 1. Four things share one window, and what they leave is the free room. The row sizes are only an example. A fuller window is not a better one: recall can get worse as it grows (context rot).</figcaption>
+</figure>

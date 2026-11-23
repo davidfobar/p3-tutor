@@ -1,0 +1,52 @@
+<!--
+Section: 5 (What is kept between sessions: notes).
+Notice: both windows start empty; only the notes file, kept outside the window, carries facts from session 1 to session 2.
+Source: S1 (structured note-taking: the agent writes notes outside the window and rereads them later). The note's content is an example.
+
+Layout check (viewBox 640 x 368; font 18 names, 16 notes; widths chars x 10.8 / x 9.6; text centered at x 320):
+Box / label                         | x (left) | y (top or baseline) | w / est width | h / est height | sits inside | clear
+Session 1 box                       | 20  | 12  | 600 | 68 | frame | 10 left needed: 20 ok
+ "Session 1"                        | 271.6 | base 39 | 97  | 24.6..43.5 | box | 12.6 top, 253 sides
+ "Starts with an empty window"      | 191 | base 61 | 259 | 48.2..65 | box | 15 bottom, 171 sides
+Notes box (accent)                  | 20  | 150 | 600 | 68
+ "Notes file, outside the window"   | 158 | base 177 | 324 | 162.6..181.5 | box | 12.6 top, 138 sides
+ "Laser training done (example)"    | 181 | base 199 | 278 | 186.2..203 | box | 15 bottom
+Session 2 box                       | 20  | 288 | 600 | 68 (bottom 356, frame bottom 368: 12 clear)
+ "Session 2"                        | 271.6 | base 315 | 97 | 300.6..319.5
+ "Starts empty, then rereads the notes" | 147 | base 337 | 346 | 324.2..341 | box | 15 bottom, 127 sides
+Arrow 1: x 320, y 80 to 150 (box edge to box edge). Label "writes what to keep": x 336, base 120, 205 wide (to x 541), 105.6..124.5: horizontal, right of the arrow, in the gap y 80..150, clear of both boxes.
+Arrow 2: x 320, y 218 to 288. Label "reads it when it starts": x 336, base 258, 248 wide (to x 584), 243.6..262.5: in the gap y 218..288, clear of both boxes and arrow.
+Layout check: passed
+-->
+<figure>
+  <svg viewBox="0 0 640 368" role="img" aria-labelledby="fig2-title">
+    <title id="fig2-title">Session 1 starts with an empty window and writes what to keep into a notes file. Session 2 also starts with an empty window and reads the notes file when it starts.</title>
+    <defs>
+      <marker id="fig2-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+      </marker>
+    </defs>
+    <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="20" y="12" width="600" height="68" rx="8"/>
+      <rect x="20" y="150" width="600" height="68" rx="8" style="stroke: var(--accent); stroke-width: 2.5"/>
+      <rect x="20" y="288" width="600" height="68" rx="8"/>
+      <line x1="320" y1="80" x2="320" y2="150" marker-end="url(#fig2-arrow)"/>
+      <line x1="320" y1="218" x2="320" y2="288" marker-end="url(#fig2-arrow)"/>
+    </g>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18" text-anchor="middle">
+      <text x="320" y="39">Session 1</text>
+      <text x="320" y="177">Notes file, outside the window</text>
+      <text x="320" y="315">Session 2</text>
+    </g>
+    <g font-family="system-ui, sans-serif" font-size="16" text-anchor="middle" style="fill: var(--muted)">
+      <text x="320" y="61">Starts with an empty window</text>
+      <text x="320" y="199">Laser training done (example)</text>
+      <text x="320" y="337">Starts empty, then rereads the notes</text>
+    </g>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18">
+      <text x="336" y="120">writes what to keep</text>
+      <text x="336" y="258">reads it when it starts</text>
+    </g>
+  </svg>
+  <figcaption>Figure 2. Each session's window starts empty. The notes file lives outside the window, so it outlasts any window, however big.</figcaption>
+</figure>
