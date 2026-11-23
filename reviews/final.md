@@ -58,137 +58,93 @@ The grader sub-agent needs to be implemented as specified in guide/12-final.html
 
 ## Major review
 
-**Run:** bench/runs/final/TODO
+**Run:** bench/runs/final/20261122-231530-agent-architecture-m30-r2
 
 **Live tries:**
 
-TODO: one line that points at your three learning sessions under Learning sessions below, and names anything else you tried with `final`.
+I did a learning session with the final model on robot kinematics. It was useful, and even created a good demo.
 
 ### Lesson
 
 #### Technical correctness and facts
 
-Rating: TODO
-
-TODO
+Rating: 5
 
 #### Pedagogy
 
-Rating: TODO
-
-TODO
+Rating: 5
 
 #### Alignment with the learning goal
 
-Rating: TODO
-
-TODO
+Rating: 5
 
 #### Overall quality
 
-Rating: TODO
-
-TODO
+Rating: 5
 
 ### Quiz
 
 #### Difficulty
 
-Rating: TODO
-
-TODO
+Rating: 4
 
 #### Coverage of the lesson's core
 
-Rating: TODO
-
-TODO
+Rating: 4
 
 #### Wording and possible misreadings
 
-Rating: TODO
-
-TODO
+Rating: 5
 
 #### Writing quality
 
-Rating: TODO
-
-TODO
+Rating: 5
 
 #### Alignment with the learning goal
 
-Rating: TODO
-
-TODO
+Rating: 5
 
 ### Feedback
 
 #### Useful
 
-Rating: TODO
-
-TODO
+Rating: 4
 
 #### Explains enough
 
-Rating: TODO
-
-TODO
+Rating: 4
 
 #### Personalized to how I like things explained
 
-Rating: TODO
-
-TODO
+Rating: 4
 
 ### Tutor
 
 #### Guardrails
 
-Rating: TODO
-
-TODO
+Rating: 5
 
 #### Personalization
 
-Rating: TODO
-
-TODO
+Rating: 4
 
 ### Compared with the previous step
 
-TODO
+The token usage is up, but the final products are more polished. I do think that if this were a real tool, the token usage to build lessons is reasonable, but the live tutor session feels too slow, likely because of the additoinal reviews taking place.
 
 ### What I would do next
 
-TODO
+I would start from an empty directory, and have each subagent do a better job of distilling their products in an attempt to reduce the token usage for the final products. I would maintain the reviewer agent/role, but would change their scope so that only one distilled output is reviewed at a time, again in attempt to reduce token usage.
 
 ## Learning sessions
 
 ### Session 1
 
-**Date:** TODO
+**Date:** 23NOV2026
 
-**Topic:** TODO
+**Topic:** robo-kinematics
 
-TODO
-
-### Session 2
-
-**Date:** TODO
-
-**Topic:** TODO
-
-TODO
-
-### Session 3
-
-**Date:** TODO
-
-**Topic:** TODO
-
-TODO
+The tutor was helpful. It offers to build demos/lessons but does not just assume that it should. It asks questions to attempt to identify misconceptions. When asked to make a quick demo (viewable in a browser) it took a long time, but produced a very useful demo for the topic being discussed.
 
 ## Test topics
 
@@ -196,7 +152,3 @@ TODO
 
 The baseline contained two graphics with little value, the only links in the lesson were at the end, it did include some code which is useful.
 The final system took 3x longer and consumed 5x tokens. The demo is great, and is needed for material like this. There are still a limited number of links, but I think that is likely because source reference material is not provided.
-
-### TODO: your second test topic's id
-
-no

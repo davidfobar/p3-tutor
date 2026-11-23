@@ -1,0 +1,273 @@
+<!--
+  Kind: interactive graphic.
+  Core idea: each column of a two-link arm's Jacobian is the hand's velocity when only that joint turns at 1 rad/s; the columns change with the pose, and when they fall on one line (det J = L1 L2 sin θ2 = 0) the arm loses a direction it can move in.
+  The learner should: work out J by hand for L1 = L2 = 1, θ1 = 0, θ2 = 90°, predict which way the hand moves when only the shoulder turns, then reveal the arrows and numbers to check; then find the poses where det J = 0 and see which direction the hand can no longer move in.
+  Lesson section: the Jacobian section of a future kinematics lesson (no plan yet); it also opens on its own in a browser.
+  Minutes: about 8.
+-->
+<section class="demo" id="jdemo">
+  <style>
+    .demo { font-family: var(--sans, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif); color: var(--text, #1f1d1a); background: var(--bg, #fffdf8); border: 1px solid var(--rule, #e4dfd4); border-radius: 6px; padding: 1rem 1.1rem 1.25rem; margin: 1.75rem auto; max-width: 62rem; line-height: 1.5; font-size: 16px; }
+    .demo * { box-sizing: border-box; }
+    .demo h3 { font-size: 1.15rem; margin: 0 0 0.35rem; }
+    .demo p { margin: 0.4rem 0; }
+    .demo .jd-grid-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.25rem; margin-top: 0.75rem; align-items: start; }
+    @media (max-width: 680px) { .demo .jd-grid-layout { grid-template-columns: minmax(0, 1fr); } }
+    .demo svg { width: 100%; height: auto; display: block; touch-action: none; background: var(--bg, #fffdf8); border: 1px solid var(--rule, #e4dfd4); border-radius: 4px; }
+    .demo .jd-gridline { stroke: var(--rule, #e4dfd4); stroke-width: 1; }
+    .demo .jd-axis { stroke: var(--muted, #6b665e); stroke-width: 1; opacity: 0.6; }
+    .demo .jd-ticklbl { fill: var(--muted, #6b665e); font-size: 10px; }
+    .demo .jd-reach { fill: none; stroke: var(--muted, #6b665e); stroke-width: 1; stroke-dasharray: 4 4; opacity: 0.7; }
+    .demo .jd-link { stroke: var(--text, #1f1d1a); stroke-width: 7; stroke-linecap: round; }
+    .demo .jd-base { fill: var(--text, #1f1d1a); }
+    .demo .jd-handle { fill: var(--bg, #fffdf8); stroke: var(--text, #1f1d1a); stroke-width: 3; cursor: grab; }
+    .demo .jd-handle:active { cursor: grabbing; }
+    .demo .jd-a1 { stroke: var(--accent, #9a4517); stroke-width: 3.5; }
+    .demo .jd-a2 { stroke: var(--ok, #2f6b3a); stroke-width: 3.5; }
+    .demo .jd-ah1 { fill: var(--accent, #9a4517); }
+    .demo .jd-ah2 { fill: var(--ok, #2f6b3a); }
+    .demo .jd-lbl1 { fill: var(--accent, #9a4517); font-size: 13px; font-weight: 700; }
+    .demo .jd-lbl2 { fill: var(--ok, #2f6b3a); font-size: 13px; font-weight: 700; }
+    .demo .jd-hidden { display: none; }
+    .demo fieldset { border: 1px solid var(--rule, #e4dfd4); border-radius: 4px; margin: 0 0 0.75rem; padding: 0.5rem 0.75rem 0.6rem; }
+    .demo legend { font-size: 0.8rem; color: var(--muted, #6b665e); padding: 0 0.25rem; }
+    .demo .jd-row { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr) 3.8rem; gap: 0.5rem; align-items: center; margin: 0.25rem 0; }
+    .demo .jd-row label { font-size: 0.9rem; }
+    .demo .jd-row input { width: 100%; }
+    .demo output { font-family: var(--mono, ui-monospace, Menlo, Consolas, monospace); font-size: 0.9rem; text-align: right; }
+    .demo button { font: inherit; font-size: 0.85rem; padding: 0.3rem 0.65rem; margin: 0.15rem 0.3rem 0.15rem 0; border: 1px solid var(--rule, #e4dfd4); border-radius: 4px; background: var(--code-bg, #f3efe6); color: var(--text, #1f1d1a); cursor: pointer; }
+    .demo button:focus-visible, .demo input:focus-visible { outline: 2px solid var(--accent, #9a4517); outline-offset: 2px; }
+    .demo .jd-reveal { background: var(--accent-soft, #f7ede4); border-color: var(--accent, #9a4517); font-weight: 600; }
+    .demo .jd-readout { font-size: 0.92rem; }
+    .demo .jd-mono { font-family: var(--mono, ui-monospace, Menlo, Consolas, monospace); }
+    .demo .jd-matrix { display: inline-grid; grid-template-columns: auto auto; gap: 0.1rem 1.1rem; padding: 0.2rem 0.6rem; border-left: 2px solid var(--text, #1f1d1a); border-right: 2px solid var(--text, #1f1d1a); border-radius: 4px; font-family: var(--mono, ui-monospace, Menlo, Consolas, monospace); text-align: right; vertical-align: middle; }
+    .demo .jd-c1 { color: var(--accent, #9a4517); }
+    .demo .jd-c2 { color: var(--ok, #2f6b3a); }
+    .demo .jd-sing { background: var(--warn-soft, #f9eaec); border-left: 4px solid var(--warn, #8c2f39); padding: 0.4rem 0.6rem; margin: 0.5rem 0; }
+    .demo .jd-note { color: var(--muted, #6b665e); font-size: 0.85rem; }
+    .demo .jd-prompts { margin: 1rem 0 0; padding-left: 1.3rem; }
+    .demo .jd-prompts li { margin: 0.35rem 0; }
+  </style>
+
+  <h3>Two-link arm: the Jacobian as two velocity arrows</h3>
+  <p>Drag the <b>elbow</b> or <b>hand</b> circle, or use the sliders (the arrow keys step them 1° at a time). Angles are counterclockwise, and &theta;<sub>2</sub> is measured from the upper arm. Work the question out on paper first, then press <b>Show the Jacobian</b> to check your answer.</p>
+
+  <div class="jd-grid-layout">
+    <svg viewBox="0 0 400 400" aria-labelledby="jdemo-title jdemo-desc">
+      <title id="jdemo-title">Two-link planar arm with its Jacobian columns</title>
+      <desc id="jdemo-desc">The shoulder sits at the center of a grid with one line per unit. The upper arm runs from the shoulder to the elbow, and the forearm runs from the elbow to the hand. Once the Jacobian is shown, two arrows start at the hand: arrow 1 is the hand's velocity when only the shoulder turns at 1 radian per second, and arrow 2 is its velocity when only the elbow does.</desc>
+      <defs>
+        <marker id="jdemo-ah1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path class="jd-ah1" d="M0,0 L10,5 L0,10 z"/></marker>
+        <marker id="jdemo-ah2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path class="jd-ah2" d="M0,0 L10,5 L0,10 z"/></marker>
+      </defs>
+      <g class="jd-gridg"></g>
+      <circle class="jd-reach jd-outer" cx="200" cy="200" r="110"/>
+      <circle class="jd-reach jd-inner" cx="200" cy="200" r="0"/>
+      <line class="jd-a1" marker-end="url(#jdemo-ah1)"/>
+      <line class="jd-a2" marker-end="url(#jdemo-ah2)"/>
+      <text class="jd-lbl1">1</text>
+      <text class="jd-lbl2">2</text>
+      <line class="jd-link jd-upper"/>
+      <line class="jd-link jd-fore"/>
+      <circle class="jd-base" cx="200" cy="200" r="7"/>
+      <circle class="jd-handle jd-elbow" r="10"><title>Elbow: drag to turn the shoulder</title></circle>
+      <circle class="jd-handle jd-hand" r="10"><title>Hand: drag to turn the elbow</title></circle>
+    </svg>
+
+    <div>
+      <fieldset>
+        <legend>Joints and links</legend>
+        <div class="jd-row"><label for="jdemo-t1">&theta;<sub>1</sub> shoulder</label><input id="jdemo-t1" class="jd-in-t1" type="range" min="-180" max="180" step="1"><output class="jd-o-t1" for="jdemo-t1"></output></div>
+        <div class="jd-row"><label for="jdemo-t2">&theta;<sub>2</sub> elbow</label><input id="jdemo-t2" class="jd-in-t2" type="range" min="-180" max="180" step="1"><output class="jd-o-t2" for="jdemo-t2"></output></div>
+        <div class="jd-row"><label for="jdemo-L1">L<sub>1</sub> upper arm</label><input id="jdemo-L1" class="jd-in-L1" type="range" min="0.5" max="1.2" step="0.1"><output class="jd-o-L1" for="jdemo-L1"></output></div>
+        <div class="jd-row"><label for="jdemo-L2">L<sub>2</sub> forearm</label><input id="jdemo-L2" class="jd-in-L2" type="range" min="0.5" max="1.2" step="0.1"><output class="jd-o-L2" for="jdemo-L2"></output></div>
+        <div>
+          <button type="button" data-preset="exercise">Exercise pose</button>
+          <button type="button" data-preset="straight">Straight (&theta;<sub>2</sub> = 0&deg;)</button>
+          <button type="button" data-preset="folded">Folded (&theta;<sub>2</sub> = 180&deg;)</button>
+        </div>
+      </fieldset>
+
+      <button type="button" class="jd-reveal" aria-pressed="false">Show the Jacobian</button>
+
+      <div class="jd-readout" aria-live="polite">
+        <p>Hand at <span class="jd-mono jd-pos"></span>, <span class="jd-mono jd-dist"></span> from the shoulder.</p>
+        <p class="jd-hidden-msg jd-note">The Jacobian is hidden. Write J and det J on paper, then press the button.</p>
+        <div class="jd-jpanel jd-hidden">
+          <p>J = <span class="jd-matrix"><span class="jd-c1 jd-j11"></span><span class="jd-c2 jd-j12"></span><span class="jd-c1 jd-j21"></span><span class="jd-c2 jd-j22"></span></span>
+            <span class="jd-note">(<span class="jd-c1">column 1</span>, <span class="jd-c2">column 2</span>)</span></p>
+          <p class="jd-c1"><b>Arrow 1</b>, shoulder only at +1 rad/s: the hand moves <span class="jd-mono jd-v1"></span>, which is <span class="jd-d1"></span>.</p>
+          <p class="jd-c2"><b>Arrow 2</b>, elbow only at +1 rad/s: the hand moves <span class="jd-mono jd-v2"></span>, which is <span class="jd-d2"></span>.</p>
+          <p>det J = L<sub>1</sub>&middot;L<sub>2</sub>&middot;sin &theta;<sub>2</sub> = <span class="jd-mono jd-det"></span></p>
+          <p class="jd-sing jd-hidden"><b>Singular pose.</b> The two arrows lie on one line, or one has shrunk to zero, so J has no inverse. At this instant, no combination of joint speeds moves the hand off that line. With q&#775; = J<sup>&minus;1</sup>&#7819;, a controller would need joint speeds that blow up near here.</p>
+          <p class="jd-note">Each arrow is drawn to grid scale and shows where the hand would be after 1 s at that velocity.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ol class="jd-prompts">
+    <li>Press <b>Exercise pose</b> (L<sub>1</sub> = L<sub>2</sub> = 1, &theta;<sub>1</sub> = 0&deg;, &theta;<sub>2</sub> = 90&deg;). On paper, write J and say which way the hand moves if only the shoulder turns. Then press <b>Show the Jacobian</b> and check both columns against your numbers.</li>
+    <li>With the Jacobian shown, predict det J at &theta;<sub>2</sub> = 180&deg; from the formula. Then drag &theta;<sub>2</sub> slowly toward 180&deg; and watch the two arrows as you get close. Try it again with L<sub>1</sub> &ne; L<sub>2</sub>.</li>
+    <li>Press <b>Straight</b> and step &theta;<sub>2</sub> by 1&deg; with the arrow keys. Compare how much the hand's distance from the shoulder changes with how much its position moves sideways. Which direction did the arm lose?</li>
+  </ol>
+
+  <script>
+  (function () {
+    var root = document.getElementById('jdemo');
+    if (!root) return;
+    function q(sel) { return root.querySelector(sel); }
+    var SVGNS = 'http://www.w3.org/2000/svg';
+    var S = 55, O = 200;                 // pixels per unit, SVG center
+    var st = { t1: 0, t2: 90, L1: 1, L2: 1, show: false };   // angles in degrees
+
+    var svg = q('svg');
+    var el = {
+      gridg: q('.jd-gridg'), outer: q('.jd-outer'), inner: q('.jd-inner'),
+      upper: q('.jd-upper'), fore: q('.jd-fore'), elbow: q('.jd-elbow'), hand: q('.jd-hand'),
+      a1: q('.jd-a1'), a2: q('.jd-a2'), l1: q('.jd-lbl1'), l2: q('.jd-lbl2'),
+      t1: q('.jd-in-t1'), t2: q('.jd-in-t2'), L1: q('.jd-in-L1'), L2: q('.jd-in-L2'),
+      ot1: q('.jd-o-t1'), ot2: q('.jd-o-t2'), oL1: q('.jd-o-L1'), oL2: q('.jd-o-L2'),
+      reveal: q('.jd-reveal'), pos: q('.jd-pos'), dist: q('.jd-dist'),
+      hiddenMsg: q('.jd-hidden-msg'), jpanel: q('.jd-jpanel'),
+      j11: q('.jd-j11'), j12: q('.jd-j12'), j21: q('.jd-j21'), j22: q('.jd-j22'),
+      v1: q('.jd-v1'), v2: q('.jd-v2'), d1: q('.jd-d1'), d2: q('.jd-d2'),
+      det: q('.jd-det'), sing: q('.jd-sing')
+    };
+
+    function px(x) { return O + S * x; }
+    function py(y) { return O - S * y; }
+    function rad(d) { return d * Math.PI / 180; }
+    function wrapDeg(d) { d = ((d + 180) % 360 + 360) % 360 - 180; return d === -180 ? 180 : d; }
+    function fmt(v) { if (Math.abs(v) < 0.005) v = 0; return (v < 0 ? '−' : '') + Math.abs(v).toFixed(2); }
+    function vec(x, y) { return '(' + fmt(x) + ', ' + fmt(y) + ')'; }
+    function dirWord(x, y) {
+      if (Math.hypot(x, y) < 0.01) return 'not moving at all';
+      var a = Math.atan2(y, x) * 180 / Math.PI;
+      var names = ['right', 'up and to the right', 'straight up', 'up and to the left', 'left', 'down and to the left', 'straight down', 'down and to the right'];
+      return names[Math.round(((a + 360) % 360) / 45) % 8];
+    }
+    function seg(line, x1, y1, x2, y2) {
+      line.setAttribute('x1', px(x1)); line.setAttribute('y1', py(y1));
+      line.setAttribute('x2', px(x2)); line.setAttribute('y2', py(y2));
+    }
+    function hide(node, h) { node.classList.toggle('jd-hidden', h); }
+
+    // Grid: one line per unit, labelled on the axes.
+    for (var k = -3; k <= 3; k++) {
+      var v = document.createElementNS(SVGNS, 'line');
+      v.setAttribute('class', k === 0 ? 'jd-axis' : 'jd-gridline');
+      v.setAttribute('x1', px(k)); v.setAttribute('x2', px(k)); v.setAttribute('y1', 0); v.setAttribute('y2', 400);
+      el.gridg.appendChild(v);
+      var h = document.createElementNS(SVGNS, 'line');
+      h.setAttribute('class', k === 0 ? 'jd-axis' : 'jd-gridline');
+      h.setAttribute('y1', py(k)); h.setAttribute('y2', py(k)); h.setAttribute('x1', 0); h.setAttribute('x2', 400);
+      el.gridg.appendChild(h);
+      if (k !== 0) {
+        var tx = document.createElementNS(SVGNS, 'text');
+        tx.setAttribute('class', 'jd-ticklbl'); tx.setAttribute('x', px(k) + 3); tx.setAttribute('y', py(0) + 12);
+        tx.textContent = k; el.gridg.appendChild(tx);
+        var ty = document.createElementNS(SVGNS, 'text');
+        ty.setAttribute('class', 'jd-ticklbl'); ty.setAttribute('x', px(0) + 4); ty.setAttribute('y', py(k) - 3);
+        ty.textContent = k; el.gridg.appendChild(ty);
+      }
+    }
+
+    function arrow(line, lbl, hx, hy, vx, vy) {
+      var m = Math.hypot(vx, vy);
+      var off = st.show && m >= 0.01;
+      hide(line, !off); hide(lbl, !off);
+      if (!off) return;
+      seg(line, hx, hy, hx + vx, hy + vy);
+      lbl.setAttribute('x', px(hx + vx + 0.18 * vx / m) - 4);
+      lbl.setAttribute('y', py(hy + vy + 0.18 * vy / m) + 5);
+    }
+
+    function draw() {
+      var t1 = rad(st.t1), t12 = rad(st.t1 + st.t2), L1 = st.L1, L2 = st.L2;
+      var ex = L1 * Math.cos(t1), ey = L1 * Math.sin(t1);
+      var hx = ex + L2 * Math.cos(t12), hy = ey + L2 * Math.sin(t12);
+
+      // Jacobian of (x, y) with respect to (θ1, θ2)
+      var J11 = -L1 * Math.sin(t1) - L2 * Math.sin(t12), J12 = -L2 * Math.sin(t12);
+      var J21 =  L1 * Math.cos(t1) + L2 * Math.cos(t12), J22 =  L2 * Math.cos(t12);
+      var det = L1 * L2 * Math.sin(rad(st.t2));
+
+      el.outer.setAttribute('r', (L1 + L2) * S);
+      el.inner.setAttribute('r', Math.abs(L1 - L2) * S);
+      seg(el.upper, 0, 0, ex, ey);
+      seg(el.fore, ex, ey, hx, hy);
+      el.elbow.setAttribute('cx', px(ex)); el.elbow.setAttribute('cy', py(ey));
+      el.hand.setAttribute('cx', px(hx)); el.hand.setAttribute('cy', py(hy));
+      arrow(el.a1, el.l1, hx, hy, J11, J21);
+      arrow(el.a2, el.l2, hx, hy, J12, J22);
+
+      el.t1.value = st.t1; el.t2.value = st.t2; el.L1.value = st.L1; el.L2.value = st.L2;
+      el.ot1.textContent = st.t1 + '°'; el.ot2.textContent = st.t2 + '°';
+      el.oL1.textContent = st.L1.toFixed(1); el.oL2.textContent = st.L2.toFixed(1);
+      el.pos.textContent = vec(hx, hy);
+      el.dist.textContent = fmt(Math.hypot(hx, hy));
+
+      hide(el.hiddenMsg, st.show); hide(el.jpanel, !st.show);
+      el.reveal.setAttribute('aria-pressed', st.show ? 'true' : 'false');
+      el.reveal.textContent = st.show ? 'Hide the Jacobian' : 'Show the Jacobian';
+      if (!st.show) return;
+      el.j11.textContent = fmt(J11); el.j12.textContent = fmt(J12);
+      el.j21.textContent = fmt(J21); el.j22.textContent = fmt(J22);
+      el.v1.textContent = vec(J11, J21); el.d1.textContent = dirWord(J11, J21);
+      el.v2.textContent = vec(J12, J22); el.d2.textContent = dirWord(J12, J22);
+      el.det.textContent = fmt(L1) + ' · ' + fmt(L2) + ' · sin ' + st.t2 + '° = ' + fmt(det);
+      hide(el.sing, Math.abs(det) >= 0.02);
+    }
+
+    // Sliders
+    el.t1.addEventListener('input', function () { st.t1 = +el.t1.value; draw(); });
+    el.t2.addEventListener('input', function () { st.t2 = +el.t2.value; draw(); });
+    el.L1.addEventListener('input', function () { st.L1 = Math.round(+el.L1.value * 10) / 10; draw(); });
+    el.L2.addEventListener('input', function () { st.L2 = Math.round(+el.L2.value * 10) / 10; draw(); });
+
+    // Reveal toggle and presets
+    el.reveal.addEventListener('click', function () { st.show = !st.show; draw(); });
+    var presets = {
+      exercise: { t1: 0, t2: 90, L1: 1, L2: 1 },
+      straight: { t1: 0, t2: 0 },
+      folded:   { t2: 180 }
+    };
+    root.querySelectorAll('button[data-preset]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var p = presets[b.getAttribute('data-preset')];
+        for (var key in p) st[key] = p[key];
+        draw();
+      });
+    });
+
+    // Dragging: the elbow sets θ1, the hand sets θ2
+    function toWorld(evt) {
+      var pt = svg.createSVGPoint(); pt.x = evt.clientX; pt.y = evt.clientY;
+      var p = pt.matrixTransform(svg.getScreenCTM().inverse());
+      return { x: (p.x - O) / S, y: (O - p.y) / S };
+    }
+    var dragging = null;
+    [el.elbow, el.hand].forEach(function (hnd) {
+      hnd.addEventListener('pointerdown', function (e) { dragging = hnd; hnd.setPointerCapture(e.pointerId); e.preventDefault(); });
+      hnd.addEventListener('pointermove', function (e) {
+        if (dragging !== hnd) return;
+        var w = toWorld(e);
+        if (hnd === el.elbow) {
+          st.t1 = wrapDeg(Math.round(Math.atan2(w.y, w.x) * 180 / Math.PI));
+        } else {
+          var t1 = rad(st.t1), ex = st.L1 * Math.cos(t1), ey = st.L1 * Math.sin(t1);
+          var a = Math.atan2(w.y - ey, w.x - ex) * 180 / Math.PI;
+          st.t2 = wrapDeg(Math.round(a - st.t1));
+        }
+        draw();
+      });
+      function end() { dragging = null; }
+      hnd.addEventListener('pointerup', end);
+      hnd.addEventListener('pointercancel', end);
+    });
+
+    draw();
+  })();
+  </script>
+</section>
