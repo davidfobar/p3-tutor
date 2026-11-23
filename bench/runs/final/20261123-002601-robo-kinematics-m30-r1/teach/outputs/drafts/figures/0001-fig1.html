@@ -1,0 +1,51 @@
+<!--
+Section: 3. One joint at a time.
+Notice: with only one joint turning, the hand moves perpendicular to the arm from that joint to the hand, so the two arrows point in different directions and the longer arm gives the longer arrow.
+Source: S1 (Stanford CS223A, Lecture 7); v = omega x r. Pose theta1 = 60 deg, theta2 = -60 deg and equal links are an example, not given by the plan.
+
+Layout check (viewBox 640 x 325; label width = chars x size x 0.6; height from y-0.8*size to y+0.25*size)
+Label / shape          | x range    | y range      | must sit inside / clear of            | result
+"joint 1" (18, start 125)  | 125-201  | 292.6-311.5 | clear of base circle (104-116, 279-291), 9+ gap right of circle edge, link 1 above | ok
+"joint 2" (18, end 180)    | 104-180  | 105.6-124.5 | clear of O1 circle (189-201,131.8-143.8) by 12 on right/below, link 1 below y 137.8 | ok
+"link 2 = arm" (16, start 205) | 205-320 | 107.2-124 | link 2 at y 137.8 (13.8 clear), arrow 1 line x>=347 (27 clear), "joint 2" label (25 clear) | ok
+"joint 1 turns" (18, end 294)  | 154-294  | 25.6-44.5  | arrow 1 tip (306,35.6) 12 clear | ok
+"joint 2 turns" (18, start 380)| 380-520.4| 80.6-99.5  | arrow 2 at x 365 (15 clear), arrow 1 line x<=340 | ok
+"hand" (18, start 378)         | 378-421  | 152.6-171.5| hand circle (359-371,131.8-143.8) 8.8 below | ok
+"arm for joint 1" (16, start 240)| 240-384| 227.2-244  | dashed arm at x=240 is y 210 (17 above); link 1 at x<=195 | ok
+Shapes: circles r6 at O0 (110,285), O1 (195,137.8), hand (365,137.8); link 1, link 2, dashed arm lines end on circle centres under the filled circles; arrow 1 from (362,132.6) to (306,35.6) on the hand circle edge; arrow 2 from (365,131.8) to (365,69.8).
+Frame: leftmost 104, rightmost 520.4, top 25.6, bottom 311.5 inside 640 x 325 with >= 10 clear; empty bands < 40.
+Arrow lengths: 118 and 68, ratio 1.73 = arm lengths 294.4 : 170. Arrow 1 direction (-0.5,-0.866) is perpendicular to the arm direction (-0.866,0.5) (dot product 0).
+Layout check: passed
+-->
+<figure>
+  <svg viewBox="0 0 640 325" role="img" aria-labelledby="fig1-title">
+    <title id="fig1-title">A two-link arm. When only joint 1 turns, the hand moves up and to the left, perpendicular to the dashed line from joint 1 to the hand. When only joint 2 turns, the hand moves straight up, perpendicular to link 2.</title>
+    <defs>
+      <marker id="fig1-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse" style="color: var(--accent)">
+        <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+      </marker>
+    </defs>
+    <g fill="none" stroke-width="1.5">
+      <line x1="110" y1="285" x2="365" y2="137.8" style="stroke: var(--muted)" stroke-dasharray="4 4"/>
+      <line x1="110" y1="285" x2="195" y2="137.8" stroke="currentColor"/>
+      <line x1="195" y1="137.8" x2="365" y2="137.8" stroke="currentColor"/>
+      <line x1="362" y1="132.6" x2="306" y2="35.6" stroke-width="2.5" style="stroke: var(--accent)" marker-end="url(#fig1-arrow)"/>
+      <line x1="365" y1="131.8" x2="365" y2="69.8" stroke-width="2.5" style="stroke: var(--accent)" marker-end="url(#fig1-arrow)"/>
+      <circle cx="110" cy="285" r="6" stroke="currentColor" style="fill: var(--accent-soft)"/>
+      <circle cx="195" cy="137.8" r="6" stroke="currentColor" style="fill: var(--accent-soft)"/>
+      <circle cx="365" cy="137.8" r="6" stroke="currentColor" style="fill: var(--accent-soft)"/>
+    </g>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18">
+      <text x="125" y="307">joint 1</text>
+      <text x="180" y="120" text-anchor="end">joint 2</text>
+      <text x="294" y="40" text-anchor="end" style="fill: var(--accent)">joint 1 turns</text>
+      <text x="380" y="95" style="fill: var(--accent)">joint 2 turns</text>
+      <text x="378" y="167">hand</text>
+    </g>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="16">
+      <text x="205" y="120">link 2 = arm</text>
+      <text x="240" y="240">arm for joint 1</text>
+    </g>
+  </svg>
+  <figcaption>Figure 1. Example pose (θ1 = 60°, θ2 = −60°, equal links). Each arrow is the hand's motion when only that joint turns, perpendicular to the arm from that joint to the hand; the longer arm gives the longer arrow.</figcaption>
+</figure>

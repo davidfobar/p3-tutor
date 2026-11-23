@@ -1,0 +1,129 @@
+{
+  "duration_api_ms": 933940,
+  "stop_reason": "end_turn",
+  "session_id": "cfa83d65-152d-424a-8a54-439a2d58661b",
+  "total_cost_usd": 2.7336745,
+  "usage": {
+    "input_tokens": 14,
+    "cache_creation_input_tokens": 56918,
+    "cache_read_input_tokens": 721436,
+    "output_tokens": 30786,
+    "output_tokens_details": {
+      "thinking_tokens": 614
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 56918,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 648,
+        "cache_read_input_tokens": 157612,
+        "cache_creation_input_tokens": 343,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 343
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 110,
+      "outputTokens": 140707,
+      "cacheReadInputTokens": 2611890,
+      "cacheCreationInputTokens": 325006,
+      "webSearchRequests": 0,
+      "costUSD": 2.7014099999999996,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 51350,
+      "cacheCreationEphemeral5mInputTokens": 178062,
+      "cacheCreationEphemeral1hInputTokens": 146944,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 191705,
+      "outputTokens": 6188,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 1,
+      "costUSD": 0.0322645,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 3656,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "origin": {
+    "kind": "task-notification",
+    "producer": "session-task",
+    "runId": "0mwsjdsbx-1be1569b"
+  },
+  "subagent_stats": {
+    "spawned": 5,
+    "requested": {
+      "background": 0,
+      "foreground": 1,
+      "unset": 4
+    },
+    "started_in_background": 3,
+    "max_depth": 2,
+    "spawned_by_subagents": 2,
+    "completed": 5,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {
+      "lesson-planner": 1,
+      "product-reviewer": 2,
+      "demo-dev": 1,
+      "lesson-reviewer": 1
+    }
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 28,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "The lesson for O2 is written: `lessons/0001-endpoint-velocity-jacobian.html`. The demo's code and both figures came straight from the demo-dev agent. Nobody ran the demo in a browser, though. The lesson-reviewer read the code and found it correct.\n\nThe lesson opens with a car-door seam problem that forward kinematics can't solve. Then:\n- A warm-up on reading axes and origins from the transforms.\n- The \"one joint at a time\" idea, with the demo.\n- The rotary and prismatic column recipe.\n- Reference-point changes and singularities.\n- A worked planar example with a finite-difference check, a code sketch, and a gantry exercise.\n\nIt uses cars where they fit, and the recipe is bulleted as you asked.\n\n**Time:** about 26 min reading plus 4 min demo, 30 in total. The measured reading time was 26.1 min against the 30 you asked for, so it runs a little short. There's no quiz. Ask for one whenever you want to check what stuck.\n\n**Review:** I ran one review pass (24 findings) and fixed them, but didn't re-review the fixes. I fixed the wrong source citations, a worked-example mismatch, repeated paragraphs and a demo prompt. I declined four findings, all recorded in `review-records/0001-teach.md`:\n- Extra figures: I can't draw my own.\n- Relabeling the warm-up as O2: the warm-up carries the earlier objective, O1.\n- A second source: I had only seen the Stanford one.\n- A second \"Go further\" link: for the same reason.\n\n**Other files:**\n- `cheatsheets/0001-jacobian-recipe.html`: a one-page recipe.\n- `NOTES.md`: a short note on the lesson.\n\nYou can ask me anything about the lesson in the chat.\n\n**A question for you:** do you want a community link, such as a robotics forum or subreddit, in \"Go further\"? I left it out because I had no verified URL.",
+  "ttft_ms": 2287,
+  "type": "result",
+  "duration_ms": 148968,
+  "uuid": "c4894a2a-1b6c-4bc5-b0e3-e3f885a311fb",
+  "ttft_stream_ms": 1414,
+  "time_to_request_ms": 16,
+  "first_content_frame_ms": 1415,
+  "queued_turn_count": 0,
+  "result_index": 3,
+  "model_usage_since_last_result": {},
+  "credential_expires_at": "2026-12-16T23:36:35.249Z"
+}

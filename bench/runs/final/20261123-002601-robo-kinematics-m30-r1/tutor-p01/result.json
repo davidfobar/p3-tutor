@@ -1,0 +1,154 @@
+{
+  "duration_api_ms": 38205,
+  "stop_reason": "end_turn",
+  "session_id": "143d2e56-d654-4aea-bdaa-3029f0721a9e",
+  "total_cost_usd": 0.170999555,
+  "usage": {
+    "input_tokens": 20,
+    "cache_creation_input_tokens": 23823,
+    "cache_read_input_tokens": 250107,
+    "output_tokens": 2388,
+    "output_tokens_details": {
+      "thinking_tokens": 291
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 23823,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 408,
+        "cache_read_input_tokens": 34444,
+        "cache_creation_input_tokens": 390,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 390
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 2388,
+      "cacheReadInputTokens": 250107,
+      "cacheCreationInputTokens": 23823,
+      "webSearchRequests": 0,
+      "costUSD": 0.14422269999999998,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 291,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 23823,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 87472,
+      "outputTokens": 3374,
+      "cacheReadInputTokens": 8803,
+      "cacheCreationInputTokens": 50037,
+      "webSearchRequests": 1,
+      "costUSD": 0.026776855,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 1506,
+      "cacheCreationEphemeral5mInputTokens": 50037,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 2,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 2
+    },
+    "started_in_background": 0,
+    "max_depth": 1,
+    "spawned_by_subagents": 0,
+    "completed": 2,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {
+      "web-fetch": 2
+    }
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 17,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "This is item q1 of Quiz 0001, which hasn't been graded yet. I won't give the answer, but here is what it checks and where to reread.\n\n**What it checks (objective O1):** Given a serial arm with standard DH frames, you should be able to say which frame axis each joint moves about and where the frame origins sit relative to those axes. The quiz's three items all test this.\n\n**Where to reread:** You have no lesson or cheat sheet on this yet, so I added one source to `RESOURCES.md`. It's Wikipedia's [Denavit–Hartenberg parameters](https://en.wikipedia.org/wiki/Denavit%E2%80%93Hartenberg_parameters). Read the section \"Denavit–Hartenberg convention\", especially subsection \"1.1 Four parameters\". Pay close attention to how the θ and d definitions use the word \"previous\", and to how frame i is placed.\n\nYour first-session record also lists the course's own convention: the standard (distal) one, as in Paul and Spong. The Craig convention differs on this exact point, so check which one you're reading.\n\nOnce you've reread it, come back with your answer and I'll tell you how you're reasoning. After the quiz is graded, I'm happy to go through q1 with you.",
+  "ttft_ms": 1162,
+  "type": "result",
+  "duration_ms": 39229,
+  "uuid": "9bad43e7-7b27-42e5-9eaf-3ef833ebd837",
+  "ttft_stream_ms": 863,
+  "time_to_request_ms": 81,
+  "first_content_frame_ms": 864,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 2388,
+      "cacheReadInputTokens": 250107,
+      "cacheCreationInputTokens": 23823,
+      "webSearchRequests": 0,
+      "costUSD": 0.14422269999999998,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 291,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 23823,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 87472,
+      "outputTokens": 3374,
+      "cacheReadInputTokens": 8803,
+      "cacheCreationInputTokens": 50037,
+      "webSearchRequests": 1,
+      "costUSD": 0.026776855,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 1506,
+      "cacheCreationEphemeral5mInputTokens": 50037,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-12-16T23:36:35.249Z"
+}

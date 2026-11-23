@@ -1,0 +1,42 @@
+{
+  "id": "0002",
+  "items": [
+    {
+      "id": "q1",
+      "answer": "c",
+      "rationale": "Column i is the endpoint's twist (linear and angular velocity) produced by joint i alone at unit rate. Option a treats the Jacobian as derivatives of Euler angles; b sums all joints into one vector; d measures frame i's origin instead of the endpoint.",
+      "distractors": {"a": "M1", "b": "M2", "d": "M3"}
+    },
+    {
+      "id": "q2",
+      "answer": 1.4,
+      "tolerance": 0.05,
+      "rationale": "The moment arm runs from joint 1 to the endpoint: 0.4 + 0.3 = 0.7 m, so v = 2 × 0.7 = 1.4 m/s. An answer of 0.8 uses only link 1's length (M3).",
+      "distractors": {}
+    },
+    {
+      "id": "q3",
+      "answer": -0.3,
+      "tolerance": 0.01,
+      "rationale": "Column 1 linear part = z × (Oₙ − O₀) = (0,0,1) × (0.4, 0.3, 0) = (−0.3, 0.4, 0), so the x-component is −0.3. An answer of +0.3 comes from crossing in the wrong order, r × z (M4)."
+    },
+    {
+      "id": "q4",
+      "answer": "a",
+      "rationale": "A sliding joint moves the endpoint along its axis at the joint rate and cannot rotate it, so linear part z and angular part 0. Options b and d apply the rotary cross product to a prismatic joint; c gives it an angular part (M5).",
+      "distractors": {"b": "M5", "c": "M5", "d": "M5"}
+    },
+    {
+      "id": "q5",
+      "answer": "d",
+      "rationale": "A rotary joint turns everything beyond it about its axis at the joint rate, so the angular part of its column is the axis z = (0,0,1) in base coordinates, independent of link lengths. Link lengths only enter the linear part.",
+      "distractors": {"a": "M6", "b": "M6", "c": "M6"}
+    },
+    {
+      "id": "q6",
+      "answer": "b",
+      "rationale": "Moving the reference point changes the moment arm, so the cross-product linear part of each rotary column changes. Angular parts are properties of the whole rigid body and stay the same, and a prismatic column's linear part is just its axis, so it does not change either.",
+      "distractors": {"a": "M6", "c": "M5", "d": "M3"}
+    }
+  ]
+}

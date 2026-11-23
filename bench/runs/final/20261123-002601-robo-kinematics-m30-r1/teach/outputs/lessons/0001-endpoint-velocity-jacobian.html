@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="p3-minutes" content="30">
+  <meta name="p3-objective" content="O2">
+  <title>From joint rates to hand speed: building the Jacobian column by column</title>
+  <style>
+    :root {
+      --bg: #fffdf8;
+      --text: #1f1d1a;
+      --muted: #6b665e;
+      --rule: #e4dfd4;
+      --accent: #9a4517;
+      --accent-soft: #f7ede4;
+      --warn: #8c2f39;
+      --warn-soft: #f9eaec;
+      --ok: #2f6b3a;
+      --ok-soft: #e7f2e9;
+      --code-bg: #f3efe6;
+      --serif: Charter, "Bitstream Charter", "Iowan Old Style", "Sitka Text", Cambria, Georgia, serif;
+      --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #171614;
+        --text: #e9e5dc;
+        --muted: #a49e93;
+        --rule: #36332e;
+        --accent: #eaa77a;
+        --accent-soft: #2c231d;
+        --warn: #f0a3ac;
+        --warn-soft: #2f1f22;
+        --ok: #9fd3a8;
+        --ok-soft: #1c2a1f;
+        --code-bg: #23211e;
+      }
+    }
+    * { box-sizing: border-box; }
+    html { font-size: 19px; -webkit-text-size-adjust: 100%; }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--serif); line-height: 1.6; }
+    main { max-width: 40rem; margin: 0 auto; padding: 3rem 1.25rem 4rem; }
+    p, li { hyphens: auto; }
+    a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+    h1, h2, h3 { line-height: 1.25; font-weight: 600; }
+    h1 { font-size: 2.1rem; margin: 0.25rem 0 1rem; }
+    h2 { font-size: 1.45rem; margin: 3rem 0 0.75rem; }
+    h3 { font-size: 1.1rem; margin: 2rem 0 0.5rem; }
+    .kicker, .label, .meta, .section-time, .section-objective, figcaption, summary, th, nav.toc, footer.closing {
+      font-family: var(--sans);
+    }
+    .kicker { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+    .lead { font-size: 1.15rem; }
+    .meta { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; font-size: 0.85rem; color: var(--muted);
+            border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 0.5rem 0; margin: 1.5rem 0; }
+    nav.toc { font-size: 0.9rem; margin: 1.5rem 0 2rem; }
+    nav.toc ol { padding-left: 1.2rem; margin: 0.4rem 0 0; }
+    .section-objective { font-size: 0.75rem; font-weight: 600; color: var(--accent); border: 1px solid currentColor; border-radius: 0.25rem; padding: 0 0.3rem; margin-left: 0.4rem; white-space: nowrap; }
+    .section-time { font-size: 0.8rem; font-weight: 400; color: var(--muted); margin-left: 0.4rem; white-space: nowrap; }
+    dfn { font-style: normal; font-weight: 600; }
+    aside.note { font-size: 0.9rem; color: var(--muted); border-left: 2px solid var(--rule); padding-left: 1rem; margin: 1.25rem 0; }
+    .box { border-radius: 6px; padding: 1rem 1.25rem; margin: 1.75rem 0; }
+    .box > :first-child { margin-top: 0; }
+    .box > :last-child { margin-bottom: 0; }
+    .label { display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+    .mission { background: var(--accent-soft); }
+    .mission .label { color: var(--accent); }
+    .misconception { background: var(--warn-soft); border-left: 4px solid var(--warn); }
+    .misconception .label { color: var(--warn); }
+    .worked { border: 1px solid var(--rule); }
+    .worked ol { padding-left: 1.3rem; }
+    .summary { border: 1px solid var(--rule); }
+    figure { margin: 2rem 0; }
+    figure svg { display: block; width: 100%; height: auto; }
+    figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 0.5rem; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.92rem; margin: 1.5rem 0; }
+    th, td { text-align: left; vertical-align: top; padding: 0.45rem 0.6rem; border-bottom: 1px solid var(--rule); }
+    th { font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+    code, pre { font-family: var(--mono); font-size: 0.85em; background: var(--code-bg); border-radius: 4px; }
+    code { padding: 0.1em 0.3em; }
+    pre { padding: 1rem; overflow-x: auto; line-height: 1.45; }
+    pre code { padding: 0; background: none; font-size: 1em; }
+    .check { border: 1px solid var(--rule); border-radius: 6px; padding: 1rem 1.25rem; margin: 1.75rem 0; }
+    .check .label { color: var(--accent); }
+    .check p { margin: 0.25rem 0; }
+    .choices { list-style: none; padding: 0; margin: 0.75rem 0 0; display: grid; gap: 0.5rem; }
+    .choices button { width: 100%; text-align: left; font: inherit; font-size: 0.95rem; color: inherit; background: transparent;
+                      border: 1px solid var(--rule); border-radius: 6px; padding: 0.55rem 0.8rem; cursor: pointer; }
+    .choices button:hover { border-color: var(--accent); }
+    .choices button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .choices button.right { border-color: var(--ok); background: var(--ok-soft); }
+    .choices button.wrong { border-color: var(--warn); background: var(--warn-soft); }
+    .feedback { font-size: 0.95rem; margin: 0.6rem 0 0; }
+    .feedback:empty { margin: 0; }
+    details { margin-top: 0.75rem; }
+    summary { font-size: 0.85rem; color: var(--accent); cursor: pointer; }
+    details > :not(summary) { margin: 0.5rem 0 0; }
+    .go-further li { margin-bottom: 0.6rem; }
+    footer.closing { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--rule); font-size: 0.9rem; color: var(--muted); }
+    @media (max-width: 32rem) {
+      html { font-size: 17px; }
+      h1 { font-size: 1.75rem; }
+      main { padding-top: 2rem; }
+    }
+    @media print {
+      :root { --bg: #fff; --text: #000; --muted: #444; --rule: #ccc; --accent: #000; --accent-soft: #f2f2f2;
+              --warn: #000; --warn-soft: #f2f2f2; --ok: #000; --ok-soft: #fff; --code-bg: #f2f2f2; }
+      html { font-size: 11.5pt; }
+      main { max-width: none; padding: 0; }
+      nav.toc { display: none; }
+      a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.8em; word-break: break-all; }
+      .box, .check, figure, table, pre { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+<main>
+
+  <header>
+    <div class="kicker">Lesson 1 &middot; 30 minutes</div>
+    <h1>From joint rates to hand speed: building the Jacobian column by column</h1>
+    <p class="lead">By the end of this lesson you can build the Jacobian of a serial arm from its frames, multiply it by the joint rates to get the hand's linear and angular velocity, and check one column by moving one joint.</p>
+    <div class="meta">
+      <span>Objective O2: Find the endpoint velocity from the joint rates</span>
+      <span>About 26 min reading + 4 min demo = 30 min</span>
+      <span>Builds on your forward-kinematics work (O1)</span>
+    </div>
+    <div class="box mission">
+      <span class="label">Why this matters for you</span>
+      <p>You want to write the Jacobian for an arm nobody has solved for you, answer "how fast is the hand moving?", and check your code against finite differences. This lesson gives you the recipe for the first two and the check for the third. Velocity control, force-torque mapping and inverse kinematics are all built on this one matrix.</p>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="In this lesson">
+    <strong>In this lesson</strong>
+    <ol>
+      <li><a href="#s1">A straight line at constant speed</a></li>
+      <li><a href="#warm-up">Warm-up</a></li>
+      <li><a href="#s3">One joint at a time (with demo)</a></li>
+      <li><a href="#s4">The recipe: rotary and prismatic</a></li>
+      <li><a href="#s5">Reference point, zero blocks, trouble spots</a></li>
+      <li><a href="#practice">Worked example and practice</a></li>
+      <li><a href="#own-check">One more check on your own</a></li>
+      <li><a href="#summary">Summary</a></li>
+      <li><a href="#further">Go further</a></li>
+    </ol>
+  </nav>
+
+  <section id="s1">
+    <h2>A straight line at constant speed <span class="section-objective">O2</span> <span class="section-time">2.5 min</span></h2>
+    <p>Picture a six-joint arm sealing the seam along a car door. The sealant only lays down evenly if the nozzle moves along the seam at a steady speed, say 0.2 m/s. Forward kinematics, which you already have, answers a different question: given the joint angles, where is the nozzle? It says nothing about how fast to turn each joint so that the nozzle glides along a line. Each joint has to turn at a different, changing rate, and you need a way to compute those rates.</p>
+    <p>The tool is one matrix. The <dfn>Jacobian</dfn> <var>J</var>, which depends on the current joint angles, turns the vector of joint rates q̇ into the hand's velocity <var>V</var>, a stack of its linear velocity <var>v</var> and its angular velocity <var>ω</var>:</p>
+    <p style="text-align:center"><strong>V = [v; ω] = J(q) · q̇</strong></p>
+    <p>This is the matrix that links joint rates to the hand's linear and angular velocity (<a href="https://see.stanford.edu/materials/aiircs223a/transcripts/IntroductionToRobotics-Lecture07.html">Stanford CS223A, Lecture 7</a>). This lesson is the forward direction: given the rates, find the hand velocity. Going the other way, from a wanted hand velocity to joint rates, means inverting <var>J</var>, and that comes in a later lesson.</p>
+    <p>Read the matrix by its shape. For an arm with <var>n</var> joints, <var>J</var> has six rows and <var>n</var> columns: the top three rows give how fast the hand moves through space, the bottom three give how fast it turns. Column <var>i</var> answers one question only: "if joint <var>i</var> alone turned at one unit per second, what would the hand do?" Row by row it is hard to picture, but column by column you can sketch it on paper, and that is how the rest of this lesson works. A six-joint arm has six such sketches to make, one per joint.</p>
+    <aside class="note">Why not just differentiate your forward-kinematics equations? For the position rows you can, and the answer matches. The trouble is the orientation rows, which section 3 covers. The geometric recipe below also never needs the full symbolic pose, only the frames you already know how to compute.</aside>
+  </section>
+
+  <section id="warm-up">
+    <h2>Warm-up <span class="section-objective">O1</span> <span class="section-time">2.5 min</span></h2>
+    <p>The whole recipe rests on two things you can already do: reading axes and origins out of the intermediate transforms. Try one from memory before you look.</p>
+    <div class="check">
+      <span class="label">Recall</span>
+      <p>A planar arm has rotary joints whose axes are parallel to the base z axis. Link 1 has length a₁ = 0.6 m and joint 1 is at θ₁ = 30°. Write ⁰z₀ and ⁰O₁ in base coordinates. Then say which part of which transform each one comes from.</p>
+      <details>
+        <summary>Check your answer</summary>
+        <p>⁰z₀ = (0, 0, 1), and ⁰O₁ = (0.6 cos 30°, 0.6 sin 30°, 0) = (0.520, 0.300, 0) m. The axis is the third column of the rotation part of ⁰T₀ (the identity, so (0, 0, 1)). The origin is the position part of ⁰T₁. Today you use exactly these two pieces for every joint.</p>
+      </details>
+    </div>
+    <div class="check">
+      <span class="label">Recall, part two</span>
+      <p>Continue the same arm with a₂ = 0.4 m and θ₂ = 60°, so the second link points 90° from the x axis. Where is the hand, O₂, in base coordinates, and which transform's position part gives it? Why do you need O₂ − O₁ rather than O₂ alone when you build column 2 later?</p>
+      <details>
+        <summary>Check your answer</summary>
+        <p>O₂ = O₁ + 0.4·(cos 90°, sin 90°) = (0.520, 0.700, 0) m, read from the position part of ⁰T₂. Column 2 spins the hand about joint 2, not about the base, so the arm is measured from joint 2's origin, and O₂ − O₁ = (0, 0.4, 0) is that arm. The same numbers return in the worked example.</p>
+      </details>
+    </div>
+    <div class="box misconception">
+      <span class="label">A common mix-up</span>
+      <p>"Every joint axis is (0, 0, 1)." In its own frame, yes: each joint turns about its frame's z axis, so it looks like (0, 0, 1). But the cross product in the recipe mixes it with a vector in base coordinates, so the axis must be rewritten in the base frame first. In this planar arm the parallel axes happen to stay (0, 0, 1), which hides the mistake. In a spatial arm, joint 4's axis is typically tilted in the base frame, and the shortcut gives a wrong answer.</p>
+    </div>
+  </section>
+
+  <section id="s3">
+    <h2>One joint at a time <span class="section-objective">O2</span> <span class="section-time">5.5 min</span></h2>
+    <p>Here is the idea that makes the matrix easy to build. Freeze every joint except joint <var>i</var> and turn it at one radian per second. Everything beyond joint <var>i</var> now moves as a single rigid body spinning about joint <var>i</var>'s axis, and you already know the velocity of a point on a spinning body: <strong>v = ω × r</strong>. Here ω is the axis direction times the rate, and <var>r</var> is the vector from a point on the axis to the point you care about (<a href="https://see.stanford.edu/materials/aiircs223a/transcripts/IntroductionToRobotics-Lecture07.html">Lecture 7</a>). The hand's motion from that one joint is <strong>column <var>i</var></strong> of <var>J</var>.</p>
+    <p>Think of a car's steering linkage. Turn only the steering wheel and the wheel hub swings around the kingpin; it moves perpendicular to the line from the kingpin to the hub, and farther hubs move faster. A robot joint is the same: one pivot, one rigid arm out to the point of interest, motion at right angles to that arm.</p>
+    <p>Because angular velocities of bodies in series add, and the hand's linear velocity from each joint adds too, the total is the sum of the columns, each scaled by its joint's rate: <strong>V = q̇₁·(column 1) + q̇₂·(column 2) + …</strong>. That sum is the matrix-vector product <var>J</var>·q̇.</p>
+
+    <p>Try one column by hand before the demo. A planar arm, joint 1 at the origin, hand at (0.5, 0.8) m, joint 1 turning at +2 rad/s with joint 2 held still. The axis is (0, 0, 1) and the arm to the hand is (0.5, 0.8, 0), so the hand moves at 2 · (0, 0, 1) × (0.5, 0.8, 0) = 2 · (−0.8, 0.5, 0) = (−1.6, 1.0, 0) m/s. Check it against the picture: the hand is up and to the right of the pivot, and counterclockwise rotation swings it up and to the left. The arrow is also at right angles to the arm, since (−0.8, 0.5) · (0.5, 0.8) = 0. That perpendicularity is your quickest sanity test on any column.</p>
+
+    <h3>Demo <span class="section-objective">O2</span> <span class="section-time">4 min</span></h3>
+    <p>Do this now, before reading on. Play with the arm below, and do the three prompts at the bottom of the demo.</p>
+
+    <section class="demo" aria-labelledby="demo-heading">
+<style>
+.demo { border: 1px solid var(--rule); border-radius: 6px; padding: 1rem 1.25rem; margin: 1.75rem 0; font-family: var(--sans); }
+.demo h3 { margin: 0 0 0.4rem; font-size: 1.1rem; }
+.demo p { margin: 0.3rem 0; font-size: 0.9rem; }
+.demo svg { display: block; width: 100%; height: auto; }
+.demo .demo-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 0.6rem 1rem; margin: 0.75rem 0; }
+.demo label { display: block; font-size: 0.85rem; }
+.demo input[type="range"] { width: 100%; accent-color: var(--accent); }
+.demo .demo-row { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; margin: 0.5rem 0; }
+.demo button { font: inherit; font-size: 0.85rem; color: inherit; background: transparent; border: 1px solid var(--rule); border-radius: 6px; padding: 0.35rem 0.7rem; cursor: pointer; }
+.demo button:hover { border-color: var(--accent); }
+.demo button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
+.demo button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.demo .demo-legend { font-size: 0.8rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 0.2rem 1rem; margin: 0.4rem 0; }
+.demo .demo-sw { display: inline-block; width: 1.4rem; border-top: 2.5px solid; vertical-align: middle; margin-right: 0.3rem; }
+.demo .demo-dash { border-top-style: dashed; border-top-width: 1.5px; }
+.demo .demo-readout { background: var(--code-bg); border-radius: 4px; padding: 0.5rem 0.75rem; font-family: var(--mono); font-size: 0.8rem; line-height: 1.5; }
+.demo .demo-bad { color: var(--warn); }
+.demo ol { font-size: 0.88rem; padding-left: 1.2rem; margin: 0.6rem 0 0; }
+</style>
+<h3 id="demo-heading">Turn one joint at a time</h3>
+<p>Planar two-link arm, both links length 1 (an example), axes out of the page. Each arrow is the hand's motion from one joint's rate.</p>
+<svg viewBox="0 0 640 360" role="img" aria-labelledby="demo-svg-title">
+  <title id="demo-svg-title">A two-link arm seen from above inside a dotted circle showing its reach, with arrows at the hand showing the motion caused by each joint's rate.</title>
+  <defs>
+    <marker id="demo-arrow-1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse" style="color: var(--accent)"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker>
+    <marker id="demo-arrow-2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse" style="color: var(--ok)"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker>
+    <marker id="demo-arrow-w" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse" style="color: var(--warn)"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker>
+  </defs>
+  <g fill="none" stroke-width="1.5">
+    <circle cx="320" cy="180" r="140" style="stroke: var(--rule)" stroke-dasharray="2 5"/>
+    <line data-r="chord" x1="320" y1="180" x2="350" y2="69" style="stroke: var(--muted)" stroke-dasharray="4 4"/>
+    <line data-r="link1" x1="320" y1="180" x2="374" y2="135" stroke="currentColor"/>
+    <line data-r="link2" x1="374" y1="135" x2="350" y2="69" stroke="currentColor"/>
+    <line data-r="a1" x1="0" y1="0" x2="0" y2="0" style="stroke: var(--accent)" stroke-width="2.5" marker-end="url(#demo-arrow-1)" visibility="hidden"/>
+    <line data-r="a2" x1="0" y1="0" x2="0" y2="0" style="stroke: var(--ok)" stroke-width="2.5" marker-end="url(#demo-arrow-2)" visibility="hidden"/>
+    <line data-r="aw" x1="0" y1="0" x2="0" y2="0" style="stroke: var(--warn)" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#demo-arrow-w)" visibility="hidden"/>
+    <circle data-r="ghost" cx="0" cy="0" r="6" style="stroke: var(--accent)" stroke-dasharray="3 3" visibility="hidden"/>
+    <circle cx="320" cy="180" r="6" stroke="currentColor" style="fill: var(--accent-soft)"/>
+    <circle data-r="j2" cx="374" cy="135" r="6" stroke="currentColor" style="fill: var(--accent-soft)"/>
+    <circle data-r="hand" cx="350" cy="69" r="6" stroke="currentColor" style="fill: var(--accent-soft)"/>
+  </g>
+</svg>
+<div class="demo-legend">
+  <span><span class="demo-sw" style="border-color: var(--accent)"></span>Joint 1 motion</span>
+  <span><span class="demo-sw" style="border-color: var(--ok)"></span>Joint 2 motion</span>
+  <span><span class="demo-sw demo-dash" style="border-color: var(--muted)"></span>Grey dashed: arm, joint 1 to hand</span>
+  <span><span class="demo-sw demo-dash" style="border-color: var(--warn)"></span>Wrong: link 1 only</span>
+</div>
+<div class="demo-controls">
+  <label>θ1 (deg) <output data-r="o-th1">40</output><input type="range" data-r="th1" min="-180" max="180" step="5" value="40"></label>
+  <label>θ2 (deg) <output data-r="o-th2">70</output><input type="range" data-r="th2" min="-170" max="170" step="5" value="70"></label>
+  <label>q̇1 (rad/s) <output data-r="o-r1">1</output><input type="range" data-r="r1" min="-1" max="1" step="0.5" value="1"></label>
+  <label>q̇2 (rad/s) <output data-r="o-r2">0</output><input type="range" data-r="r2" min="-1" max="1" step="0.5" value="0"></label>
+</div>
+<div class="demo-row">
+  <button type="button" data-r="n1" aria-pressed="false">Nudge joint 1 by +0.15 rad</button>
+  <button type="button" data-r="n2" aria-pressed="false">Nudge joint 2 by +0.15 rad</button>
+  <label><input type="checkbox" data-r="wrong"> Try the wrong arm</label>
+</div>
+<div class="demo-readout" aria-live="off">
+  <div data-r="t-c1"></div>
+  <div data-r="t-c2"></div>
+  <div data-r="t-v"></div>
+  <div data-r="t-n"></div>
+  <div class="demo-bad" data-r="t-w"></div>
+</div>
+<ol>
+  <li>With q̇1 = 1 and q̇2 = 0, predict the hand's direction. Nudge joint 1: does the dashed ghost hand land along the arrow?</li>
+  <li>Change only θ2. Does column 1 change? Predict, then look.</li>
+  <li>Set q̇1 ≠ 0, then tick the wrong-arm box. Which arrow is not perpendicular to the grey dashed arm, and why?</li>
+</ol>
+<script>
+(function () {
+  var root = document.currentScript.closest(".demo");
+  function $(n) { return root.querySelector('[data-r="' + n + '"]'); }
+  var S = 70, VS = 28, CX = 320, CY = 180, R = 6, NUDGE = 0.15;
+  var th1 = $("th1"), th2 = $("th2"), r1 = $("r1"), r2 = $("r2"), wrong = $("wrong");
+  var n1 = $("n1"), n2 = $("n2"), nudge = 0;
+  function f(n) { return (Math.round(n * 100) / 100).toFixed(2).replace("-", "−"); }
+  function pair(a, b) { return "(" + f(a) + ", " + f(b) + ")"; }
+  // Draws an arrow of velocity (vx, vy) at the hand; returns "" or a note when it is hidden.
+  function arrow(el, px, py, vx, vy, rate) {
+    var dx = vx * VS, dy = -vy * VS, len = Math.sqrt(dx * dx + dy * dy);
+    if (rate === 0) { el.setAttribute("visibility", "hidden"); return ""; }
+    if (len <= R + 2) { el.setAttribute("visibility", "hidden"); return " [arrow too short to draw]"; }
+    var ux = dx / len, uy = dy / len;
+    el.setAttribute("x1", px + ux * R); el.setAttribute("y1", py + uy * R);
+    el.setAttribute("x2", px + dx); el.setAttribute("y2", py + dy);
+    el.setAttribute("visibility", "visible");
+    return "";
+  }
+  function fk(a1, a2) {
+    var ox = Math.cos(a1), oy = Math.sin(a1), b = a1 + a2;
+    return { ox: ox, oy: oy, px: ox + Math.cos(b), py: oy + Math.sin(b) };
+  }
+  function update() {
+    var a1 = th1.value * Math.PI / 180, a2 = th2.value * Math.PI / 180;
+    var q1 = parseFloat(r1.value), q2 = parseFloat(r2.value);
+    var p = fk(a1, a2), ox = p.ox, oy = p.oy, px = p.px, py = p.py;
+    var c1 = [-py, px], c2 = [-(py - oy), px - ox], cw = [-oy, ox];
+    var sox = CX + S * ox, soy = CY - S * oy, spx = CX + S * px, spy = CY - S * py;
+    var l1 = $("link1"), l2 = $("link2"), ch = $("chord");
+    l1.setAttribute("x2", sox); l1.setAttribute("y2", soy);
+    l2.setAttribute("x1", sox); l2.setAttribute("y1", soy); l2.setAttribute("x2", spx); l2.setAttribute("y2", spy);
+    ch.setAttribute("x2", spx); ch.setAttribute("y2", spy);
+    $("j2").setAttribute("cx", sox); $("j2").setAttribute("cy", soy);
+    $("hand").setAttribute("cx", spx); $("hand").setAttribute("cy", spy);
+    var s1 = arrow($("a1"), spx, spy, q1 * c1[0], q1 * c1[1], q1);
+    var s2 = arrow($("a2"), spx, spy, q2 * c2[0], q2 * c2[1], q2);
+    var sw = "";
+    if (wrong.checked) { sw = arrow($("aw"), spx, spy, q1 * cw[0], q1 * cw[1], q1); } else { $("aw").setAttribute("visibility", "hidden"); }
+    $("o-th1").textContent = th1.value; $("o-th2").textContent = th2.value;
+    $("o-r1").textContent = r1.value; $("o-r2").textContent = r2.value;
+    $("t-c1").textContent = "Column 1 = z × (hand − O0) = " + pair(c1[0], c1[1]) + s1;
+    $("t-c2").textContent = "Column 2 = z × (hand − O1) = " + pair(c2[0], c2[1]) + s2;
+    $("t-v").textContent = "Hand velocity = q̇1·col1 + q̇2·col2 = " + pair(q1 * c1[0] + q2 * c2[0], q1 * c1[1] + q2 * c2[1]);
+    $("t-w").textContent = wrong.checked ? "Link 1 as arm gives " + pair(cw[0], cw[1]) + ": the hand does not go that way." + sw : "";
+    var g = $("ghost"), tn = $("t-n");
+    if (nudge === 0) { g.setAttribute("visibility", "hidden"); tn.textContent = ""; }
+    else {
+      var p2 = nudge === 1 ? fk(a1 + NUDGE, a2) : fk(a1, a2 + NUDGE);
+      var c = nudge === 1 ? c1 : c2;
+      g.setAttribute("cx", CX + S * p2.px); g.setAttribute("cy", CY - S * p2.py);
+      g.style.stroke = nudge === 1 ? "var(--accent)" : "var(--ok)";
+      g.setAttribute("visibility", "visible");
+      tn.textContent = "Nudge joint " + nudge + ": hand moved " + pair(p2.px - px, p2.py - py) + "; 0.15 × column " + nudge + " = " + pair(NUDGE * c[0], NUDGE * c[1]);
+    }
+    n1.setAttribute("aria-pressed", nudge === 1 ? "true" : "false");
+    n2.setAttribute("aria-pressed", nudge === 2 ? "true" : "false");
+  }
+  n1.addEventListener("click", function () { nudge = nudge === 1 ? 0 : 1; update(); });
+  n2.addEventListener("click", function () { nudge = nudge === 2 ? 0 : 2; update(); });
+  [th1, th2, r1, r2, wrong].forEach(function (el) { el.addEventListener("input", update); el.addEventListener("change", update); });
+  update();
+})();
+</script>
+    </section>
+
+    <p>What you should have seen: the arrow for joint 1 is perpendicular to the dashed line from joint 1 all the way to the <em>hand</em>, not to link 1. The ghost hand after a small nudge lands along the arrow, and the 0.15 × column check in the readout nearly matches the move (they differ slightly because 0.15 rad is not infinitesimal). Changing only θ₂ changed column 1, because column 1 depends on where the hand is, and the hand moved. Figure 1 shows the same thing on a still picture.</p>
+
+    <figure>
+      <svg viewBox="0 0 640 325" role="img" aria-labelledby="fig1-title">
+        <title id="fig1-title">A two-link arm. When only joint 1 turns, the hand moves up and to the left, perpendicular to the dashed line from joint 1 to the hand. When only joint 2 turns, the hand moves straight up, perpendicular to link 2.</title>
+        <defs>
+          <marker id="fig1-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse" style="color: var(--accent)">
+            <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+          </marker>
+        </defs>
+        <g fill="none" stroke-width="1.5">
+          <line x1="110" y1="285" x2="365" y2="137.8" style="stroke: var(--muted)" stroke-dasharray="4 4"/>
+          <line x1="110" y1="285" x2="195" y2="137.8" stroke="currentColor"/>
+          <line x1="195" y1="137.8" x2="365" y2="137.8" stroke="currentColor"/>
+          <line x1="362" y1="132.6" x2="306" y2="35.6" stroke-width="2.5" style="stroke: var(--accent)" marker-end="url(#fig1-arrow)"/>
+          <line x1="365" y1="131.8" x2="365" y2="69.8" stroke-width="2.5" style="stroke: var(--accent)" marker-end="url(#fig1-arrow)"/>
+          <circle cx="110" cy="285" r="6" stroke="currentColor" style="fill: var(--accent-soft)"/>
+          <circle cx="195" cy="137.8" r="6" stroke="currentColor" style="fill: var(--accent-soft)"/>
+          <circle cx="365" cy="137.8" r="6" stroke="currentColor" style="fill: var(--accent-soft)"/>
+        </g>
+        <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18">
+          <text x="125" y="307">joint 1</text>
+          <text x="180" y="120" text-anchor="end">joint 2</text>
+          <text x="294" y="40" text-anchor="end" style="fill: var(--accent)">joint 1 turns</text>
+          <text x="380" y="95" style="fill: var(--accent)">joint 2 turns</text>
+          <text x="378" y="167">hand</text>
+        </g>
+        <g fill="currentColor" font-family="system-ui, sans-serif" font-size="16">
+          <text x="205" y="120">link 2 = arm</text>
+          <text x="240" y="240">arm for joint 1</text>
+        </g>
+      </svg>
+      <figcaption>Figure 1. Example pose (θ1 = 60°, θ2 = −60°, equal links). Each arrow is the hand's motion when only that joint turns, perpendicular to the arm from that joint to the hand; the longer arm gives the longer arrow.</figcaption>
+    </figure>
+
+    <div class="box misconception">
+      <span class="label">A common mix-up</span>
+      <p>"Each row of J is the derivative of one pose coordinate, so I differentiate the pose." The top three rows really are: differentiating the hand's position with respect to the joints gives the linear part. The bottom three are not. Angular velocity is not the derivative of roll-pitch-yaw angles, and differentiating those gives a different matrix. The geometric columns avoid the problem because they build angular velocity directly from the joint axes, where angular velocities of bodies in series add.</p>
+    </div>
+
+    <div class="check" data-check>
+      <span class="label">Check yourself</span>
+      <p>In Figure 1's arm, only joint 2 turns, at +1 rad/s. The hand's velocity is perpendicular to which line?</p>
+      <ul class="choices">
+        <li><button type="button" data-correct="false" data-why="That is the line from joint 1 to the hand. It gives joint 1's motion, and joint 2 is not turning about joint 1.">The line from joint 1 to the hand</button></li>
+        <li><button type="button" data-correct="false" data-why="Link 1 is the tempting choice because it is the link attached to joint 1, but the pivot that matters is joint 2, which sits at its far end.">The line along link 1 alone</button></li>
+        <li><button type="button" data-correct="true" data-why="Only joint 2 moves, so the hand swings around joint 2. Its arm runs from joint 2 to the hand, which here is link 2.">The line from joint 2 to the hand</button></li>
+      </ul>
+      <p class="feedback" aria-live="polite"></p>
+      <details>
+        <summary>Show the answer</summary>
+        <p>The line from joint 2 to the hand. The arm for column <var>i</var> always runs from joint <var>i</var>'s axis to the endpoint.</p>
+      </details>
+    </div>
+  </section>
+
+  <section id="s4">
+    <h2>The recipe: rotary and prismatic side by side <span class="section-objective">O2</span> <span class="section-time">4 min</span></h2>
+    <p>Put the one-joint idea in symbols. Joint <var>i</var> acts about or along the axis <var>z</var><sub>i−1</sub>, and the hand is at origin <var>O</var><sub>n</sub>. Both vectors are written in base coordinates. A joint's column has a linear part on top and an angular part below it, and it depends on the joint's type (<a href="https://see.stanford.edu/materials/aiircs223a/transcripts/IntroductionToRobotics-Lecture07.html">Lecture 7</a>):</p>
+    <table>
+      <thead><tr><th>Joint type</th><th>Linear part (top)</th><th>Angular part (bottom)</th></tr></thead>
+      <tbody>
+        <tr><td>Rotary</td><td>z<sub>i−1</sub> × (O<sub>n</sub> − O<sub>i−1</sub>)</td><td>z<sub>i−1</sub></td></tr>
+        <tr><td>Prismatic</td><td>z<sub>i−1</sub></td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p>A prismatic joint slides the whole rest of the arm along its axis. Every point translates at the rate of the slide, and nothing rotates, which is why the linear part is just the axis and the angular part is zero. Think of a car-wash gantry carriage rolling along its rail: the brush moves at carriage speed no matter how far out it hangs.</p>
+    <p>The procedure, with each step once per joint:</p>
+    <ol>
+      <li>Compute ⁰T<sub>i</sub> for every joint, from the DH frames you already know how to build.</li>
+      <li>Read the axis z<sub>i−1</sub> as the third column of the rotation part of ⁰T<sub>i−1</sub>, in base coordinates.</li>
+      <li>Read the origins O<sub>i−1</sub> and O<sub>n</sub> from the position parts of ⁰T<sub>i−1</sub> and ⁰T<sub>n</sub>.</li>
+      <li>Rotary joint: cross the axis with the arm, <strong>axis first</strong>, z<sub>i−1</sub> × (O<sub>n</sub> − O<sub>i−1</sub>), and stack z<sub>i−1</sub> below it. Prismatic joint: z<sub>i−1</sub> on top, zeros below.</li>
+      <li>Put the columns side by side to get the 6 × <var>n</var> matrix <var>J</var>, then compute <var>V</var> = <var>J</var> q̇.</li>
+    </ol>
+    <p>Here is where the base-frame rule earns its keep. Take a shoulder-and-elbow arm: joint 1 turns about the vertical, and joint 2's axis is horizontal. In its own frame, joint 2's axis is (0, 0, 1). With a skew angle α₁ = 90° between the two axes, the third column of the rotation part of ⁰T₁ gives the axis in base coordinates as z₁ = (sin θ₁, −cos θ₁, 0). It is horizontal and it swings around as joint 1 turns, which is exactly why column 2 depends on θ₁. Crossing the local (0, 0, 1) with a base-frame arm would give a vector with the wrong direction, and nothing in the arithmetic would warn you. The sign here flips if you point x₁ the other way, as the course allows, so read it from your own transform rather than copying it.</p>
+    <aside class="note">Order matters: z × r points the way a counterclockwise spin pushes the point, and r × z points exactly the opposite. If your first column points the wrong way, swap the order, then confirm with the sketch check in the next sections.</aside>
+
+    <div class="box misconception">
+      <span class="label">Two mix-ups that hide on a two-link arm</span>
+      <p><strong>Wrong arm:</strong> using the vector along link <var>i</var> instead of the vector from joint <var>i</var>'s axis to the endpoint. For the last joint the two are the same, so checking only the last column passes; checking column 1 fails. The demo's red dashed arrow showed this. <strong>One column, one joint:</strong> column <var>i</var> depends on θ<sub>i</sub> alone. No: it depends on earlier joints through z<sub>i−1</sub> and O<sub>i−1</sub>, and on later joints through O<sub>n</sub>. Only a joint's own angle drops out of its own axis.</p>
+    </div>
+
+    <div class="check" data-check>
+      <span class="label">Check yourself</span>
+      <p>A three-joint arm: joint 1 rotary, joint 2 prismatic, joint 3 rotary. Which statement about column 2 is right?</p>
+      <ul class="choices">
+        <li><button type="button" data-correct="false" data-why="A cross product belongs to rotary joints only, because only rotation moves points by ω × r. Using it here is the carry-over from the rotary formula.">Its top part is z₁ × (O₃ − O₁) and its bottom part is z₁.</button></li>
+        <li><button type="button" data-correct="false" data-why="Prismatic is not 'no motion'. The slide moves the hand, so the top part cannot be zero. The zeros belong in the angular part.">Its top part is zero and its bottom part is z₁ alone.</button></li>
+        <li><button type="button" data-correct="true" data-why="A slide translates the hand along the axis, and nothing turns, so the top part is the axis and the angular part is zero.">Its top part is z₁ and its bottom part is zero.</button></li>
+      </ul>
+      <p class="feedback" aria-live="polite"></p>
+      <details>
+        <summary>Show the answer</summary>
+        <p>Top part z₁, bottom part zero. The axis is joint 2's, written z₁ in the standard DH numbering.</p>
+      </details>
+    </div>
+  </section>
+
+  <section id="s5">
+    <h2>Reference point, zero blocks, trouble spots <span class="section-objective">O2</span> <span class="section-time">3 min</span></h2>
+    <p>"The endpoint" is a choice. Take the wrist center, or the tool tip a few centimeters beyond it: both are fine, but they are different points on the same rigid body, so they move differently when the body spins. Switching the reference point changes only the linear rows, because a rigid body has one angular velocity no matter which point you look at. In the recipe, swap <var>O</var><sub>n</sub> for the new point and nothing else.</p>
+    <p>The same formula explains zero blocks. If a joint's axis passes through the reference point, the arm from that axis to the point is zero or parallel to the axis, so the cross product vanishes and the column has no linear part. A wrist whose three axes meet at one point produces exactly this when the reference point is that meeting point: turning a wrist joint does not move it, only the tool beyond it swings (<a href="https://see.stanford.edu/materials/aiircs223a/transcripts/IntroductionToRobotics-Lecture07.html">Lecture 7</a>). The last three columns then have zero linear rows and the axes in their angular rows, and the 6 × 6 matrix splits into blocks. Whenever you see a column with a zero top half, ask which axis passes through the point.</p>
+    <p>Finally, the geometry shows when the arm gets into trouble. Stretch a two-link arm straight out, as in Figure 2. Both arms, from joint 1 and from joint 2, now lie along one line, so both columns are perpendicular to that line and point the same way. No combination of q̇₁ and q̇₂ moves the hand along the arm. That is a <dfn>singularity</dfn>: the columns have become dependent, and a whole direction of hand motion is lost (<a href="https://see.stanford.edu/materials/aiircs223a/transcripts/IntroductionToRobotics-Lecture07.html">Lecture 7</a>). Near one, a small hand motion in the lost direction would need enormous joint rates, which is where the next lessons pick up.</p>
+
+    <figure>
+      <svg viewBox="0 0 640 270" role="img" aria-labelledby="fig2-title">
+        <title id="fig2-title">A two-link arm stretched straight along a horizontal line. The columns for joint 1 and joint 2 both point straight up, perpendicular to the arm, the first twice as long as the second. A dashed arrow along the arm marks the direction in which the hand cannot move.</title>
+        <defs>
+          <marker id="fig2-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse" style="color: var(--accent)">
+            <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+          </marker>
+          <marker id="fig2-arrow-warn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse" style="color: var(--warn)">
+            <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+          </marker>
+        </defs>
+        <g fill="none" stroke-width="1.5">
+          <line x1="110" y1="200" x2="280" y2="200" stroke="currentColor"/>
+          <line x1="280" y1="200" x2="450" y2="200" stroke="currentColor"/>
+          <circle cx="110" cy="200" r="6" stroke="currentColor" style="fill: var(--accent-soft)"/>
+          <circle cx="280" cy="200" r="6" stroke="currentColor" style="fill: var(--accent-soft)"/>
+          <rect x="450" y="176" width="90" height="48" rx="8" stroke="currentColor"/>
+          <line x1="470" y1="176" x2="470" y2="74" stroke-width="2.5" style="stroke: var(--accent)" marker-end="url(#fig2-arrow)"/>
+          <line x1="520" y1="176" x2="520" y2="125" stroke-width="2.5" style="stroke: var(--accent)" marker-end="url(#fig2-arrow)"/>
+          <line x1="540" y1="200" x2="620" y2="200" style="stroke: var(--warn)" stroke-dasharray="6 4" marker-end="url(#fig2-arrow-warn)"/>
+        </g>
+        <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18" text-anchor="middle">
+          <text x="320" y="40" style="fill: var(--accent)">Stretched: columns are parallel</text>
+          <text x="495" y="206">hand</text>
+          <text x="110" y="240">joint 1</text>
+          <text x="280" y="240">joint 2</text>
+        </g>
+        <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18">
+          <text x="452" y="125" text-anchor="end">column 1</text>
+          <text x="538" y="155">column 2</text>
+        </g>
+        <g font-family="system-ui, sans-serif" font-size="16">
+          <text x="620" y="250" text-anchor="end" style="fill: var(--warn)">no motion along arm</text>
+        </g>
+      </svg>
+      <figcaption>Figure 2. Example drawing with equal links. Both columns point the same way, perpendicular to the straight arm (drawn side by side; both act at the hand), so no mix of the two joint rates moves the hand along the arm.</figcaption>
+    </figure>
+
+    <div class="check" data-check>
+      <span class="label">Check yourself</span>
+      <p>You move the reference point from the wrist center to a tool tip 0.1 m further out along the last link. Which part of J changes?</p>
+      <ul class="choices">
+        <li><button type="button" data-correct="false" data-why="A rigid body has one angular velocity, so the angular rows cannot depend on which of its points you track.">Only the angular rows change.</button></li>
+        <li><button type="button" data-correct="false" data-why="The axes are fixed by the joints, not by the point you track, so the angular rows stay. But the linear rows do change.">Nothing changes in either block.</button></li>
+        <li><button type="button" data-correct="true" data-why="The arms from the axes to the point change, so the cross products change. The axes, and so the angular rows, stay.">Only the linear rows change.</button></li>
+      </ul>
+      <p class="feedback" aria-live="polite"></p>
+      <details>
+        <summary>Show the answer</summary>
+        <p>Only the linear rows, because only the arms O<sub>n</sub> − O<sub>i−1</sub> change.</p>
+      </details>
+    </div>
+  </section>
+
+  <section id="practice">
+    <h2>Worked example and practice <span class="section-objective">O2</span> <span class="section-time">4.5 min</span></h2>
+    <div class="box worked">
+      <span class="label">Worked example: planar two-link arm</span>
+      <p>Both joints are rotary about base z. Link lengths a₁ = 0.6 m and a₂ = 0.4 m. The pose is θ₁ = 30°, θ₂ = 60°, and the rates are q̇₁ = 0.5 rad/s and q̇₂ = −1 rad/s. Find the hand's linear and angular velocity.</p>
+      <ol>
+        <li><strong>Axes.</strong> Both axes are z₀ = z₁ = (0, 0, 1) in the base frame, as the warm-up showed.</li>
+        <li><strong>Origins.</strong> O₀ = (0, 0, 0). O₁ = 0.6·(cos 30°, sin 30°) = (0.520, 0.300, 0). The total angle is θ₁ + θ₂ = 90°, so the hand is O₂ = O₁ + 0.4·(cos 90°, sin 90°) = (0.520, 0.700, 0).</li>
+        <li><strong>Column 1</strong>: z₀ × (O₂ − O₀) = (0, 0, 1) × (0.520, 0.700, 0) = (−0.700, 0.520, 0). The arm is from joint 1 to the hand, not link 1. Angular part: (0, 0, 1).</li>
+        <li><strong>Column 2</strong>: z₁ × (O₂ − O₁) = (0, 0, 1) × (0, 0.400, 0) = (−0.400, 0, 0). Angular part: (0, 0, 1).</li>
+        <li><strong>Combine</strong>: v = 0.5·(−0.700, 0.520) + (−1)·(−0.400, 0) = (0.050, 0.260) m/s. ω = (0.5 − 1)·(0, 0, 1) = (0, 0, −0.5) rad/s.</li>
+        <li><strong>Check</strong> against the derivative of the position, x = 0.6 cos θ₁ + 0.4 cos(θ₁+θ₂), y = 0.6 sin θ₁ + 0.4 sin(θ₁+θ₂). Then ∂x/∂θ₁ = −0.6 sin 30° − 0.4 sin 90° = −0.700 and ∂y/∂θ₁ = 0.6 cos 30° + 0.4 cos 90° = 0.520. These match column 1 exactly. Also ∂x/∂θ₂ = −0.400 and ∂y/∂θ₂ = 0, matching column 2. Units: m × rad/s gives m/s. Direction: the hand points straight up from joint 2, so turning joint 2 counterclockwise swings it to the left, −x, as the sign shows.</li>
+      </ol>
+    </div>
+    <p>That last step is the check you will code: compute a column analytically, then nudge one joint by a tiny angle, recompute forward kinematics, and divide the change in position by the nudge. The two should agree to several digits.</p>
+
+    <p>Notice what the worked example shows about the rates. The two joints turn in opposite directions, so their effects partly cancel in x (−0.350 from joint 1, +0.400 from joint 2) and add up to only 0.050 m/s. A joint-space speed that looks big can still give a slow hand. Equally, the angular velocity is a plain sum of the signed rates, −0.5 rad/s, because both axes point the same way. When axes point different ways, as in a spatial arm, that sum becomes a vector sum of rate-weighted axes, and the same bookkeeping holds.</p>
+    <p>As code, the whole check is short. This sketch assumes you have your own functions <code>fk(q)</code>, returning the hand position, and <code>jacobian(q)</code>, returning the 6 × <var>n</var> matrix:</p>
+<pre><code>def check_jacobian(q, eps=1e-6):
+    J = jacobian(q)                      # analytic, 6 x n
+    p0 = fk(q)                           # hand position (3,)
+    for i in range(len(q)):
+        dq = list(q)
+        dq[i] += eps                     # nudge joint i only
+        col_fd = (fk(dq) - p0) / eps     # finite-difference column
+        assert max(abs(col_fd - J[:3, i])) &lt; 1e-4, i</code></pre>
+    <p>If column <var>i</var> fails, you know exactly which joint's axis or arm is wrong, so you debug one column rather than the whole matrix. For the bottom three rows, write the expected axis by hand for a pose you can sketch, and compare.</p>
+
+    <div class="check">
+      <span class="label">Your turn: a gantry with a swinging arm</span>
+      <p>A car-wash gantry carriage slides along the base x axis (joint 1, prismatic, axis z₀ = (1, 0, 0)). On the carriage, a brush arm of length 0.8 m swings about a vertical axis (joint 2, rotary, axis z₁ = (0, 0, 1)). At this moment the arm points along +y, so the brush is at O₂ = O₁ + (0, 0.8, 0). The carriage moves at ḋ₁ = 0.3 m/s and the arm swings at q̇₂ = 0.5 rad/s. Step 1 is given: column 1 is [z₀; 0] = (1, 0, 0; 0, 0, 0). Find column 2, then v and ω.</p>
+      <details>
+        <summary>Show a solution</summary>
+        <p>Column 2: linear = z₁ × (O₂ − O₁) = (0, 0, 1) × (0, 0.8, 0) = (−0.8, 0, 0); angular = z₁ = (0, 0, 1). Then v = 0.3·(1, 0, 0) + 0.5·(−0.8, 0, 0) = (0.3 − 0.4, 0, 0) = (−0.1, 0, 0) m/s, and ω = 0.3·0 + 0.5·(0, 0, 1) = (0, 0, 0.5) rad/s. Check: the slide alone moves the brush at +0.3 m/s in x; the swing alone moves it at 0.4 m/s in −x, because the arm along +y turns counterclockwise; the sum is −0.1 m/s. The prismatic joint added no angular part. If you got +0.4 for the swing, you crossed in the wrong order.</p>
+      </details>
+    </div>
+  </section>
+
+  <section id="own-check">
+    <h2>One more check on your own <span class="section-objective">O2</span> <span class="section-time">1 min</span></h2>
+    <div class="check">
+      <span class="label">Predict before you compute</span>
+      <p>Take the worked arm again, same pose, but now turn only joint 2 at +1 rad/s. Without computing, say which way the hand moves, then name the column that gives the number. After that, say what happens to the columns if θ₁ and θ₂ both become 0, so the arm is stretched along the x axis.</p>
+      <details>
+        <summary>Show a solution</summary>
+        <p>Joint 2 alone moves the hand by column 2, (−0.4, 0, 0) m/s, to the left. The second link points straight up from joint 2, and a counterclockwise spin pushes its tip left. With θ₁ = θ₂ = 0, the hand is at (1.0, 0, 0), so column 1 = z × (1.0, 0, 0) = (0, 1.0, 0) and column 2 = z × (0.4, 0, 0) = (0, 0.4, 0). Both point up the y axis, and that is the singularity of Figure 2.</p>
+      </details>
+    </div>
+  </section>
+
+  <section id="summary">
+    <h2>Summary <span class="section-objective">O2</span> <span class="section-time">1 min</span></h2>
+    <div class="box summary">
+      <ul>
+        <li>V = J q̇: each column is the hand's motion from a unit rate at that joint alone, and the hand velocity is the sum of columns scaled by the rates.</li>
+        <li>Rotary column: [z<sub>i−1</sub> × (O<sub>n</sub> − O<sub>i−1</sub>); z<sub>i−1</sub>]. Prismatic column: [z<sub>i−1</sub>; 0]. All in base coordinates, axis first in the cross product.</li>
+        <li>The arm runs from joint <var>i</var>'s axis to the endpoint, never along link <var>i</var>.</li>
+        <li>Changing the reference point changes only the linear rows; axes through the point give zero linear columns; parallel columns mean a singularity.</li>
+        <li>Check by nudging one joint, and by sketching, units and direction.</li>
+      </ul>
+      <p><strong>Say it in your own words:</strong> without looking, explain to a classmate why column 1 of a three-link arm changes when only θ₃ changes.</p>
+    </div>
+  </section>
+
+  <section id="further" class="go-further">
+    <h2>Go further <span class="section-objective">O2</span> <span class="section-time">1 min</span></h2>
+    <p><strong>Read or watch next:</strong> <a href="https://see.stanford.edu/materials/aiircs223a/transcripts/IntroductionToRobotics-Lecture07.html">Introduction to Robotics, Lecture 7 (Stanford CS223A)</a>, the source for the rotary and prismatic columns, the wrist zero columns and singularities above, and the best next step.</p>
+    <ul>
+      <li>Try it in code: write a function from joint angles to J for the worked arm, and compare it to finite differences of your forward kinematics at a few random poses. This is the numerical check from your mission.</li>
+      <li>Next lesson: inverting J for joint rates, force-torque mapping, and a full singularity analysis.</li>
+    </ul>
+    <p><strong>Test it with others:</strong> your course's study group or office hours are the right place to compare a Jacobian for an arm you did not derive yourself.</p>
+  </section>
+
+  <footer class="closing">
+    <p>Anything unclear? Ask me in the chat; I can explain any part again, another way, or go deeper.</p>
+    <p>When you want to check what stuck, ask me for a quiz on this lesson.</p>
+  </footer>
+
+</main>
+<script>
+  // Practice checks: mark the chosen option and explain it at once.
+  document.querySelectorAll("[data-check]").forEach(function (box) {
+    var buttons = box.querySelectorAll("button[data-correct]");
+    var out = box.querySelector(".feedback");
+    buttons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        buttons.forEach(function (b) { b.classList.remove("right", "wrong"); });
+        var right = button.getAttribute("data-correct") === "true";
+        button.classList.add(right ? "right" : "wrong");
+        if (out) { out.textContent = (right ? "Yes. " : "Not quite. ") + (button.getAttribute("data-why") || ""); }
+      });
+    });
+  });
+</script>
+</body>
+</html>

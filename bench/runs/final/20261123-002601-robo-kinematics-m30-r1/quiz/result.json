@@ -1,0 +1,110 @@
+{
+  "duration_api_ms": 161857,
+  "stop_reason": "end_turn",
+  "session_id": "a07afeaf-81aa-4ff9-8c4a-eb0d923a0b95",
+  "total_cost_usd": 0.5382814,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 9595,
+    "cache_read_input_tokens": 102389,
+    "output_tokens": 6984,
+    "output_tokens_details": {
+      "thinking_tokens": 196
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 9595,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 357,
+        "cache_read_input_tokens": 52489,
+        "cache_creation_input_tokens": 7006,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 7006
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 34,
+      "outputTokens": 25138,
+      "cacheReadInputTokens": 383824,
+      "cacheCreationInputTokens": 70290,
+      "webSearchRequests": 0,
+      "costUSD": 0.5382814,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 7068,
+      "cacheCreationEphemeral5mInputTokens": 21806,
+      "cacheCreationEphemeral1hInputTokens": 48484,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "origin": {
+    "kind": "task-notification",
+    "producer": "session-task",
+    "runId": "0mwsj0xuk-e5f69af6"
+  },
+  "subagent_stats": {
+    "spawned": 2,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 2
+    },
+    "started_in_background": 2,
+    "max_depth": 1,
+    "spawned_by_subagents": 0,
+    "completed": 2,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {
+      "quiz-reviewer": 2
+    }
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 6,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "I wrote the O3 quiz, `quizzes/0002.json`, with its key in `keys/0002.json`. It has six items, four multiple-choice and two numeric, and every item is on O3.\n\nThe quiz is ahead of the lessons, because no lesson exists yet for O3. I built the content from the objective's wording, `MISSION.md` and `NOTES.md`.\n\nIt covers:\n- what one column means: the endpoint's linear and angular velocity when only that joint moves;\n- the moment arm running all the way to the endpoint;\n- the axis written in base coordinates, which depends on the earlier joints;\n- a rotary column's angular part;\n- a prismatic column's linear and angular parts;\n- how moving the endpoint changes the matrix.\n\nTwo review passes ran. I fixed the second pass's six findings in a last version, which was not reviewed again because of the two-pass cap. I declined one of them, splitting the shared misconception id on two prismatic-column options, and the record explains why. The record is `review-records/0002-quiz.md`.\n\nThe review drafts are in `drafts/`.",
+  "ttft_ms": 2264,
+  "type": "result",
+  "duration_ms": 34726,
+  "uuid": "7b5c2ce1-50df-4d96-b832-c93d60938d0d",
+  "ttft_stream_ms": 614,
+  "time_to_request_ms": 13,
+  "first_content_frame_ms": 614,
+  "queued_turn_count": 0,
+  "result_index": 2,
+  "model_usage_since_last_result": {},
+  "credential_expires_at": "2026-12-16T23:36:35.249Z"
+}

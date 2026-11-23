@@ -1,0 +1,120 @@
+{
+  "duration_api_ms": 12283,
+  "stop_reason": "end_turn",
+  "session_id": "9a4ff6b3-8a96-414a-8b98-d8daa498b187",
+  "total_cost_usd": 0.095084,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 17923,
+    "cache_read_input_tokens": 88760,
+    "output_tokens": 1450,
+    "output_tokens_details": {
+      "thinking_tokens": 350
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 17923,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 540,
+        "cache_read_input_tokens": 28384,
+        "cache_creation_input_tokens": 550,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 550
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 8,
+      "outputTokens": 1450,
+      "cacheReadInputTokens": 88760,
+      "cacheCreationInputTokens": 17923,
+      "webSearchRequests": 0,
+      "costUSD": 0.095084,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 350,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 17923,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 0,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+    },
+    "started_in_background": 0,
+    "max_depth": 0,
+    "spawned_by_subagents": 0,
+    "completed": 0,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {}
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 7,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "It's the third **column** of the rotation block that gives ⁰z₂, not the third row. The row version is a different quantity, and it's an easy slip to make.\n\nWrite the rotation block of ⁰T₂ as ⁰R₂ = [ x₂ y₂ z₂ ]. Each column is one of frame 2's axes, written in base coordinates. That's what a rotation matrix does. Frame 2's z axis is (0, 0, 1) in its own frame, so multiplying by it picks out the third column:\n\n⁰R₂ · (0, 0, 1)ᵀ = third column = ⁰z₂\n\nThink of a car's wheel hub. If you want to know which way the axle points in the garage's coordinates, you take the axle's local direction and push it through the rotation. You get the third column, and it comes out as a vector in the garage frame.\n\nThe third row is something else. It holds the base-z components of x₂, y₂ and z₂. In other words, it tells you how far each of frame 2's axes points \"up\" in the base frame. The row is ⁰R₂ᵀ's third column, which is the base z axis seen from frame 2. That's useful sometimes, but it isn't an axis of frame 2.\n\nThis matters for the Jacobian because, in the distal DH convention your course uses, joint 3 rotates about z₂. So column 3 of J uses ⁰z₂, and you get it from the third column of the rotation block of ⁰T₂. The index drops by one, since it's joint i about z_{i−1}.\n\nQuick check: for a planar arm with all joints about the base z, what is ⁰R₂'s third column? Does its third row give the same vector?",
+  "ttft_ms": 1042,
+  "type": "result",
+  "duration_ms": 12467,
+  "uuid": "b8136039-4a51-4c2b-997a-6c7c1a885a61",
+  "ttft_stream_ms": 742,
+  "time_to_request_ms": 104,
+  "first_content_frame_ms": 742,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 8,
+      "outputTokens": 1450,
+      "cacheReadInputTokens": 88760,
+      "cacheCreationInputTokens": 17923,
+      "webSearchRequests": 0,
+      "costUSD": 0.095084,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 350,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 17923,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-12-16T23:36:35.249Z"
+}

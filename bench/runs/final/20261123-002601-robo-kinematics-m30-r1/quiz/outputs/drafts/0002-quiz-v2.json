@@ -1,0 +1,69 @@
+{
+  "id": "0002",
+  "objective": "O3",
+  "title": "What each Jacobian column means physically",
+  "items": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "For a serial arm, column i of the Jacobian maps joint rates to the motion of the end-effector reference point (the endpoint). Which description of column i is correct?",
+      "options": [
+        {"id": "a", "text": "The partial derivative of the endpoint's roll-pitch-yaw angles with respect to the joint angle θᵢ"},
+        {"id": "b", "text": "The endpoint's velocity when every joint moves at 1 unit per second, written as one column per joint"},
+        {"id": "c", "text": "The endpoint's linear and angular velocity when only joint i moves, at unit rate, and all other joints are held still"},
+        {"id": "d", "text": "The velocity of the origin of frame i, caused by joint i moving at unit rate"}
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "objective": "O3",
+      "stem": "A planar arm has two rotary joints with parallel vertical axes. Link 1 is 0.4 m long and link 2 is 0.3 m long, and the arm is stretched out straight. The endpoint is the tip of link 2. Only joint 1 turns, at 2 rad/s, and joint 2 is held still. What is the speed of the endpoint, in m/s?",
+      "unit": "m/s"
+    },
+    {
+      "id": "q3",
+      "type": "numeric",
+      "objective": "O3",
+      "stem": "An arm has joint 1 rotating about the vertical base z-axis, and joint 2 rotating about a horizontal axis. When θ₁ = 0°, joint 2's axis points along the base +y direction. The arm is now posed with θ₁ = 90° (a counterclockwise turn about +z, seen from above). What is the base-frame x-component of the angular part of Jacobian column 2, in rad/s per rad/s? Use the right-hand rule for the direction of the axis.",
+      "unit": "rad/s per rad/s"
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "A prismatic (sliding) joint has an axis direction given by the unit vector z in the base frame. Which pair gives the linear part and the angular part of that joint's Jacobian column?",
+      "options": [
+        {"id": "a", "text": "Linear part: the axis z itself. Angular part: zero."},
+        {"id": "b", "text": "Linear part: z crossed with the vector from the joint to the endpoint. Angular part: z."},
+        {"id": "c", "text": "Linear part: zero. Angular part: the axis z itself."},
+        {"id": "d", "text": "Linear part: z crossed with the vector from the joint to the endpoint. Angular part: zero."}
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "In a planar arm with two rotary joints with parallel vertical axes (link 1 is 0.4 m, link 2 is 0.3 m, endpoint at the tip of link 2), what is the angular part, the bottom three entries, of Jacobian column 2?",
+      "options": [
+        {"id": "a", "text": "(0, 0, 0), because the endpoint's orientation does not change with joint 2"},
+        {"id": "b", "text": "(0, 0, 0.3), because it scales with the length of link 2"},
+        {"id": "c", "text": "(0, 0, 0.7), because it scales with the distance from the base to the endpoint"},
+        {"id": "d", "text": "(0, 0, 1), because the endpoint turns about the vertical joint axis at the joint's own rate"}
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "An arm has rotary and prismatic joints. The Jacobian is first written for the wrist as the endpoint, and then rewritten for a tool tip fixed rigidly 0.2 m beyond the wrist. Which entries of the matrix change?",
+      "options": [
+        {"id": "a", "text": "The linear and angular parts of every column"},
+        {"id": "b", "text": "Only the linear parts of the rotary-joint columns"},
+        {"id": "c", "text": "The linear parts of every column, rotary and prismatic"},
+        {"id": "d", "text": "Only the linear part of the last column"}
+      ]
+    }
+  ]
+}

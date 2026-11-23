@@ -1,0 +1,55 @@
+<!--
+Section: 5. Reference point, zero blocks, trouble spots.
+Notice: with the arm stretched straight, both columns point the same way (perpendicular to the arm), so the hand cannot move along the arm's length.
+Source: S1 (Stanford CS223A, Lecture 7). Equal links and the arrow lengths (column 1 twice column 2, from arms of 2L and L) are an example drawing.
+
+Layout check (viewBox 640 x 270; label width = chars x size x 0.6; height from y-0.8*size to y+0.25*size)
+Label / shape          | x range    | y range      | must sit inside / clear of            | result
+"Stretched: columns are parallel" (18, middle 320) 31 chars = 334.8 wide | 152.6-487.4 | 25.6-44.5 | arrow 1 tip at y 74 (29.5 clear below the label), nothing else in that band | ok
+"column 1" (18, end 452)   | 365.6-452  | 110.6-129.5 | arrow 1 at x 470 (18 clear) | ok
+"column 2" (18, start 538) | 538-624.4  | 140.6-159.5 | arrow 2 at x 520 (18 clear), hand box top 176 (16 clear) | ok
+"hand" (18, middle 495)    | 473.4-516.6| 191.6-210.5 | inside hand box x 450-540, y 176-224: gaps 23.4 left/right, 15.6 top, 13.5 bottom | ok
+"joint 1" (18, middle 110) | 72-148     | 225.6-244.5 | base circle bottom 206 (19.6 clear) | ok
+"joint 2" (18, middle 280) | 242-318    | 225.6-244.5 | O1 circle bottom 206 (19.6 clear) | ok
+"no motion along arm" (16, end 620) 19 chars | 437.6-620 | 237.2-254 | warn arrow at y 200 (37 clear), hand box bottom 224 (13 clear) | ok
+Shapes: circles r6 at (110,200) and (280,200); link 1 (110-280) and link 2 (280-450) at y 200 end on circle centres and the hand box left edge; hand box x 450-540, y 176-224, rx 8; arrow 1 (470,176)->(470,74) and arrow 2 (520,176)->(520,125) start on the box top edge; warn arrow (540,200)->(620,200) starts on the box right edge.
+Frame: leftmost 72, rightmost 624.4, top 25.6, bottom 254 inside 640 x 270 with >= 10 clear (15.6 right, 16 bottom); empty bands < 40.
+Layout check: passed
+-->
+<figure>
+  <svg viewBox="0 0 640 270" role="img" aria-labelledby="fig2-title">
+    <title id="fig2-title">A two-link arm stretched straight along a horizontal line. The columns for joint 1 and joint 2 both point straight up, perpendicular to the arm, the first twice as long as the second. A dashed arrow along the arm marks the direction in which the hand cannot move.</title>
+    <defs>
+      <marker id="fig2-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse" style="color: var(--accent)">
+        <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+      </marker>
+      <marker id="fig2-arrow-warn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse" style="color: var(--warn)">
+        <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+      </marker>
+    </defs>
+    <g fill="none" stroke-width="1.5">
+      <line x1="110" y1="200" x2="280" y2="200" stroke="currentColor"/>
+      <line x1="280" y1="200" x2="450" y2="200" stroke="currentColor"/>
+      <circle cx="110" cy="200" r="6" stroke="currentColor" style="fill: var(--accent-soft)"/>
+      <circle cx="280" cy="200" r="6" stroke="currentColor" style="fill: var(--accent-soft)"/>
+      <rect x="450" y="176" width="90" height="48" rx="8" stroke="currentColor"/>
+      <line x1="470" y1="176" x2="470" y2="74" stroke-width="2.5" style="stroke: var(--accent)" marker-end="url(#fig2-arrow)"/>
+      <line x1="520" y1="176" x2="520" y2="125" stroke-width="2.5" style="stroke: var(--accent)" marker-end="url(#fig2-arrow)"/>
+      <line x1="540" y1="200" x2="620" y2="200" style="stroke: var(--warn)" stroke-dasharray="6 4" marker-end="url(#fig2-arrow-warn)"/>
+    </g>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18" text-anchor="middle">
+      <text x="320" y="40" style="fill: var(--accent)">Stretched: columns are parallel</text>
+      <text x="495" y="206">hand</text>
+      <text x="110" y="240">joint 1</text>
+      <text x="280" y="240">joint 2</text>
+    </g>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18">
+      <text x="452" y="125" text-anchor="end">column 1</text>
+      <text x="538" y="155">column 2</text>
+    </g>
+    <g font-family="system-ui, sans-serif" font-size="16">
+      <text x="620" y="250" text-anchor="end" style="fill: var(--warn)">no motion along arm</text>
+    </g>
+  </svg>
+  <figcaption>Figure 2. Example drawing with equal links. Both columns point the same way, perpendicular to the straight arm (drawn side by side; both act at the hand), so no mix of the two joint rates moves the hand along the arm.</figcaption>
+</figure>

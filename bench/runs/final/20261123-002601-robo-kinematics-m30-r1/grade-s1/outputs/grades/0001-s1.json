@@ -1,0 +1,25 @@
+{
+  "quiz": "0001",
+  "submission": "s1",
+  "items": [
+    {
+      "id": "q1",
+      "verdict": "wrong",
+      "misconception": "M3",
+      "feedback": "You answered z₂ and O₂, which is off by one. In the standard DH convention joint i acts about z_{i-1}, so joint 2 rotates about z₁ and the origin on that axis is O₁. It is tempting because joint 2 and frame 2 share a number, but frame i sits at the distal end of link i, after the joint. Your q3 answer used the right indexing (joint 3 about z₂), so apply that same rule here. See the \"Four parameters\" subsection of \"Denavit–Hartenberg parameters\" (Wikipedia, https://en.wikipedia.org/wiki/Denavit%E2%80%93Hartenberg_parameters), where θ is the angle about the previous z."
+    },
+    {
+      "id": "q2",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "All four vectors are right, and writing them in base coordinates (O₂ uses c₁₂ and s₁₂, not θ₂ alone) is the step people usually miss. These are exactly the inputs for the first Jacobian example. To go deeper, see the \"Denavit–Hartenberg matrix\" section of \"Denavit–Hartenberg parameters\" (Wikipedia, https://en.wikipedia.org/wiki/Denavit%E2%80%93Hartenberg_parameters)."
+    },
+    {
+      "id": "q3",
+      "verdict": "partial",
+      "misconception": null,
+      "feedback": "Right on the hard parts: joint 3 acts about z₂, you need the intermediate transform ⁰T₂ = ⁰T₁·¹T₂, and the position column gives ⁰O₂. The slip is the third row. Columns of a rotation matrix are the new frame's axes written in the old frame, so ⁰z₂ is the third column of the rotation block. Rows would give the base axes seen from frame 2, which is the inverse. Check it on a simple case: a frame rotated about x has its z axis in the third column. Reread \"Finding the matrix of a transformation\" in \"Transformation matrix\" (Wikipedia, https://en.wikipedia.org/wiki/Transformation_matrix), where the images of the basis vectors become the columns."
+    }
+  ],
+  "summary": "You can compose transforms and read off positions in base coordinates (q2 was fully right), and your q3 answer shows you can pick the right intermediate transform. The one thing to fix is the indexing of joints versus frames: joint i acts about z_{i-1}, so joint 2 is about z₁ with origin O₁, and you also need to read axes from the columns, not rows, of the rotation block. Before the Jacobian lesson, reread \"Four parameters\" in \"Denavit–Hartenberg parameters\" (https://en.wikipedia.org/wiki/Denavit%E2%80%93Hartenberg_parameters) and \"Finding the matrix of a transformation\" in \"Transformation matrix\" (https://en.wikipedia.org/wiki/Transformation_matrix), then redo q1 and q3."
+}

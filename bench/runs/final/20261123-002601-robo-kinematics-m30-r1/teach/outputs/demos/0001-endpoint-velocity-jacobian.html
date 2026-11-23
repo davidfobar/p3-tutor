@@ -1,0 +1,165 @@
+<!--
+Kind: interactive graphic.
+Core idea: column i of the Jacobian is the hand's motion for a unit rate at joint i alone, perpendicular to the arm from joint i to the HAND (not along link i).
+Learner should notice: each arrow is perpendicular to its own arm from the joint to the hand, a small nudge of one joint moves the hand along that joint's arrow, column 1 changes when only theta2 changes, and the link-1-only arm gives the wrong arrow.
+Section: 3. One joint at a time. About 4 minutes. Visible text is about 230 words (a quarter of 5.5 min x 150 is about 206; the readout numbers and button labels make up the difference).
+
+Layout check (SVG viewBox 0 0 640 360; the SVG holds no text, so every label is in the HTML legend, buttons and readout).
+Scale: 70 units per length unit (both links = 1, an example), 28 units per (length unit / s) for arrows. Joint 1 at (320,180).
+Always drawn: dotted reach circle (the most the hand can reach), centre (320,180), r 140: x 180-460, y 40-320.
+Rows: element | x range | y range | rule
+Initial state (th1=40, th2=70, rates 1 and 0, no nudge, wrong box off):
+  joint 1 circle r6      | 314-326       | 174-186      | inside frame
+  joint 2 circle r6      | 367.6-379.6   | 129-141      | inside frame, centre (373.6,135)
+  hand circle r6         | 343.7-355.7   | 63.2-75.2    | inside frame, centre (349.7,69.2)
+  link 1, link 2, dashed arm | within 320-374 | 69-180  | end on circle centres under the filled circles
+  joint 1 arrow          | 305.4-343.9   | 57.3-67.6    | starts on hand circle edge, tip (305.4,57.3), inside frame and circle
+  joint 2 arrow, wrong arrow, ghost hand | hidden | - | -
+  Frame: content spans y 40-320 (reach circle), viewBox 0-360, so empty bands 40 and 40 (<= 40); x from 180 to 460.
+Fullest state (all rates +-1, wrong box on, a nudge on, any angles): hand within 140 of joint 1;
+  joint 1 arrow <= 56 long and perpendicular to the arm -> tip <= sqrt(140^2+56^2)=150.8 from joint 1
+  joint 2 arrow <= 28 long -> tip <= 168 from joint 1; wrong arrow <= 28 long -> <= 168
+  ghost hand within 140 + 0.15*140 of joint 1 only if the nudge were radial; it is perpendicular, so <= 141
+  so every mark is within 168 of (320,180): x in 152-488, y in 12-348; margin >= 12 (>= 10) to the frame.
+  No text in the SVG, so no label overlaps; arrows start on the hand circle edge and end in free space.
+Layout check: passed
+-->
+<section class="demo" aria-labelledby="demo-heading">
+<style>
+.demo { border: 1px solid var(--rule); border-radius: 6px; padding: 1rem 1.25rem; margin: 1.75rem 0; font-family: var(--sans); }
+.demo h3 { margin: 0 0 0.4rem; font-size: 1.1rem; }
+.demo p { margin: 0.3rem 0; font-size: 0.9rem; }
+.demo svg { display: block; width: 100%; height: auto; }
+.demo .demo-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 0.6rem 1rem; margin: 0.75rem 0; }
+.demo label { display: block; font-size: 0.85rem; }
+.demo input[type="range"] { width: 100%; accent-color: var(--accent); }
+.demo .demo-row { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; margin: 0.5rem 0; }
+.demo button { font: inherit; font-size: 0.85rem; color: inherit; background: transparent; border: 1px solid var(--rule); border-radius: 6px; padding: 0.35rem 0.7rem; cursor: pointer; }
+.demo button:hover { border-color: var(--accent); }
+.demo button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
+.demo button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.demo .demo-legend { font-size: 0.8rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 0.2rem 1rem; margin: 0.4rem 0; }
+.demo .demo-sw { display: inline-block; width: 1.4rem; border-top: 2.5px solid; vertical-align: middle; margin-right: 0.3rem; }
+.demo .demo-dash { border-top-style: dashed; border-top-width: 1.5px; }
+.demo .demo-readout { background: var(--code-bg); border-radius: 4px; padding: 0.5rem 0.75rem; font-family: var(--mono); font-size: 0.8rem; line-height: 1.5; }
+.demo .demo-bad { color: var(--warn); }
+.demo ol { font-size: 0.88rem; padding-left: 1.2rem; margin: 0.6rem 0 0; }
+</style>
+<h3 id="demo-heading">Turn one joint at a time</h3>
+<p>Planar two-link arm, both links length 1 (an example), axes out of the page. Each arrow is the hand's motion from one joint's rate.</p>
+<svg viewBox="0 0 640 360" role="img" aria-labelledby="demo-svg-title">
+  <title id="demo-svg-title">A two-link arm seen from above inside a dotted circle showing its reach, with arrows at the hand showing the motion caused by each joint's rate.</title>
+  <defs>
+    <marker id="demo-arrow-1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse" style="color: var(--accent)"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker>
+    <marker id="demo-arrow-2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse" style="color: var(--ok)"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker>
+    <marker id="demo-arrow-w" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse" style="color: var(--warn)"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker>
+  </defs>
+  <g fill="none" stroke-width="1.5">
+    <circle cx="320" cy="180" r="140" style="stroke: var(--rule)" stroke-dasharray="2 5"/>
+    <line data-r="chord" x1="320" y1="180" x2="350" y2="69" style="stroke: var(--muted)" stroke-dasharray="4 4"/>
+    <line data-r="link1" x1="320" y1="180" x2="374" y2="135" stroke="currentColor"/>
+    <line data-r="link2" x1="374" y1="135" x2="350" y2="69" stroke="currentColor"/>
+    <line data-r="a1" x1="0" y1="0" x2="0" y2="0" style="stroke: var(--accent)" stroke-width="2.5" marker-end="url(#demo-arrow-1)" visibility="hidden"/>
+    <line data-r="a2" x1="0" y1="0" x2="0" y2="0" style="stroke: var(--ok)" stroke-width="2.5" marker-end="url(#demo-arrow-2)" visibility="hidden"/>
+    <line data-r="aw" x1="0" y1="0" x2="0" y2="0" style="stroke: var(--warn)" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#demo-arrow-w)" visibility="hidden"/>
+    <circle data-r="ghost" cx="0" cy="0" r="6" style="stroke: var(--accent)" stroke-dasharray="3 3" visibility="hidden"/>
+    <circle cx="320" cy="180" r="6" stroke="currentColor" style="fill: var(--accent-soft)"/>
+    <circle data-r="j2" cx="374" cy="135" r="6" stroke="currentColor" style="fill: var(--accent-soft)"/>
+    <circle data-r="hand" cx="350" cy="69" r="6" stroke="currentColor" style="fill: var(--accent-soft)"/>
+  </g>
+</svg>
+<div class="demo-legend">
+  <span><span class="demo-sw" style="border-color: var(--accent)"></span>Joint 1 motion</span>
+  <span><span class="demo-sw" style="border-color: var(--ok)"></span>Joint 2 motion</span>
+  <span><span class="demo-sw demo-dash" style="border-color: var(--muted)"></span>Grey dashed: arm, joint 1 to hand</span>
+  <span><span class="demo-sw demo-dash" style="border-color: var(--warn)"></span>Wrong: link 1 only</span>
+</div>
+<div class="demo-controls">
+  <label>θ1 (deg) <output data-r="o-th1">40</output><input type="range" data-r="th1" min="-180" max="180" step="5" value="40"></label>
+  <label>θ2 (deg) <output data-r="o-th2">70</output><input type="range" data-r="th2" min="-170" max="170" step="5" value="70"></label>
+  <label>q̇1 (rad/s) <output data-r="o-r1">1</output><input type="range" data-r="r1" min="-1" max="1" step="0.5" value="1"></label>
+  <label>q̇2 (rad/s) <output data-r="o-r2">0</output><input type="range" data-r="r2" min="-1" max="1" step="0.5" value="0"></label>
+</div>
+<div class="demo-row">
+  <button type="button" data-r="n1" aria-pressed="false">Nudge joint 1 by +0.15 rad</button>
+  <button type="button" data-r="n2" aria-pressed="false">Nudge joint 2 by +0.15 rad</button>
+  <label><input type="checkbox" data-r="wrong"> Try the wrong arm</label>
+</div>
+<div class="demo-readout" aria-live="off">
+  <div data-r="t-c1"></div>
+  <div data-r="t-c2"></div>
+  <div data-r="t-v"></div>
+  <div data-r="t-n"></div>
+  <div class="demo-bad" data-r="t-w"></div>
+</div>
+<ol>
+  <li>With q̇1 = 1 and q̇2 = 0, predict the hand's direction. Nudge joint 1: does the dashed ghost hand land along the arrow?</li>
+  <li>Change only θ2. Does column 1 change? Predict, then look.</li>
+  <li>Tick the wrong-arm box. Which arrow disagrees with the grey dashed arm, and why?</li>
+</ol>
+<script>
+(function () {
+  var root = document.currentScript.closest(".demo");
+  function $(n) { return root.querySelector('[data-r="' + n + '"]'); }
+  var S = 70, VS = 28, CX = 320, CY = 180, R = 6, NUDGE = 0.15;
+  var th1 = $("th1"), th2 = $("th2"), r1 = $("r1"), r2 = $("r2"), wrong = $("wrong");
+  var n1 = $("n1"), n2 = $("n2"), nudge = 0;
+  function f(n) { return (Math.round(n * 100) / 100).toFixed(2).replace("-", "−"); }
+  function pair(a, b) { return "(" + f(a) + ", " + f(b) + ")"; }
+  // Draws an arrow of velocity (vx, vy) at the hand; returns "" or a note when it is hidden.
+  function arrow(el, px, py, vx, vy, rate) {
+    var dx = vx * VS, dy = -vy * VS, len = Math.sqrt(dx * dx + dy * dy);
+    if (rate === 0) { el.setAttribute("visibility", "hidden"); return ""; }
+    if (len <= R + 2) { el.setAttribute("visibility", "hidden"); return " [arrow too short to draw]"; }
+    var ux = dx / len, uy = dy / len;
+    el.setAttribute("x1", px + ux * R); el.setAttribute("y1", py + uy * R);
+    el.setAttribute("x2", px + dx); el.setAttribute("y2", py + dy);
+    el.setAttribute("visibility", "visible");
+    return "";
+  }
+  function fk(a1, a2) {
+    var ox = Math.cos(a1), oy = Math.sin(a1), b = a1 + a2;
+    return { ox: ox, oy: oy, px: ox + Math.cos(b), py: oy + Math.sin(b) };
+  }
+  function update() {
+    var a1 = th1.value * Math.PI / 180, a2 = th2.value * Math.PI / 180;
+    var q1 = parseFloat(r1.value), q2 = parseFloat(r2.value);
+    var p = fk(a1, a2), ox = p.ox, oy = p.oy, px = p.px, py = p.py;
+    var c1 = [-py, px], c2 = [-(py - oy), px - ox], cw = [-oy, ox];
+    var sox = CX + S * ox, soy = CY - S * oy, spx = CX + S * px, spy = CY - S * py;
+    var l1 = $("link1"), l2 = $("link2"), ch = $("chord");
+    l1.setAttribute("x2", sox); l1.setAttribute("y2", soy);
+    l2.setAttribute("x1", sox); l2.setAttribute("y1", soy); l2.setAttribute("x2", spx); l2.setAttribute("y2", spy);
+    ch.setAttribute("x2", spx); ch.setAttribute("y2", spy);
+    $("j2").setAttribute("cx", sox); $("j2").setAttribute("cy", soy);
+    $("hand").setAttribute("cx", spx); $("hand").setAttribute("cy", spy);
+    var s1 = arrow($("a1"), spx, spy, q1 * c1[0], q1 * c1[1], q1);
+    var s2 = arrow($("a2"), spx, spy, q2 * c2[0], q2 * c2[1], q2);
+    var sw = "";
+    if (wrong.checked) { sw = arrow($("aw"), spx, spy, q1 * cw[0], q1 * cw[1], q1); } else { $("aw").setAttribute("visibility", "hidden"); }
+    $("o-th1").textContent = th1.value; $("o-th2").textContent = th2.value;
+    $("o-r1").textContent = r1.value; $("o-r2").textContent = r2.value;
+    $("t-c1").textContent = "Column 1 = z × (hand − O0) = " + pair(c1[0], c1[1]) + s1;
+    $("t-c2").textContent = "Column 2 = z × (hand − O1) = " + pair(c2[0], c2[1]) + s2;
+    $("t-v").textContent = "Hand velocity = q̇1·col1 + q̇2·col2 = " + pair(q1 * c1[0] + q2 * c2[0], q1 * c1[1] + q2 * c2[1]);
+    $("t-w").textContent = wrong.checked ? "Link 1 as arm gives " + pair(cw[0], cw[1]) + ": the hand does not go that way." + sw : "";
+    var g = $("ghost"), tn = $("t-n");
+    if (nudge === 0) { g.setAttribute("visibility", "hidden"); tn.textContent = ""; }
+    else {
+      var p2 = nudge === 1 ? fk(a1 + NUDGE, a2) : fk(a1, a2 + NUDGE);
+      var c = nudge === 1 ? c1 : c2;
+      g.setAttribute("cx", CX + S * p2.px); g.setAttribute("cy", CY - S * p2.py);
+      g.style.stroke = nudge === 1 ? "var(--accent)" : "var(--ok)";
+      g.setAttribute("visibility", "visible");
+      tn.textContent = "Nudge joint " + nudge + ": hand moved " + pair(p2.px - px, p2.py - py) + "; 0.15 × column " + nudge + " = " + pair(NUDGE * c[0], NUDGE * c[1]);
+    }
+    n1.setAttribute("aria-pressed", nudge === 1 ? "true" : "false");
+    n2.setAttribute("aria-pressed", nudge === 2 ? "true" : "false");
+  }
+  n1.addEventListener("click", function () { nudge = nudge === 1 ? 0 : 1; update(); });
+  n2.addEventListener("click", function () { nudge = nudge === 2 ? 0 : 2; update(); });
+  [th1, th2, r1, r2, wrong].forEach(function (el) { el.addEventListener("input", update); el.addEventListener("change", update); });
+  update();
+})();
+</script>
+</section>

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cheat sheet: building the Jacobian column by column</title>
+  <style>
+    body { max-width: 40rem; margin: 0 auto; padding: 2rem 1.25rem; font-family: Georgia, serif; line-height: 1.5; color: #1f1d1a; background: #fffdf8; }
+    h1 { font-size: 1.6rem; } h2 { font-size: 1.15rem; margin-top: 1.5rem; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+    th, td { text-align: left; padding: 0.4rem 0.6rem; border-bottom: 1px solid #e4dfd4; vertical-align: top; }
+    a { color: #9a4517; }
+    @media print { body { max-width: none; } }
+  </style>
+</head>
+<body>
+  <h1>Jacobian recipe (objective O2)</h1>
+  <p>V = [v; ω] = J(q) · q̇. Column <em>i</em> is the hand's motion for a unit rate at joint <em>i</em> alone. Everything in base coordinates. Source: <a href="https://see.stanford.edu/materials/aiircs223a/transcripts/IntroductionToRobotics-Lecture07.html">Stanford CS223A, Lecture 7</a>. Full lesson: <a href="../lessons/0001-endpoint-velocity-jacobian.html">Lesson 1</a>.</p>
+  <table>
+    <thead><tr><th>Joint</th><th>Linear (top)</th><th>Angular (bottom)</th></tr></thead>
+    <tbody>
+      <tr><td>Rotary</td><td>z<sub>i−1</sub> × (O<sub>n</sub> − O<sub>i−1</sub>)</td><td>z<sub>i−1</sub></td></tr>
+      <tr><td>Prismatic</td><td>z<sub>i−1</sub></td><td>0</td></tr>
+    </tbody>
+  </table>
+  <h2>Steps</h2>
+  <ol>
+    <li>Compute ⁰T<sub>i</sub> for every joint.</li>
+    <li>z<sub>i−1</sub> = third column of the rotation part of ⁰T<sub>i−1</sub>.</li>
+    <li>O<sub>i−1</sub>, O<sub>n</sub> = position parts of ⁰T<sub>i−1</sub>, ⁰T<sub>n</sub>.</li>
+    <li>Build each column by joint type; axis first in the cross product.</li>
+    <li>Stack the columns into the 6 × n matrix; V = J q̇.</li>
+  </ol>
+  <h2>Checks</h2>
+  <ul>
+    <li>Each rotary linear column is perpendicular to the arm from joint <em>i</em> to the endpoint (not link <em>i</em>).</li>
+    <li>Nudge one joint by a small angle and compare the hand's move with that column times the nudge.</li>
+    <li>Units: m/s on top, rad/s below. Reference point change affects only the linear rows.</li>
+    <li>Parallel columns (arm stretched out) mean a singularity.</li>
+  </ul>
+</body>
+</html>
