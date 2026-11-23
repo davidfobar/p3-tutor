@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cheat sheet: the geometric Jacobian recipe</title>
+  <style>
+    body { max-width: 40rem; margin: 0 auto; padding: 2rem 1.25rem; font-family: Charter, Georgia, serif; line-height: 1.5; color: #1f1d1a; background: #fffdf8; }
+    h1 { font-size: 1.6rem; } h2 { font-size: 1.1rem; margin-top: 1.5rem; }
+    table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+    th, td { text-align: left; padding: 0.4rem 0.6rem; border-bottom: 1px solid #e4dfd4; vertical-align: top; }
+    @media (prefers-color-scheme: dark) { body { color: #e9e5dc; background: #171614; } th, td { border-color: #36332e; } }
+  </style>
+</head>
+<body>
+  <h1>Geometric Jacobian: V = J(q) q&#775;</h1>
+  <p>V = (v; &omega;) is the endpoint's linear and angular velocity. Column <em>i</em> is the hand velocity from joint <em>i</em> moving at one unit per second, all others frozen. Lesson: <a href="../lessons/0001-endpoint-velocity-from-joint-rates.html">0001</a>.</p>
+  <table>
+    <tr><th>Joint <em>i</em></th><th>Column</th></tr>
+    <tr><td>Rotary</td><td>[ z<sub>i&minus;1</sub> &times; (O<sub>n</sub> &minus; O<sub>i&minus;1</sub>) ; z<sub>i&minus;1</sub> ]</td></tr>
+    <tr><td>Prismatic</td><td>[ z<sub>i&minus;1</sub> ; 0 ]</td></tr>
+  </table>
+  <h2>Procedure</h2>
+  <ol>
+    <li>From <sup>0</sup>T<sub>i&minus;1</sub>: z<sub>i&minus;1</sub> = third column of the rotation block; O<sub>i&minus;1</sub> = position column. Base frame.</li>
+    <li>From <sup>0</sup>T<sub>n</sub>: the endpoint O<sub>n</sub>.</li>
+    <li>Lever arm = O<sub>n</sub> &minus; O<sub>i&minus;1</sub> (to the endpoint, not along link <em>i</em>).</li>
+    <li>Axis first in the cross product: z &times; r.</li>
+  </ol>
+  <h2>Checks</h2>
+  <ul>
+    <li>Move one joint: does the hand go where the column says?</li>
+    <li>Rotary linear part is perpendicular to both z and r; its length is the distance from the endpoint to the axis.</li>
+    <li>Top rows = &part;p/&part;q (finite-difference check). Bottom rows are not derivatives of orientation angles.</li>
+    <li>Changing the endpoint changes only the linear rows (add &omega; &times; offset).</li>
+    <li>Columns parallel (det J = 0 for square J) means a singularity.</li>
+  </ul>
+</body>
+</html>

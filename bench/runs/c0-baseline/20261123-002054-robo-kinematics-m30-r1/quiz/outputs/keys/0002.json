@@ -1,0 +1,40 @@
+{
+  "id": "0002",
+  "items": [
+    {
+      "id": "q1",
+      "answer": "c",
+      "rationale": "Column i is the endpoint's linear and angular velocity produced by a unit rate at joint i alone, with every other joint held still. Option a describes the sum of all columns, and b is the 'differentiate the pose' view the learner tends to fall back on."
+    },
+    {
+      "id": "q2",
+      "answer": 1,
+      "tolerance": 0.05,
+      "rationale": "Column 1 linear part is z0 × (O2 − O0) = (0,0,1) × (1,1,0) = (−1, 1, 0), so the y-component is 1 m/s. Using the arm from joint 2 to the tip, (0,1,0), gives y = 0 (wrong moment arm). Using r × z gives −1 (wrong order and sign)."
+    },
+    {
+      "id": "q3",
+      "answer": "a",
+      "rationale": "A prismatic joint translates the whole endpoint along its axis at unit speed and rotates nothing: column = [z1; 0]. Options b and d carry the rotary cross product over to a prismatic joint, and b also gives it a nonzero angular part.",
+      "distractors": {}
+    },
+    {
+      "id": "q4",
+      "answer": "b",
+      "rationale": "Joint 2 rotates about its own axis z1, which turning joint 2 does not change; only joints before it (here θ1) can reorient that axis. So the angular part of column i depends on the earlier joints, not on joint i. This is the 'column i depends on θi alone' surprise, and the off-by-one trap from M3, in a different form.",
+      "distractors": {"a": "M3", "c": "M3"}
+    },
+    {
+      "id": "q5",
+      "answer": "linear",
+      "accepted": ["the linear part", "linear part", "top", "the top part", "linear (top)", "linear velocity"],
+      "rationale": "The moment arm gets longer, so z × r changes and the linear part changes. The angular part is just the joint axis direction, which does not depend on which point you track."
+    },
+    {
+      "id": "q6",
+      "answer": "along the arm (the x direction)",
+      "accepted": ["x", "along x", "the x direction", "along the arm", "along the length of the arm", "radially", "radial direction", "along +x", "the x-axis", "along the x axis"],
+      "rationale": "Column 1 is (0,2) and column 2 is (0,1) in the (x, y) plane, since each is z × (arm vector) and the arm vector lies along x. Both columns point along y, so no joint rates move the tip along x (a singularity, with the arm fully stretched)."
+    }
+  ]
+}

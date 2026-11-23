@@ -1,0 +1,62 @@
+{
+  "id": "0002",
+  "objective": "O3",
+  "title": "Quiz: What each Jacobian column means physically",
+  "items": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "A 3-joint arm has Jacobian J, which maps joint rates to the endpoint's linear and angular velocity. What does column 3 of J describe physically?",
+      "options": [
+        {"id": "a", "text": "The endpoint velocity when all joints move at one unit rate together"},
+        {"id": "b", "text": "The endpoint pose's rate of change as the other joints keep moving"},
+        {"id": "c", "text": "The endpoint velocity when only joint 3 moves at one unit rate"},
+        {"id": "d", "text": "The velocity of link 3's own frame origin, seen in its own frame"}
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "objective": "O3",
+      "stem": "A planar arm has two rotary joints with parallel z-axes (out of the page) and link lengths a1 = 1 m and a2 = 1 m. In the pose θ1 = 0 and θ2 = 90°, link 1 points along +x and link 2 points along +y, so the joint 2 axis is at (1, 0, 0) and the tip is at (1, 1, 0), all in base coordinates in metres. Joint 1 turns at 1 rad/s while joint 2 is held still. What is the y-component of the tip's velocity, in m/s?",
+      "unit": "m/s"
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "Joint 2 of an arm is prismatic and slides along the axis z1, written in base coordinates. The endpoint is at On and the joint's frame origin is at O1. Which describes column 2 of J, with the linear part on top and the angular part below?",
+      "options": [
+        {"id": "a", "text": "Linear part z1, angular part zero, because sliding adds no rotation"},
+        {"id": "b", "text": "Linear part z1 × (On − O1), angular part z1, as for a rotary joint"},
+        {"id": "c", "text": "Linear part zero, angular part z1, because the axis fixes the turning"},
+        {"id": "d", "text": "Linear part z1 × (On − O1), angular part zero, as nothing turns"}
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "objective": "O3",
+      "stem": "In a 3-joint spatial arm with all rotary joints, look only at the angular part of column 2, which is the direction of joint 2's axis in base coordinates. Which joint angles can change that direction?",
+      "options": [
+        {"id": "a", "text": "Only θ2, the angle of joint 2 itself"},
+        {"id": "b", "text": "Only θ1, the joint before joint 2"},
+        {"id": "c", "text": "Both θ1 and θ2, the joints up to joint 2"},
+        {"id": "d", "text": "All of θ1, θ2 and θ3, every joint in the arm"}
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "short",
+      "objective": "O3",
+      "stem": "You first compute J for a robot with the endpoint at the wrist, then move the endpoint to the tool tip, further along the last link. In every rotary column, does the linear part (top) or the angular part (bottom) change? Answer with one word."
+    },
+    {
+      "id": "q6",
+      "type": "short",
+      "objective": "O3",
+      "stem": "A planar arm has two rotary joints with parallel z-axes and link lengths a1 = 1 m and a2 = 1 m. It is stretched straight out along +x, with θ1 = θ2 = 0. Reading the two columns physically, in which direction can the tip not move at this instant, whatever the joint rates? Answer in a few words."
+    }
+  ]
+}

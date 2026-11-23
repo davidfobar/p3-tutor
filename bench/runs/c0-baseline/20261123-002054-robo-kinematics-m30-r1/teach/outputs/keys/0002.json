@@ -1,0 +1,35 @@
+{
+  "id": "0002",
+  "items": [
+    {
+      "id": "q1",
+      "answer": "c",
+      "rationale": "Column 2 is z × (O2 − O1) = (0,0,1) × (0,1,0) = (−1, 0, 0); the lever arm is measured from the elbow, so a1 does not enter. (+1, 0) is r × z (wrong order); (−1, +2) uses the lever arm from the base (M4); (0, +1) moves along the link instead of perpendicular to it.",
+      "distractors": {"a": "M5", "b": "M4"}
+    },
+    {
+      "id": "q2",
+      "answer": 0.6,
+      "tolerance": 0.01,
+      "rationale": "Column 1 linear part = z × (3,0,0) = (0, 3, 0); column 2 = slide axis (1, 0, 0). vy = 3 × 0.2 = 0.6 m/s (vx = 0.5 m/s). An answer of 0 applies a prismatic-style column to joint 1; 0.5 or 1.1 mixes up the columns."
+    },
+    {
+      "id": "q3",
+      "answer": "a",
+      "rationale": "A prismatic joint's column is [z; 0]: the axis in the linear rows and zero angular contribution. Options b and c apply the rotary cross product to a sliding joint (M7); d swaps the blocks.",
+      "distractors": {"b": "M7", "c": "M7"}
+    },
+    {
+      "id": "q4",
+      "answer": "the linear rows only",
+      "accepted": ["linear only", "linear", "the linear-velocity rows", "linear velocity rows only", "only the linear rows", "linear rows"],
+      "rationale": "Moving the reference point changes every lever arm, so the linear rows change. The angular rows are the joint axes, and a rigid hand turns at the same rate wherever you measure it. 'Both' or 'angular' shows the dependence on the reference point is misunderstood."
+    },
+    {
+      "id": "q5",
+      "answer": -3,
+      "tolerance": 0.05,
+      "rationale": "Column 1 = z × (−1, 1) = (−1, −1). Column 2 = z × (O2 − O1) = z × (−1, 0) = (0, −1). v = 1(−1, −1) + 2(0, −1) = (−1, −3), so vy = −3 m/s. Using the link vector (−1, 0) for column 1 gives vy = −2 (M4)."
+    }
+  ]
+}

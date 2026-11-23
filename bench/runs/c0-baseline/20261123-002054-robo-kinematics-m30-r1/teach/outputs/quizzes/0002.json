@@ -1,0 +1,51 @@
+{
+  "id": "0002",
+  "objective": "O2",
+  "title": "Endpoint velocity from joint rates",
+  "items": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "objective": "O2",
+      "stem": "Planar two-link arm, a1 = 2 m and a2 = 1 m, both joints rotary about +z. At θ1 = 0° and θ2 = 90° the elbow is at (2, 0) and the tip at (2, 1). Joint 1 is frozen and joint 2 turns at +1 rad/s. What is the tip velocity (vx, vy)?",
+      "options": [
+        {"id": "a", "text": "(+1, 0) m/s"},
+        {"id": "b", "text": "(−1, +2) m/s"},
+        {"id": "c", "text": "(−1, 0) m/s"},
+        {"id": "d", "text": "(0, +1) m/s"}
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "objective": "O2",
+      "stem": "An arm has a rotary joint 1 about +z through the origin and a prismatic joint 2 that slides along the link. At θ1 = 0° the link lies along +x and the slide is extended to d = 3 m, so the tip is at (3, 0). Joint 1 turns at 0.2 rad/s while joint 2 extends at 0.5 m/s. What is the y-component of the tip velocity?",
+      "unit": "m/s"
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "objective": "O2",
+      "stem": "A three-joint arm has a prismatic joint 2. Its full Jacobian is 6 × 3, linear rows on top. Which describes column 2, with every vector in base coordinates?",
+      "options": [
+        {"id": "a", "text": "Top: the slide axis. Bottom: zero."},
+        {"id": "b", "text": "Top: axis × lever arm. Bottom: the axis."},
+        {"id": "c", "text": "Top: axis × lever arm. Bottom: zero."},
+        {"id": "d", "text": "Top: zero. Bottom: the slide axis."}
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "short",
+      "objective": "O2",
+      "stem": "You recompute a 6-joint arm's Jacobian for a point on a tool tip 0.3 m beyond the wrist instead of for the wrist itself. Which rows change: the linear-velocity rows, the angular-velocity rows, or both?"
+    },
+    {
+      "id": "q5",
+      "type": "numeric",
+      "objective": "O2",
+      "stem": "Planar two-link arm, both links 1 m, both joints rotary about +z. At θ1 = 90° and θ2 = 90° the elbow is at (0, 1) and the tip at (−1, 1). Joint rates are 1 rad/s for joint 1 and 2 rad/s for joint 2. What is the y-component of the tip velocity?",
+      "unit": "m/s"
+    }
+  ]
+}

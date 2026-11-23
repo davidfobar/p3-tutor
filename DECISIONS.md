@@ -117,7 +117,27 @@ Which component did you remove, and what did you predict would happen to quality
 Then the result, with the numbers of the ablation's run beside `final`'s, and what one run lets you claim and what it does not.
 
 I removed a demo-dev subagent. there are no built in test to access the difference, but with the agent ALL lessons had an interactive demo. I am curious to see if that continues without the demo-dev subagent.
-
+And yes, the lesson (only 1 run of course) did not contain an interactive demo. The produced graphics were a reasonable alternative. The token usage was much lower.
+┌─────────────────────────────────────────────┬───────────┬───────────┬───────────┬───────────┬────────────┬────────────────┐
+  │                  Component                  │ final r1  │ final r2  │  final    │ ablation  │   Change   │ Share of the   │
+  │                                             │           │           │   mean    │           │            │      drop      │
+  ├─────────────────────────────────────────────┼───────────┼───────────┼───────────┼───────────┼────────────┼────────────────┤
+  │ Main conversation (input side)              │ 1,641,105 │ 2,657,334 │ 2,149,220 │ 1,055,898 │ −1,093,322 │            61% │
+  ├─────────────────────────────────────────────┼───────────┼───────────┼───────────┼───────────┼────────────┼────────────────┤
+  │ demo-dev (input side)                       │   570,890 │   333,984 │   452,437 │         0 │   −452,437 │            25% │
+  ├─────────────────────────────────────────────┼───────────┼───────────┼───────────┼───────────┼────────────┼────────────────┤
+  │ lesson-reviewer (input side)                │    93,477 │   191,547 │   142,512 │    72,887 │    −69,625 │             4% │
+  ├─────────────────────────────────────────────┼───────────┼───────────┼───────────┼───────────┼────────────┼────────────────┤
+  │ Nested product-reviewer*                    │    61,346 │   127,400 │    94,373 │    27,752 │    −66,621 │             4% │
+  ├─────────────────────────────────────────────┼───────────┼───────────┼───────────┼───────────┼────────────┼────────────────┤
+  │ Output tokens (Sonnet, thinking included)   │   114,703 │   136,506 │   125,605 │    60,874 │    −64,731 │             4% │
+  ├─────────────────────────────────────────────┼───────────┼───────────┼───────────┼───────────┼────────────┼────────────────┤
+  │ Haiku (web-page processing and the          │    65,089 │    53,648 │    59,369 │    35,256 │    −24,113 │             1% │
+  │ web-fetch agent)                            │           │           │           │           │            │                │
+  ├─────────────────────────────────────────────┼───────────┼───────────┼───────────┼───────────┼────────────┼────────────────┤
+  │ lesson-planner (input side)                 │   100,021 │    96,795 │    98,408 │    78,875 │    −19,533 │             1% │
+  ├─────────────────────────────────────────────┼───────────┼───────────┼───────────┼───────────┼────────────┼────────────────┤
+  │ Total (run.json)                            │ 2,646,631 │ 3,597,214 │ 3,121,923 │ 1,331,542 │ −1,790,381 │           100% │
 ---
 
 ## 6. Your blind picks against your open reviews

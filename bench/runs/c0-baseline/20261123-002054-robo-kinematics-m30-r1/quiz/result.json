@@ -1,0 +1,120 @@
+{
+  "duration_api_ms": 41838,
+  "stop_reason": "end_turn",
+  "session_id": "6ac9cd62-29a0-4a6a-8992-7302fb9efddf",
+  "total_cost_usd": 0.18949009999999997,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 30440,
+    "cache_read_input_tokens": 104341,
+    "output_tokens": 5728,
+    "output_tokens_details": {
+      "thinking_tokens": 2218
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 30440,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 492,
+        "cache_read_input_tokens": 36696,
+        "cache_creation_input_tokens": 4755,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 4755
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 8,
+      "outputTokens": 5728,
+      "cacheReadInputTokens": 104341,
+      "cacheCreationInputTokens": 30440,
+      "webSearchRequests": 0,
+      "costUSD": 0.18949009999999997,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 2218,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 30440,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 0,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+    },
+    "started_in_background": 0,
+    "max_depth": 0,
+    "spawned_by_subagents": 0,
+    "completed": 0,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {}
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 12,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "Quiz 0002 is written to `quizzes/0002.json`, with its key in `keys/0002.json`. It has six items on O3, and it is ahead of the lessons because there is no Jacobian lesson yet. I wrote it from the standard DH convention in your records.\n\n- **q1 (multiple choice):** what column 3 of the Jacobian means physically.\n- **q2 (numeric):** the tip's y-velocity from joint 1 alone on a two-link arm. The wrong moment arm and the wrong cross-product order each give a different number.\n- **q3 (multiple choice):** the column for a sliding (prismatic) joint, set against the rotary formula.\n- **q4 (multiple choice):** which joint angles can change the angular part of column 2.\n- **q5 (short):** which part of a rotary column changes when you move the endpoint from the wrist to the tool tip.\n- **q6 (short):** reading the two columns of a fully stretched two-link arm to find the direction the tip can't move.\n\nThe only misconception id I used is M3, the off-by-one error, because no other ids exist yet. The other likely mistakes in your notes have no ids, so they appear only in the key's rationales.\n\nIf you'd like, I can give the quiz in the chat, write up your answers as a submission and grade it. I can also write the O3 lesson first.",
+  "ttft_ms": 1273,
+  "type": "result",
+  "duration_ms": 41961,
+  "uuid": "82097b76-c8de-4627-94c3-c40c400c8e3b",
+  "ttft_stream_ms": 965,
+  "time_to_request_ms": 84,
+  "first_content_frame_ms": 965,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 8,
+      "outputTokens": 5728,
+      "cacheReadInputTokens": 104341,
+      "cacheCreationInputTokens": 30440,
+      "webSearchRequests": 0,
+      "costUSD": 0.18949009999999997,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 2218,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 30440,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-12-16T23:36:35.249Z"
+}

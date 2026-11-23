@@ -1,0 +1,129 @@
+{
+  "duration_api_ms": 388751,
+  "stop_reason": "end_turn",
+  "session_id": "672a4856-0160-4625-bb33-320f9ff6dbfc",
+  "total_cost_usd": 1.3196942649999999,
+  "usage": {
+    "input_tokens": 12,
+    "cache_creation_input_tokens": 46070,
+    "cache_read_input_tokens": 419057,
+    "output_tokens": 26099,
+    "output_tokens_details": {
+      "thinking_tokens": 1021
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 46070,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 672,
+        "cache_read_input_tokens": 100822,
+        "cache_creation_input_tokens": 19451,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 19451
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 58,
+      "outputTokens": 60874,
+      "cacheReadInputTokens": 1061179,
+      "cacheCreationInputTokens": 174175,
+      "webSearchRequests": 0,
+      "costUSD": 1.3143044,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 7014,
+      "cacheCreationEphemeral5mInputTokens": 64913,
+      "cacheCreationEphemeral1hInputTokens": 109262,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 15688,
+      "outputTokens": 4631,
+      "cacheReadInputTokens": 3144,
+      "cacheCreationInputTokens": 11793,
+      "webSearchRequests": 0,
+      "costUSD": 0.005389865,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 2615,
+      "cacheCreationEphemeral5mInputTokens": 11793,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "origin": {
+    "kind": "task-notification",
+    "producer": "session-task",
+    "runId": "0mwsii0q1-b5fdd053"
+  },
+  "subagent_stats": {
+    "spawned": 4,
+    "requested": {
+      "background": 0,
+      "foreground": 1,
+      "unset": 3
+    },
+    "started_in_background": 2,
+    "max_depth": 2,
+    "spawned_by_subagents": 1,
+    "completed": 4,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {
+      "lesson-planner": 1,
+      "product-reviewer": 1,
+      "web-fetch": 1,
+      "lesson-reviewer": 1
+    }
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 25,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "The O3 lesson is written at `lessons/0001-context-and-memory.html`. It's about 4,100 words, which measures about 27 minutes of reading.\n\nIt teaches what goes in the makerspace assistant's context window and why a crowded window hurts recall and cost. It then covers how to trim the window within a session by compacting or clearing used tool results. It also covers saving notes between sessions and loading manual pages on demand instead of pasting manuals in. It has five figures, five clickable practice checks, two worked examples, a \"your turn\" sorting task and a summary table.\n\n**Time breakdown (labelled on each section):**\n\n| Part | Minutes |\n|---|---|\n| Why the assistant must remember | 2 |\n| Warm-up (recall of the agent loop) | 3 |\n| The context window is a budget | 6 |\n| Within a session | 4 |\n| Between sessions: notes | 5 |\n| Retrieval: finding the right page | 4 |\n| Worked example and practice | 4 |\n| One more practice check | 2 |\n| Summary | 1 |\n\n**Caveats:**\n- **Review:** I ran one review pass and fixed its findings, but did not re-review the fixed draft. `review-records/0001-teach.md` lists what I changed and what I declined.\n- **Single source:** The lesson cites one article, Anthropic's [Effective context engineering for AI agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents). Its claims about token billing and caching are hedged in the text, because I found no source for them.\n- **No quiz:** The plan didn't call for one, so I wrote none. You can ask for a quiz on this lesson whenever you want to check what stuck.\n- **Length:** You can ask for a shorter or longer version.\n\nYou can ask me anything about the lesson in the chat. I also updated `NOTES.md` to say this lesson has been taught but not yet checked.\n\nOne question for you: would you like a quiz on this next, or should I start the lesson on chunking and searching long manuals?",
+  "ttft_ms": 4851,
+  "type": "result",
+  "duration_ms": 130388,
+  "uuid": "c926824f-c720-4211-adca-490d5b88aefc",
+  "ttft_stream_ms": 750,
+  "time_to_request_ms": 13,
+  "first_content_frame_ms": 750,
+  "queued_turn_count": 0,
+  "result_index": 2,
+  "model_usage_since_last_result": {},
+  "credential_expires_at": "2026-12-16T23:36:35.249Z"
+}

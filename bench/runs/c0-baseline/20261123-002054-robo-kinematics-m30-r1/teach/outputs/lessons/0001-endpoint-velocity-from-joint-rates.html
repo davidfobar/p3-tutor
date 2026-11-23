@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="p3-minutes" content="30">
+  <meta name="p3-objective" content="O2">
+  <title>Endpoint velocity from joint rates: the Jacobian, one column per joint</title>
+  <style>
+    :root {
+      --bg: #fffdf8;
+      --text: #1f1d1a;
+      --muted: #6b665e;
+      --rule: #e4dfd4;
+      --accent: #9a4517;
+      --accent-soft: #f7ede4;
+      --warn: #8c2f39;
+      --warn-soft: #f9eaec;
+      --ok: #2f6b3a;
+      --ok-soft: #e7f2e9;
+      --code-bg: #f3efe6;
+      --serif: Charter, "Bitstream Charter", "Iowan Old Style", "Sitka Text", Cambria, Georgia, serif;
+      --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #171614;
+        --text: #e9e5dc;
+        --muted: #a49e93;
+        --rule: #36332e;
+        --accent: #eaa77a;
+        --accent-soft: #2c231d;
+        --warn: #f0a3ac;
+        --warn-soft: #2f1f22;
+        --ok: #9fd3a8;
+        --ok-soft: #1c2a1f;
+        --code-bg: #23211e;
+      }
+    }
+    * { box-sizing: border-box; }
+    html { font-size: 19px; -webkit-text-size-adjust: 100%; }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--serif); line-height: 1.6; }
+    main { max-width: 40rem; margin: 0 auto; padding: 3rem 1.25rem 4rem; }
+    p, li { hyphens: auto; }
+    a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+    h1, h2, h3 { line-height: 1.25; font-weight: 600; }
+    h1 { font-size: 2.1rem; margin: 0.25rem 0 1rem; }
+    h2 { font-size: 1.45rem; margin: 3rem 0 0.75rem; }
+    h3 { font-size: 1.1rem; margin: 2rem 0 0.5rem; }
+    .kicker, .label, .meta, .section-time, figcaption, summary, th, nav.toc, footer.closing { font-family: var(--sans); }
+    .kicker { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+    .lead { font-size: 1.15rem; }
+    .meta { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; font-size: 0.85rem; color: var(--muted);
+            border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 0.5rem 0; margin: 1.5rem 0; }
+    nav.toc { font-size: 0.9rem; margin: 1.5rem 0 2rem; }
+    nav.toc ol { padding-left: 1.2rem; margin: 0.4rem 0 0; }
+    .section-time { font-size: 0.8rem; font-weight: 400; color: var(--muted); margin-left: 0.4rem; white-space: nowrap; }
+    dfn { font-style: normal; font-weight: 600; }
+    aside.note { font-size: 0.9rem; color: var(--muted); border-left: 2px solid var(--rule); padding-left: 1rem; margin: 1.25rem 0; }
+    .box { border-radius: 6px; padding: 1rem 1.25rem; margin: 1.75rem 0; }
+    .box > :first-child { margin-top: 0; }
+    .box > :last-child { margin-bottom: 0; }
+    .label { display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+    .mission { background: var(--accent-soft); }
+    .mission .label { color: var(--accent); }
+    .misconception { background: var(--warn-soft); border-left: 4px solid var(--warn); }
+    .misconception .label { color: var(--warn); }
+    .worked { border: 1px solid var(--rule); }
+    .worked ol { padding-left: 1.3rem; }
+    .summary { border: 1px solid var(--rule); }
+    .recipe { background: var(--accent-soft); }
+    .recipe .label { color: var(--accent); }
+    figure { margin: 2rem 0; }
+    figure svg { display: block; width: 100%; height: auto; }
+    figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 0.5rem; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.92rem; margin: 1.5rem 0; }
+    th, td { text-align: left; vertical-align: top; padding: 0.45rem 0.6rem; border-bottom: 1px solid var(--rule); }
+    th { font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+    code, pre { font-family: var(--mono); font-size: 0.85em; background: var(--code-bg); border-radius: 4px; }
+    code { padding: 0.1em 0.3em; }
+    pre { padding: 1rem; overflow-x: auto; line-height: 1.45; }
+    pre code { padding: 0; background: none; font-size: 1em; }
+    .check { border: 1px solid var(--rule); border-radius: 6px; padding: 1rem 1.25rem; margin: 1.75rem 0; }
+    .check .label { color: var(--accent); }
+    .check p { margin: 0.25rem 0; }
+    .choices { list-style: none; padding: 0; margin: 0.75rem 0 0; display: grid; gap: 0.5rem; }
+    .choices button { width: 100%; text-align: left; font: inherit; font-size: 0.95rem; color: inherit; background: transparent;
+                      border: 1px solid var(--rule); border-radius: 6px; padding: 0.55rem 0.8rem; cursor: pointer; }
+    .choices button:hover { border-color: var(--accent); }
+    .choices button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .choices button.right { border-color: var(--ok); background: var(--ok-soft); }
+    .choices button.wrong { border-color: var(--warn); background: var(--warn-soft); }
+    .feedback { font-size: 0.95rem; margin: 0.6rem 0 0; }
+    .feedback:empty { margin: 0; }
+    details { margin-top: 0.75rem; }
+    summary { font-size: 0.85rem; color: var(--accent); cursor: pointer; }
+    details > :not(summary) { margin: 0.5rem 0 0; }
+    .go-further li { margin-bottom: 0.6rem; }
+    footer.closing { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--rule); font-size: 0.9rem; color: var(--muted); }
+    @media (max-width: 32rem) {
+      html { font-size: 17px; }
+      h1 { font-size: 1.75rem; }
+      main { padding-top: 2rem; }
+    }
+    @media print {
+      :root { --bg: #fff; --text: #000; --muted: #444; --rule: #ccc; --accent: #000; --accent-soft: #f2f2f2;
+              --warn: #000; --warn-soft: #f2f2f2; --ok: #000; --ok-soft: #fff; --code-bg: #f2f2f2; }
+      html { font-size: 11.5pt; }
+      main { max-width: none; padding: 0; }
+      nav.toc { display: none; }
+      a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.8em; word-break: break-all; }
+      .box, .check, figure, table, pre { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+<main>
+
+  <header>
+    <div class="kicker">Lesson 1 &middot; 30 minutes</div>
+    <h1>Endpoint velocity from joint rates: the Jacobian, one column per joint</h1>
+    <p class="lead">By the end of this lesson you can write the Jacobian of a serial arm column by column, from its joint axes and joint positions, and use it to turn joint speeds into hand velocity.</p>
+    <div class="meta">
+      <span>Objective O2: Find the endpoint velocity from the joint rates</span>
+      <span>About 30 minutes</span>
+      <span>Builds on your forward kinematics (objective O1)</span>
+    </div>
+    <div class="box mission">
+      <span class="label">Why this matters for you</span>
+      <p>You want a recipe you can trust on an exam and in code, one that does not depend on a worked example for that exact robot. The recipe here needs only the things you can already compute: each joint's axis <var>z</var> and origin <var>O</var> in base coordinates. It is also the matrix that velocity control, force-to-torque mapping and inverse kinematics are built on.</p>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="In this lesson">
+    <strong>In this lesson</strong>
+    <ol>
+      <li><a href="#warm-up">Warm-up</a></li>
+      <li><a href="#why">The problem forward kinematics cannot solve</a></li>
+      <li><a href="#columns">What a column means</a></li>
+      <li><a href="#rotary">The rotary column</a></li>
+      <li><a href="#prismatic">The prismatic column</a></li>
+      <li><a href="#practice">Worked example and practice</a></li>
+      <li><a href="#trust">Is my answer right?</a></li>
+      <li><a href="#summary">Summary</a></li>
+      <li><a href="#further">Go further</a></li>
+    </ol>
+  </nav>
+
+  <section id="warm-up">
+    <h2>Warm-up <span class="section-time">2 min</span></h2>
+    <p>This lesson uses what you showed in your first session: you can pull the joint axes <var>z</var> and frame origins <var>O</var> out of the chain of transforms. Try it once, from memory.</p>
+    <div class="check">
+      <span class="label">Recall</span>
+      <p>A planar two-link arm has link lengths a<sub>1</sub> = 2 and a<sub>2</sub> = 1, both joints rotary, axes parallel. At θ<sub>1</sub> = 90° and θ<sub>2</sub> = &minus;90°, write O<sub>1</sub> and O<sub>2</sub> in base coordinates. Which axis does joint 2 turn about, and where is that axis located?</p>
+      <details>
+        <summary>Check your answer</summary>
+        <p>O<sub>1</sub> = (0, 2, 0): link 1 points straight up. Link 2 points along the total angle θ<sub>1</sub> + θ<sub>2</sub> = 0°, so it points along +x, and O<sub>2</sub> = (1, 2, 0). Joint 2 turns about z<sub>1</sub>, which is the base-frame vector (0, 0, 1), and that axis passes through O<sub>1</sub>. Joint <em>i</em> uses z<sub><em>i</em>&minus;1</sub> and O<sub><em>i</em>&minus;1</sub>, and that off-by-one is the most common slip in what follows.</p>
+      </details>
+    </div>
+  </section>
+
+  <section id="why">
+    <h2>The problem forward kinematics cannot solve <span class="section-time">4 min</span></h2>
+    <p>Picture a robot arm holding a pen, drawing a straight line on a whiteboard at a steady 0.2 m/s. The camera on the hand needs a constant speed, because a jerky line smears the image. Forward kinematics tells you where the pen is for a given set of joint angles. It does not tell you what the <em>joints</em> must do, at each instant, to make the pen move that way.</p>
+    <p>The motors do not take position commands along a line. They take speeds. So you need a map between two kinds of velocity:</p>
+    <ul>
+      <li><strong>Joint rates</strong> <var>q&#775;</var> = (q&#775;<sub>1</sub>, &hellip;, q&#775;<sub><em>n</em></sub>): how fast each joint turns (rad/s) or slides (m/s).</li>
+      <li><strong>Endpoint velocity</strong> <var>V</var> = (<var>v</var>, <var>&omega;</var>): the linear velocity <var>v</var> of a chosen point on the hand (m/s) and the angular velocity <var>&omega;</var> of the hand (rad/s), stacked into one six-number vector.</li>
+    </ul>
+    <p>The <dfn>Jacobian</dfn> <var>J</var>(<var>q</var>) is the matrix that connects them:</p>
+    <p style="text-align:center"><var>V</var> = <var>J</var>(<var>q</var>) <var>q&#775;</var></p>
+    <p>It depends on the current joint angles <var>q</var>, so you recompute it as the arm moves. At any one instant the relation is linear, which is why a matrix works. The textbook treatments in <a href="https://opentextbooks.clemson.edu/wangrobotics/chapter/differential-kinematics/">Clemson's open robotics text</a> and in <a href="https://poonawalalab.github.io/rmc-s21/assets/pdf/00_RMC_Notes.pdf">Poonawala's notes on Spong's book</a> both build the same object.</p>
+
+    <h3>Can't I just differentiate the forward kinematics?</h3>
+    <p>Partly. Your position equations give the hand's position <var>p</var>(<var>q</var>). By the chain rule, <var>p&#775;</var> = (&part;<var>p</var>/&part;<var>q</var>) <var>q&#775;</var>, so the <em>top three rows</em> of <var>J</var> are exactly the partial derivatives of the position. That works, but the algebra explodes for a six-joint arm, and it gives you nothing for the bottom three rows. Angular velocity <var>&omega;</var> is <strong>not</strong> the derivative of an orientation such as roll-pitch-yaw. Differentiate those angles and you get a different matrix, the <em>analytical</em> Jacobian, which is not the one we want here (<a href="https://poonawalalab.github.io/rmc-s21/assets/pdf/00_RMC_Notes.pdf">the notes</a> treat the two separately).</p>
+    <p>The geometric method below skips the differentiation. It builds the matrix one joint at a time, from a picture you can check by eye.</p>
+
+    <div class="check" data-check>
+      <span class="label">Check yourself</span>
+      <p>You differentiate the three position equations of a six-joint arm with respect to the six joint angles. Which part of the Jacobian have you found?</p>
+      <ul class="choices">
+        <li><button type="button" data-correct="false" data-why="The angular rows are not derivatives of any position. They describe how the hand's orientation turns, which needs the joint axes.">The whole six-by-six matrix, angular rows included</button></li>
+        <li><button type="button" data-correct="false" data-why="Only if the angles were roll-pitch-yaw. That gives the analytical Jacobian, which is a different matrix from the geometric one.">The matrix relating joint rates to roll-pitch-yaw rates</button></li>
+        <li><button type="button" data-correct="true" data-why="The position p(q) has three components, so its derivatives give a 3-by-n block: the linear-velocity rows. The angular rows need a separate construction.">Only the three linear-velocity rows of the matrix</button></li>
+      </ul>
+      <p class="feedback" aria-live="polite"></p>
+      <details>
+        <summary>Show the answer</summary>
+        <p>Only the three linear-velocity rows. Derivatives of the position give the top block; the angular block comes from the joint axes.</p>
+      </details>
+    </div>
+  </section>
+
+  <section id="columns">
+    <h2>What a column means <span class="section-time">6 min</span></h2>
+    <p>Write the Jacobian as columns: <var>J</var> = [ <var>J</var><sub>1</sub> &nbsp; <var>J</var><sub>2</sub> &nbsp; &hellip; &nbsp; <var>J</var><sub><em>n</em></sub> ]. Multiplying out, <var>V</var> = <var>J</var><sub>1</sub> q&#775;<sub>1</sub> + <var>J</var><sub>2</sub> q&#775;<sub>2</sub> + &hellip; + <var>J</var><sub><em>n</em></sub> q&#775;<sub><em>n</em></sub>.</p>
+    <p>Read that as a sentence: <strong>the hand velocity is the sum of what each joint does on its own.</strong> Column <em>i</em> is the hand's six-number velocity when joint <em>i</em> moves at one unit per second (1 rad/s or 1 m/s) and every other joint is frozen. This works because the equation is linear at each instant, so effects add. It is also the picture behind your sanity check: freeze everything but one joint, and watch where the hand goes.</p>
+    <p>Here is a planar two-link arm with both links 1 m long, at θ<sub>1</sub> = 0° and θ<sub>2</sub> = 90°. The elbow O<sub>1</sub> is at (1, 0) and the tip O<sub>2</sub> at (1, 1).</p>
+
+    <figure>
+      <svg viewBox="0 0 640 360" role="img" aria-labelledby="fig1-title">
+        <title id="fig1-title">Planar two-link arm with the tip velocity caused by each joint turning alone</title>
+        <defs>
+          <marker id="arrow1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+          </marker>
+        </defs>
+        <!-- links -->
+        <g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round">
+          <line x1="110" y1="300" x2="270" y2="300"/>
+          <line x1="270" y1="300" x2="270" y2="140"/>
+        </g>
+        <!-- dashed moment arms -->
+        <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="6 5" opacity="0.7">
+          <line x1="110" y1="300" x2="270" y2="140"/>
+        </g>
+        <!-- joints -->
+        <g fill="var(--bg)" stroke="currentColor" stroke-width="2.5">
+          <circle cx="110" cy="300" r="9"/>
+          <circle cx="270" cy="300" r="9"/>
+        </g>
+        <circle cx="270" cy="140" r="6" fill="currentColor"/>
+        <!-- velocity arrows -->
+        <g fill="none" stroke-width="3.5">
+          <line x1="270" y1="140" x2="190" y2="60" style="stroke: var(--accent)" marker-end="url(#arrow1)"/>
+          <line x1="270" y1="140" x2="190" y2="140" style="stroke: var(--warn)" marker-end="url(#arrow1)"/>
+        </g>
+        <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18">
+          <text x="60" y="335">joint 1 axis, O&#8320; = (0, 0)</text>
+          <text x="282" y="322">joint 2 axis, O&#8321; = (1, 0)</text>
+          <text x="284" y="146">tip O&#8322; = (1, 1)</text>
+          <text x="154" y="224" font-size="16">r&#8321; = O&#8322; &#8722; O&#8320;</text>
+          <text x="284" y="230" font-size="16">r&#8322; = O&#8322; &#8722; O&#8321;</text>
+          <text x="30" y="46" style="fill: var(--accent)">J&#8321; = (&#8722;1, 1): joint 1 alone</text>
+          <text x="30" y="176" style="fill: var(--warn)">J&#8322; = (&#8722;1, 0): joint 2 alone</text>
+        </g>
+      </svg>
+      <figcaption>Figure 1. Each arrow is the tip velocity for one joint turning at 1 rad/s with the other frozen. Each is perpendicular to the dashed line from that joint's axis to the tip, and points counter-clockwise around it. Joint 1's arrow is longer because its lever arm is longer (&radic;2 against 1).</figcaption>
+    </figure>
+
+    <p>Turning joint 1 alone swings the whole arm about the base. The tip moves on a circle of radius &radic;2 around the origin, so its speed is &radic;2 m/s, perpendicular to the line from the base to the tip. That is (&minus;1, 1). Turning joint 2 alone swings only the forearm about the elbow, with radius 1, giving (&minus;1, 0). Those two vectors are the two columns. Notice that you can read each one straight off the picture, and nothing here needed a derivative.</p>
+
+    <div class="box misconception">
+      <span class="label">A common mix-up</span>
+      <p><strong>"Column <em>i</em> depends only on joint <em>i</em>."</strong> It is tempting because column <em>i</em> is about joint <em>i</em>. But look at where the vectors come from: the direction of the joint's axis depends on all the joints <em>before</em> it, and the lever arm out to the tip depends on all the joints <em>after</em> it. In Figure 1, J<sub>2</sub> points along &minus;x because θ<sub>1</sub> = 0. If joint 1 turned the arm up by 90°, J<sub>2</sub> would change even though θ<sub>2</sub> did not. Every column depends on the whole configuration.</p>
+    </div>
+  </section>
+
+  <section id="rotary">
+    <h2>The rotary column <span class="section-time">6 min</span></h2>
+    <p>A rotary joint <em>i</em> turns the whole rest of the arm rigidly about its axis. You already know two facts that give the column.</p>
+    <ul>
+      <li><strong>Linear part.</strong> A point at position <var>r</var> from the axis, on a body turning at rate <var>&omega;</var>, has velocity <var>&omega;</var> &times; <var>r</var>. Here the rate is 1 rad/s about the unit axis <var>z</var><sub><em>i</em>&minus;1</sub>, and the point is the endpoint, so the linear part is <var>z</var><sub><em>i</em>&minus;1</sub> &times; (<var>O</var><sub><em>n</em></sub> &minus; <var>O</var><sub><em>i</em>&minus;1</sub>).</li>
+      <li><strong>Angular part.</strong> The whole hand turns at 1 rad/s about that axis, so the angular part is <var>z</var><sub><em>i</em>&minus;1</sub>. (Angular velocities of bodies in series add as vectors, which is what lets the columns add.)</li>
+    </ul>
+    <p>Stacked, this is the formula given in the <a href="https://opentextbooks.clemson.edu/wangrobotics/chapter/differential-kinematics/">Clemson text</a> and in <a href="https://www.oreilly.com/library/view/robot-modeling-and/9781119523994/c04.xhtml">Spong, Hutchinson and Vidyasagar</a>:</p>
+
+    <div class="box recipe">
+      <span class="label">The recipe, rotary joint <em>i</em></span>
+      <p style="text-align:center"><var>J</var><sub><em>i</em></sub> = [ <var>z</var><sub><em>i</em>&minus;1</sub> &times; (<var>O</var><sub><em>n</em></sub> &minus; <var>O</var><sub><em>i</em>&minus;1</sub>) &nbsp;;&nbsp; <var>z</var><sub><em>i</em>&minus;1</sub> ]</p>
+      <ol>
+        <li>Get <var>z</var><sub><em>i</em>&minus;1</sub> and <var>O</var><sub><em>i</em>&minus;1</sub> in <strong>base</strong> coordinates from <sup>0</sup>T<sub><em>i</em>&minus;1</sub>: the third column of its rotation block, and its position column.</li>
+        <li>Get the endpoint <var>O</var><sub><em>n</em></sub> from <sup>0</sup>T<sub><em>n</em></sub>.</li>
+        <li>Form the lever arm <var>r</var> = <var>O</var><sub><em>n</em></sub> &minus; <var>O</var><sub><em>i</em>&minus;1</sub>: from the axis <em>all the way to the endpoint</em>.</li>
+        <li>Cross in this order: <strong>axis first, lever arm second</strong>. Linear part on top, angular part (the axis itself) below.</li>
+      </ol>
+    </div>
+
+    <p>Three details decide whether the recipe works. Each one matches a trap you may meet, so each is worth a sentence.</p>
+
+    <div class="box misconception">
+      <span class="label">Three traps</span>
+      <p><strong>Wrong lever arm.</strong> The vector along link <em>i</em> feels natural, because it is the link you can see. But joint <em>i</em> moves everything beyond it, so the lever arm runs to the endpoint. In Figure 1, using link 2's vector (0, 1) for joint 1 would give (&minus;1, 0) instead of (&minus;1, 1). It is right for the last joint, which is why a two-link example can hide the mistake.</p>
+      <p><strong>Wrong frame.</strong> The axis is (0, 0, 1) in its <em>own</em> frame, always. The cross product needs the axis in the <em>same</em> frame as <var>O</var><sub><em>n</em></sub> &minus; <var>O</var><sub><em>i</em>&minus;1</sub>, which is the base frame. Take it from <sup>0</sup>T<sub><em>i</em>&minus;1</sub>, not from the local frame.</p>
+      <p><strong>Wrong order.</strong> <var>r</var> &times; <var>z</var> is the negative of <var>z</var> &times; <var>r</var>, so the hand moves the wrong way around. Check with the right-hand rule: curl the fingers of your right hand about the axis, and the tip moves in the direction your fingers go at the tip.</p>
+    </div>
+
+    <div class="check" data-check>
+      <span class="label">Check yourself</span>
+      <p>Two links of 1 m. At θ<sub>1</sub> = 90° and θ<sub>2</sub> = 0° the arm points straight up: O<sub>1</sub> = (0, 1) and the tip is at (0, 2). Joint 2 turns at 1 rad/s and joint 1 is frozen. What is the tip velocity?</p>
+      <ul class="choices">
+        <li><button type="button" data-correct="false" data-why="That is r &times; z, the wrong order. It sends the tip clockwise, but a positive rotation about +z is counter-clockwise.">(+1, 0) m/s, to the right</button></li>
+        <li><button type="button" data-correct="true" data-why="z &times; (O2 &minus; O1) = (0,0,1) &times; (0,1,0) = (&minus;1, 0, 0). The forearm swings counter-clockwise about the elbow, so the tip moves left.">(&minus;1, 0) m/s, to the left</button></li>
+        <li><button type="button" data-correct="false" data-why="You used the lever arm from the base, (0, 2), instead of from the elbow, (0, 1). Joint 2's axis is at the elbow.">(&minus;2, 0) m/s, far left</button></li>
+      </ul>
+      <p class="feedback" aria-live="polite"></p>
+      <details>
+        <summary>Show the answer</summary>
+        <p>(&minus;1, 0) m/s. The lever arm is O<sub>2</sub> &minus; O<sub>1</sub> = (0, 1, 0), and z &times; (0, 1, 0) = (&minus;1, 0, 0).</p>
+      </details>
+    </div>
+
+    <h3>The endpoint is a choice</h3>
+    <p>"The endpoint" is whichever point you name. Move it from the wrist to a tool tip 0.3 m further out, and every lever arm changes, so the linear rows change. The angular rows do not, because a rigid hand turns at one rate wherever you measure it. The tool tip's velocity is the wrist's plus <var>&omega;</var> &times; (the offset), which is the same rigid-body rule you already know.</p>
+  </section>
+
+  <section id="prismatic">
+    <h2>The prismatic column <span class="section-time">3 min</span></h2>
+    <p>A prismatic joint slides everything beyond it along its axis, with no turning. Every point of the hand moves with the same velocity, the axis direction, and the hand's angular velocity does not change. The lever arm plays no role, because sliding is not a rotation about anything.</p>
+
+    <figure>
+      <svg viewBox="0 0 640 230" role="img" aria-labelledby="fig2-title">
+        <title id="fig2-title">A rotary joint moves the tip perpendicular to the lever arm; a prismatic joint moves it along the axis</title>
+        <defs>
+          <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+          </marker>
+        </defs>
+        <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+          <line x1="60" y1="170" x2="230" y2="170"/>
+          <line x1="360" y1="170" x2="580" y2="170"/>
+        </g>
+        <g fill="var(--bg)" stroke="currentColor" stroke-width="2.5">
+          <circle cx="60" cy="170" r="9"/>
+          <rect x="351" y="158" width="24" height="24" rx="3"/>
+        </g>
+        <circle cx="230" cy="170" r="6" fill="currentColor"/>
+        <circle cx="580" cy="170" r="6" fill="currentColor"/>
+        <g fill="none" stroke-width="3.5">
+          <line x1="230" y1="170" x2="230" y2="80" style="stroke: var(--accent)" marker-end="url(#arrow2)"/>
+          <line x1="580" y1="170" x2="630" y2="170" style="stroke: var(--accent)" marker-end="url(#arrow2)"/>
+        </g>
+        <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18">
+          <text x="30" y="40" font-weight="700">Rotary</text>
+          <text x="30" y="68">axis out of page</text>
+          <text x="30" y="205">J = [ z &#215; r ; z ]</text>
+          <text x="340" y="40" font-weight="700">Prismatic</text>
+          <text x="340" y="68">axis along the slide</text>
+          <text x="340" y="205">J = [ z ; 0 ]</text>
+          <text x="246" y="112">v = z &#215; r</text>
+        </g>
+      </svg>
+      <figcaption>Figure 2. Rotary: the tip velocity is perpendicular to the lever arm and grows with its length. Prismatic: the tip velocity is the slide direction and does not depend on where the tip is.</figcaption>
+    </figure>
+
+    <div class="box recipe">
+      <span class="label">The recipe, prismatic joint <em>i</em></span>
+      <p style="text-align:center"><var>J</var><sub><em>i</em></sub> = [ <var>z</var><sub><em>i</em>&minus;1</sub> &nbsp;;&nbsp; <strong>0</strong> ]</p>
+      <p>Same axis, taken in base coordinates. No cross product, and zero in the angular part.</p>
+    </div>
+
+    <p>Side by side, the rotary column is [ <var>z</var> &times; <var>r</var> ; <var>z</var> ] and the prismatic one is [ <var>z</var> ; 0 ]. In code, the only difference is one branch on the joint type.</p>
+
+    <div class="check" data-check>
+      <span class="label">Check yourself</span>
+      <p>A six-joint arm has a prismatic joint 3 with its axis along base +x. It extends at 0.4 m/s while everything else is frozen. What does the hand do?</p>
+      <ul class="choices">
+        <li><button type="button" data-correct="false" data-why="A prismatic joint has no rotation, so it adds nothing to the angular velocity. That would be a rotary joint's column.">Moves at 0.4 m/s along x and turns at 0.4 rad/s</button></li>
+        <li><button type="button" data-correct="false" data-why="Prismatic joints do not use a lever arm. Applying the rotary cross product here is the common mistake.">Moves at 0.4 m/s along a direction set by r</button></li>
+        <li><button type="button" data-correct="true" data-why="Column 3 is [z; 0] = [(1,0,0); (0,0,0)], so the hand translates at 0.4 m/s along x with no change in orientation.">Moves at 0.4 m/s along x without turning</button></li>
+      </ul>
+      <p class="feedback" aria-live="polite"></p>
+      <details>
+        <summary>Show the answer</summary>
+        <p>The hand translates at 0.4 m/s along x and does not turn: column 3 is (1, 0, 0, 0, 0, 0).</p>
+      </details>
+    </div>
+  </section>
+
+  <section id="practice">
+    <h2>Worked example and practice <span class="section-time">6 min</span></h2>
+
+    <div class="box worked">
+      <span class="label">Worked example: the pen on the whiteboard</span>
+      <p>The two-link arm of Figure 1 (both links 1 m, θ<sub>1</sub> = 0°, θ<sub>2</sub> = 90°). The pen must move in +x at 0.2 m/s. Find the joint rates.</p>
+      <ol>
+        <li><strong>Collect the ingredients in base coordinates.</strong> z<sub>0</sub> = z<sub>1</sub> = (0, 0, 1). O<sub>0</sub> = (0, 0, 0), O<sub>1</sub> = (1, 0, 0), O<sub>2</sub> = (1, 1, 0).</li>
+        <li><strong>Column 1</strong> (rotary): r = O<sub>2</sub> &minus; O<sub>0</sub> = (1, 1, 0). z &times; r = (0&middot;0 &minus; 1&middot;1, 1&middot;1 &minus; 0&middot;0, 0) = (&minus;1, 1, 0). Angular part: (0, 0, 1).</li>
+        <li><strong>Column 2</strong> (rotary): r = O<sub>2</sub> &minus; O<sub>1</sub> = (0, 1, 0). z &times; r = (&minus;1, 0, 0). Angular part: (0, 0, 1).</li>
+        <li><strong>Sanity check against Figure 1.</strong> Both columns match the arrows we read off the picture. Good.</li>
+        <li><strong>Keep the rows you need.</strong> The pen moves in the plane and we do not care about its orientation, so use the x and y rows: <var>J</var> = [[&minus;1, &minus;1], [1, 0]]. Its determinant is (&minus;1)(0) &minus; (&minus;1)(1) = 1, so it is invertible.</li>
+        <li><strong>Invert.</strong> <var>J</var><sup>&minus;1</sup> = [[0, 1], [&minus;1, &minus;1]]. Then <var>q&#775;</var> = <var>J</var><sup>&minus;1</sup> (0.2, 0) = (0, &minus;0.2).</li>
+        <li><strong>Check by intuition.</strong> Joint 1 stays still. Joint 2 turns clockwise at 0.2 rad/s, so the forearm, which points up from the elbow, swings to the right at 0.2 m/s. That is +x. &#10003;</li>
+      </ol>
+    </div>
+
+    <p>Notice what the example shows. The matrix does the hard part, and no calculus was needed. The arm that draws the line is changing its Jacobian as it moves, so a real controller repeats steps 1 to 6 many times a second. This is resolved-rate control, one of the topics this lesson sets up.</p>
+
+    <div class="check">
+      <span class="label">Your turn: a rotary arm</span>
+      <p>The same arm (both links 1 m) is now at θ<sub>1</sub> = 90° and θ<sub>2</sub> = &minus;90°. First step given: O<sub>1</sub> = (0, 1, 0) and O<sub>2</sub> = (1, 1, 0). Find the tip velocity when q&#775;<sub>1</sub> = 1 rad/s and q&#775;<sub>2</sub> = 2 rad/s, and say what the hand's angular velocity is.</p>
+      <details>
+        <summary>Show a solution</summary>
+        <p>Column 1: r = O<sub>2</sub> &minus; O<sub>0</sub> = (1, 1, 0), z &times; r = (&minus;1, 1, 0). Column 2: r = O<sub>2</sub> &minus; O<sub>1</sub> = (1, 0, 0), z &times; r = (0, 1, 0). Sum: 1&middot;(&minus;1, 1) + 2&middot;(0, 1) = (&minus;1, 3) m/s. Angular velocity: 1&middot;(0,0,1) + 2&middot;(0,0,1) = (0, 0, 3) rad/s. Sanity check: turning joint 2 alone swings a forearm that points in +x, so the tip should move in +y. Column 2 = (0, 1). &#10003;</p>
+      </details>
+    </div>
+
+    <div class="box worked">
+      <span class="label">Worked example: a rotary joint and a prismatic joint</span>
+      <p>An arm with joint 1 rotary about z (through the origin) and joint 2 prismatic, sliding along the link. At θ<sub>1</sub> = 90° the link points up, and the slide is extended to d = 2 m. The tip is at O<sub>2</sub> = (0, 2, 0). Find the hand velocity for q&#775;<sub>1</sub> = 0.5 rad/s and q&#775;<sub>2</sub> = 0.3 m/s.</p>
+      <ol>
+        <li><strong>Axes in base coordinates.</strong> z<sub>0</sub> = (0, 0, 1). The slide axis z<sub>1</sub> points along the link, which is up: z<sub>1</sub> = (0, 1, 0).</li>
+        <li><strong>Column 1</strong> (rotary): r = (0, 2, 0), z<sub>0</sub> &times; r = (&minus;2, 0, 0). Column: [(&minus;2, 0, 0) ; (0, 0, 1)].</li>
+        <li><strong>Column 2</strong> (prismatic): [z<sub>1</sub> ; 0] = [(0, 1, 0) ; (0, 0, 0)].</li>
+        <li><strong>Combine.</strong> v = 0.5(&minus;2, 0, 0) + 0.3(0, 1, 0) = (&minus;1, 0.3, 0) m/s. &omega; = 0.5(0, 0, 1) = (0, 0, 0.5) rad/s.</li>
+        <li><strong>Check.</strong> Swinging the arm counter-clockwise from "up" moves the tip left (&minus;x), and sliding out moves it up (+y). Both signs agree.</li>
+      </ol>
+    </div>
+
+    <h3>In code, and checked numerically</h3>
+    <p>The recipe is a loop. Because the top rows are derivatives of the position, you can check them against finite differences of your forward kinematics. (The bottom rows cannot be checked this way; use the single-joint test in the next section.)</p>
+<pre><code>import numpy as np
+
+def jacobian(axes, origins, p_end, kinds):
+    """axes[i], origins[i]: base-frame z and O of joint i+1.
+    kinds[i] is 'R' or 'P'. Returns the 6 x n matrix."""
+    cols = []
+    for z, O, k in zip(axes, origins, kinds):
+        if k == 'R':
+            cols.append(np.concatenate([np.cross(z, p_end - O), z]))
+        else:
+            cols.append(np.concatenate([z, np.zeros(3)]))
+    return np.array(cols).T
+
+def fk_2r(q, a1=1.0, a2=1.0):
+    O1 = np.array([a1*np.cos(q[0]), a1*np.sin(q[0]), 0.0])
+    O2 = O1 + np.array([a2*np.cos(q[0]+q[1]), a2*np.sin(q[0]+q[1]), 0.0])
+    return O1, O2
+
+def J_2r(q):
+    O1, O2 = fk_2r(q)
+    z = np.array([0.0, 0.0, 1.0])
+    return jacobian([z, z], [np.zeros(3), O1], O2, ['R', 'R'])
+
+q, h = np.array([0.0, np.pi/2]), 1e-6
+numeric = np.column_stack([(fk_2r(q + h*e)[1] - fk_2r(q - h*e)[1]) / (2*h)
+                           for e in np.eye(2)])
+print(np.allclose(J_2r(q)[:3], numeric, atol=1e-6))   # expect True</code></pre>
+    <p>Run it at a few random <code>q</code>. A sign error or a wrong lever arm shows up at once as <code>False</code>.</p>
+  </section>
+
+  <section id="trust">
+    <h2>Is my answer right? <span class="section-time">3 min</span></h2>
+    <p>Run these checks every time, in this order. Each takes under a minute.</p>
+    <ol>
+      <li><strong>Units.</strong> A rotary column's linear part is metres per radian; a prismatic one is dimensionless (m per m). Angular rows are rad/rad or zero.</li>
+      <li><strong>One joint at a time.</strong> Move one joint in your head, or on a sketch. Does the hand go where that column says, including the sign?</li>
+      <li><strong>Perpendicularity.</strong> A rotary column's linear part must be perpendicular to both the axis and the lever arm. If it is not, you used the wrong vectors.</li>
+      <li><strong>Magnitude.</strong> The linear part has length |<var>r</var><sub>&perp;</sub>|, the distance from the endpoint to the axis. In Figure 1, the lengths were &radic;2 and 1.</li>
+      <li><strong>Numerically,</strong> as in the code above.</li>
+    </ol>
+
+    <h3>When the matrix cannot be inverted</h3>
+    <p>For the two-link arm, stretch it out: θ<sub>1</sub> = 0°, θ<sub>2</sub> = 0°. Then O<sub>2</sub> = (2, 0), column 1 = z &times; (2, 0) = (0, 2) and column 2 = z &times; (1, 0) = (0, 1). The columns are parallel, the determinant is zero, and whatever the joints do, the tip can only move in <em>y</em>. The arm cannot extend its tip along its own length at that instant, and the inverse needs enormous joint rates when it is nearly stretched. This is a <dfn>singularity</dfn>: a configuration where the columns of <var>J</var> lose independence. You can now spot it from the picture, because the lever arms and axes line up. Later lessons build on it.</p>
+  </section>
+
+  <section id="summary">
+    <h2>Summary <span class="section-time">2 min</span></h2>
+    <div class="box summary">
+      <ul>
+        <li><var>V</var> = <var>J</var>(<var>q</var>) <var>q&#775;</var>. Column <em>i</em> is the hand's velocity when joint <em>i</em> moves at one unit per second and the others are frozen; the total is the sum.</li>
+        <li>Rotary joint <em>i</em>: [ <var>z</var><sub><em>i</em>&minus;1</sub> &times; (<var>O</var><sub><em>n</em></sub> &minus; <var>O</var><sub><em>i</em>&minus;1</sub>) ; <var>z</var><sub><em>i</em>&minus;1</sub> ]. Prismatic: [ <var>z</var><sub><em>i</em>&minus;1</sub> ; 0 ].</li>
+        <li>Everything is in base coordinates, the lever arm runs to the endpoint, and the cross product is axis first.</li>
+        <li>Every column depends on the whole configuration, and moving the endpoint changes only the linear rows.</li>
+        <li>Angular velocity is not the derivative of an orientation, so do not differentiate roll-pitch-yaw for this matrix.</li>
+      </ul>
+      <p><strong>Say it in your own words:</strong> without looking up, explain to an imaginary classmate why column 2 of a Jacobian can change when only θ<sub>1</sub> changes, and what you would sketch to check it.</p>
+    </div>
+  </section>
+
+  <section id="further" class="go-further">
+    <h2>Go further</h2>
+    <p><strong>Read next:</strong> <a href="https://opentextbooks.clemson.edu/wangrobotics/chapter/differential-kinematics/">Differential Kinematics, in the open textbook from Clemson</a>. It is free, builds the same Jacobian, and goes on to singularities and inverse velocity kinematics.</p>
+    <ul>
+      <li><a href="https://poonawalalab.github.io/rmc-s21/assets/pdf/00_RMC_Notes.pdf">ME/AER 676 Robot Modeling and Control notes</a>: lecture notes based on Spong, Vidyasagar and Hutchinson, with the geometric and analytical Jacobians and a planar elbow example.</li>
+      <li><a href="https://www.oreilly.com/library/view/robot-modeling-and/9781119523994/c04.xhtml">Spong, Hutchinson and Vidyasagar, <em>Robot Modeling and Control</em>, chapter 4</a>: the standard textbook treatment with the DH convention you use.</li>
+      <li><a href="https://arxiv.org/pdf/1707.04821">Geometric Jacobians for the Barrett WAM</a>: a full seven-joint example, if you want a bigger arm to test your own code on.</li>
+    </ul>
+    <p><strong>Test it with others:</strong> the Robotics Stack Exchange is a good place to ask why your numeric check disagrees with your analytic Jacobian. Post your code and the configuration it fails at.</p>
+  </section>
+
+  <footer class="closing">
+    <p>Anything unclear? Ask me in the chat; I can explain any part again, another way, or go deeper.</p>
+    <p>A short quiz on this lesson is ready (quiz 0002): ask me for it when you want to check what stuck.</p>
+  </footer>
+
+</main>
+<script>
+  document.querySelectorAll("[data-check]").forEach(function (box) {
+    var buttons = box.querySelectorAll("button[data-correct]");
+    var out = box.querySelector(".feedback");
+    buttons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        buttons.forEach(function (b) { b.classList.remove("right", "wrong"); });
+        var right = button.getAttribute("data-correct") === "true";
+        button.classList.add(right ? "right" : "wrong");
+        if (out) { out.textContent = (right ? "Yes. " : "Not quite. ") + (button.getAttribute("data-why") || ""); }
+      });
+    });
+  });
+</script>
+</body>
+</html>

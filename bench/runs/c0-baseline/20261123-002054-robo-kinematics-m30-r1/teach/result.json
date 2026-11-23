@@ -1,0 +1,152 @@
+{
+  "duration_api_ms": 194552,
+  "stop_reason": "end_turn",
+  "session_id": "588764fe-3340-421b-8433-954c53ccd355",
+  "total_cost_usd": 0.6282164000000001,
+  "usage": {
+    "input_tokens": 16,
+    "cache_creation_input_tokens": 69244,
+    "cache_read_input_tokens": 290965,
+    "output_tokens": 29816,
+    "output_tokens_details": {
+      "thinking_tokens": 6193
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 69244,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 835,
+        "cache_read_input_tokens": 75112,
+        "cache_creation_input_tokens": 5143,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 5143
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 16,
+      "outputTokens": 29816,
+      "cacheReadInputTokens": 290965,
+      "cacheCreationInputTokens": 69244,
+      "webSearchRequests": 0,
+      "costUSD": 0.6042645,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 6193,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 69244,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 30749,
+      "outputTokens": 1754,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 2,
+      "costUSD": 0.0239519,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 357,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 0,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+    },
+    "started_in_background": 0,
+    "max_depth": 0,
+    "spawned_by_subagents": 0,
+    "completed": 0,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {}
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 23,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "The 30-minute lesson for O2 is written, with a short quiz and a cheat sheet. I haven't opened the lesson in a browser or run its Python example.\n\nThe lesson opens with a pen drawing a straight line at constant speed, a job forward kinematics can't do. It then covers:\n- **Columns:** each column is the hand's velocity when one joint moves alone.\n- **Rotary and prismatic cases:** the rotary column is `[z × (Oₙ − Oᵢ₋₁); z]` and the prismatic column is `[z; 0]`, shown side by side.\n- **Traps:** wrong lever arm, wrong frame, wrong cross-product order, and the mix-up that column i depends only on joint i.\n- **Why not differentiate:** differentiating forward kinematics gives only the linear rows, not the angular ones.\n- **Reference point:** the endpoint is a choice, and changing it alters only the linear rows.\n- **Examples and code:** two worked examples (the pen on the whiteboard, and a rotary joint with a prismatic one), one faded practice task, and a short Python function with a finite-difference check.\n- **Sanity checks:** a short list of checks, plus a brief look at a stretched-out arm (a singularity).\n\nTwo things you may want to change:\n- **Sources:** the facts come from the search results (the Clemson open textbook, Poonawala's notes on Spong, and Spong's chapter 4), not from pages I opened and read in full. The search snippets confirmed the standard column formulas, but I didn't see the books' own wording.\n- **Robotics Stack Exchange:** I named it without a link because I hadn't seen the URL in this session.\n\nI also updated `RESOURCES.md` and `NOTES.md`. In `NOTES.md` I used the new misconception ids M4 (wrong lever arm), M5 (cross-product order) and M7 (cross product applied to a prismatic joint). M3 was already the off-by-one.\n\nFiles are in `/tmp/p3-83wzazyu`:\n- `lessons/0001-endpoint-velocity-from-joint-rates.html`\n- `quizzes/0002.json`\n- `keys/0002.json`\n- `cheatsheets/jacobian-recipe.html`\n\nQuiz 0002 (five items) is ready whenever you want it. Ask me anything about the lesson.\n\nQuestion for you: should the next lesson cover the inverse direction (joint rates from hand velocity) and singularities in depth, or do you want more practice on 3D arms first?",
+  "ttft_ms": 1050,
+  "type": "result",
+  "duration_ms": 189740,
+  "uuid": "a2c30d64-bb43-4708-b8a5-1e966b616914",
+  "ttft_stream_ms": 788,
+  "time_to_request_ms": 84,
+  "first_content_frame_ms": 788,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 16,
+      "outputTokens": 29816,
+      "cacheReadInputTokens": 290965,
+      "cacheCreationInputTokens": 69244,
+      "webSearchRequests": 0,
+      "costUSD": 0.6042645,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 6193,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 69244,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 30749,
+      "outputTokens": 1754,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 2,
+      "costUSD": 0.0239519,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 357,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-12-16T23:36:35.249Z"
+}

@@ -1,0 +1,120 @@
+{
+  "duration_api_ms": 21155,
+  "stop_reason": "end_turn",
+  "session_id": "0cd975be-95c4-4901-b399-f57e12ab0e8b",
+  "total_cost_usd": 0.1529226,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 27924,
+    "cache_read_input_tokens": 104106,
+    "output_tokens": 3080,
+    "output_tokens_details": {
+      "thinking_tokens": 164
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 27924,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 477,
+        "cache_read_input_tokens": 36806,
+        "cache_creation_input_tokens": 2129,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 2129
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 8,
+      "outputTokens": 3080,
+      "cacheReadInputTokens": 104106,
+      "cacheCreationInputTokens": 27924,
+      "webSearchRequests": 0,
+      "costUSD": 0.1529226,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 164,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 27924,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 0,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+    },
+    "started_in_background": 0,
+    "max_depth": 0,
+    "spawned_by_subagents": 0,
+    "completed": 0,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {}
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 14,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "I graded submission s1 for quiz 0001 and wrote `grades/0001-s1.json`: one answer correct, one partial and one wrong.\n\n- **q1 (wrong, M3):** You said joint 2 turns about z₂ with O₂ on that axis. In our standard DH convention, joint i acts about z_{i−1}, so joint 2 turns about z₁ and O₁ lies on it. Using the wrong index would put every Jacobian column on the wrong joint.\n- **q2 (correct):** All four base-frame vectors are right, including the summed angle in ⁰O₂.\n- **q3 (partial):** You picked the right transform, ⁰T₂ = ⁰T₁·¹T₂, and the position column for ⁰O₂ is right. The axis is wrong, because ⁰z₂ is the third column of the rotation block, not the third row. Columns are the frame's axes written in base coordinates. Rows are base axes written in the frame.\n\nYour q3 answer used z₂ correctly for joint 3, so the q1 error may be a slip rather than a firm belief.\n\n**Next step:** for the q2 arm, write ⁰T₁ and ⁰T₂ and label which column gives each z. Then state which z and O each joint's Jacobian column uses.\n\nI also added a learning record, `learning-records/0002-quiz-0001-off-by-one-and-column-extraction.md`, and updated `NOTES.md`.",
+  "ttft_ms": 1338,
+  "type": "result",
+  "duration_ms": 21277,
+  "uuid": "1fcfc5a4-baca-412b-9980-7a4e9eb91630",
+  "ttft_stream_ms": 1073,
+  "time_to_request_ms": 88,
+  "first_content_frame_ms": 1073,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 8,
+      "outputTokens": 3080,
+      "cacheReadInputTokens": 104106,
+      "cacheCreationInputTokens": 27924,
+      "webSearchRequests": 0,
+      "costUSD": 0.1529226,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 164,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 27924,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-12-16T23:36:35.249Z"
+}

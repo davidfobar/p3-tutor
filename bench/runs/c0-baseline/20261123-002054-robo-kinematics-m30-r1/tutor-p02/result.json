@@ -1,0 +1,120 @@
+{
+  "duration_api_ms": 14106,
+  "stop_reason": "end_turn",
+  "session_id": "99a7353f-0b27-4737-b265-c49aba4cbea5",
+  "total_cost_usd": 0.12370519999999999,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 24701,
+    "cache_read_input_tokens": 67692,
+    "output_tokens": 1812,
+    "output_tokens_details": {
+      "thinking_tokens": 537
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 24701,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1088,
+        "cache_read_input_tokens": 34585,
+        "cache_creation_input_tokens": 1127,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1127
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 6,
+      "outputTokens": 1812,
+      "cacheReadInputTokens": 67692,
+      "cacheCreationInputTokens": 24701,
+      "webSearchRequests": 0,
+      "costUSD": 0.12370519999999999,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 537,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 24701,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 0,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+    },
+    "started_in_background": 0,
+    "max_depth": 0,
+    "spawned_by_subagents": 0,
+    "completed": 0,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {}
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 8,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "Stack the endpoint position into a vector p(q) = FK(q). The linear-velocity rows of the Jacobian are then the partial derivatives of p, one column per joint:\n\nJ_v = [∂p/∂q₁ ∂p/∂q₂ … ∂p/∂qₙ]\n\nTake a planar 2-link arm with link lengths l₁ and l₂, writing c₁₂ = cos(θ₁+θ₂) and s₁₂ = sin(θ₁+θ₂):\n\n- x = l₁c₁ + l₂c₁₂\n- y = l₁s₁ + l₂s₁₂\n\nDifferentiate each entry with respect to each joint:\n\nJ_v = [ −l₁s₁ − l₂s₁₂ , −l₂s₁₂ ; l₁c₁ + l₂c₁₂ , l₂c₁₂ ]\n\nThen ṗ = J_v q̇ follows from the chain rule.\n\nLook at column 1. It equals ẑ × (p − O₀), which is the geometric recipe z × r. So the column is the endpoint velocity when joint 1 turns at one unit rate and everything else is frozen. Column 2 is ẑ × (p − O₁), where the moment arm runs from joint 2 to the tip. This is also your check: move one joint and see whether the tip goes where the column says. For a prismatic joint, ∂p/∂dᵢ is just the axis zᵢ₋₁.\n\nOne correction before you use this for a whole 6-DOF pose. Only the position rows are derivatives of FK. The angular rows are not ∂(orientation)/∂q. Differentiating roll-pitch-yaw gives a different matrix, the \"analytical Jacobian\", which has singularities of its own. The geometric Jacobian takes the angular part directly: zᵢ₋₁ for a rotary joint and 0 for a prismatic one. Angular velocities add as vectors, but orientation angles don't.\n\nQuick check: in the 2-link example, why is column 2 not just \"l₂ times something that depends only on θ₂\"?\n\nI can turn this into a full lesson with the 3D recipe, prismatic joints, a code check against finite differences, and a quiz. Do you want one?",
+  "ttft_ms": 1054,
+  "type": "result",
+  "duration_ms": 14208,
+  "uuid": "7d2b353a-a71d-4e9d-a3bc-bda4c94d7957",
+  "ttft_stream_ms": 1013,
+  "time_to_request_ms": 81,
+  "first_content_frame_ms": 1013,
+  "queued_turn_count": 0,
+  "result_index": 0,
+  "model_usage_since_last_result": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 6,
+      "outputTokens": 1812,
+      "cacheReadInputTokens": 67692,
+      "cacheCreationInputTokens": 24701,
+      "webSearchRequests": 0,
+      "costUSD": 0.12370519999999999,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 537,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 24701,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "credential_expires_at": "2026-12-16T23:36:35.249Z"
+}

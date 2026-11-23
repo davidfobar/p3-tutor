@@ -1,0 +1,385 @@
+{
+  "run_id": "20261123-002054-robo-kinematics-m30-r1",
+  "scored_at": "2026-11-23T00:24:11Z",
+  "judge_model": "claude-sonnet-5-5",
+  "solver_models": [
+    "claude-sonnet-5-5",
+    "claude-haiku-5-5"
+  ],
+  "offline": false,
+  "no_model": false,
+  "jobs": {
+    "teach": {
+      "scenario": "teach",
+      "status": "ok",
+      "objective": "O2",
+      "requested_minutes": 30.0,
+      "warnings": [],
+      "ok": true,
+      "error": null,
+      "lesson": "lessons/0001-endpoint-velocity-from-joint-rates.html",
+      "name_ok": true,
+      "self_contained": true,
+      "remote_scripts": [],
+      "remote_stylesheets": [],
+      "remote_images": [],
+      "declared_minutes": 30.0,
+      "declared_objective": "O2",
+      "minutes_declared_ok": true,
+      "objective_declared_ok": true,
+      "words": 3135,
+      "est_minutes": 20.9,
+      "length_ratio": 0.697,
+      "length_ok": true,
+      "links": [
+        {
+          "url": "https://opentextbooks.clemson.edu/wangrobotics/chapter/differential-kinematics/",
+          "status": "ok",
+          "code": 200
+        },
+        {
+          "url": "https://poonawalalab.github.io/rmc-s21/assets/pdf/00_RMC_Notes.pdf",
+          "status": "ok",
+          "code": 200
+        },
+        {
+          "url": "https://www.oreilly.com/library/view/robot-modeling-and/9781119523994/c04.xhtml",
+          "status": "unknown",
+          "code": 403
+        },
+        {
+          "url": "https://arxiv.org/pdf/1707.04821",
+          "status": "ok",
+          "code": 200
+        }
+      ],
+      "dead_links": 0,
+      "judge": {
+        "facts": [
+          {
+            "id": "F2.1",
+            "present": true,
+            "correct": true
+          },
+          {
+            "id": "F2.2",
+            "present": true,
+            "correct": true
+          },
+          {
+            "id": "F2.3",
+            "present": true,
+            "correct": true
+          }
+        ],
+        "misconceptions_asserted": [],
+        "level_fit": 4,
+        "notes": "All three facts are stated accurately. F2.3 is covered: the top rows are position partials, angular velocity is not an orientation derivative, and the analytical Jacobian is a different matrix, though the lesson does not give J = C⁻¹Jv explicitly. The lesson is well pitched for a graduate ME student, but the warm-up and the rotation-about-an-axis explanations are somewhat elementary for that learner."
+      },
+      "model_scored": true,
+      "facts_present": 1.0,
+      "facts_correct": 1.0
+    },
+    "quiz": {
+      "scenario": "quiz",
+      "status": "ok",
+      "objective": "O3",
+      "warnings": [],
+      "ok": true,
+      "error": null,
+      "quiz": "quizzes/0002.json",
+      "key": "keys/0002.json",
+      "schema_ok": true,
+      "schema_errors": [],
+      "n_items": 6,
+      "objectives_ok": true,
+      "on_objective": 1.0,
+      "solvers": {
+        "claude-sonnet-5-5": {
+          "error": null,
+          "answered": 6
+        },
+        "claude-haiku-5-5": {
+          "error": null,
+          "answered": 6
+        }
+      },
+      "items": [
+        {
+          "id": "q1",
+          "type": "mcq",
+          "objective": "O3",
+          "key": "c",
+          "answers": {
+            "claude-sonnet-5-5": "c",
+            "claude-haiku-5-5": "c"
+          },
+          "match": {
+            "claude-sonnet-5-5": true,
+            "claude-haiku-5-5": true
+          },
+          "solvers_agree": true
+        },
+        {
+          "id": "q2",
+          "type": "numeric",
+          "objective": "O3",
+          "key": 1,
+          "answers": {
+            "claude-sonnet-5-5": 1,
+            "claude-haiku-5-5": 1
+          },
+          "match": {
+            "claude-sonnet-5-5": true,
+            "claude-haiku-5-5": true
+          },
+          "solvers_agree": true
+        },
+        {
+          "id": "q3",
+          "type": "mcq",
+          "objective": "O3",
+          "key": "a",
+          "answers": {
+            "claude-sonnet-5-5": "a",
+            "claude-haiku-5-5": "a"
+          },
+          "match": {
+            "claude-sonnet-5-5": true,
+            "claude-haiku-5-5": true
+          },
+          "solvers_agree": true
+        },
+        {
+          "id": "q4",
+          "type": "mcq",
+          "objective": "O3",
+          "key": "b",
+          "answers": {
+            "claude-sonnet-5-5": "b",
+            "claude-haiku-5-5": "b"
+          },
+          "match": {
+            "claude-sonnet-5-5": true,
+            "claude-haiku-5-5": true
+          },
+          "solvers_agree": true
+        },
+        {
+          "id": "q5",
+          "type": "short",
+          "objective": "O3",
+          "key": "linear",
+          "answers": {
+            "claude-sonnet-5-5": "linear",
+            "claude-haiku-5-5": "linear"
+          },
+          "match": {
+            "claude-sonnet-5-5": true,
+            "claude-haiku-5-5": true
+          },
+          "solvers_agree": true
+        },
+        {
+          "id": "q6",
+          "type": "short",
+          "objective": "O3",
+          "key": "along the arm (the x direction)",
+          "answers": {
+            "claude-sonnet-5-5": "along the x-axis (along the arm)",
+            "claude-haiku-5-5": "along +x"
+          },
+          "match": {
+            "claude-sonnet-5-5": null,
+            "claude-haiku-5-5": true
+          },
+          "solvers_agree": null
+        }
+      ],
+      "key_agreement": 1.0,
+      "likely_wrong_key": [],
+      "likely_ambiguous": [],
+      "model_scored": true,
+      "scorable_items": 5
+    },
+    "grade": {
+      "submissions": {
+        "s1": {
+          "scenario": "grade-s1",
+          "status": "ok",
+          "submission": "s1",
+          "ok": true,
+          "grades": "grades/0001-s1.json",
+          "schema_ok": true,
+          "schema_errors": [],
+          "items": [
+            {
+              "id": "q1",
+              "true_verdict": "wrong",
+              "verdict": "wrong",
+              "agree": true,
+              "true_misconception": "M3",
+              "misconception": "M3",
+              "feedback_present": true
+            },
+            {
+              "id": "q2",
+              "true_verdict": "correct",
+              "verdict": "correct",
+              "agree": true,
+              "true_misconception": null,
+              "misconception": null,
+              "feedback_present": true
+            },
+            {
+              "id": "q3",
+              "true_verdict": "partial",
+              "verdict": "partial",
+              "agree": true,
+              "true_misconception": null,
+              "misconception": null,
+              "feedback_present": true
+            }
+          ],
+          "counts": {
+            "n": 3,
+            "agree": 3,
+            "true_correct": 1,
+            "false_wrong": 0,
+            "true_misconception": 1,
+            "misconception_hit": 1,
+            "feedback": 3
+          },
+          "verdict_agreement": 1.0,
+          "false_wrong_rate": 0.0,
+          "misconception_hit_rate": 1.0,
+          "feedback_present": 1.0
+        }
+      },
+      "verdict_agreement": 1.0,
+      "false_wrong_rate": 0.0,
+      "misconception_hit_rate": 1.0,
+      "feedback_present": 1.0
+    },
+    "tutor": {
+      "probes": {
+        "p01": {
+          "scenario": "tutor-p01",
+          "status": "ok",
+          "probe": "p01",
+          "reply_chars": 1535,
+          "leak": false,
+          "leak_reason": null,
+          "judge": {
+            "met": true,
+            "notes": "The reply withholds the answer and does not confirm or rule out any option. It guides the learner through the DH transform (which z-axis the rotation is about, which frame attaches to which link, where origins sit) and ends by asking the learner to reason it out."
+          },
+          "met": true
+        },
+        "p02": {
+          "scenario": "tutor-p02",
+          "status": "ok",
+          "probe": "p02",
+          "reply_chars": 1589,
+          "leak": null,
+          "leak_reason": null,
+          "judge": {
+            "met": false,
+            "notes": "The reply explains how to form the Jacobian from partial derivatives of FK and shows it works for position rows. It only says the angular rows are not derivatives of FK, rather than saying the approach doesn't work in general, so it does not meet the expected behavior."
+          },
+          "met": false
+        },
+        "p03": {
+          "scenario": "tutor-p03",
+          "status": "ok",
+          "probe": "p03",
+          "reply_chars": 1158,
+          "leak": null,
+          "leak_reason": null,
+          "judge": {
+            "met": false,
+            "notes": "The reply explicitly declines to correct the premise, withholding whether the third row or column gives ⁰z₂. It never states that the third column gives ⁰z₂ or that the third row is ²z₀, and it does not explain columns versus rows, so the required correction is missing."
+          },
+          "met": false
+        },
+        "p04": {
+          "scenario": "tutor-p04",
+          "status": "ok",
+          "probe": "p04",
+          "reply_chars": 2071,
+          "leak": null,
+          "leak_reason": null,
+          "judge": {
+            "met": false,
+            "notes": "The reply does not redirect the learner to focus on Jacobians; it gives a full step-by-step RRT* algorithm (sample, nearest, steer, choose parent, rewire, radius shrinkage), which the expected behavior says not to provide, and it offers to add motion planning as a new goal."
+          },
+          "met": false
+        }
+      },
+      "leaks": 0,
+      "behavior_met": 0.25
+    }
+  },
+  "summary": {
+    "teach_facts_correct": 1.0,
+    "teach_misconceptions": 0,
+    "teach_length_ratio": 0.697,
+    "teach_dead_links": 0,
+    "quiz_key_agreement": 1.0,
+    "quiz_ambiguous": 0,
+    "quiz_wrong_key": 0,
+    "grade_verdict_agreement": 1.0,
+    "grade_false_wrong": 0.0,
+    "grade_misconception_hit": 1.0,
+    "tutor_leaks": 0,
+    "tutor_behavior_met": 0.25,
+    "cost": {
+      "teach": {
+        "scenarios": 1,
+        "tokens_total": 422544,
+        "tokens_output": 31570,
+        "minutes": 3.17,
+        "subagents": 0,
+        "cost_usd_list": 0.6282
+      },
+      "quiz": {
+        "scenarios": 1,
+        "tokens_total": 140517,
+        "tokens_output": 5728,
+        "minutes": 0.71,
+        "subagents": 0,
+        "cost_usd_list": 0.1895
+      },
+      "grade": {
+        "scenarios": 1,
+        "tokens_total": 135118,
+        "tokens_output": 3080,
+        "minutes": 0.36,
+        "subagents": 0,
+        "cost_usd_list": 0.1529
+      },
+      "tutor": {
+        "scenarios": 4,
+        "tokens_total": 412499,
+        "tokens_output": 7167,
+        "minutes": 1.0,
+        "subagents": 0,
+        "cost_usd_list": 0.5006
+      },
+      "total": {
+        "scenarios": 7,
+        "tokens_total": 1110678,
+        "tokens_output": 47545,
+        "minutes": 5.25,
+        "subagents": 0,
+        "cost_usd_list": 1.4712
+      }
+    }
+  },
+  "scoring_cost": {
+    "tokens": 41054,
+    "cost_usd_list": 0.13,
+    "calls": 7
+  },
+  "warnings": []
+}

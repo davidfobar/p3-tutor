@@ -1,0 +1,25 @@
+{
+  "quiz": "0001",
+  "submission": "s1",
+  "items": [
+    {
+      "id": "q1",
+      "verdict": "wrong",
+      "misconception": "M3",
+      "feedback": "You answered z₂ and O₂, which assumes joint i turns about zᵢ. In the standard DH convention we use, joint i connects link i−1 to link i and acts about z_{i−1}, so joint 2 turns about z₁ and O₁ lies on that axis. The slip is tempting because the numbers match, but it shifts every Jacobian column onto the wrong joint. Quick check: joint 1 must turn about the base axis z₀, so there is no 'z₁' for it to use."
+    },
+    {
+      "id": "q2",
+      "verdict": "correct",
+      "misconception": null,
+      "feedback": "All four vectors are right, and ⁰O₂ correctly uses the summed angle θ₁+θ₂ for the second link, so you kept base-frame coordinates. These are exactly the inputs for the first Jacobian example: z = (0, 0, 1) for both joints, with the moment arms built from O₂ − O₀ and O₂ − O₁."
+    },
+    {
+      "id": "q3",
+      "verdict": "partial",
+      "misconception": null,
+      "feedback": "The first half is right: joint 3 acts about z₂, so you need ⁰T₂ = ⁰T₁·¹T₂, and the position column gives ⁰O₂. The axis extraction is wrong, though. ⁰z₂ is the third column of the rotation block, not the third row. Each column of ⁰R₂ is one of frame 2's axes written in base coordinates, while each row is a base axis written in frame 2. Check with a rotation about z: the third column is (0, 0, 1), but a rotation about x or y has a third row that is not frame 2's z-axis in base coordinates. Rule: columns give the frame's axes in the base frame."
+    }
+  ],
+  "summary": "You can compose transforms and write the base-frame axes and origins of a planar arm (q2), and you picked the right intermediate transform in q3. Two things to fix. First, the joint index: joint i uses z_{i−1} and O_{i−1}, so joint 2 uses z₁ and joint 3 uses z₂. Your q3 used z₂ for joint 3, which is correct, but q1 did not, so check which convention you apply each time. Second, read axes from the columns of the rotation block, not the rows. Next step: for the two-link arm in q2, write ⁰T₁ and ⁰T₂ and label which column gives each z, then state which z and O each joint's Jacobian column uses."
+}
