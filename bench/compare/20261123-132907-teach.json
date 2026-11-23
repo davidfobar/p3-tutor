@@ -1,0 +1,169 @@
+{
+  "session": "20261123-132907-teach",
+  "job": "teach",
+  "topic": "agent-architecture",
+  "configs": [
+    "c1-skills",
+    "final"
+  ],
+  "created_at": "2026-11-23T13:29:07Z",
+  "minutes": 10,
+  "quick": false,
+  "teach_only": true,
+  "pairs": [
+    {
+      "pair_id": "001",
+      "run_pair": [
+        "20261121-173000-agent-architecture-m10-r1",
+        "20261123-005822-agent-architecture-m10-r1"
+      ],
+      "item": "teach"
+    },
+    {
+      "pair_id": "002",
+      "run_pair": [
+        "20261121-173314-agent-architecture-m10-r2",
+        "20261123-010705-agent-architecture-m10-r2"
+      ],
+      "item": "teach"
+    }
+  ],
+  "picks": [
+    {
+      "pair_id": "001",
+      "choice": "tie",
+      "reason": "the content appears to be basically the same",
+      "could_tell": true,
+      "picked_at": "2026-11-23T13:32:10Z"
+    },
+    {
+      "pair_id": "002",
+      "choice": "right",
+      "reason": "it provides more common misunderstandings as teaching points",
+      "could_tell": true,
+      "picked_at": "2026-11-23T13:33:12Z"
+    }
+  ],
+  "complete": true,
+  "revealed": {
+    "revealed_at": "2026-11-23T13:33:26Z",
+    "wins": {
+      "c1-skills": 1,
+      "final": 0
+    },
+    "ties": 1,
+    "non_tie": 1,
+    "p_value": 1.0,
+    "could_tell": {
+      "yes": 2,
+      "pairs": 2,
+      "share": 1.0
+    },
+    "reasons": {
+      "c1-skills": [
+        {
+          "pair_id": "002",
+          "item": "teach",
+          "reason": "it provides more common misunderstandings as teaching points"
+        }
+      ],
+      "final": [],
+      "tie": [
+        {
+          "pair_id": "001",
+          "item": "teach",
+          "reason": "the content appears to be basically the same"
+        }
+      ]
+    },
+    "no_reason": 0,
+    "objective": {
+      "c1-skills": {
+        "teach_facts_correct": [
+          0.8333,
+          1.0
+        ],
+        "teach_misconceptions": [
+          0,
+          0
+        ],
+        "teach_length_ratio": [
+          0.861,
+          1.023
+        ],
+        "teach_dead_links": [
+          0,
+          0
+        ]
+      },
+      "final": {
+        "teach_facts_correct": [
+          0.8333,
+          0.8333
+        ],
+        "teach_misconceptions": [
+          0,
+          0
+        ],
+        "teach_length_ratio": [
+          0.973,
+          0.943
+        ],
+        "teach_dead_links": [
+          0,
+          0
+        ]
+      }
+    },
+    "cost": {
+      "c1-skills": {
+        "runs": 2,
+        "scenarios": 2,
+        "tokens": [
+          1083158,
+          1179135
+        ],
+        "output": [
+          34873,
+          36202
+        ],
+        "minutes": [
+          3.17,
+          3.33
+        ],
+        "subagents": [
+          2,
+          1
+        ],
+        "cost": [
+          0.706084,
+          0.717491
+        ]
+      },
+      "final": {
+        "runs": 2,
+        "scenarios": 2,
+        "tokens": [
+          1455333,
+          1742224
+        ],
+        "output": [
+          82806,
+          82227
+        ],
+        "minutes": [
+          8.65,
+          8.67
+        ],
+        "subagents": [
+          5,
+          5
+        ],
+        "cost": [
+          1.6087,
+          1.669001
+        ]
+      }
+    }
+  }
+}

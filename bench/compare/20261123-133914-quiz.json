@@ -1,0 +1,160 @@
+{
+  "session": "20261123-133914-quiz",
+  "job": "quiz",
+  "topic": "agent-architecture",
+  "configs": [
+    "c0-baseline",
+    "final"
+  ],
+  "created_at": "2026-11-23T13:39:14Z",
+  "minutes": 30,
+  "quick": false,
+  "teach_only": false,
+  "pairs": [
+    {
+      "pair_id": "001",
+      "run_pair": [
+        "20261112-201526-agent-architecture-m30-r1",
+        "20261122-230248-agent-architecture-m30-r1"
+      ],
+      "item": "quiz"
+    },
+    {
+      "pair_id": "002",
+      "run_pair": [
+        "20261112-202047-agent-architecture-m30-r2",
+        "20261122-231530-agent-architecture-m30-r2"
+      ],
+      "item": "quiz"
+    }
+  ],
+  "picks": [
+    {
+      "pair_id": "001",
+      "choice": "left",
+      "reason": "it connects the misconception",
+      "could_tell": true,
+      "picked_at": "2026-11-23T13:39:46Z"
+    },
+    {
+      "pair_id": "002",
+      "choice": "right",
+      "reason": "mostly MC",
+      "could_tell": true,
+      "picked_at": "2026-11-23T13:40:46Z"
+    }
+  ],
+  "complete": true,
+  "revealed": {
+    "revealed_at": "2026-11-23T13:40:52Z",
+    "wins": {
+      "c0-baseline": 0,
+      "final": 2
+    },
+    "ties": 0,
+    "non_tie": 2,
+    "p_value": 0.5,
+    "could_tell": {
+      "yes": 2,
+      "pairs": 2,
+      "share": 1.0
+    },
+    "reasons": {
+      "c0-baseline": [],
+      "final": [
+        {
+          "pair_id": "001",
+          "item": "quiz",
+          "reason": "it connects the misconception"
+        },
+        {
+          "pair_id": "002",
+          "item": "quiz",
+          "reason": "mostly MC"
+        }
+      ],
+      "tie": []
+    },
+    "no_reason": 0,
+    "objective": {
+      "c0-baseline": {
+        "quiz_key_agreement": [
+          1.0,
+          1.0
+        ],
+        "quiz_ambiguous": [
+          0,
+          0
+        ],
+        "quiz_wrong_key": [
+          0,
+          0
+        ]
+      },
+      "final": {
+        "quiz_key_agreement": [
+          1.0,
+          1.0
+        ],
+        "quiz_ambiguous": [
+          0,
+          0
+        ],
+        "quiz_wrong_key": [
+          0,
+          0
+        ]
+      }
+    },
+    "cost": {
+      "c0-baseline": {
+        "runs": 2,
+        "scenarios": 2,
+        "tokens": [
+          132940,
+          136884
+        ],
+        "output": [
+          4484,
+          5135
+        ],
+        "minutes": [
+          0.55,
+          0.66
+        ],
+        "subagents": [
+          0,
+          0
+        ],
+        "cost": [
+          0.16692,
+          0.181302
+        ]
+      },
+      "final": {
+        "runs": 2,
+        "scenarios": 2,
+        "tokens": [
+          375687,
+          548231
+        ],
+        "output": [
+          18158,
+          28687
+        ],
+        "minutes": [
+          2.13,
+          3.28
+        ],
+        "subagents": [
+          1,
+          2
+        ],
+        "cost": [
+          0.404719,
+          0.580049
+        ]
+      }
+    }
+  }
+}

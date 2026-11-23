@@ -1,0 +1,168 @@
+{
+  "session": "20261123-133557-teach",
+  "job": "teach",
+  "topic": "agent-architecture",
+  "configs": [
+    "c0-baseline",
+    "final"
+  ],
+  "created_at": "2026-11-23T13:35:57Z",
+  "minutes": 30,
+  "quick": false,
+  "teach_only": false,
+  "pairs": [
+    {
+      "pair_id": "001",
+      "run_pair": [
+        "20261112-201526-agent-architecture-m30-r1",
+        "20261122-230248-agent-architecture-m30-r1"
+      ],
+      "item": "teach"
+    },
+    {
+      "pair_id": "002",
+      "run_pair": [
+        "20261112-202047-agent-architecture-m30-r2",
+        "20261122-231530-agent-architecture-m30-r2"
+      ],
+      "item": "teach"
+    }
+  ],
+  "picks": [
+    {
+      "pair_id": "001",
+      "choice": "right",
+      "reason": "They appear to have the same topic coverage",
+      "could_tell": false,
+      "picked_at": "2026-11-23T13:38:05Z"
+    },
+    {
+      "pair_id": "002",
+      "choice": "left",
+      "reason": "it had a more effective demo",
+      "could_tell": true,
+      "picked_at": "2026-11-23T13:38:46Z"
+    }
+  ],
+  "complete": true,
+  "revealed": {
+    "revealed_at": "2026-11-23T13:38:55Z",
+    "wins": {
+      "c0-baseline": 0,
+      "final": 2
+    },
+    "ties": 0,
+    "non_tie": 2,
+    "p_value": 0.5,
+    "could_tell": {
+      "yes": 1,
+      "pairs": 2,
+      "share": 0.5
+    },
+    "reasons": {
+      "c0-baseline": [],
+      "final": [
+        {
+          "pair_id": "001",
+          "item": "teach",
+          "reason": "They appear to have the same topic coverage"
+        },
+        {
+          "pair_id": "002",
+          "item": "teach",
+          "reason": "it had a more effective demo"
+        }
+      ],
+      "tie": []
+    },
+    "no_reason": 0,
+    "objective": {
+      "c0-baseline": {
+        "teach_facts_correct": [
+          1.0,
+          1.0
+        ],
+        "teach_misconceptions": [
+          0,
+          0
+        ],
+        "teach_length_ratio": [
+          0.685,
+          0.695
+        ],
+        "teach_dead_links": [
+          0,
+          0
+        ]
+      },
+      "final": {
+        "teach_facts_correct": [
+          1.0,
+          1.0
+        ],
+        "teach_misconceptions": [
+          0,
+          0
+        ],
+        "teach_length_ratio": [
+          0.879,
+          0.901
+        ],
+        "teach_dead_links": [
+          0,
+          0
+        ]
+      }
+    },
+    "cost": {
+      "c0-baseline": {
+        "runs": 2,
+        "scenarios": 2,
+        "tokens": [
+          556786,
+          460900
+        ],
+        "output": [
+          26350,
+          24707
+        ],
+        "minutes": [
+          2.54,
+          2.52
+        ],
+        "subagents": [
+          1,
+          0
+        ],
+        "cost": [
+          0.54385,
+          0.535107
+        ]
+      },
+      "final": {
+        "runs": 2,
+        "scenarios": 2,
+        "tokens": [
+          2646631,
+          3597214
+        ],
+        "output": [
+          125675,
+          145731
+        ],
+        "minutes": [
+          12.57,
+          15.3
+        ],
+        "subagents": [
+          6,
+          6
+        ],
+        "cost": [
+          2.29966,
+          2.750052
+        ]
+      }
+    }
+  }
+}

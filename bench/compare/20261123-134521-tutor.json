@@ -1,0 +1,418 @@
+{
+  "session": "20261123-134521-tutor",
+  "job": "tutor",
+  "topic": "agent-architecture",
+  "configs": [
+    "c0-baseline",
+    "final"
+  ],
+  "created_at": "2026-11-23T13:45:21Z",
+  "minutes": 30,
+  "quick": false,
+  "teach_only": false,
+  "pairs": [
+    {
+      "pair_id": "001",
+      "run_pair": [
+        "20261112-201526-agent-architecture-m30-r1",
+        "20261122-230248-agent-architecture-m30-r1"
+      ],
+      "item": "tutor-p01"
+    },
+    {
+      "pair_id": "002",
+      "run_pair": [
+        "20261112-201526-agent-architecture-m30-r1",
+        "20261122-230248-agent-architecture-m30-r1"
+      ],
+      "item": "tutor-p02"
+    },
+    {
+      "pair_id": "003",
+      "run_pair": [
+        "20261112-201526-agent-architecture-m30-r1",
+        "20261122-230248-agent-architecture-m30-r1"
+      ],
+      "item": "tutor-p03"
+    },
+    {
+      "pair_id": "004",
+      "run_pair": [
+        "20261112-201526-agent-architecture-m30-r1",
+        "20261122-230248-agent-architecture-m30-r1"
+      ],
+      "item": "tutor-p04"
+    },
+    {
+      "pair_id": "005",
+      "run_pair": [
+        "20261112-201526-agent-architecture-m30-r1",
+        "20261122-230248-agent-architecture-m30-r1"
+      ],
+      "item": "tutor-p05"
+    },
+    {
+      "pair_id": "006",
+      "run_pair": [
+        "20261112-201526-agent-architecture-m30-r1",
+        "20261122-230248-agent-architecture-m30-r1"
+      ],
+      "item": "tutor-p06"
+    },
+    {
+      "pair_id": "007",
+      "run_pair": [
+        "20261112-202047-agent-architecture-m30-r2",
+        "20261122-231530-agent-architecture-m30-r2"
+      ],
+      "item": "tutor-p01"
+    },
+    {
+      "pair_id": "008",
+      "run_pair": [
+        "20261112-202047-agent-architecture-m30-r2",
+        "20261122-231530-agent-architecture-m30-r2"
+      ],
+      "item": "tutor-p02"
+    },
+    {
+      "pair_id": "009",
+      "run_pair": [
+        "20261112-202047-agent-architecture-m30-r2",
+        "20261122-231530-agent-architecture-m30-r2"
+      ],
+      "item": "tutor-p03"
+    },
+    {
+      "pair_id": "010",
+      "run_pair": [
+        "20261112-202047-agent-architecture-m30-r2",
+        "20261122-231530-agent-architecture-m30-r2"
+      ],
+      "item": "tutor-p04"
+    },
+    {
+      "pair_id": "011",
+      "run_pair": [
+        "20261112-202047-agent-architecture-m30-r2",
+        "20261122-231530-agent-architecture-m30-r2"
+      ],
+      "item": "tutor-p05"
+    },
+    {
+      "pair_id": "012",
+      "run_pair": [
+        "20261112-202047-agent-architecture-m30-r2",
+        "20261122-231530-agent-architecture-m30-r2"
+      ],
+      "item": "tutor-p06"
+    }
+  ],
+  "picks": [
+    {
+      "pair_id": "001",
+      "choice": "right",
+      "reason": "the link",
+      "could_tell": true,
+      "picked_at": "2026-11-23T13:45:44Z"
+    },
+    {
+      "pair_id": "002",
+      "choice": "right",
+      "reason": "the link",
+      "could_tell": true,
+      "picked_at": "2026-11-23T13:45:58Z"
+    },
+    {
+      "pair_id": "003",
+      "choice": "right",
+      "reason": "more helpful",
+      "could_tell": true,
+      "picked_at": "2026-11-23T13:46:24Z"
+    },
+    {
+      "pair_id": "004",
+      "choice": "right",
+      "reason": "more helpful",
+      "could_tell": true,
+      "picked_at": "2026-11-23T13:46:39Z"
+    },
+    {
+      "pair_id": "005",
+      "choice": "left",
+      "reason": "offers a lesson",
+      "could_tell": true,
+      "picked_at": "2026-11-23T13:46:48Z"
+    },
+    {
+      "pair_id": "006",
+      "choice": "right",
+      "reason": "",
+      "could_tell": true,
+      "picked_at": "2026-11-23T13:46:54Z"
+    },
+    {
+      "pair_id": "007",
+      "choice": "right",
+      "reason": "",
+      "could_tell": true,
+      "picked_at": "2026-11-23T13:47:00Z"
+    },
+    {
+      "pair_id": "008",
+      "choice": "right",
+      "reason": "",
+      "could_tell": true,
+      "picked_at": "2026-11-23T13:47:03Z"
+    },
+    {
+      "pair_id": "009",
+      "choice": "right",
+      "reason": "",
+      "could_tell": true,
+      "picked_at": "2026-11-23T13:47:13Z"
+    },
+    {
+      "pair_id": "010",
+      "choice": "right",
+      "reason": "",
+      "could_tell": true,
+      "picked_at": "2026-11-23T13:47:16Z"
+    },
+    {
+      "pair_id": "011",
+      "choice": "right",
+      "reason": "",
+      "could_tell": true,
+      "picked_at": "2026-11-23T13:47:22Z"
+    },
+    {
+      "pair_id": "012",
+      "choice": "right",
+      "reason": "",
+      "could_tell": true,
+      "picked_at": "2026-11-23T13:47:30Z"
+    }
+  ],
+  "complete": true,
+  "revealed": {
+    "revealed_at": "2026-11-23T13:47:39Z",
+    "wins": {
+      "c0-baseline": 4,
+      "final": 8
+    },
+    "ties": 0,
+    "non_tie": 12,
+    "p_value": 0.387695,
+    "could_tell": {
+      "yes": 12,
+      "pairs": 12,
+      "share": 1.0
+    },
+    "reasons": {
+      "c0-baseline": [
+        {
+          "pair_id": "003",
+          "item": "tutor-p03",
+          "reason": "more helpful"
+        }
+      ],
+      "final": [
+        {
+          "pair_id": "001",
+          "item": "tutor-p01",
+          "reason": "the link"
+        },
+        {
+          "pair_id": "002",
+          "item": "tutor-p02",
+          "reason": "the link"
+        },
+        {
+          "pair_id": "004",
+          "item": "tutor-p04",
+          "reason": "more helpful"
+        },
+        {
+          "pair_id": "005",
+          "item": "tutor-p05",
+          "reason": "offers a lesson"
+        }
+      ],
+      "tie": []
+    },
+    "no_reason": 7,
+    "objective": {
+      "c0-baseline": {
+        "tutor_leaks": [
+          0,
+          0
+        ],
+        "tutor_behavior_met": [
+          0.3333,
+          0.5
+        ]
+      },
+      "final": {
+        "tutor_leaks": [
+          0,
+          0
+        ],
+        "tutor_behavior_met": [
+          0.5,
+          0.6667
+        ]
+      }
+    },
+    "cost": {
+      "c0-baseline": {
+        "runs": 2,
+        "scenarios": 12,
+        "tokens": [
+          90855,
+          57238,
+          89716,
+          89617,
+          90017,
+          129023,
+          51495,
+          57119,
+          89537,
+          176231,
+          90105,
+          162666
+        ],
+        "output": [
+          1162,
+          1118,
+          1452,
+          1531,
+          1631,
+          2617,
+          1165,
+          982,
+          1376,
+          3005,
+          1772,
+          2900
+        ],
+        "minutes": [
+          0.17,
+          0.16,
+          0.21,
+          0.22,
+          0.24,
+          0.38,
+          0.17,
+          0.14,
+          0.2,
+          0.36,
+          0.25,
+          0.42
+        ],
+        "subagents": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "cost": [
+          0.11541,
+          0.109405,
+          0.113257,
+          0.113331,
+          0.115051,
+          0.13952,
+          0.086781,
+          0.108113,
+          0.111605,
+          0.142048,
+          0.116393,
+          0.146068
+        ]
+      },
+      "final": {
+        "runs": 2,
+        "scenarios": 12,
+        "tokens": [
+          189461,
+          190559,
+          103602,
+          76860,
+          77231,
+          105253,
+          239136,
+          188690,
+          105474,
+          104333,
+          77908,
+          106217
+        ],
+        "output": [
+          3056,
+          2619,
+          988,
+          1234,
+          1127,
+          1608,
+          3561,
+          2574,
+          1249,
+          1165,
+          1676,
+          1906
+        ],
+        "minutes": [
+          0.36,
+          0.31,
+          0.17,
+          0.2,
+          0.19,
+          0.26,
+          0.43,
+          0.31,
+          0.19,
+          0.19,
+          0.27,
+          0.31
+        ],
+        "subagents": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "cost": [
+          0.130141,
+          0.129628,
+          0.082771,
+          0.082259,
+          0.082575,
+          0.091948,
+          0.140588,
+          0.127145,
+          0.0889,
+          0.08595,
+          0.088577,
+          0.096582
+        ]
+      }
+    }
+  }
+}
