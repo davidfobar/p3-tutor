@@ -1,0 +1,130 @@
+{
+  "duration_api_ms": 1016885,
+  "stop_reason": "end_turn",
+  "session_id": "c997495c-f2f8-4c74-aac9-7f356d35c18e",
+  "total_cost_usd": 3.0483114000000002,
+  "usage": {
+    "input_tokens": 16,
+    "cache_creation_input_tokens": 81917,
+    "cache_read_input_tokens": 904683,
+    "output_tokens": 45042,
+    "output_tokens_details": {
+      "thinking_tokens": 1900
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 81917,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 869,
+        "cache_read_input_tokens": 161067,
+        "cache_creation_input_tokens": 35749,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 35749
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 102,
+      "outputTokens": 152876,
+      "cacheReadInputTokens": 2672967,
+      "cacheCreationInputTokens": 384267,
+      "webSearchRequests": 0,
+      "costUSD": 3.0356357000000003,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 41336,
+      "cacheCreationEphemeral5mInputTokens": 198462,
+      "cacheCreationEphemeral1hInputTokens": 185805,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 29521,
+      "outputTokens": 12314,
+      "cacheReadInputTokens": 14635,
+      "cacheCreationInputTokens": 27362,
+      "webSearchRequests": 0,
+      "costUSD": 0.012675700000000002,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 6477,
+      "cacheCreationEphemeral5mInputTokens": 27362,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "origin": {
+    "kind": "task-notification",
+    "producer": "session-task",
+    "runId": "0mwstjbq5-6d8f833c"
+  },
+  "subagent_stats": {
+    "spawned": 8,
+    "requested": {
+      "background": 0,
+      "foreground": 2,
+      "unset": 6
+    },
+    "started_in_background": 3,
+    "max_depth": 2,
+    "spawned_by_subagents": 2,
+    "completed": 8,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {
+      "lesson-planner": 1,
+      "product-reviewer": 2,
+      "demo-dev": 1,
+      "web-fetch": 3,
+      "lesson-reviewer": 1
+    }
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 32,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "The lesson is written to `lessons/0001-context-and-memory.html`. It teaches O3 for the makerspace assistant, using your own scenarios: Maya's training status, manual lookups and bookings.\n\n**What it covers**\n- **Why the assistant must remember a student:** a short opening tied to your mission.\n- **Warm-up:** recall questions on the agent loop (O2).\n- **The context window:** what counts toward it, why every call re-sends the whole history, a worked token count, and context rot.\n- **What is kept between steps:** the demo, then clearing old tool results versus compaction.\n- **Between sessions:** a notes file as memory, with a worked two-visit example and a three-question test for what belongs in the notes.\n- **Retrieval:** chunking, embeddings plus keyword search (BM25), reranking, when to skip retrieval, and a way to test it.\n- **A makerspace context plan:** you sort the assistant's data into three places (always in context, retrieved on demand, saved between sessions) and compare token costs.\n- **Summary and next steps:** a summary, a task for this week, and sources.\n\nThere are four figures and practice checks with immediate feedback. Every sourced fact links to the three sources the plan used.\n\n**Time:** about 55 minutes of reading plus 6 minutes for the demo, 61 in total. You asked for 60 minutes of reading, and the page measures 54.5 (0.91 of that). I stopped adding words once it was in range, so ask if you want it longer or shorter.\n\n**Review:** one reviewer pass found 10 issues, and I fixed all of them except one. I did not move the demo earlier, because it needs the \"every call re-sends the history\" idea from the section before it. I ran no second pass. The reviewer could not confirm a few of the retrieval post's numbers (the caching savings and the 5.7% to 1.9% failure rates). I checked those against the page when I fetched it. Details are in `review-records/0001-teach.md`.\n\nTwo quirks you may notice:\n- The three sources were read through a fetch helper's summaries, not the pages directly.\n- The warm-up carries O2, not O3 as the plan had it, because it recalls the earlier objective.\n\nI also added `cheatsheets/context-and-memory.html` and updated `NOTES.md`. Nothing is added to `GLOSSARY.md`, since you haven't used these terms yet.\n\nYou can ask me anything about the lesson. No quiz was requested, so ask for one whenever you want to check what stuck.\n\nOne question for next time: does your team already have a rough list of what the assistant will handle? The \"task for this week\" at the end of the lesson uses it.",
+  "ttft_ms": 7970,
+  "type": "result",
+  "duration_ms": 224438,
+  "uuid": "625c85a3-f7d8-48f3-b6f9-d52b30359fa9",
+  "ttft_stream_ms": 722,
+  "time_to_request_ms": 19,
+  "first_content_frame_ms": 722,
+  "queued_turn_count": 0,
+  "result_index": 3,
+  "model_usage_since_last_result": {},
+  "credential_expires_at": "2026-12-16T23:36:35.249Z"
+}

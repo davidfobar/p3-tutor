@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cheat sheet: context and memory in an agent</title>
+  <style>
+    :root { --bg: #fffdf8; --text: #1f1d1a; --muted: #6b665e; --rule: #e4dfd4; --accent: #9a4517; --serif: Charter, Georgia, serif; --sans: system-ui, sans-serif; }
+    @media (prefers-color-scheme: dark) { :root { --bg: #171614; --text: #e9e5dc; --muted: #a49e93; --rule: #36332e; --accent: #eaa77a; } }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--serif); line-height: 1.5; font-size: 17px; }
+    main { max-width: 42rem; margin: 0 auto; padding: 2rem 1.25rem; }
+    h1 { font-size: 1.6rem; margin: 0 0 0.25rem; }
+    h2 { font-size: 1.1rem; margin: 1.5rem 0 0.4rem; }
+    a { color: var(--accent); }
+    table { width: 100%; border-collapse: collapse; font-size: 0.92rem; font-family: var(--sans); }
+    th, td { text-align: left; vertical-align: top; padding: 0.35rem 0.5rem; border-bottom: 1px solid var(--rule); }
+    p.muted { color: var(--muted); font-size: 0.9rem; }
+    @media print { body { font-size: 11pt; } }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Context and memory in an agent</h1>
+  <p class="muted">From <a href="../lessons/0001-context-and-memory.html">lesson 1</a> (O3). Token counts in the lesson are invented examples.</p>
+
+  <h2>Where does it go?</h2>
+  <table>
+    <thead><tr><th>Question</th><th>Place</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td>Small, needed on nearly every call</td><td>Always in context</td><td>System prompt, tool definitions</td></tr>
+      <tr><td>Big, needed sometimes</td><td>Retrieved on demand by a tool</td><td>Manual pages, booking history</td></tr>
+      <tr><td>Must outlive the session</td><td>Short note, loaded at session start</td><td>Training status</td></tr>
+      <tr><td>Used once, then stale</td><td>In context briefly, then cleared</td><td>Calendar rows</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Facts to keep</h2>
+  <ul>
+    <li>The window holds the system prompt, tool definitions, all messages, tool results and the reply (<a href="https://platform.claude.com/docs/en/build-with-claude/context-windows">Context windows</a>).</li>
+    <li>Every call re-sends the whole history: tokens sent = sum over calls, not the final size.</li>
+    <li>More tokens can mean worse recall: context rot.</li>
+    <li>Free space by clearing old tool results (lightest) or compaction (summary, lossy) (<a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering</a>).</li>
+    <li>A new session starts with an empty window; only saved notes carry over, and the model does not change.</li>
+    <li>Retrieval: chunks of a few hundred tokens, embeddings plus BM25, rerank (example: 150 then top 20). Under about 200,000 tokens you can skip it (<a href="https://www.anthropic.com/news/contextual-retrieval">Introducing Contextual Retrieval</a>).</li>
+  </ul>
+
+  <h2>Test for a note</h2>
+  <ol>
+    <li>Will it still be true next week?</li>
+    <li>Would a future session act differently because of it?</li>
+    <li>Is it a fact (one line) or a record (fetch it by a tool)?</li>
+  </ol>
+
+  <h2>Cost method</h2>
+  <p>Tokens per call, times the calls that carry it, times requests per day.</p>
+</main>
+</body>
+</html>

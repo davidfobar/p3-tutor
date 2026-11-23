@@ -1,0 +1,61 @@
+<!--
+Section: 6, Retrieval: finding the right manual page.
+Notice: the model never sees the whole manual; about 150 chunks are retrieved, reranking keeps the top 20, and only those go into the prompt.
+Source: S3 (chunks of a few hundred tokens; embeddings plus BM25; retrieve about 150 chunks, pass the top 20).
+Layout check (viewBox 640 x 442; boxes x 20 - 620, h 48, text centered at x 320; width = chars x size x 0.6; all text 18)
+Element                                          | x range       | y range       | must sit inside      | result
+Box 1                                            | 20 - 620      | 14 - 62       | frame                | ok
+ "Laser cutter manual (long document)" 36 ch, baseline 44 | 111.2 - 528.8 | 29.6 - 48.5 | box 1, pad >= 13 | ok
+Arrow 1 x 320, y 62 -> 106                       | box 1 edge to box 2 edge                          | ok
+ "split into chunks" 17 ch, x 336, baseline 90   | 336 - 519.6   | 75.6 - 94.5   | gap y 62 - 106, clear of arrow | ok
+Box 2                                            | 20 - 620      | 106 - 154     | -                    | ok
+ "Chunks of a few hundred tokens each" 35 ch, baseline 136 | 131 - 509 | 121.6 - 140.5 | box 2 | ok
+Arrow 2 x 320, y 154 -> 198                      | ok
+ "embeddings + BM25 keywords" 26 ch, x 336, baseline 182 | 336 - 617 | 167.6 - 186.5 | gap 154 - 198, frame (<=630) | ok
+Box 3                                            | 20 - 620      | 198 - 246     | -                    | ok
+ "About 150 chunks retrieved" 26 ch, baseline 228 | 179.6 - 460.4 | 213.6 - 232.5 | box 3 | ok
+Arrow 3 x 320, y 246 -> 290                      | ok
+ "rerank, keep the best" 21 ch, x 336, baseline 274 | 336 - 562.8 | 259.6 - 278.5 | gap 246 - 290 | ok
+Box 4 (accent)                                   | 20 - 620      | 290 - 338     | -                    | ok
+ "Top 20 after reranking" 22 ch, baseline 320     | 202.4 - 437.6 | 305.6 - 324.5 | box 4 | ok
+Arrow 4 x 320, y 338 -> 382                      | ok
+ "added to the prompt" 19 ch, x 336, baseline 366 | 336 - 541.2   | 351.6 - 370.5 | gap 338 - 382 | ok
+Box 5                                            | 20 - 620      | 382 - 430     | frame; 442 - 430 = 12 | ok
+ "Prompt to the model: top 20 chunks" 34 ch, baseline 412 | 133.6 - 506.4 | 397.6 - 416.5 | box 5 | ok
+Layout check: passed
+-->
+<figure>
+  <svg viewBox="0 0 640 442" role="img" aria-labelledby="fig4-title">
+    <title id="fig4-title">Five boxes from top to bottom joined by arrows. A long manual is split into chunks of a few hundred tokens. About 150 chunks are retrieved using embeddings and BM25 keyword search. Reranking keeps the top 20. Only those 20 chunks go into the prompt for the model.</title>
+    <defs>
+      <marker id="fig4-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+      </marker>
+    </defs>
+    <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="20" y="14" width="600" height="48" rx="8"/>
+      <rect x="20" y="106" width="600" height="48" rx="8"/>
+      <rect x="20" y="198" width="600" height="48" rx="8"/>
+      <rect x="20" y="382" width="600" height="48" rx="8"/>
+      <line x1="320" y1="62" x2="320" y2="106" marker-end="url(#fig4-arrow)"/>
+      <line x1="320" y1="154" x2="320" y2="198" marker-end="url(#fig4-arrow)"/>
+      <line x1="320" y1="246" x2="320" y2="290" marker-end="url(#fig4-arrow)"/>
+      <line x1="320" y1="338" x2="320" y2="382" marker-end="url(#fig4-arrow)"/>
+    </g>
+    <rect x="20" y="290" width="600" height="48" rx="8" fill="none" stroke-width="2.5" style="stroke: var(--accent)"/>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18" text-anchor="middle">
+      <text x="320" y="44">Laser cutter manual (long document)</text>
+      <text x="320" y="136">Chunks of a few hundred tokens each</text>
+      <text x="320" y="228">About 150 chunks retrieved</text>
+      <text x="320" y="320" style="fill: var(--accent)">Top 20 after reranking</text>
+      <text x="320" y="412">Prompt to the model: top 20 chunks</text>
+    </g>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18">
+      <text x="336" y="90">split into chunks</text>
+      <text x="336" y="182">embeddings + BM25 keywords</text>
+      <text x="336" y="274">rerank, keep the best</text>
+      <text x="336" y="366">added to the prompt</text>
+    </g>
+  </svg>
+  <figcaption>Figure 4. The model never reads the whole manual: about 150 chunks are retrieved, reranking keeps the top 20 (accent), and only those enter the prompt.</figcaption>
+</figure>

@@ -1,0 +1,53 @@
+<!--
+Section: 4, What is kept between steps.
+Notice: clearing old tool results frees a lot of space and keeps everything else; compaction replaces the whole history with a short summary.
+Source: S1 (clearing old tool results is the lightest way to free space; compaction summarizes and starts a new window). Segment sizes are drawn for illustration, not measured.
+Layout check (viewBox 640 x 268; window bars 600 wide at x 20 - 620; width = chars x size x 0.6)
+Element                              | x range       | y range       | must sit inside / clear of      | result
+Label 1 "1. Window nearly full" (21 ch, 18) baseline 28 | 20 - 246.6 | 13.6 - 32.5 | frame (>=10) | ok
+Window A outline + segments          | 20 - 620      | 40 - 70       | frame; label bottom 32.5 < 40   | ok
+  segments: system 20-100, messages 100-200, tool results 200-600       | inside outline | ok
+Label 2 "2. Old tool results cleared: space freed" (40 ch) baseline 100 | 20 - 452 | 85.6 - 104.5 | clear of bar A bottom 70 and bar B top 114 | ok
+Window B outline + segments          | 20 - 620      | 114 - 144     | -                               | ok
+  segments: system 20-100, messages 100-200, newest tool result 200-300 | inside outline | ok
+Label 3 "3. Compacted: a summary starts a new window" (43 ch) baseline 172 | 20 - 484.4 | 157.6 - 176.5 | clear of bar B bottom 144 and bar C top 186 | ok
+Window C outline + segments          | 20 - 620      | 186 - 216     | -                               | ok
+  segments: system 20-100, summary 100-160                              | inside outline | ok
+Swatches y 237-255, x 20 / 210 / 444 | -             | -             | clear of texts at 46 / 236 / 470 | ok
+"System, tools" (13 ch, 18)  baseline 252 | 46 - 186.4 | 237.6 - 256.5 | before swatch at 210 | ok
+"Messages, summary" (17 ch)          | 236 - 419.6   | 237.6 - 256.5 | before swatch at 444            | ok
+"Tool results" (12 ch)               | 470 - 599.6   | 237.6 - 256.5 | frame; 268 - 256.5 = 11.5 left  | ok
+Layout check: passed
+-->
+<figure>
+  <svg viewBox="0 0 640 268" role="img" aria-labelledby="fig2-title">
+    <title id="fig2-title">Three context windows drawn as bars, one above the other. The first is nearly full, mostly with tool results. In the second the old tool results are gone and only the newest one remains, leaving most of the window free. In the third the history has been compacted into a short summary after the system part, and most of the window is free.</title>
+    <g stroke-width="1.5" stroke="currentColor">
+      <rect x="20" y="40" width="80" height="30" fill="none"/>
+      <rect x="100" y="40" width="100" height="30" style="fill: var(--ok-soft)"/>
+      <rect x="20" y="114" width="80" height="30" fill="none"/>
+      <rect x="100" y="114" width="100" height="30" style="fill: var(--ok-soft)"/>
+      <rect x="20" y="186" width="80" height="30" fill="none"/>
+      <rect x="100" y="186" width="60" height="30" style="fill: var(--ok-soft)"/>
+      <rect x="20" y="40" width="600" height="30" fill="none"/>
+      <rect x="20" y="114" width="600" height="30" fill="none"/>
+      <rect x="20" y="186" width="600" height="30" fill="none"/>
+      <rect x="20" y="237" width="18" height="18" rx="4" fill="none"/>
+      <rect x="210" y="237" width="18" height="18" rx="4" style="fill: var(--ok-soft)"/>
+    </g>
+    <g stroke-width="2.5" style="stroke: var(--accent); fill: var(--accent-soft)">
+      <rect x="200" y="40" width="400" height="30"/>
+      <rect x="200" y="114" width="100" height="30"/>
+      <rect x="444" y="237" width="18" height="18" rx="4"/>
+    </g>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18">
+      <text x="20" y="28">1. Window nearly full</text>
+      <text x="20" y="100">2. Old tool results cleared: space freed</text>
+      <text x="20" y="172">3. Compacted: a summary starts a new window</text>
+      <text x="46" y="252">System, tools</text>
+      <text x="236" y="252">Messages, summary</text>
+      <text x="470" y="252">Tool results</text>
+    </g>
+  </svg>
+  <figcaption>Figure 2. Clearing old tool results (middle) frees the largest slices and keeps the rest; compaction (bottom) swaps the whole history for a short summary. Sizes are drawn for illustration.</figcaption>
+</figure>

@@ -1,0 +1,74 @@
+<!--
+Section: 3, "The context window".
+Notice: the bar fills as the loop runs, and tool results are the part that grows fastest.
+Source: plan section 3 (S2 Context windows; S1 Effective context engineering): the window holds system prompt, tool definitions, messages and tool results. Segment widths are invented examples, not measurements.
+
+Layout check (viewBox 0 0 640 296; label width = chars x font-size x 0.6; extents y-0.8*size to y+0.25*size):
+| item | x | y / extent | w | h | inside / clear |
+| "limit (example scale)" size 16, end-anchored at 620 | 418 | 15.2..32 | 202 | 17 | frame ok (>=10); bar below at 44 |
+| "Step 1" size 18 | 20 | 52.6..71.5 | 65 | 19 | ends 85, bar starts 120 (35 clear) |
+| "Step 3" size 18 | 20 | 112.6..131.5 | 65 | 19 | same |
+| "Step 6" size 18 | 20 | 172.6..191.5 | 65 | 19 | same |
+| bar 1 frame | 120 | 44..80 | 500 | 36 | segments 120..240 inside, clipped |
+| bar 2 frame | 120 | 104..140 | 500 | 36 | segments 120..355 inside |
+| bar 3 frame | 120 | 164..200 | 500 | 36 | segments 120..540 inside (80 spare) |
+| swatches (4) | 20 / 330 | 230..248 and 258..276 | 24 | 18 | row gap 10 |
+| "System prompt" size 18 | 56 | 229.6..248.5 | 140 | 19 | ends 196; next column swatch at 330 |
+| "Tool definitions" | 56 | 257.6..276.5 | 173 | 19 | ends 229 |
+| "Messages" | 366 | 229.6..248.5 | 87 | 19 | ends 453 |
+| "Tool results" | 366 | 257.6..276.5 | 130 | 19 | ends 496 |
+Gaps: bar 3 bottom 200 to legend 229.6 is 29.6; legend bottom 276.5 to viewBox end 296 is 19.5. Nothing overlaps; no arrows.
+Layout check: passed
+-->
+<figure>
+  <svg viewBox="0 0 640 296" role="img" aria-labelledby="fig1-title">
+    <title id="fig1-title">Three bars show a context window at step 1, step 3 and step 6 of an agent loop. Each bar holds a system prompt, tool definitions, messages and tool results. The first two stay the same size; tool results grow until the bar is mostly full.</title>
+    <defs>
+      <clipPath id="fig1-clip"><rect x="120" y="0" width="500" height="36" rx="8"/></clipPath>
+    </defs>
+    <text x="620" y="28" text-anchor="end" font-family="system-ui, sans-serif" font-size="16" fill="currentColor" style="fill: var(--muted)">limit (example scale)</text>
+    <g stroke="currentColor" stroke-width="1.5">
+      <g transform="translate(0,44)">
+        <g clip-path="url(#fig1-clip)">
+          <rect x="120" y="0" width="30" height="36" fill="none"/>
+          <rect x="150" y="0" width="40" height="36" style="fill: var(--ok-soft)"/>
+          <rect x="190" y="0" width="10" height="36" style="fill: var(--warn-soft)"/>
+          <rect x="200" y="0" width="40" height="36" style="fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2.5"/>
+        </g>
+        <rect x="120" y="0" width="500" height="36" rx="8" fill="none"/>
+      </g>
+      <g transform="translate(0,104)">
+        <g clip-path="url(#fig1-clip)">
+          <rect x="120" y="0" width="30" height="36" fill="none"/>
+          <rect x="150" y="0" width="40" height="36" style="fill: var(--ok-soft)"/>
+          <rect x="190" y="0" width="25" height="36" style="fill: var(--warn-soft)"/>
+          <rect x="215" y="0" width="140" height="36" style="fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2.5"/>
+        </g>
+        <rect x="120" y="0" width="500" height="36" rx="8" fill="none"/>
+      </g>
+      <g transform="translate(0,164)">
+        <g clip-path="url(#fig1-clip)">
+          <rect x="120" y="0" width="30" height="36" fill="none"/>
+          <rect x="150" y="0" width="40" height="36" style="fill: var(--ok-soft)"/>
+          <rect x="190" y="0" width="50" height="36" style="fill: var(--warn-soft)"/>
+          <rect x="240" y="0" width="300" height="36" style="fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2.5"/>
+        </g>
+        <rect x="120" y="0" width="500" height="36" rx="8" fill="none"/>
+      </g>
+      <rect x="20" y="230" width="24" height="18" rx="8" fill="none"/>
+      <rect x="20" y="258" width="24" height="18" rx="8" style="fill: var(--ok-soft)"/>
+      <rect x="330" y="230" width="24" height="18" rx="8" style="fill: var(--warn-soft)"/>
+      <rect x="330" y="258" width="24" height="18" rx="8" style="fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2.5"/>
+    </g>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18">
+      <text x="20" y="67">Step 1</text>
+      <text x="20" y="127">Step 3</text>
+      <text x="20" y="187">Step 6</text>
+      <text x="56" y="244">System prompt</text>
+      <text x="56" y="272">Tool definitions</text>
+      <text x="366" y="244">Messages</text>
+      <text x="366" y="272">Tool results</text>
+    </g>
+  </svg>
+  <figcaption>Figure 1. The context window as a tank filling across the loop. The system prompt and tool definitions stay the same size; tool results (outlined) grow with every step. Widths are examples.</figcaption>
+</figure>

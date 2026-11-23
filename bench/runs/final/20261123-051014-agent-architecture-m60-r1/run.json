@@ -1,0 +1,106 @@
+{
+  "run_id": "20261123-051014-agent-architecture-m60-r1",
+  "config": "final",
+  "config_hash": "sha256:57fc722836311ecc458b2cb03d45e90c9f67e64b93bfa07e2227b5045dd61d1d",
+  "topic": "agent-architecture",
+  "topic_hash": "sha256:15e7410b31c44309b8c89066f95db4318ca9706ed790aeeb431d4f1a89552410",
+  "topic_commit": "4506a7d94ace0ca886c99d193dc9dfd1c19d180d",
+  "repeat": 1,
+  "minutes": 60,
+  "quick": false,
+  "started_at": "2026-11-23T05:10:14Z",
+  "finished_at": "2026-11-23T05:26:46Z",
+  "claude_version": "2.1.330 (Claude Code)",
+  "p3_version": "0.2.0",
+  "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.39",
+  "model": "sonnet",
+  "allowed_tools": [
+    "Glob",
+    "Grep",
+    "WebSearch",
+    "WebFetch",
+    "Bash(python3 .claude/tools/lesson_check.py:*)"
+  ],
+  "entries": {
+    "teach": "/teach",
+    "tutor": "/tutor",
+    "quiz": "/quiz",
+    "grade": "/grade"
+  },
+  "only": [
+    "teach"
+  ],
+  "ancestor_memory": [],
+  "scenarios": [
+    {
+      "id": "teach",
+      "job": "teach",
+      "entry": "/teach",
+      "status": "ok",
+      "duration_ms": 991854,
+      "num_turns": 32,
+      "tokens": {
+        "input": 29623,
+        "output": 165190,
+        "cache_read": 2687602,
+        "cache_write": 411629
+      },
+      "cost_usd_list": 3.048311,
+      "web_searches": 0,
+      "web_fetches": 9,
+      "subagents": {
+        "spawned": 8,
+        "max_depth": 2,
+        "by_type": {
+          "lesson-planner": 1,
+          "product-reviewer": 2,
+          "demo-dev": 1,
+          "web-fetch": 3,
+          "lesson-reviewer": 1
+        }
+      },
+      "permission_denials": [],
+      "outputs": [
+        "NOTES.md",
+        "RESOURCES.md",
+        "cheatsheets/context-and-memory.html",
+        "demos/0001-context-and-memory.html",
+        "drafts/0001-context-and-memory.html",
+        "drafts/figures/0001-fig1.html",
+        "drafts/figures/0001-fig2.html",
+        "drafts/figures/0001-fig3.html",
+        "drafts/figures/0001-fig4.html",
+        "lessons/0001-context-and-memory.html",
+        "plans/0001-context-and-memory.md",
+        "review-records/0001-plan.md",
+        "review-records/0001-teach.md",
+        "review-records/0001-visuals.md"
+      ],
+      "changed": [
+        "NOTES.md"
+      ],
+      "deleted": [],
+      "models": [
+        "claude-haiku-5-5",
+        "claude-sonnet-5-5"
+      ],
+      "search_queries": [],
+      "fetch_urls": [
+        "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
+        "https://platform.claude.com/docs/en/build-with-claude/context-windows",
+        "https://www.anthropic.com/news/contextual-retrieval",
+        "https://platform.claude.com/docs/en/build-with-claude/context-windows",
+        "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
+        "https://www.anthropic.com/news/contextual-retrieval",
+        "https://www.anthropic.com/news/contextual-retrieval",
+        "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
+        "https://platform.claude.com/docs/en/build-with-claude/context-windows"
+      ],
+      "exit_code": 0,
+      "claude_version": "2.1.330"
+    }
+  ],
+  "claude_versions": [
+    "2.1.330"
+  ]
+}

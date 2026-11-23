@@ -1,0 +1,55 @@
+<!--
+Section: 5, Between sessions: notes as memory.
+Notice: the second session starts with an empty window, and only the notes file carries a student's training status across; the model itself is unchanged.
+Source: S2 (a new session starts with an empty window; nothing carries over unless saved outside it) and S1 (structured note-taking, such as a NOTES.md). The student entries are examples.
+Layout check (viewBox 640 x 406; boxes x 20 - 620, centered text at x 320; width = chars x size x 0.6)
+Element                                        | x range      | y range       | must sit inside      | result
+Box S1                                         | 20 - 620     | 14 - 86       | frame                | ok
+ "Session 1 (empty window at start)" 33 ch, 18, baseline 44 | 123.4 - 516.6 | 29.6 - 48.5 | box S1, pad >= 12 | ok
+ "Student A passes laser cutter training" 38 ch, 16, baseline 68 | 137.6 - 502.4 | 55.2 - 72 | box S1, bottom pad 14 | ok
+Arrow 1 line x 320                             | y 86 -> 146  | box S1 edge to box N edge | -         | ok
+ "writes before ending" 20 ch, 18, x 336, baseline 122 | 336 - 552 | 107.6 - 126.5 | clear of arrow (16 away), boxes (y 86, 146) | ok
+Box N (accent)                                 | 20 - 620     | 146 - 240     | frame                | ok
+ "NOTES.md, outside the window" 28 ch, 18, baseline 176 | 168.8 - 471.2 | 161.6 - 180.5 | box N | ok
+ "Student A: laser cutter training done" 37 ch, 16, baseline 200 | 142.4 - 497.6 | 187.2 - 204 | box N | ok
+ "Student B: not yet trained" 26 ch, 16, baseline 224 | 195.2 - 444.8 | 211.2 - 228 | box N, bottom pad 12 | ok
+Arrow 2 line x 320                             | y 240 -> 300 | box N edge to box S2 edge | -        | ok
+ "reads at the start" 18 ch, 18, x 336, baseline 276 | 336 - 530.4 | 261.6 - 280.5 | clear of arrow, boxes | ok
+Box S2                                         | 20 - 620     | 300 - 394     | frame; 406 - 394 = 12 | ok
+ "Session 2 (empty window at start)" 33 ch, 18, baseline 330 | 123.4 - 516.6 | 315.6 - 334.5 | box S2 | ok
+ "Reads notes: Student A is trained" 33 ch, 16, baseline 354 | 160.8 - 479.2 | 341.2 - 358 | box S2 | ok
+ "Same model; only the notes carried over" 39 ch, 16, baseline 378 | 132.8 - 507.2 | 365.2 - 382 | box S2, bottom pad 12 | ok
+Layout check: passed
+-->
+<figure>
+  <svg viewBox="0 0 640 406" role="img" aria-labelledby="fig3-title">
+    <title id="fig3-title">Three boxes stacked from top to bottom. Session 1 writes a note into a NOTES.md file kept outside the context window, saying that Student A finished laser cutter training. Session 2, which starts with an empty window, reads that file at the start and so knows Student A is trained. The model is the same in both sessions.</title>
+    <defs>
+      <marker id="fig3-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+      </marker>
+    </defs>
+    <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="20" y="14" width="600" height="72" rx="8"/>
+      <rect x="20" y="300" width="600" height="94" rx="8"/>
+      <line x1="320" y1="86" x2="320" y2="146" marker-end="url(#fig3-arrow)"/>
+      <line x1="320" y1="240" x2="320" y2="300" marker-end="url(#fig3-arrow)"/>
+    </g>
+    <rect x="20" y="146" width="600" height="94" rx="8" fill="none" stroke-width="2.5" style="stroke: var(--accent)"/>
+    <g fill="currentColor" font-family="system-ui, sans-serif" text-anchor="middle">
+      <text x="320" y="44" font-size="18">Session 1 (empty window at start)</text>
+      <text x="320" y="68" font-size="16">Student A passes laser cutter training</text>
+      <text x="320" y="176" font-size="18" style="fill: var(--accent)">NOTES.md, outside the window</text>
+      <text x="320" y="200" font-size="16">Student A: laser cutter training done</text>
+      <text x="320" y="224" font-size="16">Student B: not yet trained</text>
+      <text x="320" y="330" font-size="18">Session 2 (empty window at start)</text>
+      <text x="320" y="354" font-size="16">Reads notes: Student A is trained</text>
+      <text x="320" y="378" font-size="16">Same model; only the notes carried over</text>
+    </g>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18">
+      <text x="336" y="122">writes before ending</text>
+      <text x="336" y="276">reads at the start</text>
+    </g>
+  </svg>
+  <figcaption>Figure 3. Each session starts with an empty window. What carries over is the notes file (accent), here holding example training statuses; the model itself is unchanged.</figcaption>
+</figure>

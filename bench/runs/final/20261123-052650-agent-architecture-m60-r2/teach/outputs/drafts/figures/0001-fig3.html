@@ -1,0 +1,59 @@
+<!--
+Section: 7, "Worked example: the makerspace assistant".
+Notice: for one request, the context window is where the work happens, while notes carry the training status across sessions and the manual store holds pages that are fetched only when needed.
+Source: plan sections 5 and 6 (S1, S2): notes live outside the window and are read later; retrieval brings in only what is needed; tool results join the context. The example items (training status, booking note) are illustrations of one sorting, not the only one.
+
+Layout check (viewBox 0 0 640 416; width = chars x size x 0.6, bold x 0.65; extents y-0.8*size to y+0.25*size):
+| item | x | y / extent | w | h | inside / clear |
+| request "Request: Can I book the laser cutter Friday?" size 18 | 20 | 13.6..32.5 | 475 | 19 | 44-chars; ends 495; Notes box starts 44 |
+| Notes box | 20..620 | 44..116 | 600 | 72 | lines inside |
+| "Notes (kept between sessions)" bold, baseline 72.35 | 32 | 57.9..76.9 | 339 | 19 | 12+ clear from left edge x=32 vs 20; top 13.9 clear |
+| "Training status: laser cutter passed (example)" baseline 97.55 | 32 | 83.2..102.1 | 497 | 19 | ends 529, 91 clear of right edge; bottom 13.9 clear |
+| arrow 1 x=60, 116->172 down | | | | 56 | edges of Notes and Context |
+| label "1. Read training status" size 18 start 72, baseline 150 | 72 | 135.6..154.5 | 248 | 19 | ends 320; arrow 3 at x=340 is 20 away; gap 116..172 has 19 clear above, 17 below |
+| arrow 3 x=340, 172->116 up | | | | 56 | edges |
+| label "3. Save a booking note" start 352, baseline 150 | 352 | 135.6..154.5 | 238 | 19 | ends 590 |
+| Context box (accent) | 20..620 | 172..268 | 600 | 96 | lines inside |
+| "Context window (in view now)" bold, baseline 199.75 | 32 | 185.4..204.3 | 328 | 19 | top 13.4 clear |
+| "Training status and laser cutter page, loaded" baseline 224.95 | 32 | 210.6..229.5 | 486 | 19 | ends 518 |
+| "Booking result from the calendar tool" baseline 250.15 | 32 | 235.8..254.7 | 400 | 19 | bottom 13.3 clear |
+| arrow 2 x=60, 324->268 up | | | | 56 | edges of Manual and Context |
+| label "2. Retrieve the laser cutter page" start 72, baseline 302 | 72 | 287.6..306.5 | 356 | 19 | ends 428; gap 268..324 |
+| Manual store box | 20..620 | 324..396 | 600 | 72 | |
+| "Manual store (looked up when needed)" bold, baseline 340.35 | 32 | 325.9..344.9 | 421 | 19 | 14 clear top |
+| "Laser cutter manual, all its pages" baseline 365.55 | 32 | 351.2..370.1 | 367 | 19 | bottom 25.9 clear |
+Frame: left 20, right 620, bottom 396 of 416 (20 spare). No label crosses a box edge or line.
+Layout check: passed
+-->
+<figure>
+  <svg viewBox="0 0 640 416" role="img" aria-labelledby="fig3-title">
+    <title id="fig3-title">Three lanes for the request: can I book the laser cutter Friday. The notes lane holds the saved training status. The context window lane holds what the model sees now. The manual store lane holds the manual pages. Arrow 1 reads the training status from notes into the context, arrow 2 retrieves the laser cutter page from the manual store into the context, arrow 3 saves a booking note from the context to the notes.</title>
+    <defs>
+      <marker id="fig3-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+      </marker>
+    </defs>
+    <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="20" y="44" width="600" height="72" rx="8"/>
+      <rect x="20" y="172" width="600" height="96" rx="8" style="fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2.5"/>
+      <rect x="20" y="324" width="600" height="72" rx="8"/>
+      <line x1="60" y1="116" x2="60" y2="172" marker-end="url(#fig3-arrow)"/>
+      <line x1="340" y1="172" x2="340" y2="116" marker-end="url(#fig3-arrow)"/>
+      <line x1="60" y1="324" x2="60" y2="268" marker-end="url(#fig3-arrow)"/>
+    </g>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18">
+      <text x="20" y="28">Request: Can I book the laser cutter Friday?</text>
+      <text x="32" y="72.35" font-weight="bold">Notes (kept between sessions)</text>
+      <text x="32" y="97.55">Training status: laser cutter passed (example)</text>
+      <text x="72" y="150">1. Read training status</text>
+      <text x="352" y="150">3. Save a booking note</text>
+      <text x="32" y="199.75" font-weight="bold">Context window (in view now)</text>
+      <text x="32" y="224.95">Training status and laser cutter page, loaded</text>
+      <text x="32" y="250.15">Booking result from the calendar tool</text>
+      <text x="72" y="302">2. Retrieve the laser cutter page</text>
+      <text x="32" y="340.35" font-weight="bold">Manual store (looked up when needed)</text>
+      <text x="32" y="365.55">Laser cutter manual, all its pages</text>
+    </g>
+  </svg>
+  <figcaption>Figure 3. One request through three lanes. Only the context window (highlighted) is in view; notes survive between sessions and the manual store is searched, never pasted whole. The items shown are one possible sorting.</figcaption>
+</figure>

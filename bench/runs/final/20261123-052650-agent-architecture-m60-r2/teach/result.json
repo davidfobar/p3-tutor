@@ -1,0 +1,130 @@
+{
+  "duration_api_ms": 954312,
+  "stop_reason": "end_turn",
+  "session_id": "bc14632f-23e4-4574-9ca4-b9898eab6315",
+  "total_cost_usd": 2.913898635,
+  "usage": {
+    "input_tokens": 14,
+    "cache_creation_input_tokens": 77054,
+    "cache_read_input_tokens": 781709,
+    "output_tokens": 40769,
+    "output_tokens_details": {
+      "thinking_tokens": 1349
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 77054,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 751,
+        "cache_read_input_tokens": 155909,
+        "cache_creation_input_tokens": 33998,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 33998
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "modelUsage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 100,
+      "outputTokens": 144941,
+      "cacheReadInputTokens": 2440059,
+      "cacheCreationInputTokens": 377239,
+      "webSearchRequests": 0,
+      "costUSD": 2.9050574000000005,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 39836,
+      "cacheCreationEphemeral5mInputTokens": 198343,
+      "cacheCreationEphemeral1hInputTokens": 178896,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-haiku-5-5": {
+      "inputTokens": 15756,
+      "outputTokens": 9585,
+      "cacheReadInputTokens": 8951,
+      "cacheCreationInputTokens": 19069,
+      "webSearchRequests": 0,
+      "costUSD": 0.008841235,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 3701,
+      "cacheCreationEphemeral5mInputTokens": 19069,
+      "cacheCreationEphemeral1hInputTokens": 0,
+      "canonicalModel": "claude-haiku-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "origin": {
+    "kind": "task-notification",
+    "producer": "session-task",
+    "runId": "0mwsu43s8-4a6ac89c"
+  },
+  "subagent_stats": {
+    "spawned": 7,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 7
+    },
+    "started_in_background": 3,
+    "max_depth": 2,
+    "spawned_by_subagents": 2,
+    "completed": 7,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {
+      "lesson-planner": 1,
+      "product-reviewer": 2,
+      "demo-dev": 1,
+      "web-fetch": 2,
+      "lesson-reviewer": 1
+    }
+  },
+  "safety_stops": 0,
+  "is_error": false,
+  "num_turns": 28,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "The lesson is written to `lessons/0001-context-and-memory.html` and covers objective O3. I haven't run its demo or checks in a browser.\n\n**What it covers**\n- **Context window:** what counts toward it (system prompt, tool definitions, messages, tool results), tokens, and context rot.\n- **Between steps:** the whole history is re-sent on every call, and the cost is worked by hand from the demo's numbers. Clearing old tool results and compaction are the two fixes.\n- **Between sessions:** notes as memory, with a small Python note store and what to do when a note is wrong.\n- **Retrieval:** up-front vs just-in-time, with a token comparison for pasting a whole manual vs fetching one section.\n- **Putting it together:** the makerspace assistant sorted into context, notes and retrieval, plus a decision table for your design review.\n\nIt includes the interactive demo, three figures, a practice check in most sections, and links to the two sources: Anthropic's context engineering article and the context windows docs. Car analogies are kept short, and procedures are bulleted after a short paragraph, as `PREFERENCES.md` asks.\n\n**Time:** about 54 min reading + 5 min demo = 59 min, against the 60 requested (8,071 words, 0.90 of the budget).\n\n**Things to know**\n- I ran one review pass, not two. I fixed all 14 findings except two I declined (splitting up the new terms in sections 3 and 6, and drawing my own notes-across-sessions figure), and did not re-review. The review record is `review-records/0001-teach.md`.\n- The reviewer suggested three more docs pages for \"Go further\". I left them out because I hadn't seen those URLs myself, so that section lists only the two sources.\n- I didn't add a community link, because I didn't have a verified one.\n- No quiz was written, since the plan didn't call for one. Ask whenever you want to check what stuck.\n\nI also added `RESOURCES.md` and a line in `NOTES.md`, but no learning record or glossary entry yet, since you haven't shown these ideas back. Questions about any part are welcome in the chat.\n\n**Question for you:** do you want a short quiz on this lesson, and should I grade the two earlier agent-loop attempts (`s1` and `s2`) first?",
+  "ttft_ms": 4846,
+  "type": "result",
+  "duration_ms": 201855,
+  "uuid": "02d8eb18-f43b-4c53-9585-d94603b86624",
+  "ttft_stream_ms": 647,
+  "time_to_request_ms": 14,
+  "first_content_frame_ms": 647,
+  "queued_turn_count": 0,
+  "result_index": 3,
+  "model_usage_since_last_result": {},
+  "credential_expires_at": "2026-12-16T23:36:35.249Z"
+}

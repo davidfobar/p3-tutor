@@ -1,0 +1,185 @@
+<!--
+Kind: interactive graphic.
+Core idea: every step of the agent loop appends to the context window, and the whole window is sent again on the next call; clearing old tool results or compacting frees space.
+Learner should notice: tool results pile up and raise what each call sends, and clearing or compaction frees space, while a bigger window does not remove the cost or the clutter.
+Section: 4, "What is kept between steps" (after its first two paragraphs).
+Minutes: about 5.
+All numbers are invented examples in thousands of tokens (k): system prompt 3k, tool definitions 4k, first user message 1k, then 8 steps each adding a 1k message and a tool result of 6, 9, 12, 8, 14, 10, 15, 9k. Window limit 100k (or 1M).
+The wording agrees with plan section 4: history plus new message is the input, results stay and raise cost, clearing is the lightest fix, compaction summarizes and restarts with the summary, bigger window does not mean keep everything.
+
+Layout check (viewBox 0 0 640 236; label estimate = chars x 18 x 0.6 = 10.8 per char; extents y-14.4 to y+4.5):
+Frame: bar x 20..620, y 44..94, rx 8; legend swatches x 20..44; legend text starts x 56. Everything is 10+ inside the viewBox.
+State A, before anyone touches it (limit 100k, used 8k)
+| item | x | y (extent) | w | h | sits inside / clear of |
+| "Used: 8k tokens" (top-left) | 20 | 13.6..32.5 | 162 | 19 | free above bar (bar top 44, 11.5 gap); ends x 182 |
+| "100k limit (example)" (top-right, end at 620) | 404 | 13.6..32.5 | 216 | 19 | ends at 620 inside frame; 222 clear of left label |
+| bar frame | 20 | 44 | 600 | 50 | segments clipped inside it |
+| segments: system 18 wide, tools 24, messages 6 | 20..68 | 44 | 48 | 50 | inside bar, no labels |
+| legend "System prompt: 3k" | 56 | 117.6..136.5 | 184 | 19 | row spacing 28, swatch 20..44 left of it |
+| legend "Tool definitions: 4k" | 56 | 145.6..164.5 | 216 | 19 | ends 272 |
+| legend "Messages: 1k" | 56 | 173.6..192.5 | 130 | 19 | ends 186 |
+| legend "Tool results: 0k" | 56 | 201.6..220.5 | 173 | 19 | ends 229, bottom 220.5 < 236-10 |
+State B, fullest (step 8 done, limit 100k, used 99k)
+| "Used: 99k tokens" | 20 | 13.6..32.5 | 173 | 19 | ends 193, clear of right label (starts 404) |
+| "100k limit (example)" | 404 | 13.6..32.5 | 216 | 19 | as above |
+| segments: system 18, tools 24, messages 54, 8 results 36+54+72+48+84+60+90+54 = 498 | 20..614 | 44 | 594 | 50 | inside bar (ends 614 < 620) |
+| legend "Messages: 9k" | 56 | 173.6..192.5 | 130 | 19 | ends 186 |
+| legend "Tool results: 83k" | 56 | 201.6..220.5 | 184 | 19 | ends 240 |
+Other states: with the 1M limit the right label is "1M limit (example)", 18 chars = 194 wide, x 426..620; used label unchanged. After compaction the legend reads "Messages: 2k", all shorter than the rows above.
+Every row inside its box with 12+ clear, nothing overlaps, everything inside the frame.
+Layout check: passed
+-->
+<section class="demo" aria-labelledby="demo-title">
+<style>
+  .demo { font-family: var(--sans); border: 1px solid var(--rule); border-radius: 6px; padding: 1rem 1.25rem; margin: 2rem 0; }
+  .demo h3 { margin: 0 0 0.5rem; }
+  .demo p { margin: 0.4rem 0; font-size: 0.95rem; }
+  .demo .demo-controls { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin: 0.75rem 0; }
+  .demo button, .demo select { font: inherit; font-size: 0.9rem; color: inherit; background: transparent; border: 1px solid var(--rule); border-radius: 6px; padding: 0.4rem 0.75rem; cursor: pointer; }
+  .demo button:hover, .demo select:hover { border-color: var(--accent); }
+  .demo button:focus-visible, .demo select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .demo button:disabled { opacity: 0.5; cursor: default; }
+  .demo .demo-run { border-color: var(--accent); color: var(--accent); font-weight: 600; }
+  .demo label { font-size: 0.9rem; color: var(--muted); }
+  .demo svg { display: block; width: 100%; height: auto; color: var(--text); margin: 0.5rem 0; }
+  .demo .demo-readout { background: var(--accent-soft); border-radius: 6px; padding: 0.6rem 0.9rem; }
+  .demo .demo-readout p { margin: 0.2rem 0; }
+  .demo .demo-warn { color: var(--warn); }
+  .demo h4 { margin: 1rem 0 0.25rem; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+  .demo ul { margin: 0.25rem 0 0; padding-left: 1.2rem; font-size: 0.95rem; }
+  .demo li { margin-bottom: 0.4rem; }
+</style>
+<h3 id="demo-title">Watch the context window fill</h3>
+<p>Each press of Run adds one agent step: the model's message and a tool result. Sizes are examples, in thousands of tokens (k).</p>
+<div class="demo-controls">
+  <button type="button" class="demo-run" data-act="run">Run next step</button>
+  <button type="button" data-act="clear">Clear old tool results</button>
+  <button type="button" data-act="compact">Compact</button>
+  <button type="button" data-act="reset">Reset</button>
+  <label>Window size <select data-act="limit">
+    <option value="100">100k (example)</option>
+    <option value="1000">1M (example)</option>
+  </select></label>
+</div>
+<svg viewBox="0 0 640 236" role="img" aria-labelledby="demo-svg-title">
+  <title id="demo-svg-title">Context window bar, 8k of 100k tokens used.</title>
+  <defs>
+    <clipPath id="demo-clip"><rect x="20" y="44" width="600" height="50" rx="8"/></clipPath>
+  </defs>
+  <g font-family="system-ui, sans-serif" font-size="18" fill="currentColor">
+    <text id="demo-used" x="20" y="28">Used: 8k tokens</text>
+    <text id="demo-limit" x="620" y="28" text-anchor="end">100k limit (example)</text>
+  </g>
+  <g id="demo-segs" clip-path="url(#demo-clip)" stroke-width="1.5" stroke="currentColor" fill="none"></g>
+  <rect x="20" y="44" width="600" height="50" rx="8" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <g stroke="currentColor" stroke-width="1.5">
+    <rect x="20" y="118" width="24" height="18" rx="8" fill="none"/>
+    <rect x="20" y="146" width="24" height="18" rx="8" style="fill: var(--ok-soft)"/>
+    <rect x="20" y="174" width="24" height="18" rx="8" style="fill: var(--warn-soft)"/>
+    <rect x="20" y="202" width="24" height="18" rx="8" style="fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2.5"/>
+  </g>
+  <g font-family="system-ui, sans-serif" font-size="18" fill="currentColor">
+    <text id="demo-l-sys" x="56" y="132">System prompt: 3k</text>
+    <text id="demo-l-tools" x="56" y="160">Tool definitions: 4k</text>
+    <text id="demo-l-msgs" x="56" y="188">Messages: 1k</text>
+    <text id="demo-l-res" x="56" y="216">Tool results: 0k</text>
+  </g>
+</svg>
+<div class="demo-readout" aria-live="polite">
+  <p data-out="note">Press Run next step to start the loop.</p>
+  <p data-out="sent"></p>
+  <p data-out="warn" class="demo-warn"></p>
+</div>
+<h4>Predict, then try</h4>
+<ul>
+  <li>Before you run anything: after step 4, will the bar be more than half full? Run four steps and check.</li>
+  <li>Run six steps, then clear old tool results. Reset, run six again, then compact. What does each free, and what does each lose?</li>
+  <li>Switch to 1M and run all eight steps. The bar looks empty, so does that mean keep everything? Compare "All calls added up" with a run where you clear.</li>
+</ul>
+<script>
+(function () {
+  var root = document.currentScript.closest(".demo");
+  var STEPS = [
+    ["Search the manuals", 6], ["Open the booking rules page", 9], ["Read the training record", 12],
+    ["Check the Friday calendar", 8], ["Open the laser safety page", 14], ["Check the Saturday calendar", 10],
+    ["Open the maintenance log", 15], ["Book the slot", 9]
+  ];
+  var SYS = 3, TOOLS = 4, SUMMARY = 2;
+  var NS = "http://www.w3.org/2000/svg";
+  var segs = root.querySelector("#demo-segs");
+  var svgTitle = root.querySelector("#demo-svg-title");
+  var sel = root.querySelector("[data-act=limit]");
+  var out = {
+    note: root.querySelector("[data-out=note]"),
+    sent: root.querySelector("[data-out=sent]"),
+    warn: root.querySelector("[data-out=warn]")
+  };
+  var s;
+
+  function fresh() { s = { i: 0, msgs: 1, results: [], sent: 8 }; }
+  function sum(a) { return a.reduce(function (x, y) { return x + y; }, 0); }
+  function total() { return SYS + TOOLS + s.msgs + sum(s.results); }
+  function limit() { return Number(sel.value); }
+  function text(id, t) { root.querySelector(id).textContent = t; }
+
+  function rect(x, w, fill, accent) {
+    var r = document.createElementNS(NS, "rect");
+    r.setAttribute("x", x); r.setAttribute("y", 44); r.setAttribute("width", w); r.setAttribute("height", 50);
+    r.setAttribute("style", "fill: " + fill + (accent ? "; stroke: var(--accent); stroke-width: 2.5" : ""));
+    segs.appendChild(r);
+  }
+
+  function render(note) {
+    var k = 600 / limit(), x = 20, t = total();
+    while (segs.firstChild) { segs.removeChild(segs.firstChild); }
+    rect(x, SYS * k, "none"); x += SYS * k;
+    rect(x, TOOLS * k, "var(--ok-soft)"); x += TOOLS * k;
+    rect(x, s.msgs * k, "var(--warn-soft)"); x += s.msgs * k;
+    s.results.forEach(function (r) { rect(x, r * k, "var(--accent-soft)", true); x += r * k; });
+    text("#demo-used", "Used: " + t + "k tokens");
+    text("#demo-limit", (limit() === 100 ? "100k" : "1M") + " limit (example)");
+    text("#demo-l-sys", "System prompt: " + SYS + "k");
+    text("#demo-l-tools", "Tool definitions: " + TOOLS + "k");
+    text("#demo-l-msgs", "Messages: " + s.msgs + "k");
+    text("#demo-l-res", "Tool results: " + sum(s.results) + "k");
+    svgTitle.textContent = "Context window bar, " + t + "k of " + (limit() === 100 ? "100k" : "1M") + " tokens used.";
+    if (note) { out.note.textContent = note; }
+    out.sent.textContent = "Next call sends " + t + "k tokens. All calls added up: " + s.sent + "k.";
+    var warn = "";
+    if (s.i >= STEPS.length) { warn = "All 8 steps are done. Try Clear or Compact to see what each frees, or Reset to start over."; }
+    else if (t >= 0.8 * limit()) { warn = "Near the limit: clear or compact before the next step."; }
+    else if (limit() === 1000 && s.results.length > 2) { warn = "It still fits, but every call re-sends all of it, and old irrelevant results can dilute recall."; }
+    out.warn.textContent = warn;
+    root.querySelector("[data-act=run]").disabled = s.i >= STEPS.length;
+  }
+
+  function act(name) {
+    var step, freed, old;
+    if (name === "run" && s.i < STEPS.length) {
+      step = STEPS[s.i]; s.i += 1; s.msgs += 1; s.results.push(step[1]); s.sent += total();
+      render("Step " + s.i + " of " + STEPS.length + ": " + step[0] + ". Added a 1k message and a " + step[1] + "k result. The whole window goes back to the model next call.");
+    } else if (name === "clear") {
+      if (s.results.length < 2) { render("Nothing old to clear: keep the latest result, clear the rest."); return; }
+      old = s.results.slice(0, -1); freed = sum(old); s.results = s.results.slice(-1);
+      render("Cleared " + old.length + " old tool results and freed " + freed + "k. Messages stay. To use one again, the agent must fetch it again.");
+    } else if (name === "compact") {
+      freed = s.msgs + sum(s.results) - SUMMARY;
+      if (freed <= 0) { render("Nothing to compact yet."); return; }
+      s.msgs = SUMMARY; s.results = [];
+      render("Compacted: messages and results became a " + SUMMARY + "k summary, freeing " + freed + "k. Anything the summary left out is gone.");
+    } else if (name === "reset") {
+      fresh(); render("Reset. The loop starts again with the question in view.");
+    }
+  }
+
+  root.querySelectorAll("button[data-act]").forEach(function (b) {
+    b.addEventListener("click", function () { act(b.getAttribute("data-act")); });
+  });
+  sel.addEventListener("change", function () {
+    render("Window size changed. Sizes of the pieces stay the same.");
+  });
+  fresh();
+  render();
+})();
+</script>
+</section>

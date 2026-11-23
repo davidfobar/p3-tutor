@@ -1,0 +1,79 @@
+<!--
+Section: 6, "Retrieval: finding the right page".
+Notice: with up-front retrieval the pages are loaded before the model answers; with just-in-time the model calls a search tool inside the loop.
+Source: plan section 6 (S1 Effective context engineering): up-front retrieval surfaces relevant text before the model answers; just-in-time keeps light identifiers and loads data with tools when needed.
+
+Layout check (viewBox 0 0 640 372; width = chars x size x 0.6; two-line boxes: baselines mid-7.65 and +25.2; single line baseline mid+4.95):
+| item | x | y / extent | w | h | inside / clear |
+| lane 1 title "Up-front: look up first" size 18 | 20 | 13.6..32.5 | 248 | 19 | boxes start 44 |
+| L1 box "Question" | 20..140 | 44..116 | 120 | 72 | label 86 wide, 17 clear each side; baseline 85, extent 70.6..89.5, 26 clear top |
+| L1 box "Retrieve / pages" | 180..300 | 44..116 | 120 | 72 | "Retrieve" 86 wide; extents 58..102.1 (14 clear top, 13.9 bottom) |
+| L1 box "Window / filled" | 340..460 | 44..116 | 120 | 72 | "Window" 65; same extents |
+| L1 box "Model / answers" | 500..620 | 44..116 | 120 | 72 | "answers" 76; same extents |
+| L1 arrows y=80 | 140-180, 300-340, 460-500 | 80 | 40 | 0 | start and end on box edges, no labels |
+| lane 2 title "Just-in-time: look up inside the loop" | 20 | 137.6..156.5 | 400 | 19 | 21 below lane 1 boxes |
+| L2 box "Question" | 20..140 | 168..240 | 120 | 72 | baseline 209 |
+| L2 box "Model" | 180..300 | 168..240 | 120 | 72 | "Model" 54 wide |
+| L2 box "Answer" | 340..460 | 168..240 | 120 | 72 | "Answer" 65 |
+| L2 arrows y=204 | 140-180, 300-340 | 204 | 40 | 0 | on box edges |
+| L2 box "Search / tool" | 180..300 | 280..352 | 120 | 72 | "Search" 65; extents 294..338.1 |
+| arrow down x=220, 240->280; arrow up x=260, 280->240 | | | 0 | 40 | on edges of Model and Search boxes |
+| label "query" size 16, end at 198 | 150 | 251.2..268 | 48 | 17 | arrowhead (17.5 wide) spans x 211..229, so 13 clear; within gap 240..280 |
+| label "pages" size 16, start 282 | 282 | 251.2..268 | 48 | 17 | up arrowhead spans x 251..269, so 13 clear; ends 330, above Search box top 280 |
+| note "The loop repeats until" size 16, start 340 | 340 | 297.2..314 | 211 | 17 | right of Search box (300), 40 clear |
+| note "the model has enough" size 16 | 340 | 319.6..336.4 | 192 | 17 | ends 532 |
+Frame: leftmost 20, rightmost 620, bottom 352 (viewBox 372, 20 spare). Nothing overlaps.
+Layout check: passed
+-->
+<figure>
+  <svg viewBox="0 0 640 372" role="img" aria-labelledby="fig2-title">
+    <title id="fig2-title">Two paths from a question to an answer. Up-front retrieval: the question, then retrieved pages, then a filled window, then the model answers. Just-in-time retrieval: the question goes to the model, which asks a search tool for pages and gets them back, repeating inside the loop before it answers.</title>
+    <defs>
+      <marker id="fig2-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+      </marker>
+    </defs>
+    <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="20" y="44" width="120" height="72" rx="8"/>
+      <rect x="180" y="44" width="120" height="72" rx="8"/>
+      <rect x="340" y="44" width="120" height="72" rx="8"/>
+      <rect x="500" y="44" width="120" height="72" rx="8"/>
+      <line x1="140" y1="80" x2="180" y2="80" marker-end="url(#fig2-arrow)"/>
+      <line x1="300" y1="80" x2="340" y2="80" marker-end="url(#fig2-arrow)"/>
+      <line x1="460" y1="80" x2="500" y2="80" marker-end="url(#fig2-arrow)"/>
+      <rect x="20" y="168" width="120" height="72" rx="8"/>
+      <rect x="180" y="168" width="120" height="72" rx="8"/>
+      <rect x="340" y="168" width="120" height="72" rx="8"/>
+      <line x1="140" y1="204" x2="180" y2="204" marker-end="url(#fig2-arrow)"/>
+      <line x1="300" y1="204" x2="340" y2="204" marker-end="url(#fig2-arrow)"/>
+      <rect x="180" y="280" width="120" height="72" rx="8" style="stroke: var(--accent); stroke-width: 2.5"/>
+      <line x1="220" y1="240" x2="220" y2="280" marker-end="url(#fig2-arrow)" style="stroke: var(--accent); stroke-width: 2.5"/>
+      <line x1="260" y1="280" x2="260" y2="240" marker-end="url(#fig2-arrow)" style="stroke: var(--accent); stroke-width: 2.5"/>
+    </g>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18" text-anchor="middle">
+      <text x="80" y="85">Question</text>
+      <text x="240" y="72.4">Retrieve</text>
+      <text x="240" y="97.6">pages</text>
+      <text x="400" y="72.4">Window</text>
+      <text x="400" y="97.6">filled</text>
+      <text x="560" y="72.4">Model</text>
+      <text x="560" y="97.6">answers</text>
+      <text x="80" y="209">Question</text>
+      <text x="240" y="209">Model</text>
+      <text x="400" y="209">Answer</text>
+      <text x="240" y="308.4">Search</text>
+      <text x="240" y="333.6">tool</text>
+    </g>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="18">
+      <text x="20" y="28">Up-front: look up first</text>
+      <text x="20" y="152">Just-in-time: look up inside the loop</text>
+    </g>
+    <g fill="currentColor" font-family="system-ui, sans-serif" font-size="16">
+      <text x="198" y="264" text-anchor="end">query</text>
+      <text x="282" y="264">pages</text>
+      <text x="340" y="310">The loop repeats until</text>
+      <text x="340" y="332.4">the model has enough</text>
+    </g>
+  </svg>
+  <figcaption>Figure 2. Up-front retrieval fills the window before the model answers. Just-in-time retrieval lets the model call a search tool inside the loop, as often as it needs.</figcaption>
+</figure>
